@@ -132,6 +132,7 @@ Rester appuyer sur le bouton d'attaque, attaque continuellement.
 Frames d'invincibilité pour le joueur si touché et pv>1.
 Une attaque chargée annulable.
 Des power-ups aléatoires accumulables.
+
 Ennemis:
 -Un ennemis avec une attaque à téte-chercheuse
 -Un ennemi qui tire un projectile qui attire le joueur si il est dans une zone autour de celui-ci-> fais faire des petite translation au joueurs (de plus en plus grande plus le joueur est proche).
