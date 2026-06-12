@@ -1,3 +1,4 @@
+package engine.GAL;
 import engine.Entity;
 
 class Transition {

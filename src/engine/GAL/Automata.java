@@ -1,13 +1,6 @@
-package engine.gal.aut.example;
+package engine.GAL;
 
-import engine.gal.State;
-import engine.gal.action.GALAction;
-import engine.gal.action.Move;
-import engine.gal.arguments.Category;
-import engine.gal.arguments.Direction;
-import engine.gal.aut.Automaton;
-import engine.gal.aut.Transition;
-import engine.gal.condition.*;
+
 
 public class Automata {
 

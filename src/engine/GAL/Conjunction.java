@@ -1,4 +1,10 @@
- class Conjunction  {
+package engine.GAL;
+
+import java.util.LinkedList;
+
+import engine.Entity;
+
+class Conjunction  {
 
 	// FIELDS
 

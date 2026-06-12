@@ -1,4 +1,8 @@
- class AtStep  {
+package engine.GAL;
+
+import engine.Entity;
+
+class AtStep  {
 
 	int nbStep;
 

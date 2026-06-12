@@ -1,4 +1,4 @@
-package engine.gal;
+package engine.GAL;
 
 import java.util.HashMap;
 import java.util.Map;
