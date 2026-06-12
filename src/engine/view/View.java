@@ -6,6 +6,7 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.shapes.Rect;
+import game.Main;
 import game.entities.Avatar;
 import oop.graphics.Canvas;
 import oop.graphics.Graphics;
@@ -26,13 +27,15 @@ public class View {
 	
 	public void paint(Graphics g) {
 		for (Avatar a : avatars) {
-            Entity entity = a.entity();
-            g.setColor(Colors.red);
-            Rect boundingBox = entity.boundingBox();
-            g.drawRect((int)(boundingBox.center().x_cm-boundingBox.getHalfWidth()) * Game.pixelPerCm, 
-                    (int)(boundingBox.center().y_cm - boundingBox.getHalfHeight()) * Game.pixelPerCm, 
-                    (int)boundingBox.getHalfWidth()*2*Game.pixelPerCm, 
-                    (int)boundingBox.getHalfHeight()*2*Game.pixelPerCm);			
+			if (Main.debug) {
+	            Entity entity = a.entity();
+	            g.setColor(Colors.red);
+	            Rect boundingBox = entity.boundingBox();
+	            g.drawRect((int)(boundingBox.center().x_cm-boundingBox.getHalfWidth()) * Game.pixelPerCm, 
+	                    (int)(boundingBox.center().y_cm - boundingBox.getHalfHeight()) * Game.pixelPerCm, 
+	                    (int)boundingBox.getHalfWidth()*2*Game.pixelPerCm, 
+	                    (int)boundingBox.getHalfHeight()*2*Game.pixelPerCm);
+			}
             a.paint(g);
 		}
 	}	
