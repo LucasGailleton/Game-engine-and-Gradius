@@ -7,6 +7,11 @@ import engine.Physic;
 import engine.Grid.Position;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
+import game.entities.Boss;
+import game.entities.Ghost;
+import game.entities.Gum;
+import game.entities.Obstacle;
+import game.entities.PacMan;
 import engine.Entity;
 
 import static org.junit.jupiter.api.Assertions.*;

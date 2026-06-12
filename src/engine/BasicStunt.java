@@ -3,9 +3,9 @@ package engine;
 import java.util.List;
 
 import engine.Grid.Cell;
-import game.Avatar;
 import game.Model;
-import game.PacMan;
+import game.entities.Avatar;
+import game.entities.PacMan;
 
 public class BasicStunt extends Stunt {
 	

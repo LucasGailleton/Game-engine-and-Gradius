@@ -1,5 +1,5 @@
 // = BOSS =
-package game;
+package game.entities;
 
 import engine.Entity;
 import engine.Game;

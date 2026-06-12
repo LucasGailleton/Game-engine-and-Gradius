@@ -1,9 +1,9 @@
-package game;
+package game.entities;
 
 import engine.Entity;
 import engine.Game;
 import engine.shapes.Rect;
-import game.PacMan.PacManAvatar;
+import game.entities.PacMan.PacManAvatar;
 import oop.graphics.Graphics;
 
 public class Obstacle extends Entity {
