@@ -30,7 +30,7 @@ public class Main implements Runnable {
 	public static final boolean debug = true;
 
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (224*windowScale), (int) (248*windowScale)+headerSize);
+		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
 
