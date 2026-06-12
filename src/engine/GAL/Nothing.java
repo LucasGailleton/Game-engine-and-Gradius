@@ -1,3 +1,4 @@
+package engine.GAL;
  class Nothing  {
 
 	// CONSTRUCTOR
