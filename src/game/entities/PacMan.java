@@ -1,10 +1,11 @@
 // == PAC MAN ==
-package game;
+package game.entities;
 
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Dimension;
 import engine.shapes.Circle;
+import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Canvas;
 import oop.graphics.Graphics;

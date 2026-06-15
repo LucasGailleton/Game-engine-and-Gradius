@@ -25,7 +25,7 @@
 
 * [X] **\_\_défilement / scrolling\_\_**
 
-  + Explications: [défilement automatique vers la droite]
+  + Explications: [défilement automatique vers la droite.Les ennemis qui sortent du view port par la gauche meurt]
 
   + Démo : [Lancer le jeu sans toucher aux commandes : la caméra avance seule] 
 
@@ -71,9 +71,11 @@
 
 * [ X] **\_\_aléatoire\_\_**
 
-  + Explications: [on regénère la scene qui n'est pas dans le viewport]
+  + Explications: [on regénère la scene qui n'est pas dans le viewport]->La génération sera aléatoire mais devra respecter des règles pour éviter que le joueur soit bloqué:
+                règles de générations: -obstacle:sol et plafond n'ont pas de restriction mais les montagne et les obstacles au milieu doivent être suffisament espacés.
+                                        -ennemis: les ennemis volants peuvent apparaitre dans les airs et les ennemis terrestres apparaissent sur les parois(sol,plafond,montagne).Les ennemis sont générés à intervalle régulier en dehors du viewport et à une distance minimale les uns des autres (cela permet d'éviter qu'il y ai trop d'ennemis au même endroit).  
 
-  + Démo : [ Faire deux runs successifs : montrer que l'agencement des obstacles change d'une partie à l'autre]
+  + Démo : [ Faire deux parties successifs : montrer que l'agencement des obstacles et des ennemis change d'une partie à l'autre]
 
 
 
@@ -296,9 +298,7 @@
 
 
 
-Rester appuyer sur le bouton d'attaque, attaque continuellement.
-
-->Démo: on montre dans la vidéo quand restant appuyé le vaisseau attaque continuellement.
+Rester appuyer sur le bouton d'attaque, attaque continuellement.->Démo: on montre dans la vidéo quand restant appuyé le vaisseau attaque continuellement.
 
 Frames d'invincibilité pour le joueur si touché et pv>1.
 
@@ -320,7 +320,7 @@ Démo : en mode debug on voit les vecteurs vitesses
 
 [X] Un type d'ennemi qui créé plus d'ennemis (EGG)
 
-[X] Un type d'ennemi qui marche sur les parois et tire sur le joueur
+[X] Un type d'ennemi qui marche sur les parois(sol,plafond,montagne) et tire sur le joueur
 
 [?] Un type d'ennemi qui se positionne en dessous ou au dessus du joueur puis tir vers le haut ou le bas (en fonction d'où est le joueur) : CLOSEST
 
