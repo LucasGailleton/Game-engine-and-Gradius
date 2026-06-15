@@ -5,6 +5,7 @@ import java.util.List;
 
 import engine.Entity;
 import engine.Game;
+import engine.ISU;
 import engine.shapes.Rect;
 import game.Main;
 import game.entities.Avatar;
@@ -31,10 +32,15 @@ public class View {
 	            Entity entity = a.entity();
 	            g.setColor(Colors.red);
 	            Rect boundingBox = entity.boundingBox();
-	            g.drawRect((int)(boundingBox.center().x_cm-boundingBox.getHalfWidth()) * Game.pixelPerCm, 
-	                    (int)(boundingBox.center().y_cm - boundingBox.getHalfHeight()) * Game.pixelPerCm, 
-	                    (int)boundingBox.getHalfWidth()*2*Game.pixelPerCm, 
-	                    (int)boundingBox.getHalfHeight()*2*Game.pixelPerCm);
+	            ISU.Coord centre = boundingBox.center();
+	            
+	            double h = boundingBox.getHalfHeight();
+	            double w = boundingBox.getHalfWidth();
+	            
+	            g.drawRect((int)(centre.x_cm-w) * Game.pixelPerCm, 
+	                    (int)(centre.y_cm - h) * Game.pixelPerCm, 
+	                    (int)w*2*Game.pixelPerCm, 
+	                    (int)h*2*Game.pixelPerCm);
 			}
             a.paint(g);
 		}
