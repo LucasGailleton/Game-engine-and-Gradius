@@ -29,7 +29,7 @@ public class PaintListener implements Canvas.PaintListener {
 		g.fillRect(0, 0, w, h);
 		
 		if (map == null)
-			map = g.load("map.png");
+			map = g.load("background.png");
 		g.drawImage(map, 0, 0, canvas.getWidth(), canvas.getHeight());
 		
 		if (view != null)
