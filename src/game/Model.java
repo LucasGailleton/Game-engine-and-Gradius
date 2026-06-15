@@ -12,8 +12,9 @@ import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
 import engine.shapes.Rect;
+import game.entities.Avatar;
+import game.entities.PacMan.PacManAvatar;
 import engine.Physic;
-import game.PacMan.PacManAvatar;
 
 public class Model {
 	// FIELDS

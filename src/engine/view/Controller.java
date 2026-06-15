@@ -1,7 +1,7 @@
 package engine.view;
 
 import engine.BasicStunt;
-import game.Avatar;
+import game.entities.Avatar;
 import oop.tasks.Task;
 import oop.tasks.Runtime;
 
