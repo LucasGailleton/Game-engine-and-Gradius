@@ -1,6 +1,6 @@
 package engine.gal;
 
-public interface iAllGALActions {
+interface iAllGALActions {
 
 	// TODO: à compléter avec les autres actions GAL
 
@@ -29,4 +29,4 @@ public interface iAllGALActions {
 	 */
 	boolean startTurning(int angle_deg, double intensity);
 
-}
+}```

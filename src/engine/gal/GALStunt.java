@@ -1,3 +1,7 @@
+package engine.gal;
+
+import engine.Entity;
+
 // = Stunt =
 
  class GALStunt  {
@@ -8,25 +12,35 @@
 
 	// CONSTRUCTOR
 
-	 GALStunt(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `GALStunt`"); }
+	 GALStunt(Entity e){ 
+		 this.entity=e;
+	 }
 
 	// STEP
 
 	 double step_cm;
 
-	void setStepLength(double cm){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `setStepLength`"); }
+	void setStepLength(double cm){ 
+		this.step_cm=cm;
+	}
 
-	 double stepLength(){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `stepLength`"); }
+	 double stepLength(){ 
+		 return this.step_cm;
+	 }
 
 	// SPEED
 
 	 double max_cmPer_ms;
 
-	void setMaxLinearSpeed(double cmPer_ms){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `setMaxLinearSpeed`"); }
+	void setMaxLinearSpeed(double cmPer_ms){ 
+		this.max_cmPer_ms=cmPer_ms;
+	}
 
 	 double max_degPer_ms;
 
-	void setMaxAngularSpeed(double degPer_ms){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `setMaxAngularSpeed`"); }
+	void setMaxAngularSpeed(double degPer_ms){ 
+		this.max_degPer_ms=degPer_ms;
+	}
 
 	// == DEFAULT IMPLEMENTATION of GAL Actions ==
 
@@ -35,7 +49,9 @@
 	 */
 	double action_ms;
 
-	 double actionDuration(){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `actionDuration`"); }
+	 double actionDuration(){ 
+		 return this.action_ms;
+	 }
 
 	// TICK
 
@@ -45,14 +61,24 @@
 	 * @param elapsed_ms
 	 * @implNote {@code action_ms} is updated according to the {@code elapsed_ms}
 	 */
-	void tick(double elapsed_ms){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `tick`"); }
+	void tick(double elapsed_ms){ 
+		this.action_ms-=elapsed_ms;
+		if(this.action_ms==0) {
+			
+		}
+	}
 
 	// MOVE
 
-	 boolean startMoving(Direction direction, double intensity, double duration_ms){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `startMoving`"); }
+	 boolean startMoving(Direction direction, double intensity, double duration_ms){ 
+		 new Move(direction,intensity);
+		 
+	 }
 
 	// TURN
 
-	 boolean startTurning(int angle_deg, double intensity){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `startTurning`"); }
+	 boolean startTurning(int angle_deg, double intensity){ 
+		 new Turn(angle_deg,intensity);
+	 }
 
 }

@@ -7,13 +7,17 @@ public class Direction {
 
 	// CONSTANTS
 
-	static Direction B; // B, Backward, Back
-	static Direction F; // F, Forward, Front
-	static Direction H; // H, Here
-	static Direction N; // N, North
-	static Direction S; // S, South
-	static Direction E; // E, East
-	static Direction W; // W, West
+	public static Direction B; // B, Backward, Back
+	public static Direction F; // F, Forward, Front
+	public static Direction H; // H, Here
+	public static Direction N; // N, North
+	public static Direction S; // S, South
+	public static Direction W; // W, West
+	public static Direction E; // E, East
+
+	// ...
+
+	// STATIC
 
 	/**
 	 * @apiNote {@code directions} associates a Direction to a name in order to
@@ -29,7 +33,8 @@ public class Direction {
 	 *          name.</LI>
 	 *          </UL>
 	 */
-	static Map<String, Direction> directions;
+	Map<String, Direction> directions = new HashMap<>();
+	//Direction directions; // <-- FIXME
 
 	// FACTORY
 
@@ -38,12 +43,13 @@ public class Direction {
 	 *          parser encounters a direction.
 	 * @return the existing direction associated to a name if it already exists
 	 */
-	Direction canonical(String name) {
-		if (directions.containsKey(name))
+	public Direction canonical(String name) {
+		if(directions.containsKey(name)) {
 			return directions.get(name);
-		Direction dir = new Direction(name);
-		directions.put(name, dir);
-		return dir;
+		}
+		Direction newDir = new Direction(name);
+		directions.put(name, newDir);
+		return newDir;
 	}
 
 	// STATIC INITIALIZATION
@@ -53,46 +59,53 @@ public class Direction {
 	 * @implNote which is executed at the class loading
 	 */
 	static {
-		directions = new HashMap<String, Direction>();
-		B = new Direction("Backward");
-		F = new Direction("Forward");
-		H = new Direction("Here");
-		N = new Direction("North");
-		S = new Direction("South");
-		E = new Direction("East");
-		W = new Direction("West");
+		 Direction.B=new Direction("B");
+		 Direction.F=new Direction("F");
+		 Direction.H=new Direction("H");
+		 Direction.N=new Direction("N");
+		 Direction.S=new Direction("S");
+		 Direction.W=new Direction("W");
+		 Direction.E=new Direction("E");
+		
 	}
 
 	// CONSTRUCTOR
 
-	private String name;
+	String name;
 
 	Direction(String name) {
-		this.name = name;
+		this.name=name;
 	}
 
 	// PREDICATE
-	public boolean isAbsolute() {
-		return (this == N || this == S || this == E || this == W);
+
+	boolean isAbsolute() {
+		return this == N || this == S || this == E || this == W;
 	}
 
-	public boolean isRelative() {
-		return !this.isAbsolute();
+	boolean isRelative() {
+		return this == F || this == B || this == H;
 	}
 
 	// CONVERSION
 
-	public int toAngle() {
-		if (this.isRelative())
-			throw new IllegalStateException();
-		if (this == E)
-			return 0;
-		if (this == N)
+	int toAngle() {
+		if (!isAbsolute()) {
+			throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
+		}
+		if (this == N) {
 			return 90;
-		if (this == W)
-			return 180;
-		if (this == S)
+		}
+		if (this == E) {
+			return 0;
+		}
+		if (this == S) {
 			return 270;
-		return 0;
+		}
+		if (this == W) {
+			return 180;
+		}
+		throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
 	}
+
 }

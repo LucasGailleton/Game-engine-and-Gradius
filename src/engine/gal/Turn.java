@@ -1,4 +1,8 @@
- class Turn  {
+package engine.gal;
+
+import engine.Entity;
+
+class Turn  {
 
 	int angle_deg;
 

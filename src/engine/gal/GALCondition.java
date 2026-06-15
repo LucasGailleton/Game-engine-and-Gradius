@@ -1,10 +1,12 @@
- class GALCondition  {
+package engine.gal;
+
+class GALCondition  {
 
 	Direction direction;
 	Category category;
 
 	// CONSTANT
 
-	 True TRUE = new True();
+	 public static final True TRUE = new True();
 
 }

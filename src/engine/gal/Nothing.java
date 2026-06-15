@@ -1,4 +1,8 @@
- class Nothing  {
+package engine.gal;
+
+import engine.Entity;
+
+class Nothing  {
 
 	// CONSTRUCTOR
 

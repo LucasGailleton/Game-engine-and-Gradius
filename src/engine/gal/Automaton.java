@@ -1,4 +1,8 @@
- class Automaton {
+package engine.gal;
+
+import engine.Entity;
+
+class Automaton {
 
 	 State initial;
 	/**
@@ -12,14 +16,18 @@
 
 	// CONSTRUCTOR
 
-	 Automaton(String name, State initial){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Automaton`"); }
+	 Automaton(String name, State initial){ 
+		 this.initial=initial;
+	 }
 
 	// BUILDER
 
 	/**
 	 * @apiNote add a transition to the automaton after the previous ones
 	 */
-	 void add(Transition t){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `add`"); }
+	 void add(Transition t){ 
+		 transitions.add(t);
+	 }
 
 	// AUTOMATON STEP = TRIGGER A TRANSITION or FAIL and STAY IN THE SAME STATE
 
@@ -31,6 +39,13 @@
 	 *         the {@code bot}
 	 *         <LI>{@code false} if no transition can be taken.</LI>
 	 */
-	 boolean step(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `step`"); }
+	 boolean step(Entity e){ 
+		 for(Transition t:this.transitions.get(initial)) {
+			 if(t.exec(e)) {
+				 return true;
+			 }
+		 }
+		 return false;
+	 }
 
 }

@@ -1,8 +1,8 @@
 package engine.gal;
 
-import engine.Entity;
+import engine.Model.Entity;
 
-public interface iGALCondition {
+interface iGALCondition {
 
 	boolean eval(Entity e);
 

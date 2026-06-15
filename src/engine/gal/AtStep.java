@@ -1,10 +1,19 @@
- class AtStep  {
+
+package engine.gal;
+
+import engine.Entity;
+
+class AtStep  extends GALCondition{
 
 	int nbStep;
 
 	// CONSTRUCTOR
 
-	 AtStep(Direction dir, Category cat, int nbStep){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `AtStep`"); }
+	 AtStep(Direction dir, Category cat, int nbStep){ 
+		 this.direction=dir;
+		 this.category=cat;
+		 this.nbStep=nbStep;
+	 }
 
 	// EVAL
 
@@ -17,6 +26,8 @@
 	 *           the Model and the Bot.
 	 */
 
-	 boolean eval(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `eval`"); }
+	 boolean eval(Entity e){ 
+		 
+	 }
 
 }

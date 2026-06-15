@@ -1,4 +1,8 @@
- class Move  {
+package engine.gal;
+
+import engine.Entity;
+
+class Move  extends GALAction{
 
 	Direction direction;
 	double duration_ms;
@@ -18,15 +22,36 @@
 	 * @param n         : number of ticks? or number of steps? Choose your
 	 *                  interpretation.
 	 */
-	 Move(Direction dir, double intensity, int n){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(Direction dir, double intensity, int n){ 
+		this.direction=dir;
+		this.intensity=intensity;
+		this.;
+	 }
 
-	 Move(Direction dir, double intensity){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(Direction dir, double intensity){ 
+		 this.direction=dir;
+		 this.intensity=intensity;
+	 }
 
-	 Move(Direction dir, int n){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(Direction dir, int n){ 
+		 this.direction=dir;
+		 this.;
+	 }
 
-	 Move(){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(){ 
+		 
+	 }
 
 	// EXEC
-	 boolean exec(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `exec`"); }
+	 boolean exec(Entity e){ 
+		 
+	 }
+
+	 @Override
+	 public boolean exec(Entity e) {
+		// TODO Auto-generated method stub
+		return false;
+	 }
+
 
 }

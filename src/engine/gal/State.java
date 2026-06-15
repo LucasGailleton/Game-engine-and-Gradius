@@ -1,33 +1,30 @@
 package engine.gal;
 
-public class State {
 
-	Mode mode;
+
+class State {
+
+	String mode;
 	int id;
 
 	// CONSTRUCTOR
 
 	State(String mode, int id) {
-		this.mode = new Mode(mode);
-		this.id = id;
+		this.id=id;
+		this.mode=mode;
 	}
 
 	// EQUALS
 	@Override
 	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (o instanceof State)
-			return this.equals((State) o);
-		return false;
+		return (o instanceof State) && ((State)o).id==this.id && ((State)o).mode==this.mode;
 	}
 
-	public boolean equals(State s) {
-		return this.hashCode() == s.hashCode();
+	boolean equals(State s) {
+		return s.id==this.id && s.mode==this.mode;
 	}
 
 	// HASH
-	@Override
 	public int hashCode() {
 		return this.id;
 	}

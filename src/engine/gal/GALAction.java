@@ -1,4 +1,8 @@
- class GALAction  {
+package engine.gal;
+
+import engine.Entity;
+
+abstract class GALAction  implements iGALAction{
 
 	/**
 	 * @param intensity &in; [0,1] ≃ %
@@ -7,5 +11,8 @@
 
 	// CONSTANT
 
-	 Nothing NOTHING = new Nothing();
+	 public static Nothing NOTHING = new Nothing();
+
+	 @Override
+	 public abstract boolean exec(Entity e);
 }
