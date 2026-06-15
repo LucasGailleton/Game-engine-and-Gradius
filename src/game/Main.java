@@ -11,9 +11,7 @@ import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
-import game.entities.Ghost;
-import game.entities.Obstacle;
-import game.entities.PacMan;
+import game.entities.Background;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
@@ -53,6 +51,11 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
+		Background bg = new Background();
+		bg.setCoord(game.isu.new Coord(0.0, 0.0));
+		bg.setSize(game.isu.new Dimension(canvas.getWidth(), canvas.getHeight()));
+		bg.move(true);
+		view.add(bg.new BackgroundAvatar());
 		
 
 //		PacMan pacman = new PacMan();

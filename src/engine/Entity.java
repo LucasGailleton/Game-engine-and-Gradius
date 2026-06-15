@@ -143,8 +143,6 @@ public class Entity {
 	}
 	
 	public Rect boundingBox() {
-//		double longest = Math.max(this.size.x_cm, this.size.y_cm);
-//		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(longest, longest), 0);
 		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(this.size.x_cm, this.size.y_cm), 0);
 	}
 
