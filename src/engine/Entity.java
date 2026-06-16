@@ -31,7 +31,7 @@ public class Entity {
 	private ISU.Coord center; // coordonnées en cm du centre de l'entité
 	private Bounding bounding;
 	private Set<Grid.Cell> occupied;
-	private engine.gal.Bot bot;
+	private engine.GAL.Bot bot;
 	private ISU.Coord boundingBoxTopLeft;
 	private ISU.Coord boundingBoxBottomRight;
 	private int orientation_degree; // orientation par rapport à l'axe des x
@@ -58,7 +58,7 @@ public class Entity {
 	// SETTER
 	public void setPosition(Grid.Position position) {
 		this.position = position;
-		this.center = position.toISUCoordCentered() ;
+		this.center = position.toISUCoordCentered();
 	}
 
 	public void setCoord(ISU.Coord center) {
@@ -94,7 +94,7 @@ public class Entity {
 		this.aSpeed = aSpeed;
 	}
 	
-	public void setBot(engine.gal.Bot bot) {
+	public void setBot(engine.GAL.Bot bot) {
 		this.bot = bot;
 	}
 	
@@ -135,7 +135,7 @@ public class Entity {
 		return this.stunt;
 	}
 	
-	public engine.gal.Bot bot(){
+	public engine.GAL.Bot bot(){
 		return this.bot;
 	}
 	

@@ -1,6 +1,8 @@
-// = Stunt =
+package engine.GAL;
 
- class GALStunt  {
+import engine.Entity;
+
+class GALStunt  {
 
 	// FIELDS
 

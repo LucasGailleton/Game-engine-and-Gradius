@@ -1,4 +1,4 @@
-package engine.gal;
+package engine.GAL;
 
 import engine.Entity;
 

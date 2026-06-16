@@ -1,4 +1,8 @@
- class Move  {
+package engine.GAL;
+
+import engine.Entity;
+
+class Move  {
 
 	Direction direction;
 	double duration_ms;

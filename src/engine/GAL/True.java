@@ -1,4 +1,8 @@
- class True  {
+package engine.GAL;
+
+import engine.Entity;
+
+class True  {
 
 	// CONSTRUCTOR
 
