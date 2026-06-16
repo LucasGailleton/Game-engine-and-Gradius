@@ -21,7 +21,7 @@ public class EnemyChicken extends Entity{
     
 	public EnemyChicken(String name) {
 		super(name);
-		this.setSize(this.game.grid.new Dimension((int)(36/Main.windowScale),(int)(36/Main.windowScale)));
+		this.setSize(this.game.grid.new Dimension((int)(36/Main.windowScale),(int)(28/Main.windowScale)));
 		this.avatar = new ChickenAvatar(this);
 		
 	}

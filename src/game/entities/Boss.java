@@ -19,6 +19,8 @@ import oop.graphics.Graphics;
  * @implNote Cette forme a été choisie pour pouvoir tester les rotations.
  */
 public class Boss extends Entity {
+	
+	private BossAvatar avatar;
 
 	// CONSTRUCTOR
 	public Boss() {
@@ -32,6 +34,10 @@ public class Boss extends Entity {
 		this.bounding().add(new Rect(this.isu.new Coord(this.center().x_cm+Game.cmPerCell*1.5, this.center().y_cm), this.isu.new Dimension(Game.cmPerCell*2, Game.cmPerCell), this.orientation()));
 	}
 	
+	public BossAvatar getAvatar() {
+		return this.avatar;
+	}
+	
 	private class BossAvatar extends Avatar{
 		private List<BufferedImage> death;
 		
@@ -42,13 +48,13 @@ public class Boss extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void paint(Graphics g) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		
