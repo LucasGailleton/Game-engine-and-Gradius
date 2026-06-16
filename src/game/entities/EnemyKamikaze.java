@@ -72,9 +72,10 @@ public class EnemyKamikaze extends Entity{
 		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
 	        }
 
-	        @Override
-	        public void paint(Graphics g) {
-	            if (this.sprites == null) {
+
+			@Override
+			public void paint(Graphics g, int shiftPX) {
+				if (this.sprites == null) {
 	                this.getSprites(g);
 	            }
 	            
@@ -95,7 +96,8 @@ public class EnemyKamikaze extends Entity{
 	 		    if (indChg % 10 == 0) {
 	 		    	indChg = 0;
 	 		    }
-	        }	
+				
+			}	
 	    }
 
 

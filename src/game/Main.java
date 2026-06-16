@@ -13,6 +13,7 @@ import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
+import game.entities.Background;
 import game.entities.EnemyChicken;
 import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
@@ -51,7 +52,10 @@ public class Main implements Runnable {
 		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
-			
+		Background bg = new Background();
+		view.add(bg.new BackgroundAvatar());
+		
+		BasicStunt shipStunt = init(model,view);
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -60,13 +64,14 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-		Controller ct = new Controller(ShipStunt);
+		Controller ct = new Controller(shipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
-		ship1.setStunt(ShipStunt);
-		ShipStunt.walk(0);
-
+	}
+	public BasicStunt init(Model model, View view) {
+			
+		
 		
 		Ship ship = new Ship();
 		
@@ -74,7 +79,12 @@ public class Main implements Runnable {
 		ship.setBounding();
 		view.add(ship.avatar());
 		model.add(ship);
-		
+		BasicStunt shipStunt = new BasicStunt(model, ship);
+		ship.setStunt(shipStunt);
+		shipStunt.walk(0);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+
 		
 //		EnemyChicken chick = new EnemyChicken("chicken1");
 //		
@@ -105,10 +115,9 @@ public class Main implements Runnable {
 //		model.add(wk);
 		
 		
-		BasicStunt shipStunt = new BasicStunt(model, ship);
-		ship.setStunt(shipStunt);
-		shipStunt.walk(0);
+		
 		return shipStunt;
 	}
-
 }
+
+

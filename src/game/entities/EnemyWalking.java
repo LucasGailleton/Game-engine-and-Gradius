@@ -80,9 +80,10 @@ public class EnemyWalking extends Entity{
 			
 		}
 
+
 		@Override
-		public void paint(Graphics g) {
-			this.getSprites(g);
+		public void paint(Graphics g, int shiftPX) {
+this.getSprites(g);
 			
 			ISU.Coord center = EnemyWalking.this.center(); 
             int posX = this.toPixel(center.x_cm - (EnemyWalking.this.size.x_cm / 2));
@@ -101,6 +102,7 @@ public class EnemyWalking extends Entity{
  		    if (indChg % 50 == 0) {
  		    	indChg = 0;
  		    }
+			
 		}
 		
 	}

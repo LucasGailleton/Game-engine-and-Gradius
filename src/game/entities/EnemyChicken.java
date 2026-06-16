@@ -61,7 +61,7 @@ public class EnemyChicken extends Entity{
 		}
 
 		@Override
-		public void paint(Graphics g) {
+		public void paint(Graphics g, int shiftPX) {
 			if (this.sprites == null) {
                 this.getSprites(g);
             }
@@ -73,7 +73,7 @@ public class EnemyChicken extends Entity{
             g.drawImage(sprites[Top][spriteNeutral], posX, posY,
             		(int) (36*Main.windowScale), 
             		(int) (28*Main.windowScale));
-
+			
 		}
 		
 	}

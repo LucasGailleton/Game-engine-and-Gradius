@@ -1,5 +1,8 @@
 package engine.GAL;
- class Nothing  {
+
+import engine.Entity;
+
+class Nothing  {
 
 	// CONSTRUCTOR
 

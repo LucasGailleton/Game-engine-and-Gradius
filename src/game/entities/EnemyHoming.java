@@ -66,9 +66,9 @@ public class EnemyHoming extends Entity {
 		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
         }
 
-        @Override
-        public void paint(Graphics g) {
-            if (this.sprites == null) {
+		@Override
+		public void paint(Graphics g, int shiftPX) {
+			if (this.sprites == null) {
                 this.getSprites(g);
             }
             ISU.Coord center = EnemyHoming.this.center(); //para el Gruber
@@ -77,9 +77,8 @@ public class EnemyHoming extends Entity {
             
            
             g.drawImage(sprites[Down][spriteNeutral], posX, posY, (int)(16 * Main.windowScale), (int)(16*Main.windowScale));
-            
-            
+                        
             //A IMPLEMENTER : DIFFERENTES ORIENTATION EN FONCTION DE LA POSITION DU JOUEUR PAR RAPPORT A L'ENNEMI
-        }
+		}
     }
 }

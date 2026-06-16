@@ -20,8 +20,8 @@ public class Ship extends Entity {
 	
 	public Ship() {
 		super("Ship");
-		// FIXME, la taille est pas correcte, c'est un placeholder pour l'instant
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)*Main.windowScale, (Game.cmPerCell*1)*Main.windowScale));
+		
+		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
 		this.self = new ShipAvatar();
 	}
 
@@ -69,9 +69,9 @@ public class Ship extends Entity {
 	        this.death.add(imgSprites.getSubimage(330, 27, 24, 24));
 	    }
 
-	    @Override
-	    public void paint(Graphics g) {
-	        if (this.sprites == null) {
+		@Override
+		public void paint(Graphics g, int shiftPX) {
+			if (this.sprites == null) {
 	            this.getSprites(g);
 	        }
 	        ISU.Coord center = Ship.this.center();
@@ -88,12 +88,14 @@ public class Ship extends Entity {
 	        }else {
 	            index = spriteUp;
 	        }
-	        // Affichage gérant la direction (Assure-toi que sprites[direction][index] n'est pas null)
-	        if (sprites[direction][index] != null) {
-	            g.drawImage(sprites[direction][index], posX, posY, 
-	                        (int) (spriteSizeX * Main.windowScale), 
-	                        (int) (spriteSizeY * Main.windowScale));
-	        }
-	    }
+	       
+	       
+            g.drawImage(sprites[direction][index], posX, posY, 
+                        (int) (spriteSizeX * Main.windowScale), 
+                        (int) (spriteSizeY * Main.windowScale));
+	        
+			
+		}
+
 	}
 }
