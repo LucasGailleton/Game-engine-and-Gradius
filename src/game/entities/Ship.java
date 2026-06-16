@@ -3,6 +3,7 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.ISU.Dimension;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
 import game.Main;
@@ -17,8 +18,7 @@ public class Ship extends Entity {
 	
 	public Ship() {
 		super("Ship");
-		// FIXME, la taille est pas correcte, c'est un placeholder pour l'instant
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*2.5)*Main.windowScale, (Game.cmPerCell*0.8)*Main.windowScale));
+		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
 	}
 
 	public void setBounding() {
@@ -63,9 +63,8 @@ public class Ship extends Entity {
 				this.getSprites(g);
 			
 			ISU.Coord center = Ship.this.center();
-			ISU.Dimension size = Ship.this.size;
-			int posX = this.toPixel(center.x_cm - (size.x_cm / 1.8));
-		    int posY = this.toPixel(center.y_cm - (size.y_cm / 1.8));
+			int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
+		    int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
 		    
 		    int index;
 		    ISU.Vector lSpeed = Ship.this.lSpeed();
@@ -76,7 +75,7 @@ public class Ship extends Entity {
 		    else
 		    	index = spriteUp;
 		    
-		    g.drawImage(sprites[direction][index], posX, posY, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    g.drawImage(sprites[direction][index], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
 		
 	}

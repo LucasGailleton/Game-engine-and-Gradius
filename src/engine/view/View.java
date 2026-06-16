@@ -12,6 +12,7 @@ import engine.ISU;
 import engine.shapes.Rect;
 import game.Main;
 import game.entities.Avatar;
+import game.entities.Background;
 import oop.graphics.Canvas;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
@@ -24,9 +25,11 @@ public class View {
 	long lastTime = System.currentTimeMillis();
 	int frames = 0;
 	int currentFPS = 0;
+	
+	private int shiftChg;
 	private int shiftPX;
 	
-	public static final int viewSpeed = -2;
+	public static final int viewSpeed = (int)(-1*Main.windowScale);
 	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");
@@ -34,6 +37,8 @@ public class View {
 		this.canvas = canvas;
 		this.avatars = new ArrayList<Avatar>();
 		this.showStats = true;
+		
+		this.shiftChg = 0;
 		this.shiftPX = 0;
 	}
 	
@@ -42,7 +47,11 @@ public class View {
 	}
 	
 	public void shift() {
-		this.shiftPX += viewSpeed;
+		if (this.shiftChg == 3) {
+			this.shiftPX += viewSpeed;
+			this.shiftChg = 0;
+		}
+		this.shiftChg += 1;
 	}
 	
 	public void paint(Graphics g) {
@@ -51,17 +60,16 @@ public class View {
 		for (Avatar a : avatars) {
 			if (Main.debug) {
 	            Entity entity = a.entity();
-	            g.setColor(Colors.red);
-	            Rect boundingBox = entity.boundingBox();
-	            ISU.Coord centre = boundingBox.center();
-	            
-	            double h = boundingBox.getHalfHeight();
-	            double w = boundingBox.getHalfWidth();
-	            
-	            g.drawRect((int)(centre.x_cm-w) * Game.pixelPerCm, 
-	                    (int)(centre.y_cm - h) * Game.pixelPerCm, 
-	                    (int)w*2*Game.pixelPerCm, 
-	                    (int)h*2*Game.pixelPerCm);
+	            if (!(entity instanceof Background)) {
+		            g.setColor(Colors.red);
+		            ISU.Coord centre = entity.center();
+		            
+		            double w = entity.size.x_cm/2.0;
+		            double h = entity.size.y_cm/2.0;
+		            
+		            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-3, (int)(centre.y_cm*Game.pixelPerCm)-3, 3, 3);
+		            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm), (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
+	            }
 			}
             a.paint(g, shiftPX);
 		}

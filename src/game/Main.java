@@ -13,20 +13,20 @@ import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
 import game.entities.Background;
+import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
-
 
 public class Main implements Runnable {
 	
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	public static final double windowScale = 3;
+	public static final double windowScale = 4;
 	public static final int headerSize = 61;
-	public static final boolean debug = false;
+	public static final boolean debug = true;
 
 	public static void main(String[] args) {
 		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
@@ -44,18 +44,6 @@ public class Main implements Runnable {
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 		
-		Ship ship = new Ship();
-		ship.setPosition(model.grid().new Position((int) (1*windowScale), (int) (4*windowScale)));
-		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 4*1.8*Game.cmPerCell*windowScale));
-		ship.setBounding();
-		model.add(ship);
-		view.add(ship.new ShipAvatar());
-		BasicStunt ShipStunt = new BasicStunt(model, ship);
-		ship.setStunt(ShipStunt);
-		ShipStunt.walk(0);
-		VectAvatar va = new VectAvatar(ship);
-		view.add(va);
-
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -66,6 +54,20 @@ public class Main implements Runnable {
 		
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
+		
+		Ship ship = new Ship();
+		ship.setCoord(game.isu.new Coord(10*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		model.add(ship);
+		view.add(ship.new ShipAvatar());
+		
+		BasicStunt ShipStunt = new BasicStunt(model, ship);
+		ship.setStunt(ShipStunt);
+		ShipStunt.walk(0);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+
+		
 		
 
 //		PacMan pacman = new PacMan();
