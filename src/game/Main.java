@@ -13,6 +13,7 @@ import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
 import game.entities.Background;
+import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
@@ -26,7 +27,7 @@ public class Main implements Runnable {
 	List<Entity> entities;
 	public static final double windowScale = 3;
 	public static final int headerSize = 61;
-	public static final boolean debug = false;
+	public static final boolean debug = true;
 
 	public static void main(String[] args) {
 		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
@@ -44,8 +45,10 @@ public class Main implements Runnable {
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 		
+		Background bg = new Background();
+		view.add(bg.new BackgroundAvatar());
+		
 		Ship ship = new Ship();
-		ship.setPosition(model.grid().new Position((int) (1*windowScale), (int) (4*windowScale)));
 		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 4*1.8*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
@@ -54,6 +57,17 @@ public class Main implements Runnable {
 		ship.setStunt(ShipStunt);
 		ShipStunt.walk(0);
 		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+		
+		Ship ship1 = new Ship();
+		ship1.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+10, 4*1.8*Game.cmPerCell*windowScale+10));
+		ship1.setBounding();
+		model.add(ship1);
+		view.add(ship1.new ShipAvatar());
+		BasicStunt ShipStunt1 = new BasicStunt(model, ship1);
+		ship1.setStunt(ShipStunt1);
+		ShipStunt1.walk(0);
+		VectAvatar vp = new VectAvatar(ship);
 		view.add(va);
 
 		this.task.post(new Runnable() {
@@ -64,8 +78,9 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-		Background bg = new Background();
-		view.add(bg.new BackgroundAvatar());
+		Controller ct = new Controller(ShipStunt);
+		KeyListener kl = new KeyListener(ct);
+		canvas.set(kl);
 		
 
 //		PacMan pacman = new PacMan();

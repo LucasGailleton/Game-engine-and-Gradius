@@ -12,19 +12,13 @@ public class KeyListener implements Canvas.KeyListener {
 
 	@Override
 	public void pressed(Canvas canvas, int keyCode, char keyChar) {
-		if (keyCode == VirtualKeyCodes.VK_LEFT)
-			c.left();
-		else if (keyCode == VirtualKeyCodes.VK_RIGHT)
-			c.right();
-		else if (keyCode == VirtualKeyCodes.VK_UP)
-			c.up();
-		else if (keyCode == VirtualKeyCodes.VK_DOWN)
-			c.down();
-		canvas.repaint();
+		c.update(keyCode, true);
 	}
 
 	@Override
-	public void released(Canvas canvas, int keyCode, char keyChar) {}
+	public void released(Canvas canvas, int keyCode, char keyChar) {
+		c.update(keyCode, false);
+	}
 
 	@Override
 	public void typed(Canvas canvas, char keyChar) {}

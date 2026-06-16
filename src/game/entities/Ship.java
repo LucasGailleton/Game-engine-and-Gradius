@@ -3,7 +3,6 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.shapes.Circle;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -78,6 +77,5 @@ public class Ship extends Entity {
 		    
 		    g.drawImage(sprites[direction][index], posX, posY, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
-		
 	}
 }

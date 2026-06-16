@@ -62,5 +62,9 @@ public class BasicStunt extends Stunt {
 		double vy = Math.round(Math.sin(rad)); 
 		this.entity.setlSpeed(vx*PacMan.PacManSpeed, vy*PacMan.PacManSpeed);
 	}
+
+	public void stop() {
+		this.entity.setlSpeed(0, 0);
+	}
 	
 }
