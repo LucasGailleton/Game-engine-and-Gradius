@@ -25,7 +25,7 @@ public class Main implements Runnable {
 	List<Entity> entities;
 	public static final double windowScale = 3;
 	public static final int headerSize = 61;
-	public static final boolean debug = true;
+	public static final boolean debug = false;
 
 	public static void main(String[] args) {
 		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);

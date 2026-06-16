@@ -64,16 +64,14 @@ public class View {
 	        frames = 0;
 	        lastTime = now;
 	    }
-
-	    g.setColor(Colors.green);
-	    g.setFont(g.getFont("Monospaced", 0, 16));
-	    g.drawString("FPS: " + currentFPS, 10, 20);
 		
 		if (ProfilingManager.PROFILING)
 			vp.end();
 		if (ProfilingManager.PROFILING && showStats) {
-			// print profiling informations
-			// over the game view if requested.
+			g.setColor(Colors.green);
+		    g.setFont(g.getFont("Monospaced", 0, 16));
+		    g.drawString("FPS: " + currentFPS, 10, 20);
+		    
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);
 			g.drawString(mp.toString(), 90, 40);

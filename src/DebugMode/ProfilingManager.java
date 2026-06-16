@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.Main;
+
 public class ProfilingManager {
-	public static final boolean PROFILING = true;
+	public static final boolean PROFILING = Main.debug;
 	public static ProfilingManager self;
 
 	public static Profiler getProfiler(String name) {
