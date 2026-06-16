@@ -10,7 +10,7 @@ import oop.graphics.Graphics.Colors;
 
 public class PaintListener implements Canvas.PaintListener {
 	private View view;
-	private BufferedImage map;
+//	private BufferedImage map;
 
 	public PaintListener(View view) {
 		this.view = view;
@@ -28,9 +28,9 @@ public class PaintListener implements Canvas.PaintListener {
 		g.setColor(Colors.black);
 		g.fillRect(0, 0, w, h);
 		
-		if (map == null)
-			map = g.load("background1.png");
-		g.drawImage(map, 0, 0, canvas.getWidth(), canvas.getHeight());
+//		if (map == null)
+//			map = g.load("background.png");
+//		g.drawImage(map, 0, 0, canvas.getWidth(), canvas.getHeight());
 		
 		if (view != null)
 			view.paint(g);

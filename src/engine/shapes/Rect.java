@@ -4,7 +4,6 @@ package engine.shapes;
 import engine.Game;
 import engine.ISU;
 import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.ISU.Vector;
 
 public class Rect extends Shape implements iShape {

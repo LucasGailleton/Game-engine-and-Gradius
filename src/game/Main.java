@@ -3,6 +3,7 @@ package game;
 import java.awt.Dimension;
 import java.util.List;
 
+import DebugMode.VectAvatar;
 import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
@@ -31,12 +32,12 @@ public class Main implements Runnable {
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	public static final double windowScale = 3;
+	public static final double windowScale = 4;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (512*windowScale), (int) (240*windowScale)+headerSize);
+		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
 
@@ -47,8 +48,7 @@ public class Main implements Runnable {
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
 		canvas.set(new PaintListener(view));
-		Model model = new Model();
-		BasicStunt shipStunt = init(game,view,canvas,model);
+		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 			
@@ -60,13 +60,13 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-		Controller ct = new Controller(shipStunt);
+		Controller ct = new Controller(ShipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
-	}
-	
-	public BasicStunt init(Game game, View view,Canvas canvas, Model model) {
+		ship1.setStunt(ShipStunt);
+		ShipStunt.walk(0);
+
 		
 		Ship ship = new Ship();
 		

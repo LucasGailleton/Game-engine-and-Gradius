@@ -10,4 +10,9 @@ public class Background extends Entity {
 	public Background() {
 		super("Background");
 	}
+	
+	public BackgroundAvatar avatar() {
+		return this.self;
+	}
+	
 }

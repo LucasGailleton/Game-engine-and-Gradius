@@ -1,8 +1,6 @@
-package engine.GAL;
+package engine.gal;
 
-import engine.Entity;
-
-class Automaton {
+public class Automaton {
 
 	 State initial;
 	/**

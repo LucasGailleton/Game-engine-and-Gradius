@@ -97,6 +97,10 @@ public class Entity {
 	public void setBot(engine.GAL.Bot bot) {
 		this.bot = bot;
 	}
+	
+	public void setModel(Model model) {
+		this.model = model;
+	}
 
 	// GETTER
 	public ISU.Coord center() {
@@ -134,6 +138,14 @@ public class Entity {
 	public engine.GAL.Bot bot(){
 		return this.bot;
 	}
+	
+	public List<Entity> getEntities() {
+		return model.entities();
+	}
+	
+	public Model getModel() {
+		return model;
+	}
 
 	// BOUNDING BOX UPDATE
 	public void updateBoundingBox() {
@@ -143,8 +155,6 @@ public class Entity {
 	}
 	
 	public Rect boundingBox() {
-//		double longest = Math.max(this.size.x_cm, this.size.y_cm);
-//		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(longest, longest), 0);
 		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(this.size.x_cm, this.size.y_cm), 0);
 	}
 
