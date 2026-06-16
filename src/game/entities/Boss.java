@@ -54,7 +54,7 @@ public class Boss extends Entity {
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		
