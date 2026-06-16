@@ -20,27 +20,36 @@ public class View {
 	Canvas canvas;
 	List<Avatar> avatars;
 	private Profiler vp, mp;
-	private boolean showStats = true;
+	private boolean showStats;
 	long lastTime = System.currentTimeMillis();
 	int frames = 0;
 	int currentFPS = 0;
+	private int shiftPX;
+	
+	public static final int viewSpeed = -2;
 	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");
 		this.vp = ProfilingManager.getProfiler("view");
 		this.canvas = canvas;
 		this.avatars = new ArrayList<Avatar>();
+		this.showStats = true;
+		this.shiftPX = 0;
 	}
 	
 	public void add(Avatar e) {
 		this.avatars.add(e);
 	}
 	
+	public void shift() {
+		this.shiftPX += viewSpeed;
+	}
+	
 	public void paint(Graphics g) {
 		if (ProfilingManager.PROFILING)
 			vp.start();
 		for (Avatar a : avatars) {
-			if (ProfilingManager.PROFILING) {
+			if (Main.debug) {
 	            Entity entity = a.entity();
 	            g.setColor(Colors.red);
 	            Rect boundingBox = entity.boundingBox();
@@ -54,31 +63,27 @@ public class View {
 	                    (int)w*2*Game.pixelPerCm, 
 	                    (int)h*2*Game.pixelPerCm);
 			}
-            a.paint(g);
+            a.paint(g, shiftPX);
 		}
-		if(ProfilingManager.PROFILING) {
-			frames++;
-			
-			long now = System.currentTimeMillis();
-		    if (now - lastTime >= 1000) {
-		        currentFPS = frames;
-		        frames = 0;
-		        lastTime = now;
-		    }
-	
-		    g.setColor(Colors.green);
-		    g.setFont(g.getFont("Monospaced", 0, 16));
-		    g.drawString("FPS: " + currentFPS, 10, 20);
-		}
+		frames++;
+		
+		long now = System.currentTimeMillis();
+	    if (now - lastTime >= 1000) {
+	        currentFPS = frames;
+	        frames = 0;
+	        lastTime = now;
+	    }
 		
 		if (ProfilingManager.PROFILING)
 			vp.end();
 		if (ProfilingManager.PROFILING && showStats) {
-			// print profiling informations
-			// over the game view if requested.
+			g.setColor(Colors.green);
+		    g.setFont(g.getFont("Monospaced", 0, 16));
+		    g.drawString("FPS: " + currentFPS, 10, 20);
+		    
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);
 			g.drawString(mp.toString(), 90, 40);
-			}
+		}
 	}	
 }

@@ -12,10 +12,7 @@ import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
-import game.entities.Ghost;
-import game.entities.Obstacle;
-import game.entities.PacMan;
-import game.entities.Ship;
+import game.entities.Background;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
@@ -29,7 +26,7 @@ public class Main implements Runnable {
 	List<Entity> entities;
 	public static final double windowScale = 3;
 	public static final int headerSize = 61;
-	public static final boolean debug = true;
+	public static final boolean debug = false;
 
 	public static void main(String[] args) {
 		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
@@ -43,7 +40,7 @@ public class Main implements Runnable {
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
 		canvas.set(new PaintListener(view));
-		Model model = new Model();
+		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 		
@@ -67,6 +64,8 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
+		Background bg = new Background();
+		view.add(bg.new BackgroundAvatar());
 		
 
 //		PacMan pacman = new PacMan();

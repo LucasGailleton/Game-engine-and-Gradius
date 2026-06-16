@@ -30,7 +30,7 @@ public abstract class Avatar {
 	
 	public abstract void getSprites(Graphics g);
 	
-	public abstract void paint(Graphics g);
+	public abstract void paint(Graphics g, int shiftPX);
 	
 	public int toPixel(double cm) {
 		return (int) (cm*Game.pixelPerCm);
