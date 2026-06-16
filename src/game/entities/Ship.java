@@ -18,7 +18,7 @@ public class Ship extends Entity {
 	public Ship() {
 		super("Ship");
 		// FIXME, la taille est pas correcte, c'est un placeholder pour l'instant
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)*Main.windowScale, (Game.cmPerCell*1)*Main.windowScale));
+		this.setSize(this.isu.new Dimension((Game.cmPerCell*2.5)*Main.windowScale, (Game.cmPerCell*0.8)*Main.windowScale));
 	}
 
 	public void setBounding() {
@@ -64,8 +64,8 @@ public class Ship extends Entity {
 			
 			ISU.Coord center = Ship.this.center();
 			ISU.Dimension size = Ship.this.size;
-			int posX = this.toPixel(center.x_cm - (size.x_cm / 2));
-		    int posY = this.toPixel(center.y_cm - (size.y_cm / 2));
+			int posX = this.toPixel(center.x_cm - (size.x_cm / 1.8));
+		    int posY = this.toPixel(center.y_cm - (size.y_cm / 1.8));
 		    
 		    int index;
 		    ISU.Vector lSpeed = Ship.this.lSpeed();

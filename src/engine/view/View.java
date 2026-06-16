@@ -40,7 +40,7 @@ public class View {
 		if (ProfilingManager.PROFILING)
 			vp.start();
 		for (Avatar a : avatars) {
-			if (Main.debug) {
+			if (ProfilingManager.PROFILING) {
 	            Entity entity = a.entity();
 	            g.setColor(Colors.red);
 	            Rect boundingBox = entity.boundingBox();
@@ -56,18 +56,20 @@ public class View {
 			}
             a.paint(g);
 		}
-		frames++;
-		
-		long now = System.currentTimeMillis();
-	    if (now - lastTime >= 1000) {
-	        currentFPS = frames;
-	        frames = 0;
-	        lastTime = now;
-	    }
-
-	    g.setColor(Colors.green);
-	    g.setFont(g.getFont("Monospaced", 0, 16));
-	    g.drawString("FPS: " + currentFPS, 10, 20);
+		if(ProfilingManager.PROFILING) {
+			frames++;
+			
+			long now = System.currentTimeMillis();
+		    if (now - lastTime >= 1000) {
+		        currentFPS = frames;
+		        frames = 0;
+		        lastTime = now;
+		    }
+	
+		    g.setColor(Colors.green);
+		    g.setFont(g.getFont("Monospaced", 0, 16));
+		    g.drawString("FPS: " + currentFPS, 10, 20);
+		}
 		
 		if (ProfilingManager.PROFILING)
 			vp.end();

@@ -53,7 +53,8 @@ public class Model {
 	}
 	
 	public void tick(long elapsed) {
-		p.start();
+		if(ProfilingManager.PROFILING)
+			p.start();
 		if (elapsed > 100) { 
 	        elapsed = 10;
 	    }
@@ -99,7 +100,8 @@ public class Model {
 			}
 			
 		}
-		p.end();
+		if(ProfilingManager.PROFILING)
+			p.end();
 	}
 	
 	public List<Entity> getCollision(Entity e){

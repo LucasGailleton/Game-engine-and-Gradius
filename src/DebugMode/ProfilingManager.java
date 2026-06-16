@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.Main;
+
 public class ProfilingManager {
-	public static final boolean PROFILING = true;
+	public static final boolean PROFILING = Main.debug;
 	public static ProfilingManager self;
 
 	public static Profiler getProfiler(String name) {
@@ -34,10 +36,11 @@ public class ProfilingManager {
 	}
 
 	public void log(Logger logger, Level level) {
-		if (PROFILING)
+		if (PROFILING) {
 			for (Profiler s : profilers.values()) {
 				s.log(logger, level);
 			}
+		}
 		else
 			logger.log(level, "Profiling is turned off.");
 	}
@@ -47,9 +50,10 @@ public class ProfilingManager {
 	}
 
 	public void stats(Listener l) {
-		if (PROFILING)
+		if (PROFILING) {
 			for (Profiler s : profilers.values()) {
 				s.callback(l);
 			}
+		}
 	}
 }
