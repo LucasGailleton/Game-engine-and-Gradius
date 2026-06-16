@@ -19,13 +19,12 @@ import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
 
-
 public class Main implements Runnable {
 	
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	public static final double windowScale = 3;
+	public static final double windowScale = 4;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
@@ -44,7 +43,7 @@ public class Main implements Runnable {
 		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
-		
+
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
 		
@@ -69,7 +68,7 @@ public class Main implements Runnable {
 		ShipStunt1.walk(0);
 		VectAvatar vp = new VectAvatar(ship);
 		view.add(va);
-
+		
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -81,6 +80,11 @@ public class Main implements Runnable {
 		Controller ct = new Controller(ShipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
+		
+		ship1.setStunt(ShipStunt);
+		ShipStunt.walk(0);
+
+		
 		
 
 //		PacMan pacman = new PacMan();
