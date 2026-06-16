@@ -55,7 +55,31 @@ public class Main implements Runnable {
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
 		
+
+		Ship ship = new Ship();
+		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 4*1.8*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		model.add(ship);
+		view.add(ship.new ShipAvatar());
+		BasicStunt ShipStunt = new BasicStunt(model, ship);
+		ship.setStunt(ShipStunt);
+		ShipStunt.walk(0);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+		
+		Ship ship1 = new Ship();
+		ship1.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+20, 4*1.8*Game.cmPerCell*windowScale+20));
+		ship1.setBounding();
+		model.add(ship1);
+		view.add(ship1.new ShipAvatar());
+		BasicStunt ShipStunt1 = new BasicStunt(model, ship1);
+		ship1.setStunt(ShipStunt1);
+		ShipStunt1.walk(0);
+		VectAvatar vp = new VectAvatar(ship);
+		view.add(va);
+		
 		BasicStunt shipStunt = init(model,view);
+
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -68,6 +92,8 @@ public class Main implements Runnable {
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
+		ship1.setStunt(ShipStunt);
+		ShipStunt.walk(0);		
 	}
 	public BasicStunt init(Model model, View view) {
 			
@@ -86,33 +112,33 @@ public class Main implements Runnable {
 		view.add(va);
 
 		
-//		EnemyChicken chick = new EnemyChicken("chicken1");
-//		
-//		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
-//		chick.setBounding();
-//		view.add(chick.getAvatar());
-//		model.add(chick);
-//		BasicStunt chicStunt = new BasicStunt(model, chick);
-//		chick.setStunt(chicStunt);
+		EnemyChicken chick = new EnemyChicken("chicken1");
 		
-//		EnemyKamikaze kz= new EnemyKamikaze("kz1");
-//		
-//		kz.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
-//		kz.setBounding();
-//		view.add(kz.getAvatar());
-//		model.add(kz);
+		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
+		chick.setBounding();
+		view.add(chick.getAvatar());
+		model.add(chick);
+		BasicStunt chicStunt = new BasicStunt(model, chick);
+		chick.setStunt(chicStunt);
 		
-//		EnemyHoming hm = new EnemyHoming("hm1");
-//		hm.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
-//		hm.setBounding();
-//		view.add(hm.getAvatar());
-//		model.add(hm);
+		EnemyKamikaze kz= new EnemyKamikaze("kz1");
 		
-//		EnemyWalking wk = new EnemyWalking("wk1");
-//		wk.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
-//		wk.setBounding();
-//		view.add(wk.getAvatar());
-//		model.add(wk);
+		kz.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
+		kz.setBounding();
+		view.add(kz.getAvatar());
+		model.add(kz);
+		
+		EnemyHoming hm = new EnemyHoming("hm1");
+		hm.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
+		hm.setBounding();
+		view.add(hm.getAvatar());
+		model.add(hm);
+		
+		EnemyWalking wk = new EnemyWalking("wk1");
+		wk.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
+		wk.setBounding();
+		view.add(wk.getAvatar());
+		model.add(wk);
 		
 		
 		

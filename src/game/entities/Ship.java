@@ -33,7 +33,7 @@ public class Ship extends Entity {
 		return this.self;
 	}
 	
-	private class ShipAvatar extends Avatar {
+	public class ShipAvatar extends Avatar {
 		
 		private List<BufferedImage> death;
 	    // Les variables ship_up, ship_down, ship_neutral sont gérées dans le tableau sprites[][]
@@ -69,33 +69,27 @@ public class Ship extends Entity {
 	        this.death.add(imgSprites.getSubimage(330, 27, 24, 24));
 	    }
 
-		@Override
+	    @Override
 		public void paint(Graphics g, int shiftPX) {
-			if (this.sprites == null) {
-	            this.getSprites(g);
-	        }
-	        ISU.Coord center = Ship.this.center();
-	        ISU.Dimension size = Ship.this.size;
-	        int posX = this.toPixel(center.x_cm - (size.x_cm / 2));
-	        int posY = this.toPixel(center.y_cm - (size.y_cm / 2));
-	        
-	        int index;
-	        ISU.Vector lSpeed = Ship.this.lSpeed();
-	        if (lSpeed.targetY_cm == 0) {
-	            index = spriteNeutral;
-	    	}else if (lSpeed.targetY_cm > 0) {
-	            index = spriteDown;
-	        }else {
-	            index = spriteUp;
-	        }
-	       
-	       
-            g.drawImage(sprites[direction][index], posX, posY, 
-                        (int) (spriteSizeX * Main.windowScale), 
-                        (int) (spriteSizeY * Main.windowScale));
-	        
+			if (this.sprites == null)
+				this.getSprites(g);
 			
+			ISU.Coord center = Ship.this.center();
+			int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
+		    int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
+		    
+		    int index;
+		    ISU.Vector lSpeed = Ship.this.lSpeed();
+		    if (lSpeed.targetY_cm == 0)
+		    	index = spriteNeutral;
+		    else if (lSpeed.targetY_cm > 0)
+		    	index = spriteDown;
+		    else
+		    	index = spriteUp;
+		    
+		    g.drawImage(sprites[direction][index], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
+
 
 	}
 }
