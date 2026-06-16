@@ -7,13 +7,16 @@ import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.Ticker;
+import engine.GAL.Mode;
 import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
+import game.entities.EnemyChicken;
 import game.entities.Ghost;
 import game.entities.Obstacle;
 import game.entities.PacMan;
+import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
@@ -30,7 +33,7 @@ public class Main implements Runnable {
 	public static final boolean debug = true;
 
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
+		Dimension d = new Dimension((int) (512*windowScale), (int) (240*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
 
@@ -42,6 +45,7 @@ public class Main implements Runnable {
 		View view = new View(canvas);
 		canvas.set(new PaintListener(view));
 		Model model = new Model();
+		BasicStunt shipStunt = init(game,view,canvas,model);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 			
@@ -53,8 +57,11 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
+		Controller ct = new Controller(shipStunt);
+		KeyListener kl = new KeyListener(ct);
+		canvas.set(kl);
 		
-
+		
 //		PacMan pacman = new PacMan();
 //		pacman.setPosition(model.grid().new Position((int) (1*windowScale), (int) (1*windowScale)));
 //		pacman.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));
@@ -116,13 +123,32 @@ public class Main implements Runnable {
 //		BasicStunt BlinkyStunt = new BasicStunt(model, blinky);
 //		blinky.setStunt(BlinkyStunt);
 ////		BlinkyStunt.walk(0);
-//
-//		Controller ct = new Controller(PacManStunt);
-//		KeyListener kl = new KeyListener(ct);
-//		canvas.set(kl);
+		
+	}
 	
+	public BasicStunt init(Game game, View view,Canvas canvas, Model model) {
+		
+		Ship ship = new Ship();
+		
+		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		view.add(ship.avatar());
+		model.add(ship);
 		
 		
+		EnemyChicken chick = new EnemyChicken("chicken1");
+		
+		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
+		chick.setBounding();
+		view.add(chick.getAvatar());
+		model.add(chick);
+//		BasicStunt chicStunt = new BasicStunt(model, chick);
+//		chick.setStunt(chicStunt);
+		
+		BasicStunt shipStunt = new BasicStunt(model, ship);
+		ship.setStunt(shipStunt);
+		shipStunt.walk(0);
+		return shipStunt;
 	}
 
 }

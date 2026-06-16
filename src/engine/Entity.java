@@ -58,7 +58,7 @@ public class Entity {
 	// SETTER
 	public void setPosition(Grid.Position position) {
 		this.position = position;
-		this.center = position.toISUCoordCentered() ;
+		this.center = position.toISUCoordCentered();
 	}
 
 	public void setCoord(ISU.Coord center) {

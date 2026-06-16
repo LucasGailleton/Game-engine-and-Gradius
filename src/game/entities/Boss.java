@@ -1,10 +1,15 @@
 // = BOSS =
 package game.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
+import oop.graphics.BufferedImage;
+import oop.graphics.Graphics;
 
 /**
  * @implNote Le Boss a la forme d'un `t`
@@ -25,6 +30,28 @@ public class Boss extends Entity {
 	public void setBounding() {
 		this.bounding().add(new Rect(this.isu.new Coord(this.center().x_cm, this.center().y_cm+Game.cmPerCell/2), this.isu.new Dimension(Game.cmPerCell, Game.cmPerCell*4), this.orientation()));
 		this.bounding().add(new Rect(this.isu.new Coord(this.center().x_cm+Game.cmPerCell*1.5, this.center().y_cm), this.isu.new Dimension(Game.cmPerCell*2, Game.cmPerCell), this.orientation()));
+	}
+	
+	private class BossAvatar extends Avatar{
+		private List<BufferedImage> death;
+		
+		public BossAvatar(Entity e) {
+			super(e);
+			this.death = new ArrayList<>();
+		}
+
+		@Override
+		public void getSprites(Graphics g) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void paint(Graphics g) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }
