@@ -11,6 +11,7 @@ import engine.Game;
 import engine.ISU;
 import engine.shapes.Rect;
 import game.Main;
+import game.Model;
 import game.entities.Avatar;
 import game.entities.Background;
 import oop.graphics.Canvas;
@@ -55,11 +56,15 @@ public class View {
 	}
 	
 	public void paint(Graphics g) {
+		Model model = null;
 		if (ProfilingManager.PROFILING)
 			vp.start();
 		for (Avatar a : avatars) {
+			
 			if (Main.debug) {
 	            Entity entity = a.entity();
+	            
+	            model = entity.getModel();
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);
 		            ISU.Coord centre = entity.center();
@@ -89,7 +94,8 @@ public class View {
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString("FPS: " + currentFPS, 10, 20);
 		    
-		    g.drawString("Nombre d'entités : " + avatars.size(), 10, 55);
+		    if(model != null)
+		    	g.drawString("Nombre d'entités : " + model.entities().size(), 10, 55);
 		    
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);

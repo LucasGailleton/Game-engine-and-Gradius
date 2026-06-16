@@ -41,6 +41,7 @@ public class Model {
 	// ADD, REMOVE Entity
 	public void add(Entity e) {
 		this.entities.add(e);
+		e.setModel(this);
 	}
 
 	public void remove(Entity e) {

@@ -97,6 +97,10 @@ public class Entity {
 	public void setBot(engine.gal.Bot bot) {
 		this.bot = bot;
 	}
+	
+	public void setModel(Model model) {
+		this.model = model;
+	}
 
 	// GETTER
 	public ISU.Coord center() {
@@ -133,6 +137,14 @@ public class Entity {
 	
 	public engine.gal.Bot bot(){
 		return this.bot;
+	}
+	
+	public List<Entity> getEntities() {
+		return model.entities();
+	}
+	
+	public Model getModel() {
+		return model;
 	}
 
 	// BOUNDING BOX UPDATE
