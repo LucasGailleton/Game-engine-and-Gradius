@@ -3,6 +3,7 @@ package game;
 import java.awt.Dimension;
 import java.util.List;
 
+import DebugMode.VectAvatar;
 import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
@@ -42,7 +43,19 @@ public class Main implements Runnable {
 		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
-			
+		
+		Ship ship = new Ship();
+		ship.setPosition(model.grid().new Position((int) (1*windowScale), (int) (4*windowScale)));
+		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 4*1.8*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		model.add(ship);
+		view.add(ship.new ShipAvatar());
+		BasicStunt ShipStunt = new BasicStunt(model, ship);
+		ship.setStunt(ShipStunt);
+		ShipStunt.walk(0);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
