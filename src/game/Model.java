@@ -14,7 +14,9 @@ import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.entities.Avatar;
+import game.entities.Background;
 import game.entities.PacMan.PacManAvatar;
 import engine.Physic;
 
@@ -25,13 +27,15 @@ public class Model {
 	private Physic ps;
 	private double seconds;
 	private Profiler p;
+	private View v;
 
 	// CONSTRUCTOR
-	public Model() {
+	public Model(View v) {
 		if (ProfilingManager.PROFILING)
 			this.p = ProfilingManager.getProfiler("model");
 		this.grid = Game.game().grid;
 		this.entities = new ArrayList<Entity>();
+		this.v = v;
 	}
 	
 	// ADD, REMOVE Entity
@@ -53,10 +57,13 @@ public class Model {
 	}
 	
 	public void tick(long elapsed) {
-		p.start();
-		if (elapsed > 100) { 
+		if (Main.debug)
+			p.start();
+		if (elapsed > 100) 
 	        elapsed = 10;
-	    }
+
+		v.shift();
+		
 		this.seconds = elapsed / 1000.0;
 	    this.ps = new Physic(this);
 		List<Entity> copyEntities = new ArrayList<>(this.entities);
@@ -97,9 +104,9 @@ public class Model {
 					entity.collision(trueCollisions);
 				}
 			}
-			
 		}
-		p.end();
+		if (Main.debug)
+			p.end();
 	}
 	
 	public List<Entity> getCollision(Entity e){

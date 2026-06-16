@@ -36,10 +36,10 @@ public class ProfilingManager {
 	}
 
 	public void log(Logger logger, Level level) {
-		if (PROFILING)
-			for (Profiler s : profilers.values()) {
+		if (PROFILING) {
+			for (Profiler s : profilers.values())
 				s.log(logger, level);
-			}
+		}
 		else
 			logger.log(level, "Profiling is turned off.");
 	}
@@ -49,9 +49,9 @@ public class ProfilingManager {
 	}
 
 	public void stats(Listener l) {
-		if (PROFILING)
-			for (Profiler s : profilers.values()) {
+		if (PROFILING) {
+			for (Profiler s : profilers.values())
 				s.callback(l);
-			}
+		}
 	}
 }

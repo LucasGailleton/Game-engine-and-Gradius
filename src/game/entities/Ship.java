@@ -58,7 +58,7 @@ public class Ship extends Entity {
 		}
 
 		@Override
-		public void paint(Graphics g) {
+		public void paint(Graphics g, int shiftPX) {
 			if (this.sprites == null)
 				this.getSprites(g);
 			

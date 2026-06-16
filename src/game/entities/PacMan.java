@@ -66,7 +66,7 @@ public class PacMan extends Entity {
 		}
 		
 		@Override
-		public void paint(Graphics g) {
+		public void paint(Graphics g, int shiftPX) {
 		    if (this.sprites == null)
 		        getSprites(g);
 		        
@@ -79,8 +79,8 @@ public class PacMan extends Entity {
 		    if (PacMan.this.lSpeed().targetY_cm < 0)
 		        direction = North;
 		        
-		    int posX = this.toPixel(PacMan.this.center().x_cm - (PacMan.this.size.x_cm / 1.8));
-		    int posY = this.toPixel(PacMan.this.center().y_cm - (PacMan.this.size.y_cm / 1.8));
+		    int posX = this.toPixel(PacMan.this.center().x_cm - (PacMan.this.size.x_cm / 2));
+		    int posY = this.toPixel(PacMan.this.center().y_cm - (PacMan.this.size.y_cm / 2));
 		    g.drawImage(sprites[direction][index], posX, posY, (int) (spriteSize*Main.windowScale), (int) (spriteSize*Main.windowScale));
 		    
 		    if (indChg == 0 && PacMan.this.haslSpeed())

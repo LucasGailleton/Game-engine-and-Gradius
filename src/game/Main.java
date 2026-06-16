@@ -39,7 +39,7 @@ public class Main implements Runnable {
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
 		canvas.set(new PaintListener(view));
-		Model model = new Model();
+		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 			
@@ -52,9 +52,6 @@ public class Main implements Runnable {
 		}, 17);
 		
 		Background bg = new Background();
-		bg.setCoord(game.isu.new Coord(0.0, 0.0));
-		bg.setSize(game.isu.new Dimension(canvas.getWidth(), canvas.getHeight()));
-		bg.move(true);
 		view.add(bg.new BackgroundAvatar());
 		
 

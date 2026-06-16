@@ -20,20 +20,29 @@ public class View {
 	Canvas canvas;
 	List<Avatar> avatars;
 	private Profiler vp, mp;
-	private boolean showStats = true;
+	private boolean showStats;
 	long lastTime = System.currentTimeMillis();
 	int frames = 0;
 	int currentFPS = 0;
+	private int shiftPX;
+	
+	public static final int viewSpeed = -2;
 	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");
 		this.vp = ProfilingManager.getProfiler("view");
 		this.canvas = canvas;
 		this.avatars = new ArrayList<Avatar>();
+		this.showStats = true;
+		this.shiftPX = 0;
 	}
 	
 	public void add(Avatar e) {
 		this.avatars.add(e);
+	}
+	
+	public void shift() {
+		this.shiftPX += viewSpeed;
 	}
 	
 	public void paint(Graphics g) {
@@ -54,7 +63,7 @@ public class View {
 	                    (int)w*2*Game.pixelPerCm, 
 	                    (int)h*2*Game.pixelPerCm);
 			}
-            a.paint(g);
+            a.paint(g, shiftPX);
 		}
 		frames++;
 		
@@ -75,6 +84,6 @@ public class View {
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);
 			g.drawString(mp.toString(), 90, 40);
-			}
+		}
 	}	
 }
