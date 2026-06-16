@@ -18,7 +18,7 @@ public class Ship extends Entity {
 	public Ship() {
 		super("Ship");
 		// FIXME, la taille est pas correcte, c'est un placeholder pour l'instant
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*2.5)*Main.windowScale, (Game.cmPerCell*0.8)*Main.windowScale));
+		this.setSize(this.isu.new Dimension((Game.cmPerCell*2.5)*Main.windowScale, (Game.cmPerCell*0.6)*Main.windowScale));
 	}
 
 	public void setBounding() {
