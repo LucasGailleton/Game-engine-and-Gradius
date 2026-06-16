@@ -1,4 +1,6 @@
- class Automaton {
+package engine.gal;
+
+public class Automaton {
 
 	 State initial;
 	/**

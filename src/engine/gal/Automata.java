@@ -1,4 +1,4 @@
-package engine.gal.aut.example;
+package engine.gal;
 
 import engine.gal.State;
 import engine.gal.action.GALAction;
