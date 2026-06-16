@@ -7,6 +7,7 @@ import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.Ticker;
+import engine.gal.AutomatonLoader;
 import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
@@ -44,6 +45,13 @@ public class Main implements Runnable {
 		Model model = new Model();
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
+		    al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
 			
 		this.task.post(new Runnable() {
 			@Override
@@ -52,7 +60,6 @@ public class Main implements Runnable {
 				task.post(this, 17);
 			}
 		}, 17);
-		
 		
 
 //		PacMan pacman = new PacMan();

@@ -2,7 +2,7 @@ package engine.gal;
 
 import engine.Entity;
 
-class Automaton {
+public class Automaton {
 
 	 State initial;
 	/**
@@ -40,7 +40,7 @@ class Automaton {
 	 *         <LI>{@code false} if no transition can be taken.</LI>
 	 */
 	 boolean step(Entity e){ 
-		 for(Transition t:this.transitions.get(initial)) {
+		 for(Transition t:this.transitions.get(e.bot().state())) {
 			 if(t.exec(e)) {
 				 return true;
 			 }

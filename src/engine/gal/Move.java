@@ -25,7 +25,7 @@ class Move  extends GALAction{
 	 Move(Direction dir, double intensity, int n){ 
 		this.direction=dir;
 		this.intensity=intensity;
-		this.;
+		this.length_cm=n;
 	 }
 
 	 Move(Direction dir, double intensity){ 

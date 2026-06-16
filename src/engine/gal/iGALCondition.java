@@ -1,6 +1,6 @@
 package engine.gal;
 
-import engine.Model.Entity;
+import engine.Entity;
 
 interface iGALCondition {
 

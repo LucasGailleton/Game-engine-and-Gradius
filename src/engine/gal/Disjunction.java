@@ -2,7 +2,7 @@ package engine.gal;
 
 import java.util.LinkedList;
 
-import engine.Model.Entity;
+import engine.Entity;
 
 public class Disjunction {
 

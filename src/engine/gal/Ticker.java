@@ -2,7 +2,6 @@ package engine.gal;
 
 import java.util.List;
 
-import engine.Model.Model;
 import oop.tasks.Runnable;
 import oop.tasks.Task;
 

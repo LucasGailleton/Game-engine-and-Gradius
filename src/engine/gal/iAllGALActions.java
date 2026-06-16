@@ -29,4 +29,4 @@ interface iAllGALActions {
 	 */
 	boolean startTurning(int angle_deg, double intensity);
 
-}```
+}
