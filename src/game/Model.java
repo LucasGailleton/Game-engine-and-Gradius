@@ -18,6 +18,7 @@ import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.PacMan.PacManAvatar;
+import game.entities.Ship;
 import engine.Physic;
 
 public class Model {
@@ -62,7 +63,7 @@ public class Model {
 		if (elapsed > 100) 
 	        elapsed = 10;
 
-		v.shift();
+		boolean shift = v.shift();
 		
 		this.seconds = elapsed / 1000.0;
 	    this.ps = new Physic(this);
@@ -81,6 +82,11 @@ public class Model {
 					entity.collision(collisions);
 				}
 			}
+			
+			if (shift && entity instanceof Ship) {
+				entity.translate(entity.isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));				
+			}
+				
 			
 			if (entity.haslSpeed()) {
 				List<Entity> trueCollisions = this.ps.getCollisionsForMovement(entity, seconds);

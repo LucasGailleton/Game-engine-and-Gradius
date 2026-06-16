@@ -33,7 +33,7 @@ public abstract class Avatar {
 	public abstract void paint(Graphics g, int shiftPX);
 	
 	public int toPixel(double cm) {
-		return (int) (cm*Game.pixelPerCm);
+		return (int) Math.round(cm*Game.pixelPerCm);
 	}
 }
 

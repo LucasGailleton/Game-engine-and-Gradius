@@ -24,7 +24,7 @@ public class Main implements Runnable {
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	public static final double windowScale = 4;
+	public static final double windowScale = 2;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
@@ -35,7 +35,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (31*windowScale), (int) (35*windowScale));
+		Game game = new Game((int) (100*windowScale), (int) (35*windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
@@ -49,6 +49,7 @@ public class Main implements Runnable {
 			public void run() throws Exception {
 				canvas.repaint();
 				task.post(this, 17);
+//				view.shift();
 			}
 		}, 17);
 		
@@ -56,19 +57,19 @@ public class Main implements Runnable {
 		view.add(bg.new BackgroundAvatar());
 		
 		Ship ship = new Ship();
-		ship.setCoord(game.isu.new Coord(10*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		ship.setCoord(game.isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
 		view.add(ship.new ShipAvatar());
 		
 		BasicStunt ShipStunt = new BasicStunt(model, ship);
 		ship.setStunt(ShipStunt);
-		ShipStunt.walk(0);
-		VectAvatar va = new VectAvatar(ship);
-		view.add(va);
-
 		
-		
+		Ship ship2 = new Ship();
+		ship2.setCoord(game.isu.new Coord(38*Game.cmPerCell*windowScale, 15*Game.cmPerCell*windowScale));
+		ship2.setBounding();
+		model.add(ship2);
+		view.add(ship2.new ShipAvatar());
 
 //		PacMan pacman = new PacMan();
 //		pacman.setPosition(model.grid().new Position((int) (1*windowScale), (int) (1*windowScale)));
