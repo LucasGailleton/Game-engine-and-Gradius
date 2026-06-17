@@ -17,9 +17,6 @@ public class EnemyKamikaze extends Entity{
 	public static final int spriteNeutral = 0;
     public static final int spriteUp = 1;
     public static final int spriteDown = 2;
-    
-    private KamikazeAvatar avatar;
-   
 
 	public EnemyKamikaze(String name) {
 		super(name);
@@ -33,7 +30,7 @@ public class EnemyKamikaze extends Entity{
 	}
 	
 	public KamikazeAvatar getAvatar() {
-		return this.avatar;
+		return (KamikazeAvatar) this.avatar;
 	}
 	
 	private class KamikazeAvatar extends Avatar{

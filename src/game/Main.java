@@ -19,6 +19,7 @@ import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
 import game.entities.Ghost;
+import game.entities.MontFendu;
 import game.entities.Obstacle;
 import game.entities.PacMan;
 import game.entities.Ship;
@@ -67,7 +68,7 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 		
-		Ship ship1 = new Ship();
+		/*Ship ship1 = new Ship();
 		ship1.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+20, 4*1.8*Game.cmPerCell*windowScale+20));
 		ship1.setBounding();
 		model.add(ship1);
@@ -76,7 +77,13 @@ public class Main implements Runnable {
 		ship1.setStunt(ShipStunt1);
 		ShipStunt1.walk(0);
 		VectAvatar vp = new VectAvatar(ship);
-		view.add(va);
+		view.add(va);*/
+		
+		MontFendu mf = new MontFendu();
+		mf.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+60, 4*1.8*Game.cmPerCell*windowScale+60));
+		mf.setBounding();
+		model.add(mf);
+		view.add(mf.new MontFenduAvatar());
 		
 		BasicStunt shipStunt = init(model,view);
 
@@ -92,7 +99,7 @@ public class Main implements Runnable {
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
-		ship1.setStunt(ShipStunt);
+		ship.setStunt(ShipStunt);
 		ShipStunt.walk(0);		
 	}
 	public BasicStunt init(Model model, View view) {
@@ -111,7 +118,7 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		
+		/*
 		EnemyChicken chick = new EnemyChicken("chicken1");
 		
 		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
@@ -138,9 +145,7 @@ public class Main implements Runnable {
 		wk.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
 		wk.setBounding();
 		view.add(wk.getAvatar());
-		model.add(wk);
-		
-		
+		model.add(wk);*/
 		
 		return shipStunt;
 	}

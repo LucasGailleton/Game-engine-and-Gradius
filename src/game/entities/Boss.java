@@ -12,7 +12,7 @@ import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
 /**
- * @implNote Le Boss a la forme d'un `t`
+ * @implNote Le Boss a la forme d'un `t
  * @implNote il occupe 1 cellule au dessus de son centre, 2 au dessous de son
  *           centre, et 2 cellules à droite de son centre.
  * @implNote Le Boss a donc une dimension (x=3Cell,y=4Cell)
@@ -48,7 +48,6 @@ public class Boss extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			
 			
 		}
 

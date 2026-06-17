@@ -16,8 +16,6 @@ public class EnemyChicken extends Entity{
 	
 	public static final int Top = 0;
     public static final int Down = 1;
-
-    private ChickenAvatar avatar;
     
 	public EnemyChicken(String name) {
 		super(name);
@@ -31,10 +29,10 @@ public class EnemyChicken extends Entity{
 	}
 	
 	public ChickenAvatar getAvatar() {
-		return this.avatar;
+		return (ChickenAvatar) this.avatar;
 	}
 	
-	private class ChickenAvatar extends Avatar{
+	private class ChickenAvatar extends Avatar {
 		
 		private List<BufferedImage> death;
 

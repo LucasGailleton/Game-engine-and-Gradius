@@ -15,8 +15,9 @@ import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
 import game.Model;
+import game.entities.Avatar;
 
-public class Entity {
+public abstract class Entity {
 
 	// FIELDS
 	public Grid grid;
@@ -35,6 +36,8 @@ public class Entity {
 	private ISU.Coord boundingBoxTopLeft;
 	private ISU.Coord boundingBoxBottomRight;
 	private int orientation_degree; // orientation par rapport à l'axe des x
+	
+	protected Avatar avatar;
 
 	private Stunt stunt;
 	private Model model;
@@ -284,6 +287,8 @@ public class Entity {
 	public boolean haslSpeed() {
 		return this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0);
 	}
+	
+	public abstract void setBounding();
 
 	public void deploy() {
 		if (this.position != null) {

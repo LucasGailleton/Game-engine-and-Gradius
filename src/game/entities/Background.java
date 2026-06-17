@@ -52,4 +52,10 @@ public class Background extends Entity {
 			g.drawImage(this.sprites[0][0], canvasWidth+xPosition+shiftPX+1, 0, canvasWidth+1, canvasHeight);
 		}
 	}
+
+	@Override
+	public void setBounding() {
+		// TODO Auto-generated method stub
+		
+	}
 }
