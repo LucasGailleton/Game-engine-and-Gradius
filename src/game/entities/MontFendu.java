@@ -4,16 +4,20 @@ import engine.Entity;
 import engine.Grid;
 import engine.ISU;
 import engine.Grid.Dimension;
+import engine.shapes.Circle;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
 public class MontFendu extends Entity {
+	
+	 public static final int spriteSizeX = 96; 
+	 public static final int spriteSizeY = 76; 
 
 	public MontFendu() {
 		super("MontFendu");
-		this.setSize(this.game.grid.new Dimension((int)(96/Main.windowScale),(int)(76/Main.windowScale)));
+		this.setSize(this.game.grid.new Dimension((int)(20.0*Main.windowScale),(int)(15.0*Main.windowScale)));
 		this.avatar = new MontFenduAvatar();
 	}
 	
@@ -25,6 +29,8 @@ public class MontFendu extends Entity {
 		ISU.Coord centre1 = isu.new Coord(this.center().x_cm+10, this.center().y_cm+4);
 		ISU.Coord centre2 = isu.new Coord(this.center().x_cm+10, this.center().y_cm+40);
 		
+		//this.bounding().add(new Circle(centre1, this.size.x_cm/2.0));
+		
 		this.bounding().add(new Rect(centre1, size1, 0));
 		this.bounding().add(new Rect(centre2, size2, 0));
 	}
@@ -33,7 +39,6 @@ public class MontFendu extends Entity {
 
 		public MontFenduAvatar() {
 			super(MontFendu.this);
-			this.direction = 0;
 		}
 
 		@Override
@@ -51,10 +56,10 @@ public class MontFendu extends Entity {
             }
 			
 			ISU.Coord center = MontFendu.this.center(); 
-            int posX = this.toPixel(center.x_cm - (MontFendu.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (MontFendu.this.size.y_cm / 2));
-            
-            g.drawImage(sprites[0][0], posX-3, posY-3, (int) (96*Main.windowScale), (int) (76*Main.windowScale));
+			int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
+		    int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
+		    
+		    g.drawImage(sprites[0][0], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
 		
 	}

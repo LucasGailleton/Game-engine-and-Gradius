@@ -118,7 +118,7 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		/*
+		
 		EnemyChicken chick = new EnemyChicken("chicken1");
 		
 		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
@@ -145,7 +145,7 @@ public class Main implements Runnable {
 		wk.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
 		wk.setBounding();
 		view.add(wk.getAvatar());
-		model.add(wk);*/
+		model.add(wk);
 		
 		return shipStunt;
 	}

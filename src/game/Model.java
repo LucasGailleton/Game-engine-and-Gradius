@@ -85,30 +85,42 @@ public class Model {
 			
 			if (entity.haslSpeed()) {
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
+				double moveX = speedVector.targetX_cm * seconds;
+				double moveY = speedVector.targetY_cm * seconds;
+				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
 				
 				if (boxCollisions.isEmpty()) {
-					double moveX = speedVector.targetX_cm * seconds;
-					double moveY = speedVector.targetY_cm * seconds;
-					entity.translate(entity.isu.new Vector(moveX, moveY));
-				} else {
+					entity.translate(moveVec);
+				} 
+				else {
+					entity.translate(moveVec);
+					
 					List<Entity> trueCollisions = new ArrayList<>();
+					
 					for(Entity e : boxCollisions) {
 						if(entity.bounding().intersects(e.bounding())) {
 							trueCollisions.add(e);
 						}
 					}
-					entity.setlSpeed(0, 0); 
-					if (entity.stunt() instanceof BasicStunt) {
-						BasicStunt bs = ((BasicStunt) entity.stunt());
-						bs.forbiddenDirection = bs.direction;
-						switch (bs.direction) {
-						case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-						case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-						case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-						default: bs.set(0, -0.05*Main.windowScale); break;
-						}
+					if(trueCollisions.isEmpty()) {
+						
 					}
-					entity.collision(trueCollisions);
+					else {
+						entity.translate(entity.isu.new Vector(-moveX, -moveY));
+						entity.setlSpeed(0, 0); 
+						if (entity.stunt() instanceof BasicStunt) {
+							BasicStunt bs = ((BasicStunt) entity.stunt());
+							bs.forbiddenDirection = bs.direction;
+							switch (bs.direction) {
+							case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+							case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+							case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+							default: bs.set(0, -0.05*Main.windowScale); break;
+							}
+						}
+						entity.collision(trueCollisions);
+					}
+
 				}
 			}
 		}
