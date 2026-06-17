@@ -14,6 +14,9 @@ import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
 import game.entities.Background;
+import game.entities.Boss;
+import game.entities.BossGunBottom;
+import game.entities.BossGunTop;
 import game.entities.EnemyChicken;
 import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
@@ -86,14 +89,14 @@ public class Main implements Runnable {
 		view.add(va);
 
 		
-//		EnemyChicken chick = new EnemyChicken("chicken1");
+		EnemyChicken chick = new EnemyChicken("chicken1");
 		
-//		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
-//		chick.setBounding();
-//		view.add(chick.getAvatar());
-//		model.add(chick);
-//		BasicStunt chicStunt = new BasicStunt(model, chick);
-//		chick.setStunt(chicStunt);
+		chick.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+200));
+		chick.setBounding();
+		view.add(chick.getAvatar());
+		model.add(chick);
+		BasicStunt chicStunt = new BasicStunt(model, chick);
+		chick.setStunt(chicStunt);
 //		
 //		EnemyKamikaze kz= new EnemyKamikaze("kz1");
 //		
@@ -114,6 +117,23 @@ public class Main implements Runnable {
 //		view.add(wk.getAvatar());
 //		model.add(wk);
 		
+		Boss boss = new Boss();
+		boss.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+150, 1.8*Game.cmPerCell*windowScale+150));
+		boss.setBounding();
+		view.add(boss.getAvatar());
+		model.add(boss);
+		
+		BossGunTop bgt= new BossGunTop("bgt1");
+		bgt.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+250, 1.8*Game.cmPerCell*windowScale+150));
+		bgt.setBounding();
+		view.add(bgt.getAvatar());
+		model.add(bgt);
+		
+		BossGunBottom bgb = new BossGunBottom("bgb1");
+		bgb.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+300, 1.8*Game.cmPerCell*windowScale+150));
+		bgb.setBounding();
+		view.add(bgb.getAvatar());
+		model.add(bgb);
 		
 		
 		return shipStunt;

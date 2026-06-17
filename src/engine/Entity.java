@@ -15,6 +15,7 @@ import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
 import game.Model;
+import game.entities.Avatar;
 
 public class Entity {
 
@@ -40,6 +41,7 @@ public class Entity {
 	private Model model;
 	private Vector lSpeed;
 	private double aSpeed;
+	protected Avatar avatar;
 
 	// CONSTRUCTOR
 	public Entity(String name) {
