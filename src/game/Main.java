@@ -8,6 +8,7 @@ import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
+import engine.ShipStunt;
 import engine.Ticker;
 import engine.GAL.Mode;
 import engine.view.Controller;
@@ -65,7 +66,7 @@ public class Main implements Runnable {
 		model.add(ship);
 		view.add(ship.new ShipAvatar());
 		
-		BasicStunt ShipStunt = new BasicStunt(model, ship);
+		ShipStunt ShipStunt = new ShipStunt(model, ship);
 		ship.setStunt(ShipStunt);
 		
 		VectAvatar va = new VectAvatar(ship);
@@ -82,11 +83,11 @@ public class Main implements Runnable {
 		VectAvatar vp = new VectAvatar(ship);
 		view.add(va);*/
 		
-//		MontFendu mf = new MontFendu();
-//		mf.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+60, 4*1.8*Game.cmPerCell*windowScale+60));
-//		mf.setBounding();
-//		model.add(mf);
-//		view.add(mf.new MontFenduAvatar());
+		MontFendu mf = new MontFendu();
+		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		mf.setBounding();
+		model.add(mf);
+		view.add(mf.new MontFenduAvatar());
 		
 //		BasicStunt shipStunt = init(model,view);
 
@@ -103,7 +104,6 @@ public class Main implements Runnable {
 		canvas.set(kl);
 		
 		ship.setStunt(ShipStunt);
-//		ShipStunt.walk(0);		
 	}
 	
 //	public BasicStunt init(Model model, View view) {

@@ -31,8 +31,6 @@ public class VectAvatar extends Avatar {
 		g.setColor(Colors.green);
 		int posX = (int) (centre.x_cm*Game.pixelPerCm);
 	    int posY = (int)(centre.y_cm*Game.pixelPerCm);
-//	    int posX = (int) (this.toPixel(centre.x_cm)+View.speed*Main.windowScale);
-//	    int posY = (int) (this.toPixel(centre.y_cm)+View.speed*Main.windowScale);
 		g.drawLine(posX+shiftPX, posY, (int)(posX+shiftPX + v.targetX_cm), (int)(posY + v.targetY_cm));
 	}
 }

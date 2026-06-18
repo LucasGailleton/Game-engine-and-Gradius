@@ -32,7 +32,7 @@ public class View {
 	private int shiftPX;
 	
 	public static final int viewSpeedChg = (int)((Main.windowScale));
-	public static final int speed = -1;
+	public static final int speed = 0;
 	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {
@@ -61,52 +61,6 @@ public class View {
 	}
 	
 	public void paint(Graphics g) {
-//		Model model = null;
-//		if (ProfilingManager.PROFILING)
-//			vp.start();
-//		for (Avatar a : avatars) {
-//            a.paint(g, shiftPX);
-//			if (Main.debug) {
-//	            Entity entity = a.entity();
-//	            
-//	            model = entity.getModel();
-//	            if (!(entity instanceof Background)) {
-//		            g.setColor(Colors.red);
-//		            ISU.Coord centre = entity.center();
-//		            
-//		            int w = (int)(centre.x_cm * Game.pixelPerCm);
-//		            int h = (int)(centre.y_cm * Game.pixelPerCm);
-//		            
-//		            g.drawOval(w-3, h-3, 3, 3);
-//		            
-//		            if(ProfilingManager.PROFILING) {
-//			            for (engine.shapes.iShape shape : entity.bounding().boundings()) {
-//			            	
-//			            	if (shape instanceof Rect) {
-//			            		Rect r = (Rect) shape;
-//			            		int rW = (int) (r.getHalfWidth() * 2 * Game.pixelPerCm);
-//			            		int rH = (int) (r.getHalfHeight() * 2 * Game.pixelPerCm);
-//			            		int rX = (int) ((r.center().x_cm - r.getHalfWidth()) * Game.pixelPerCm);
-//			            		int rY = (int) ((r.center().y_cm - r.getHalfHeight()) * Game.pixelPerCm);
-//			            		g.drawRect(rX, rY, rW, rH);
-//			            	}
-//			            	else if (shape instanceof Circle) {
-//			            		Circle c = (Circle) shape;
-//			            		int radius = (int) (c.getRadius() * Game.pixelPerCm);
-//			            		int cX = (int) (c.center().x_cm * Game.pixelPerCm) - radius;
-//			            		int cY = (int) (c.center().y_cm * Game.pixelPerCm) - radius;
-//			            		g.drawOval(cX, cY, radius * 2, radius * 2);
-//			            	}
-//			            }
-//		            }
-//		            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-3+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-3, 3, 3);
-//		            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
-//	            }
-//			}
-//		}
-//		frames++;
-		
-		
 		Model model = null;
 		if (ProfilingManager.PROFILING)
 			vp.start();
