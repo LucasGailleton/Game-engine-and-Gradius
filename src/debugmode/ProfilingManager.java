@@ -1,4 +1,4 @@
-package DebugMode;
+package debugmode;
 
 import java.util.Hashtable;
 import java.util.Map;

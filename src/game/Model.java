@@ -3,8 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-import DebugMode.Profiler;
-import DebugMode.ProfilingManager;
+import debugmode.Profiler;
+import debugmode.ProfilingManager;
 import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
