@@ -10,16 +10,13 @@ import oop.graphics.Graphics.Colors;
 
 public class PaintListener implements Canvas.PaintListener {
 	private View view;
-//	private BufferedImage map;
 
 	public PaintListener(View view) {
 		this.view = view;
 	}
 
 	@Override
-	public void visible(Canvas canvas) {
-		// TODO Auto-generated method stub
-	}
+	public void visible(Canvas canvas) {}
 
 	@Override
 	public void paint(Canvas canvas, Graphics g) {
@@ -27,10 +24,6 @@ public class PaintListener implements Canvas.PaintListener {
 		int h = canvas.getHeight();
 		g.setColor(Colors.black);
 		g.fillRect(0, 0, w, h);
-		
-//		if (map == null)
-//			map = g.load("background.png");
-//		g.drawImage(map, 0, 0, canvas.getWidth(), canvas.getHeight());
 		
 		if (view != null)
 			view.paint(g);

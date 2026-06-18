@@ -31,7 +31,9 @@ public class View {
 	private int shiftChg;
 	private int shiftPX;
 	
-	public static final int viewSpeed = (int)(-1*Main.windowScale);
+	public static final int viewSpeedChg = (int)((Main.windowScale));
+	public static final int speed = -1;
+	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");
@@ -48,12 +50,14 @@ public class View {
 		this.avatars.add(e);
 	}
 	
-	public void shift() {
-		if (this.shiftChg == 3) {
+	public boolean shift() {
+		if (this.shiftChg == viewSpeedChg) {
 			this.shiftPX += viewSpeed;
 			this.shiftChg = 0;
+			return true;
 		}
 		this.shiftChg += 1;
+		return false;
 	}
 	
 	public void paint(Graphics g) {
@@ -61,7 +65,7 @@ public class View {
 		if (ProfilingManager.PROFILING)
 			vp.start();
 		for (Avatar a : avatars) {
-			
+            a.paint(g, shiftPX);
 			if (Main.debug) {
 	            Entity entity = a.entity();
 	            
@@ -95,9 +99,10 @@ public class View {
 			            	}
 			            }
 		            }
+		            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-3+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-3, 3, 3);
+		            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
 	            }
 			}
-            a.paint(g, shiftPX);
 		}
 		frames++;
 		

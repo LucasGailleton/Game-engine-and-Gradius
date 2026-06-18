@@ -85,7 +85,7 @@ public class Ship extends Entity {
 		    else
 		    	index = spriteUp;
 		    
-		    g.drawImage(sprites[direction][index], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
 
 

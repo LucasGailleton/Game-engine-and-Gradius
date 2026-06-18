@@ -7,6 +7,7 @@ import DebugMode.VectAvatar;
 import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
+import engine.ISU.Coord;
 import engine.Ticker;
 import engine.GAL.Mode;
 import engine.view.Controller;
@@ -27,6 +28,7 @@ import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
+import engine.ISU.*;
 
 
 public class Main implements Runnable {
@@ -34,7 +36,7 @@ public class Main implements Runnable {
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	public static final double windowScale = 4;
+	public static final double windowScale = 2;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
@@ -45,7 +47,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (31*windowScale), (int) (35*windowScale));
+		Game game = new Game((int) (150*windowScale), (int) (35*windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
@@ -92,6 +94,7 @@ public class Main implements Runnable {
 			public void run() throws Exception {
 				canvas.repaint();
 				task.post(this, 17);
+//				view.shift();
 			}
 		}, 17);
 		
@@ -127,6 +130,19 @@ public class Main implements Runnable {
 		model.add(chick);
 		BasicStunt chicStunt = new BasicStunt(model, chick);
 		chick.setStunt(chicStunt);
+		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		model.add(ship);
+		view.add(ship.new ShipAvatar());
+		
+		BasicStunt ShipStunt = new BasicStunt(model, ship);
+		ship.setStunt(ShipStunt);
+		
+		Ship ship2 = new Ship();
+		ship2.setCoord(Game.game().isu.new Coord(38*Game.cmPerCell*windowScale, 15*Game.cmPerCell*windowScale));
+		ship2.setBounding();
+		model.add(ship2);
+		view.add(ship2.new ShipAvatar());
 		
 		EnemyKamikaze kz= new EnemyKamikaze("kz1");
 		
