@@ -29,7 +29,7 @@ public class View {
 	private int shiftChg;
 	private int shiftPX;
 	
-	public static final int viewSpeedChg = 2;
+	public static final int viewSpeedChg = (int)((Main.windowScale));
 	public static final int speed = -1;
 	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
@@ -42,8 +42,6 @@ public class View {
 		
 		this.shiftChg = 0;
 		this.shiftPX = 0;
-		
-		System.out.println("viewSpeed = " + viewSpeed);
 	}
 	
 	public void add(Avatar e) {

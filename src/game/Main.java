@@ -35,7 +35,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (100*windowScale), (int) (35*windowScale));
+		Game game = new Game((int) (150*windowScale), (int) (35*windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
