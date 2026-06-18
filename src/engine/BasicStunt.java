@@ -52,7 +52,7 @@ public class BasicStunt extends Stunt {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
 		double vx = Math.round(Math.cos(rad));
-		double vy = Math.round(Math.sin(rad)); 
+		double vy = Math.round(Math.sin(rad));
 		this.entity.setlSpeed(vx, vy);
 	}
 

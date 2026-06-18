@@ -19,7 +19,7 @@ public class Ship extends Entity {
 	public Ship() {
 		super("Ship");
 		
-		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
+		this.setSize(game.isu.new Dimension(2.0/Game.cmPerCell*Main.windowScale, 1.0/Game.cmPerCell*Main.windowScale));
 		this.avatar = new ShipAvatar();
 	}
 

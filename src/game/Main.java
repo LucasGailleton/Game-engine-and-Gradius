@@ -3,7 +3,7 @@ package game;
 import java.awt.Dimension;
 import java.util.List;
 
-import DebugMode.VectAvatar;
+import debugmode.VectAvatar;
 import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
@@ -66,7 +66,6 @@ public class Main implements Runnable {
 		view.add(ship.new ShipAvatar());
 		BasicStunt ShipStunt = new BasicStunt(model, ship);
 		ship.setStunt(ShipStunt);
-		ShipStunt.walk(0);
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 		
@@ -87,7 +86,7 @@ public class Main implements Runnable {
 		model.add(mf);
 		view.add(mf.new MontFenduAvatar());
 		
-		BasicStunt shipStunt = init(model,view);
+		//BasicStunt shipStunt = new BasicStunt(model, ship);
 
 		this.task.post(new Runnable() {
 			@Override
@@ -98,17 +97,16 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-		Controller ct = new Controller(shipStunt);
+		Controller ct = new Controller(ShipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
 		ship.setStunt(ShipStunt);
 		ShipStunt.walk(0);		
 	}
-	public BasicStunt init(Model model, View view) {
+	
+	/*public BasicStunt init(Model model, View view) {
 			
-		
-		
 		Ship ship = new Ship();
 		
 		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));
@@ -164,7 +162,7 @@ public class Main implements Runnable {
 		model.add(wk);
 		
 		return shipStunt;
-	}
+	}*/
 }
 
 
