@@ -3,11 +3,14 @@ package engine;
 import java.util.List;
 
 import engine.Grid.Cell;
+import game.Main;
 import game.Model;
 import game.entities.Avatar;
 import game.entities.PacMan;
 
 public class BasicStunt extends Stunt {
+	
+	public static final double BasicSpeed = 5.0*Main.windowScale;
 	
 	public int forbiddenDirection;
 	public int direction;
@@ -17,16 +20,6 @@ public class BasicStunt extends Stunt {
 		forbiddenDirection = -1;
 		direction = Avatar.West;
 	}
-
-//	public
-//	
-//	public void setForbiddenDirection(int direction) {
-//		this.forbiddenDirection = direction;
-//	}
-//	
-//	public void setDirection(int direction) {
-//		this.direction = direction;
-//	}
 	
 	@Override
 	public void set(int orientation) {
@@ -59,8 +52,8 @@ public class BasicStunt extends Stunt {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
 		double vx = Math.round(Math.cos(rad));
-		double vy = Math.round(Math.sin(rad)); 
-		this.entity.setlSpeed(vx*PacMan.PacManSpeed, vy*PacMan.PacManSpeed);
+		double vy = Math.round(Math.sin(rad));
+		this.entity.setlSpeed(vx, vy);
 	}
 
 	public void stop() {

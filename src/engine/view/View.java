@@ -4,11 +4,12 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
-import DebugMode.Profiler;
-import DebugMode.ProfilingManager;
+import debugmode.Profiler;
+import debugmode.ProfilingManager;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.shapes.Circle;
 import engine.shapes.Rect;
 import game.Main;
 import game.Model;
@@ -30,7 +31,9 @@ public class View {
 	private int shiftChg;
 	private int shiftPX;
 	
-	public static final int viewSpeed = (int)(-1*Main.windowScale);
+	public static final int viewSpeedChg = (int)((Main.windowScale));
+	public static final int speed = -1;
+	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");
@@ -47,12 +50,14 @@ public class View {
 		this.avatars.add(e);
 	}
 	
-	public void shift() {
-		if (this.shiftChg == 3) {
+	public boolean shift() {
+		if (this.shiftChg == viewSpeedChg) {
 			this.shiftPX += viewSpeed;
 			this.shiftChg = 0;
+			return true;
 		}
 		this.shiftChg += 1;
+		return false;
 	}
 	
 	public void paint(Graphics g) {
@@ -60,7 +65,7 @@ public class View {
 		if (ProfilingManager.PROFILING)
 			vp.start();
 		for (Avatar a : avatars) {
-			
+            a.paint(g, shiftPX);
 			if (Main.debug) {
 	            Entity entity = a.entity();
 	            
@@ -71,12 +76,16 @@ public class View {
 		            
 		            double w = entity.size.x_cm/2.0;
 		            double h = entity.size.y_cm/2.0;
+
+		            //g.drawOval(w-3, h-3, 3, 3);
 		            
-		            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-3, (int)(centre.y_cm*Game.pixelPerCm)-3, 3, 3);
-		            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm), (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
+		            if(ProfilingManager.PROFILING) {
+		            	//System.out.printf("Centre de l'entité %s : x = %d, y = %d\n", entity.name, entity.center().x_cm, entity.center().y_cm);
+			            g.drawOval((int)(centre.x_cm/Game.pixelPerCm)-3+shiftPX, (int)(centre.y_cm/Game.pixelPerCm)-3, 3, 3);
+			            g.drawRect(((int)(centre.x_cm-w)/Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)/Game.pixelPerCm, (int)w*2/Game.pixelPerCm, (int)h*2/Game.pixelPerCm);
+		            }
 	            }
 			}
-            a.paint(g, shiftPX);
 		}
 		frames++;
 		

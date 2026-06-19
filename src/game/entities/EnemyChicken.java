@@ -17,7 +17,7 @@ public class EnemyChicken extends Entity{
 	public static final int Top = 0;
     public static final int Down = 1;
 
-    
+    private ChickenAvatar avatar;
     
 	public EnemyChicken(String name) {
 		super(name);
@@ -62,6 +62,9 @@ public class EnemyChicken extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
+			if (this.sprites == null) {
+                this.getSprites(g);
+            }
 			
              this.getSprites(g);
             

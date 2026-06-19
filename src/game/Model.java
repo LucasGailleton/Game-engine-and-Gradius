@@ -3,8 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-import DebugMode.Profiler;
-import DebugMode.ProfilingManager;
+import debugmode.Profiler;
+import debugmode.ProfilingManager;
 import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
@@ -18,6 +18,7 @@ import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.PacMan.PacManAvatar;
+import game.entities.Ship;
 import engine.Physic;
 
 public class Model {
@@ -63,7 +64,7 @@ public class Model {
 		if (elapsed > 100) 
 	        elapsed = 10;
 
-		v.shift();
+		boolean shift = v.shift();
 		
 		this.seconds = elapsed / 1000.0;
 	    this.ps = new Physic(this);
@@ -83,26 +84,49 @@ public class Model {
 				}
 			}
 			
-			if (entity.haslSpeed()) {
-				List<Entity> trueCollisions = this.ps.getCollisionsForMovement(entity, seconds);
+			if (shift && entity instanceof Ship) {
+				entity.translate(entity.isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));				
+			}
 				
-				if (trueCollisions.isEmpty()) {
-					double moveX = speedVector.targetX_cm * seconds;
-					double moveY = speedVector.targetY_cm * seconds;
-					entity.translate(entity.isu.new Vector(moveX, moveY));
-				} else {
-					entity.setlSpeed(0, 0); 
-					if (entity.stunt() instanceof BasicStunt) {
-						BasicStunt bs = ((BasicStunt) entity.stunt());
-						bs.forbiddenDirection = bs.direction;
-						switch (bs.direction) {
-						case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-						case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-						case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-						default: bs.set(0, -0.05*Main.windowScale); break;
+			
+			if (entity.haslSpeed()) {
+				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
+				double moveX = speedVector.targetX_cm * seconds;
+				double moveY = speedVector.targetY_cm * seconds;
+				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
+				
+				if (boxCollisions.isEmpty()) {
+					entity.translate(moveVec);
+				} 
+				else {
+					entity.translate(moveVec);
+					
+					List<Entity> trueCollisions = new ArrayList<>();
+					
+					for(Entity e : boxCollisions) {
+						if(entity.bounding().intersects(e.bounding())) {
+							trueCollisions.add(e);
 						}
 					}
-					entity.collision(trueCollisions);
+					if(trueCollisions.isEmpty()) {
+						
+					}
+					else {
+						entity.translate(entity.isu.new Vector(-moveX, -moveY));
+						entity.setlSpeed(0, 0); 
+						if (entity.stunt() instanceof BasicStunt) {
+							BasicStunt bs = ((BasicStunt) entity.stunt());
+							bs.forbiddenDirection = bs.direction;
+							switch (bs.direction) {
+							case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+							case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+							case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+							default: bs.set(0, -0.05*Main.windowScale); break;
+							}
+						}
+						entity.collision(trueCollisions);
+					}
+
 				}
 			}
 		}

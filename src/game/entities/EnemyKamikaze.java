@@ -29,6 +29,7 @@ public class EnemyKamikaze extends Entity{
 		
 	}
 	
+	
 	private class KamikazeAvatar extends Avatar{
 		
 		private List<BufferedImage> death;

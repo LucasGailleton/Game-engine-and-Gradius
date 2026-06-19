@@ -16,13 +16,11 @@ public class Ship extends Entity {
 
 	public static final double ShipSpeed = 5*Main.windowScale;
 	
-	private ShipAvatar self;
-	
 	public Ship() {
 		super("Ship");
 		
-		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
-		this.self = new ShipAvatar();
+		this.setSize(game.isu.new Dimension(2.0/Game.cmPerCell*Main.windowScale, 1.0/Game.cmPerCell*Main.windowScale));
+		this.avatar = new ShipAvatar();
 	}
 
 	public void setBounding() {
@@ -30,7 +28,7 @@ public class Ship extends Entity {
 	}
 	
 	public ShipAvatar avatar() {
-		return this.self;
+		return (ShipAvatar) this.avatar;
 	}
 	
 	public class ShipAvatar extends Avatar {
@@ -46,7 +44,7 @@ public class Ship extends Entity {
 	    
 	    public ShipAvatar() {
 	        super(Ship.this);
-	        Ship.this.self = this;
+	        Ship.this.avatar = this;
 	        this.direction = East;
 	        this.death = new ArrayList<>();
 	    }
@@ -87,7 +85,7 @@ public class Ship extends Entity {
 		    else
 		    	index = spriteUp;
 		    
-		    g.drawImage(sprites[direction][index], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
 
 

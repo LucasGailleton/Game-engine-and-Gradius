@@ -1,4 +1,4 @@
-package DebugMode;
+package debugmode;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;

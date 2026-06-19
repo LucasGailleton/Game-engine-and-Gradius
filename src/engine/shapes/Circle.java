@@ -21,11 +21,17 @@ public class Circle extends Shape implements iShape {
 	}
 
 	// INTERSECTION
+	public boolean intersects(iShape shape) {
+		return shape.intersects(this);
+	}
+	
+	@Override
 	public boolean intersects(Rect rect) {
 		RectCircleIntersection rc = rect.new RectCircleIntersection(rect, this);
 		return rc.intersects();
 	}
 	
+	@Override
 	public boolean intersects(Circle circle) {
 		return (this.center.distanceTo(circle.center) <= (this.radius + circle.radius));
 	}
