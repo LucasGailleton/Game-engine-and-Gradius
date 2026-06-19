@@ -1,13 +1,14 @@
 package engine.view;
 
 import engine.BasicStunt;
+import engine.ShipStunt;
 import game.entities.Avatar;
 import oop.tasks.Task;
 import oop.graphics.VirtualKeyCodes;
 import oop.tasks.Runtime;
 
 public class Controller {
-	private BasicStunt player;
+	private ShipStunt player;
 	private Task task;
 	private boolean stopped = true;
 
@@ -18,7 +19,7 @@ public class Controller {
 
 	private int dir = -1;
 
-	public Controller(BasicStunt player) {
+	public Controller(ShipStunt player) {
 		this.player = player;
 		this.task = Runtime.task();
 	}

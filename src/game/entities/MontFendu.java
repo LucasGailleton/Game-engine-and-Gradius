@@ -1,6 +1,7 @@
 package game.entities;
 
 import engine.Entity;
+import engine.Game;
 import engine.Grid;
 import engine.ISU;
 import engine.Grid.Dimension;
@@ -17,7 +18,7 @@ public class MontFendu extends Entity {
 
 	public MontFendu() {
 		super("MontFendu");
-		this.setSize(this.game.grid.new Dimension((int)(20.0*Main.windowScale),(int)(15.0*Main.windowScale)));
+		this.setSize(this.game.grid.new Dimension((int)(3.6*Game.cmPerCell*Main.windowScale),(int)(2.8*Game.cmPerCell*Main.windowScale)));
 		this.avatar = new MontFenduAvatar();
 	}
 	
@@ -59,7 +60,7 @@ public class MontFendu extends Entity {
 			int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
 		    int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
 		    
-		    g.drawImage(sprites[0][0], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    g.drawImage(sprites[0][0], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
 		
 	}

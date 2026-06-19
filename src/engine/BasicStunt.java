@@ -11,14 +11,9 @@ import game.entities.PacMan;
 public class BasicStunt extends Stunt {
 	
 	public static final double BasicSpeed = 5.0*Main.windowScale;
-	
-	public int forbiddenDirection;
-	public int direction;
 
 	public BasicStunt(Model model, Entity entity) {
 		super(model, entity);
-		forbiddenDirection = -1;
-		direction = Avatar.West;
 	}
 	
 	@Override
