@@ -30,16 +30,6 @@ public class Boss extends Entity {
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*29.0, Game.cmPerCell*32.0));
 		this.avatar = new BossAvatar(this);
 	}
-
-	// === Task COLLISION ===
-	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size,0));
-		
-	}
-	
-	public Avatar getAvatar() {
-		return this.avatar;
-	}
 	
 	private class BossAvatar extends Avatar{
 		private List<BufferedImage> death;

@@ -27,14 +27,6 @@ public class EnemyHoming extends Entity {
         this.setSize(this.isu.new Dimension((Game.cmPerCell*16)/Main.windowScale, (Game.cmPerCell*16)/Main.windowScale));
         this.avatar = new HomingAvatar(this);
     }
-    
-    public void setBounding() {
-    	this.bounding().add(new Rect(this.center(), this.size, 0));
-    }
-    
-    public Avatar getAvatar() {
-    	return this.avatar;
-    }
 
     
     private class HomingAvatar extends Avatar {

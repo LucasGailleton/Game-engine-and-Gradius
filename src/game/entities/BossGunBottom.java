@@ -20,13 +20,6 @@ public class BossGunBottom extends Entity{
 		this.avatar = new BossGunBottomAvatar(this);
 		
 	}
-	public void setBounding() {
-    	this.bounding().add(new Rect(this.center(), this.size, 0));
-    }
-    
-    public Avatar getAvatar() {
-    	return this.avatar;
-    }
 	
 	private class BossGunBottomAvatar extends Avatar{
 		

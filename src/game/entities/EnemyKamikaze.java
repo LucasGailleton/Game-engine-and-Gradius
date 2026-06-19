@@ -28,13 +28,6 @@ public class EnemyKamikaze extends Entity{
 		this.avatar = new KamikazeAvatar(this);
 		
 	}
-	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, 0));
-	}
-	
-	public Avatar getAvatar() {
-		return this.avatar;
-	}
 	
 	private class KamikazeAvatar extends Avatar{
 		
@@ -75,9 +68,9 @@ public class EnemyKamikaze extends Entity{
 
 			@Override
 			public void paint(Graphics g, int shiftPX) {
-				if (this.sprites == null) {
-	                this.getSprites(g);
-	            }
+				
+	             this.getSprites(g);
+	            
 	            
 	            // Logique d'affichage temporaire (à lier avec la physique plus tard)
 	            // Utilisation des méthodes supposées héritées de Entity/Avatar

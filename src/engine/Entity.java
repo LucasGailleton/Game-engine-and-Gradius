@@ -83,6 +83,10 @@ public class Entity {
 	public void setBounding(Bounding bounding) {
 		this.bounding = bounding;
 	}
+	
+	public void setBounding() {
+		this.bounding().add(new Rect(this.center(), this.size, 0));
+	}
 
 	public void setStunt(Stunt stunt) {
 		this.stunt = stunt;
@@ -148,6 +152,12 @@ public class Entity {
 	public Model getModel() {
 		return model;
 	}
+	
+	public Avatar getAvatar() {
+		return this.avatar;
+	}
+	
+	
 
 	// BOUNDING BOX UPDATE
 	public void updateBoundingBox() {
