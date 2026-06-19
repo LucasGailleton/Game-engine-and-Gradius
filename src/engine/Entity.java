@@ -43,7 +43,6 @@ public abstract class Entity {
 	private Model model;
 	private Vector lSpeed;
 	private double aSpeed;
-	protected Avatar avatar;
 
 	// CONSTRUCTOR
 	public Entity(String name) {
@@ -298,8 +297,6 @@ public abstract class Entity {
 	public boolean haslSpeed() {
 		return this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0);
 	}
-	
-	public abstract void setBounding();
 
 	public void deploy() {
 		if (this.position != null) {

@@ -6,8 +6,6 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Dimension;
-import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -17,10 +15,7 @@ public class EnemyKamikaze extends Entity{
 	public static final int spriteNeutral = 0;
     public static final int spriteUp = 1;
     public static final int spriteDown = 2;
-    
-    
    
-
 	public EnemyKamikaze(String name) {
 		super(name);
 		
@@ -71,10 +66,7 @@ public class EnemyKamikaze extends Entity{
 			public void paint(Graphics g, int shiftPX) {
 				
 	             this.getSprites(g);
-	            
-	            
-	            // Logique d'affichage temporaire (à lier avec la physique plus tard)
-	            // Utilisation des méthodes supposées héritées de Entity/Avatar
+	           
 	            ISU.Coord center = EnemyKamikaze.this.center();
 	            int posX = this.toPixel(center.x_cm - (EnemyKamikaze.this.size.x_cm / 2));
 	            int posY = this.toPixel(center.y_cm - (EnemyKamikaze.this.size.y_cm / 2));
