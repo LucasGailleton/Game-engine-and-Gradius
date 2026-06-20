@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.util.List;
 
 import debugmode.VectAvatar;
-import engine.BasicStunt;
+import engine.ShipStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
@@ -36,7 +36,7 @@ public class Main implements Runnable {
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	public static final double windowScale = 2;
+	public static final double windowScale = 4;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
@@ -60,40 +60,30 @@ public class Main implements Runnable {
 		
 
 		Ship ship = new Ship();
-		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 4*1.8*Game.cmPerCell*windowScale));
+		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
 		view.add(ship.new ShipAvatar());
-		BasicStunt ShipStunt = new BasicStunt(model, ship);
+		
+		ShipStunt ShipStunt = new ShipStunt(model, ship);
 		ship.setStunt(ShipStunt);
+
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 		
-		/*Ship ship1 = new Ship();
-		ship1.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+20, 4*1.8*Game.cmPerCell*windowScale+20));
-		ship1.setBounding();
-		model.add(ship1);
-		view.add(ship1.new ShipAvatar());
-		BasicStunt ShipStunt1 = new BasicStunt(model, ship1);
-		ship1.setStunt(ShipStunt1);
-		ShipStunt1.walk(0);
-		VectAvatar vp = new VectAvatar(ship);
-		view.add(va);*/
-		
 		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+60, 4*1.8*Game.cmPerCell*windowScale+60));
+		mf.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+500, 4*1.8*Game.cmPerCell*windowScale+60));
 		mf.setBounding();
 		model.add(mf);
 		view.add(mf.new MontFenduAvatar());
 		
-		//BasicStunt shipStunt = new BasicStunt(model, ship);
+
 
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
 				canvas.repaint();
 				task.post(this, 17);
-//				view.shift();
 			}
 		}, 17);
 		
@@ -101,8 +91,7 @@ public class Main implements Runnable {
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
-		ship.setStunt(ShipStunt);
-		ShipStunt.walk(0);		
+		ship.setStunt(ShipStunt);	
 	}
 	
 	/*public BasicStunt init(Model model, View view) {

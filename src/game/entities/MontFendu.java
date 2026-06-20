@@ -1,33 +1,28 @@
 package game.entities;
 
 import engine.Entity;
-import engine.Grid;
+import engine.Game;
 import engine.ISU;
-import engine.Grid.Dimension;
-import engine.shapes.Circle;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
 public class MontFendu extends Entity {
-	
-	 public static final int spriteSizeX = 96; 
-	 public static final int spriteSizeY = 76; 
 
 	public MontFendu() {
 		super("MontFendu");
-		this.setSize(this.game.grid.new Dimension((int)(20.0*Main.windowScale),(int)(15.0*Main.windowScale)));
+		this.setSize(this.game.grid.new Dimension((int)(3.6*Game.cmPerCell*Main.windowScale),(int)(2.8*Game.cmPerCell*Main.windowScale)));
 		this.avatar = new MontFenduAvatar();
 	}
 	
 	@Override
 	public void setBounding() {
 		ISU.Dimension size1 = isu.new Dimension(this.size.x_cm/3, this.size.y_cm/3);
-		ISU.Dimension size2 = isu.new Dimension(this.size.x_cm/3, this.size.y_cm/3);
+		ISU.Dimension size2 = isu.new Dimension(this.size.x_cm, this.size.y_cm);
 		
-		ISU.Coord centre1 = isu.new Coord(this.center().x_cm+10, this.center().y_cm+4);
-		ISU.Coord centre2 = isu.new Coord(this.center().x_cm+10, this.center().y_cm+40);
+		ISU.Coord centre1 = isu.new Coord(this.center().x_cm, this.center().y_cm);
+		ISU.Coord centre2 = isu.new Coord(this.center().x_cm, this.center().y_cm+Game.cmPerCell*Main.windowScale);
 		
 		//this.bounding().add(new Circle(centre1, this.size.x_cm/2.0));
 		
@@ -36,6 +31,8 @@ public class MontFendu extends Entity {
 	}
 	
 	public class MontFenduAvatar extends Avatar {
+		 public static final int spriteSizeX = 96; 
+		 public static final int spriteSizeY = 76; 
 
 		public MontFenduAvatar() {
 			super(MontFendu.this);
@@ -59,7 +56,7 @@ public class MontFendu extends Entity {
 			int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
 		    int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
 		    
-		    g.drawImage(sprites[0][0], posX-3, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    g.drawImage(sprites[0][0], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}
 		
 	}

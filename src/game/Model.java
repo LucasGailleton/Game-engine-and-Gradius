@@ -20,6 +20,7 @@ import game.entities.Background;
 import game.entities.PacMan.PacManAvatar;
 import game.entities.Ship;
 import engine.Physic;
+import engine.ShipStunt;
 
 public class Model {
 	// FIELDS
@@ -71,6 +72,10 @@ public class Model {
 		List<Entity> copyEntities = new ArrayList<>(this.entities);
 		
 		for (Entity entity : copyEntities) {
+			
+			boolean isShip = entity instanceof Ship;
+			boolean invincible = isShip && ((Ship) entity).getHit();
+			
 			ISU.Vector speedVector = entity.lSpeed();
 			double angularSpeed = entity.aSpeed();
 			
@@ -84,7 +89,7 @@ public class Model {
 				}
 			}
 			
-			if (shift && entity instanceof Ship) {
+			if (shift && isShip) {
 				entity.translate(entity.isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));				
 			}
 				
@@ -108,25 +113,24 @@ public class Model {
 							trueCollisions.add(e);
 						}
 					}
-					if(trueCollisions.isEmpty()) {
-						
-					}
-					else {
-						entity.translate(entity.isu.new Vector(-moveX, -moveY));
-						entity.setlSpeed(0, 0); 
-						if (entity.stunt() instanceof BasicStunt) {
-							BasicStunt bs = ((BasicStunt) entity.stunt());
-							bs.forbiddenDirection = bs.direction;
-							switch (bs.direction) {
-							case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-							case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-							case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-							default: bs.set(0, -0.05*Main.windowScale); break;
+					if(!trueCollisions.isEmpty()) {
+					    if (!invincible) {
+							entity.translate(entity.isu.new Vector(-moveX, -moveY));
+							entity.setlSpeed(0, 0); 
+							if (entity.stunt() instanceof ShipStunt) {
+								ShipStunt bs = ((ShipStunt) entity.stunt());
+								bs.forbiddenDirection = bs.direction;
+								switch (bs.direction) {
+								case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+								default: bs.set(0, -0.05*Main.windowScale); break;
+								}
 							}
-						}
-						entity.collision(trueCollisions);
+							entity.collision(trueCollisions);
+							
+					    }
 					}
-
 				}
 			}
 		}

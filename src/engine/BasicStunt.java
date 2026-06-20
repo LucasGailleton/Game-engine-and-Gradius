@@ -11,9 +11,6 @@ import game.entities.PacMan;
 public class BasicStunt extends Stunt {
 	
 	public static final double BasicSpeed = 5.0*Main.windowScale;
-	
-	public int forbiddenDirection;
-	public int direction;
 
 	public BasicStunt(Model model, Entity entity) {
 		super(model, entity);
@@ -48,7 +45,7 @@ public class BasicStunt extends Stunt {
 		}
 	}
 	
-	public void walk(int degree) {;
+	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
 		double vx = Math.round(Math.cos(rad));

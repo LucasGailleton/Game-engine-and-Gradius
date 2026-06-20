@@ -61,6 +61,7 @@ public class View {
 	}
 	
 	public void paint(Graphics g) {
+		
 		Model model = null;
 		if (ProfilingManager.PROFILING)
 			vp.start();
@@ -68,7 +69,6 @@ public class View {
             a.paint(g, shiftPX);
 			if (Main.debug) {
 	            Entity entity = a.entity();
-	            
 	            model = entity.getModel();
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);
@@ -76,18 +76,15 @@ public class View {
 		            
 		            double w = entity.size.x_cm/2.0;
 		            double h = entity.size.y_cm/2.0;
-
-		            //g.drawOval(w-3, h-3, 3, 3);
 		            
-		            if(ProfilingManager.PROFILING) {
-		            	//System.out.printf("Centre de l'entité %s : x = %d, y = %d\n", entity.name, entity.center().x_cm, entity.center().y_cm);
-			            g.drawOval((int)(centre.x_cm/Game.pixelPerCm)-3+shiftPX, (int)(centre.y_cm/Game.pixelPerCm)-3, 3, 3);
-			            g.drawRect(((int)(centre.x_cm-w)/Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)/Game.pixelPerCm, (int)w*2/Game.pixelPerCm, (int)h*2/Game.pixelPerCm);
+		            if (ProfilingManager.PROFILING) {
+			            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
+			            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
 		            }
 	            }
 			}
 		}
-		frames++;
+		frames++;		
 		
 		long now = System.currentTimeMillis();
 	    if (now - lastTime >= 1000) {
@@ -104,11 +101,12 @@ public class View {
 		    g.drawString("FPS: " + currentFPS, 10, 20);
 		    
 		    if(model != null)
-		    	g.drawString("Nombre d'entités : " + model.entities().size(), 10, 55);
+		    	g.drawString("E: " + model.entities().size(), 10, 40);
 		    
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);
 			g.drawString(mp.toString(), 90, 40);
 		}
+
 	}	
 }
