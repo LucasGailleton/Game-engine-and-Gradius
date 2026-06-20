@@ -1,5 +1,7 @@
 package game.entities;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
 import oop.tasks.Task;
+import oop.utils.SoundPlayer;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 
@@ -23,11 +26,14 @@ public class Ship extends Entity implements Shooter{
 
 	public static final double ShipSpeed = 5*Main.windowScale;
 
-	public static final int missileSpeed = 50;
+	public static final int missileSpeed = 150;
 
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
+	
+	private SoundPlayer tir1,tir2,degat,mort;
+	private int indexAudio;
 
 	
 	public Ship() {
@@ -37,6 +43,18 @@ public class Ship extends Entity implements Shooter{
 		this.avatar = new ShipAvatar();
 
 		this.task = Runtime.task();
+		
+		try {
+			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
+			this.tir2 = new SoundPlayer(new File("Audio/Piou2.wav"));
+			this.degat = new SoundPlayer(new File("Audio/Aie.wav"));
+			this.mort = new SoundPlayer(new File("Audio/PlayerBoom1.wav"));
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 
 	
@@ -44,25 +62,40 @@ public class Ship extends Entity implements Shooter{
 	public void shoot() {
 		MissilePlayer msp = new MissilePlayer("missile 1 ");
 		Position pos = this.position();
-		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+15,pos.y*Game.cmPerCell));
+		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
 		msp.setBounding();
 		msp.setlSpeed(missileSpeed, 0);
 		this.model.add(msp);
 		this.model.getView().add(msp.getAvatar());
+		
+		if (indexAudio%2==0) {
+			tir1.play(1);
+			
+		}else {
+			tir2.play(1);
+		}
+		indexAudio++;
+	
+		
 	}
 	
 	public boolean getHit() {
 		return hit;
 	}
 	
-	public void gotHit() {
+	public void gotHit()  {
 		if(hit) {
 			return;
 		}
 		
 		hit = true;
 		
+		
+		this.degat.play(1);
+		
+		
 		if(hp == 0) {
+			this.mort.play(1);
 			throw new IllegalStateException("GAME OVER\n");
 		}
 		
