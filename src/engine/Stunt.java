@@ -11,6 +11,7 @@ public abstract class Stunt {
 
 	protected Model model;
 	protected Entity entity;
+
 	public int forbiddenDirection;
 	public int direction;
 
@@ -26,4 +27,8 @@ public abstract class Stunt {
 	public abstract void set(double x,double y);
 	public abstract void collision(Entity e);
 	public abstract void collision(List<Entity> e);
+
+	public abstract void walk(int i);
+
+	public abstract void stop();
 }

@@ -14,19 +14,32 @@ import game.Main;
 import game.Model;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
+import oop.graphics.Graphics.Colors;
+import oop.tasks.Task;
+import oop.tasks.Runnable;
+import oop.tasks.Runtime;
 
 public class Ship extends Entity implements Shooter{
 
 	public static final double ShipSpeed = 5*Main.windowScale;
+
 	public static final int missileSpeed = 50;
+
+	private static boolean hit = false;
+	private static int hp = 3;
+	private Task task;
+
 	
 	public Ship() {
 		super("Ship");
 		
-		this.setSize(game.isu.new Dimension(2.0/Game.cmPerCell*Main.windowScale, 1.0/Game.cmPerCell*Main.windowScale));
+		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
 		this.avatar = new ShipAvatar();
 
+		this.task = Runtime.task();
 	}
+
+	
 	@Override
 	public void shoot() {
 		MissilePlayer msp = new MissilePlayer("missile 1 ");
@@ -36,6 +49,37 @@ public class Ship extends Entity implements Shooter{
 		msp.setlSpeed(missileSpeed, 0);
 		this.model.add(msp);
 		this.model.getView().add(msp.getAvatar());
+	}
+	
+	public boolean getHit() {
+		return hit;
+	}
+	
+	public void gotHit() {
+		if(hit) {
+			return;
+		}
+		
+		hit = true;
+		
+		if(hp == 0) {
+			throw new IllegalStateException("GAME OVER\n");
+		}
+		
+		hp--;
+		
+		if (!((ShipAvatar)avatar).clignote) {
+			((ShipAvatar)avatar).clignoter();
+		}
+		task.post(new Runnable() {
+
+			@Override
+			public void run() throws Exception {
+				hit = false;
+			}
+			
+		}
+				, 3000);
 	}
 	
 	public class ShipAvatar extends Avatar {
@@ -48,6 +92,9 @@ public class Ship extends Entity implements Shooter{
 	    public static final int spriteUp = 1;
 	    public static final int spriteDown = 2;
 	    
+	    private boolean visible = true;
+	    private boolean clignote = false;
+	    
 	    public ShipAvatar() {
 	        super(Ship.this);
 	        Ship.this.avatar = this;
@@ -55,7 +102,26 @@ public class Ship extends Entity implements Shooter{
 	        this.death = new ArrayList<>();
 	    }
 
-	    @Override
+	    public void clignoter() {
+	        if (!Ship.this.getHit()) {
+	            this.visible = true;
+	            this.clignote = false;
+	            return;
+	        }
+	        
+	        this.visible = !this.visible;
+	        this.clignote = true;
+	        
+			task.post(new Runnable() {
+		        @Override
+		        public void run() throws Exception {
+		            clignoter();
+		        }
+		    }, 150);
+
+		}
+
+		@Override
 	    public void getSprites(Graphics g) {
 	    	BufferedImage imgSprites = g.load("all_Sprites.png");
 	        this.sprites = new BufferedImage[4][3];
@@ -90,7 +156,15 @@ public class Ship extends Entity implements Shooter{
 		    else
 		    	index = spriteUp;
 		    
-		    g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    String vies = "Vies du joueur : " + Ship.hp;
+		    
+			g.setColor(Colors.green);
+		    g.setFont(g.getFont("Monospaced", 0, 16));
+		    g.drawString(vies, 40, 150);
+		    
+		    if(this.visible) {
+		    	g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    }
 		}
 
 

@@ -43,7 +43,7 @@ public class BasicStunt extends Stunt {
 		}
 	}
 	
-	public void walk(int degree) {;
+	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
 		double vx = Math.round(Math.cos(rad));

@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.util.List;
 
 import debugmode.VectAvatar;
-import engine.BasicStunt;
+import engine.ShipStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
@@ -59,25 +59,10 @@ public class Main implements Runnable {
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 		Background bg = new Background();
-		view.add(bg.new BackgroundAvatar());
-		
-
-		
-		
-		/*Ship ship1 = new Ship();
-		ship1.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+20, 4*1.8*Game.cmPerCell*windowScale+20));
-		ship1.setBounding();
-		model.add(ship1);
-		view.add(ship1.new ShipAvatar());
-		BasicStunt ShipStunt1 = new BasicStunt(model, ship1);
-		ship1.setStunt(ShipStunt1);
-		ShipStunt1.walk(0);
-		VectAvatar vp = new VectAvatar(ship);
-		view.add(va);*/
-		
-		
+		view.add(bg.new BackgroundAvatar());	
 		
 		ShipStunt shipStunt = init(model,view);
+
 
 
 		this.task.post(new Runnable() {
@@ -91,7 +76,6 @@ public class Main implements Runnable {
 		Controller ct = new Controller(shipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
-		
 	}
 	
 	public ShipStunt init(Model model, View view) {
@@ -178,7 +162,6 @@ public class Main implements Runnable {
 //		
 		return shipStunt;
 	}
-
 }
 
 

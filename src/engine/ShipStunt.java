@@ -3,26 +3,19 @@ package engine;
 import java.util.List;
 
 import engine.Grid.Cell;
+import engine.ISU.Vector;
 import game.Main;
 import game.Model;
-import game.entities.Avatar;
-import game.entities.PacMan;
 import game.entities.Ship;
 
 public class ShipStunt extends Stunt {
-	
-	public static final double ShipSpeed = 20.0*Main.windowScale;
-	
-	public int forbiddenDirection;
-	public int direction;
-	
+
 	private Ship ship;
 
 	public ShipStunt(Model model, Ship ship) {
 		super(model, ship);
 		this.ship = ship;
 	}
-	
 	@Override
 	public void set(int orientation) {
 		this.entity.turn(orientation - this.entity.orientation());
@@ -41,21 +34,30 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(Entity e) {
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
+
+		if(entity instanceof Ship) {
+			((Ship) entity).gotHit();
+		}
 	}
 
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
 			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
+			if(this.entity instanceof Ship) {
+				((Ship) this.entity).gotHit();
+			}
 		}
 	}
 	
-	public void walk(int degree) {;
+	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
-		double vx = Math.round(Math.cos(rad));
-		double vy = Math.round(Math.sin(rad)); 
-		this.entity.setlSpeed(vx*ShipSpeed, vy*ShipSpeed);
+		double speed = 15.0;
+		
+		double vx = Math.round(Math.cos(rad))*speed*Main.windowScale;
+		double vy = Math.round(Math.sin(rad))*speed*Main.windowScale;
+		this.entity.setlSpeed(vx, vy);
 	}
 
 	public void stop() {
@@ -67,4 +69,5 @@ public class ShipStunt extends Stunt {
 		System.out.println("shot once ! ");
 	}
 	
+
 }
