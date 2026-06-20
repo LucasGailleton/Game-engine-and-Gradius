@@ -23,7 +23,7 @@ public class ProfilingManager {
 	public ProfilingManager(int period) {
 		self = this;
 		this.period = period;
-		this.profilers = new Hashtable();
+		this.profilers = new Hashtable<>();
 	}
 
 	public Profiler get(String name) {

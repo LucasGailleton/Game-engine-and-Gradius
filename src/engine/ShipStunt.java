@@ -7,6 +7,7 @@ import game.Main;
 import game.Model;
 import game.entities.Avatar;
 import game.entities.PacMan;
+import game.entities.Ship;
 
 public class ShipStunt extends Stunt {
 	
@@ -14,9 +15,12 @@ public class ShipStunt extends Stunt {
 	
 	public int forbiddenDirection;
 	public int direction;
+	
+	private Ship ship;
 
-	public ShipStunt(Model model, Entity entity) {
-		super(model, entity);
+	public ShipStunt(Model model, Ship ship) {
+		super(model, ship);
+		this.ship = ship;
 	}
 	
 	@Override
@@ -56,6 +60,11 @@ public class ShipStunt extends Stunt {
 
 	public void stop() {
 		this.entity.setlSpeed(0, 0);
+	}
+	
+	public void shootOnce() {
+		this.ship.shoot();
+		System.out.println("shot once ! ");
 	}
 	
 }

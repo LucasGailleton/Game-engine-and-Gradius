@@ -19,7 +19,7 @@ public class MontFendu extends Entity {
 	public MontFendu() {
 		super("MontFendu");
 		this.setSize(this.game.grid.new Dimension((int)(3.6*Game.cmPerCell*Main.windowScale),(int)(2.8*Game.cmPerCell*Main.windowScale)));
-		this.avatar = new MontFenduAvatar();
+		this.avatar = new MontFenduAvatar(this);
 	}
 	
 	@Override
@@ -38,8 +38,8 @@ public class MontFendu extends Entity {
 	
 	public class MontFenduAvatar extends Avatar {
 
-		public MontFenduAvatar() {
-			super(MontFendu.this);
+		public MontFenduAvatar(Entity e) {
+			super(e);
 		}
 
 		@Override

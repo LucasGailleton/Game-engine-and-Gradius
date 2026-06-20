@@ -45,8 +45,12 @@ public class View {
 		this.shiftPX = 0;
 	}
 	
-	public void add(Avatar e) {
-		this.avatars.add(e);
+	public void add(Avatar a) {
+		this.avatars.add(a);
+	}
+	
+	public void remove(Avatar a) {
+		this.avatars.remove(a);
 	}
 	
 	public boolean shift() {

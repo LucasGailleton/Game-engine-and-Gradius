@@ -16,6 +16,7 @@ public class Controller {
 	private boolean rightDown = false;
 	private boolean upDown = false;
 	private boolean downDown = false;
+	private boolean space =false;
 
 	private int dir = -1;
 
@@ -33,6 +34,9 @@ public class Controller {
 			upDown = isDown;
 		else if (keyCode == VirtualKeyCodes.VK_DOWN)
 			downDown = isDown;
+		else if (keyCode == VirtualKeyCodes.VK_SPACE) {
+			space = isDown;
+		}
 
 		recalculer();
 	}
@@ -40,6 +44,13 @@ public class Controller {
 	public void recalculer() {
 		int dx = 0;
 		int dy = 0;
+		
+		if(space) {
+			shoot();
+//			task.post(()->{
+//				shoot();
+//			},100);
+		}
 
 		if (leftDown)
 			dx -= 1;
@@ -143,6 +154,10 @@ public class Controller {
 			player.walk(90);
 			stopped = false;
 		}
+	}
+	
+	public void shoot() {
+		player.shootOnce();
 	}
 
 	public void stop() {

@@ -5,36 +5,42 @@ import java.util.List;
 
 import engine.Entity;
 import engine.Game;
+import engine.Grid.Position;
 import engine.ISU;
+import engine.ISU.Coord;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
 import game.Main;
+import game.Model;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class Ship extends Entity {
+public class Ship extends Entity implements Shooter{
 
 	public static final double ShipSpeed = 5*Main.windowScale;
+	public static final int missileSpeed = 50;
 	
 	public Ship() {
 		super("Ship");
 		
 		this.setSize(game.isu.new Dimension(2.0/Game.cmPerCell*Main.windowScale, 1.0/Game.cmPerCell*Main.windowScale));
 		this.avatar = new ShipAvatar();
-	}
 
-	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, 0));
 	}
-	
-	public ShipAvatar avatar() {
-		return (ShipAvatar) this.avatar;
+	@Override
+	public void shoot() {
+		MissilePlayer msp = new MissilePlayer("missile 1 ");
+		Position pos = this.position();
+		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+15,pos.y*Game.cmPerCell));
+		msp.setBounding();
+		msp.setlSpeed(missileSpeed, 0);
+		this.model.add(msp);
+		this.model.getView().add(msp.getAvatar());
 	}
 	
 	public class ShipAvatar extends Avatar {
 		
 		private List<BufferedImage> death;
-	    // Les variables ship_up, ship_down, ship_neutral sont gérées dans le tableau sprites[][]
 	   
 	    public static final int spriteSizeX = 32; 
 	    public static final int spriteSizeY = 16; 
@@ -54,12 +60,11 @@ public class Ship extends Entity {
 	    	BufferedImage imgSprites = g.load("all_Sprites.png");
 	        this.sprites = new BufferedImage[4][3];
 	        
-	        // Vaisseau orienté Est (Ligne 1, partie droite)
+	      
 	        sprites[East][spriteNeutral] = imgSprites.getSubimage(262, 4, 32, 16);
 	        sprites[East][spriteUp] = imgSprites.getSubimage(295, 7, 32, 12);
 	        sprites[East][spriteDown] = imgSprites.getSubimage(327, 4, 32, 16);
-	        
-	        // Animation de mort (Ligne 2, suite d'explosions)
+	       
 	        this.death.clear();
 	        this.death.add(imgSprites.getSubimage(238, 29, 24, 24));
 	        this.death.add(imgSprites.getSubimage(267, 25, 24, 24));

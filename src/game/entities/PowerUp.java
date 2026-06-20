@@ -31,9 +31,10 @@ public class PowerUp extends Entity{
 			BufferedImage imgSprites = g.load("all_Sprites.png");
             this.sprites = new BufferedImage[1][3];
             
-            this.sprites[0][0] = imgSprites.getSubimage(262, 731, 18, 16);
-            this.sprites[0][1] = imgSprites.getSubimage(282, 731, 18, 16);
-            this.sprites[0][2] = imgSprites.getSubimage(301, 731, 18, 16);
+            this.sprites[0][0] = imgSprites.getSubimage(302, 731, 18, 16);
+            this.sprites[0][1] = imgSprites.getSubimage(262, 731, 18, 16);
+            this.sprites[0][2] = imgSprites.getSubimage(282, 731, 18, 16);
+            
 			
 		}
 
@@ -52,10 +53,10 @@ public class PowerUp extends Entity{
              g.drawImage(sprites[0][index], posX, posY, (int)(18 * Main.windowScale), (int)(16*Main.windowScale));
              if (indChg == 0)
  		    	index++;
- 		    if (index > 3)
+ 		    if (index > 2)
  		    	index = 0;
  		    indChg++;
- 		    if (indChg % 10 == 0) {
+ 		    if (indChg % 50 == 0) {
  		    	indChg = 0;
  		    }
 			

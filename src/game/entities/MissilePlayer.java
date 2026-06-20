@@ -10,12 +10,26 @@ import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
 public class MissilePlayer extends Entity{
+	
+	
 
 	public MissilePlayer(String name) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*1)/Main.windowScale));
         this.avatar = new MissilePlayerAvatar(this);
 	}
+	
+	
+	public void tick() {
+		if (this.position().x >=140) { //récupérer taille fenetre/ViewPort
+			die();
+		}
+//		if (collision()) {
+//			die();
+//		}
+	}
+	
+
 	
 	private class MissilePlayerAvatar extends Avatar{
 
@@ -29,7 +43,7 @@ public class MissilePlayer extends Entity{
 			BufferedImage imgSprites = g.load("all_Sprites.png");
             this.sprites = new BufferedImage[1][1];
             
-            this.sprites[0][0] = imgSprites.getSubimage(357, 800, 6, 3);
+            this.sprites[0][0] = imgSprites.getSubimage(357, 800, 8, 3);
 			
 		}
 

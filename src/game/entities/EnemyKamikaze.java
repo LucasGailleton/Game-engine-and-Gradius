@@ -65,7 +65,7 @@ public class EnemyKamikaze extends Entity{
 			@Override
 			public void paint(Graphics g, int shiftPX) {
 				
-	             this.getSprites(g);
+	            this.getSprites(g);
 	           
 	            ISU.Coord center = EnemyKamikaze.this.center();
 	            int posX = this.toPixel(center.x_cm - (EnemyKamikaze.this.size.x_cm / 2));

@@ -25,7 +25,7 @@ import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
 import game.entities.Ghost;
 import game.entities.MontFendu;
-
+import game.entities.PowerUp;
 import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
@@ -62,16 +62,7 @@ public class Main implements Runnable {
 		view.add(bg.new BackgroundAvatar());
 		
 
-		Ship ship = new Ship();
-		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		ship.setBounding();
-		model.add(ship);
-		view.add(ship.new ShipAvatar());
 		
-		ShipStunt ShipStunt = new ShipStunt(model, ship);
-		ship.setStunt(ShipStunt);
-		VectAvatar va = new VectAvatar(ship);
-		view.add(va);
 		
 		/*Ship ship1 = new Ship();
 		ship1.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+20, 4*1.8*Game.cmPerCell*windowScale+20));
@@ -84,13 +75,9 @@ public class Main implements Runnable {
 		VectAvatar vp = new VectAvatar(ship);
 		view.add(va);*/
 		
-		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-		mf.setBounding();
-		model.add(mf);
-		view.add(mf.new MontFenduAvatar());
 		
-//		BasicStunt shipStunt = init(model,view);
+		
+		ShipStunt shipStunt = init(model,view);
 
 
 		this.task.post(new Runnable() {
@@ -101,17 +88,32 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-		Controller ct = new Controller(ShipStunt);
+		Controller ct = new Controller(shipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 		
-		ship.setStunt(ShipStunt);
-
-
 	}
 	
-//	public BasicStunt init(Model model, View view) {
+	public ShipStunt init(Model model, View view) {
+		
+		Ship ship = new Ship();
+		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		model.add(ship);
+		view.add(ship.new ShipAvatar());
+		
+		ShipStunt shipStunt = new ShipStunt(model, ship);
+		ship.setStunt(shipStunt);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+		
+		ship.setStunt(shipStunt);
 //			
+		MontFendu mf = new MontFendu();
+		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		mf.setBounding();
+		model.add(mf);
+		view.add(mf.getAvatar());
 //		
 //		
 //		Ship ship = new Ship();
@@ -167,9 +169,15 @@ public class Main implements Runnable {
 //		wk.setBounding();
 //		view.add(wk.getAvatar());
 //		model.add(wk);
+		
+//		PowerUp pu = new PowerUp("pu1");
+//		pu.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+//		pu.setBounding();
+//		model.add(pu);
+//		view.add(pu.getAvatar());
 //		
-//		return shipStunt;
-//	}
+		return shipStunt;
+	}
 
 }
 
