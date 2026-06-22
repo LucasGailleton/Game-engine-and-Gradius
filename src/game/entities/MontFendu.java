@@ -20,16 +20,45 @@ public class MontFendu extends Entity {
 	
 	@Override
 	public void setBounding() {
-		ISU.Dimension size1 = isu.new Dimension(this.size.x_cm/3, this.size.y_cm/3);
-		ISU.Dimension size2 = isu.new Dimension(this.size.x_cm, this.size.y_cm);
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
 		
-		ISU.Coord centre1 = isu.new Coord(this.center().x_cm, this.center().y_cm);
-		ISU.Coord centre2 = isu.new Coord(this.center().x_cm, this.center().y_cm+Game.cmPerCell*Main.windowScale);
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
 		
-		//this.bounding().add(new Circle(centre1, this.size.x_cm/2.0));
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
 		
-		this.bounding().add(new Rect(centre1, size1, 0));
-		this.bounding().add(new Rect(centre2, size2, 0));
+		// Partie du bas du volcan
+		shapeSize = isu.new Dimension(x_cm, y_cm-(32*Main.windowScale));
+		shapeCenter = isu.new Coord(x, y+(15*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		shapeSize = isu.new Dimension(x_cm-(8*Main.windowScale), y_cm-(34*Main.windowScale));
+		shapeCenter = isu.new Coord(x, y+(10*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		shapeSize = isu.new Dimension(x_cm-(15*Main.windowScale), y_cm-(35*Main.windowScale));
+		shapeCenter = isu.new Coord(x, y+(6.5*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		// Partie du haut du volcan
+		shapeSize = isu.new Dimension(x_cm-(28*Main.windowScale), y_cm-(35*Main.windowScale));
+		shapeCenter = isu.new Coord(x+0.5*Main.windowScale, y-(6.25*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		shapeSize = isu.new Dimension(x_cm-(33*Main.windowScale), y_cm-(34*Main.windowScale));
+		shapeCenter = isu.new Coord(x+0.5*Main.windowScale, y-(9.65*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		shapeSize = isu.new Dimension(x_cm-(37*Main.windowScale), y_cm-(35*Main.windowScale));
+		shapeCenter = isu.new Coord(x, y-(13*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		shapeSize = isu.new Dimension(x_cm-(43*Main.windowScale), y_cm-(34*Main.windowScale));
+		shapeCenter = isu.new Coord(x+0.5*Main.windowScale, y-(16.5*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
 	public class MontFenduAvatar extends Avatar {

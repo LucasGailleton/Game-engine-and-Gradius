@@ -30,8 +30,8 @@ public class View {
 	private int shiftChg;
 	private int shiftPX;
 	
-	public static final int viewSpeedChg = (int)((Main.windowScale));
-	public static final int speed = 0;
+	public static final int viewSpeedChg = 3;
+	public static final int speed = -1;
 	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {
@@ -80,10 +80,10 @@ public class View {
 		            double w = entity.size.x_cm/2.0;
 		            double h = entity.size.y_cm/2.0;
 		            
-		            if (ProfilingManager.PROFILING) {
-			            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
-			            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
-		            }
+			        g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
+			        g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
+			        
+			        entity.bounding().paint(g, shiftPX);
 	            }
 			}
 			
