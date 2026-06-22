@@ -31,7 +31,7 @@ public class View {
 	private int shiftPX;
 	
 	public static final int viewSpeedChg = (int)((Main.windowScale));
-	public static final int speed = 0;
+	public static final int speed = -1;
 	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {

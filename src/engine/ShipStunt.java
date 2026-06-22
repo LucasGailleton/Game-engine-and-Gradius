@@ -65,7 +65,7 @@ public class ShipStunt extends Stunt {
 	}
 	
 	public void shootOnce() {
-		this.ship.shoot();
+		this.ship.tryToShoot();
 		System.out.println("shot once ! ");
 	}
 	

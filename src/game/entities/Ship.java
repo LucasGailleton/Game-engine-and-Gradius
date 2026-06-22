@@ -10,8 +10,10 @@ import engine.Game;
 import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
+import engine.ISU.Vector;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import game.Model;
 import oop.graphics.BufferedImage;
@@ -27,6 +29,9 @@ public class Ship extends Entity implements Shooter{
 	public static final double ShipSpeed = 5*Main.windowScale;
 
 	public static final int missileSpeed = 150;
+	
+	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
+    private final double SHOOT_DELAY = 0.2; //DELAI (on peut modifier)
 
 	private static boolean hit = false;
 	private static int hp = 3;
@@ -56,10 +61,45 @@ public class Ship extends Entity implements Shooter{
 		}
 		
 	}
-
+	
+	public void tick(double seconds, boolean shift) {
+		
+	    double angularSpeed = aSpeed();
+	    if (angularSpeed != 0) {
+	        turn((int) (angularSpeed * seconds));
+	        
+	        
+	        List<Entity> collisions = this.model.getCollision(this); 
+	        
+	        if (!collisions.isEmpty()) {
+	            turn((int) -(angularSpeed * seconds));
+	            setaSpeed(0);
+	            collision(collisions);
+	        }
+	    }
+	    
+	    
+	    if (shift) {
+	        translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));				
+	    }
+	    
+	    if (this.shootCooldown > 0) {
+            this.shootCooldown -= seconds;
+        }
+	}
 	
 	@Override
-	public void shoot() {
+	public void tryToShoot() {
+        
+        if (this.shootCooldown <= 0.0) {
+            this.shoot(); 
+            this.shootCooldown = SHOOT_DELAY;
+        }
+    }
+
+	
+	
+	private void shoot() {
 		MissilePlayer msp = new MissilePlayer("missile 1 ");
 		Position pos = this.position();
 		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));

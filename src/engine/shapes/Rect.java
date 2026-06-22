@@ -36,7 +36,7 @@ public class Rect extends Shape implements iShape {
 
 	// ROTATION
 	public void rotate(int angle_degree) {
-		this.angle_degree = (this.angle_degree + angle_degree)%360;
+		this.angle_degree = Math.floorMod(this.angle_degree + angle_degree,360)%360;
 	}
 
 	public boolean intersects(iShape shape) {

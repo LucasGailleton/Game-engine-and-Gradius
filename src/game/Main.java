@@ -42,11 +42,14 @@ public class Main implements Runnable {
 	public static final double windowScale = 4;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
-
+	
+	;
 	public static void main(String[] args) {
 		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
+	
+	
 
 	@Override
 	public void run() throws Exception {
@@ -79,6 +82,7 @@ public class Main implements Runnable {
 	}
 	
 	public ShipStunt init(Model model, View view) {
+		MapBuilder.placeObstacle(model,view, canvas);
 		
 		Ship ship = new Ship();
 		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
@@ -92,12 +96,12 @@ public class Main implements Runnable {
 		view.add(va);
 		
 		ship.setStunt(shipStunt);
-//			
-		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-		mf.setBounding();
-		model.add(mf);
-		view.add(mf.getAvatar());
+			
+//		MontFendu mf = new MontFendu();
+//		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+//		mf.setBounding();
+//		model.add(mf);
+//		view.add(mf.getAvatar());
 //		
 //		
 //		Ship ship = new Ship();
