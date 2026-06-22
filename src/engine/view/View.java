@@ -69,6 +69,7 @@ public class View {
 			vp.start();
 		for (Avatar a : avatars) {
             a.paint(g, shiftPX);
+            
 			if (Main.debug) {
 	            Entity entity = a.entity();
 	            model = entity.getModel();
@@ -85,6 +86,7 @@ public class View {
 		            }
 	            }
 			}
+			
 		}
 		frames++;		
 		
@@ -109,6 +111,5 @@ public class View {
 			g.drawString(vp.toString(), 90, 20);
 			g.drawString(mp.toString(), 90, 40);
 		}
-
 	}	
 }

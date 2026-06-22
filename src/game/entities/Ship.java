@@ -84,35 +84,26 @@ public class Ship extends Entity implements Shooter{
 	}
 	
 	public void gotHit()  {
-		if(hit) {
+		if(hit)
 			return;
-		}
-		
 		hit = true;
 		
-		
 		this.degat.play(1);
-		
-		
+
 		if(hp == 0) {
 			this.mort.play(1);
 			throw new IllegalStateException("GAME OVER\n");
-		}
-		
+		}		
 		hp--;
 		
-		if (!((ShipAvatar)avatar).clignote) {
-			((ShipAvatar)avatar).clignoter();
-		}
-		task.post(new Runnable() {
-
-			@Override
-			public void run() throws Exception {
-				hit = false;
-			}
-			
-		}
-				, 3000);
+		ShipAvatar sa = (ShipAvatar) avatar;
+		if (!sa.clignote)
+			sa.clignoter();
+		
+		// 3 secondes d'invicibilité
+		task.post(()->{
+			hit = false;
+		}, 3000);
 	}
 	
 	public class ShipAvatar extends Avatar {
@@ -189,15 +180,13 @@ public class Ship extends Entity implements Shooter{
 		    else
 		    	index = spriteUp;
 		    
-		    String vies = "Vies du joueur : " + Ship.hp;
-		    
+		    String vies = "Player HP: " + Ship.hp;
 			g.setColor(Colors.green);
 		    g.setFont(g.getFont("Monospaced", 0, 16));
-		    g.drawString(vies, 40, 150);
+		    g.drawString(vies, 10, 120);
 		    
-		    if(this.visible) {
+		    if (this.visible)
 		    	g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
-		    }
 		}
 
 
