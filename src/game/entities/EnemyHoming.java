@@ -20,20 +20,12 @@ public class EnemyHoming extends Entity {
     public static final int Top = 0;
     public static final int Down = 1;
     
-    private HomingAvatar avatar;
+    
 
     public EnemyHoming(String name) {
         super(name);
         this.setSize(this.isu.new Dimension((Game.cmPerCell*16)/Main.windowScale, (Game.cmPerCell*16)/Main.windowScale));
         this.avatar = new HomingAvatar(this);
-    }
-    
-    public void setBounding() {
-    	this.bounding().add(new Rect(this.center(), this.size, 0));
-    }
-    
-    public HomingAvatar getAvatar() {
-    	return this.avatar;
     }
 
     
@@ -68,9 +60,9 @@ public class EnemyHoming extends Entity {
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			if (this.sprites == null) {
-                this.getSprites(g);
-            }
+			
+            this.getSprites(g);
+            
             ISU.Coord center = EnemyHoming.this.center(); //para el Gruber
             int posX = this.toPixel(center.x_cm - (EnemyHoming.this.size.x_cm / 2));
             int posY = this.toPixel(center.y_cm - (EnemyHoming.this.size.y_cm / 2));

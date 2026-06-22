@@ -10,10 +10,12 @@ import game.entities.Ship;
 
 public class ShipStunt extends Stunt {
 
-	public ShipStunt(Model model, Entity entity) {
-		super(model, entity);
-	}
+	private Ship ship;
 
+	public ShipStunt(Model model, Ship ship) {
+		super(model, ship);
+		this.ship = ship;
+	}
 	@Override
 	public void set(int orientation) {
 		this.entity.turn(orientation - this.entity.orientation());
@@ -32,6 +34,7 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(Entity e) {
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
+
 		if(entity instanceof Ship) {
 			((Ship) entity).gotHit();
 		}
@@ -61,4 +64,10 @@ public class ShipStunt extends Stunt {
 		this.entity.setlSpeed(0, 0);
 	}
 	
+	public void shootOnce() {
+		this.ship.shoot();
+		System.out.println("shot once ! ");
+	}
+	
+
 }

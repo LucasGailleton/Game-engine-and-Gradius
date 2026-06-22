@@ -17,13 +17,14 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.MissilePlayer;
 import game.entities.PacMan.PacManAvatar;
 import game.entities.Ship;
 import engine.Physic;
 import engine.ShipStunt;
 
 public class Model {
-	// FIELDS
+	
 	private Grid grid;
 	private List<Entity> entities;
 	private Physic ps;
@@ -31,7 +32,7 @@ public class Model {
 	private Profiler p;
 	private View v;
 
-	// CONSTRUCTOR
+	
 	public Model(View v) {
 		if (ProfilingManager.PROFILING)
 			this.p = ProfilingManager.getProfiler("model");
@@ -48,6 +49,10 @@ public class Model {
 
 	public void remove(Entity e) {
 		this.entities.remove(e);
+	}
+	
+	public View getView() { //Méthode temporaire, structurellement pas ouf
+		return this.v;
 	}
 	
 	// GETTER
@@ -68,7 +73,7 @@ public class Model {
 		boolean shift = v.shift();
 		
 		this.seconds = elapsed / 1000.0;
-	    this.ps = new Physic(this);
+	    this.ps = new Physic(this); //bruh
 		List<Entity> copyEntities = new ArrayList<>(this.entities);
 		
 		for (Entity entity : copyEntities) {
@@ -95,6 +100,16 @@ public class Model {
 				
 			
 			if (entity.haslSpeed()) {
+				
+				//Missile Test
+				if (entity instanceof MissilePlayer) {
+					
+						
+					((MissilePlayer) entity).tick();
+					
+				}
+				
+				
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
 				double moveX = speedVector.targetX_cm * seconds;
 				double moveY = speedVector.targetY_cm * seconds;

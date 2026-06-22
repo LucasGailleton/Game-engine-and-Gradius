@@ -13,7 +13,7 @@ import oop.graphics.Graphics;
 
 public class EnemyWalking extends Entity{
 	//Entité qui spawn avec chicken
-	private WalkingAvatar avatar;
+	
 	
 
 	public EnemyWalking(String name) {
@@ -26,7 +26,7 @@ public class EnemyWalking extends Entity{
 		this.bounding().add(new Rect(this.center(), this.size, 0));
 	}
 	
-	public WalkingAvatar getAvatar() {
+	public Avatar getAvatar() {
 		return this.avatar;
 	}
 	

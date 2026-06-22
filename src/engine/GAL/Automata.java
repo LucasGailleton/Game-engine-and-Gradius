@@ -1,13 +1,13 @@
-package engine.gal;
+package engine.GAL;
 
-import engine.gal.State;
-import engine.gal.action.GALAction;
-import engine.gal.action.Move;
-import engine.gal.arguments.Category;
-import engine.gal.arguments.Direction;
-import engine.gal.aut.Automaton;
-import engine.gal.aut.Transition;
-import engine.gal.condition.*;
+import engine.GAL.State;
+import engine.GAL.action.GALAction;
+import engine.GAL.action.Move;
+import engine.GAL.arguments.Category;
+import engine.GAL.arguments.Direction;
+import engine.GAL.aut.Automaton;
+import engine.GAL.aut.Transition;
+import engine.GAL.condition.*;
 
 public class Automata {
 

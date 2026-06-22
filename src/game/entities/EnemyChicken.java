@@ -16,6 +16,7 @@ public class EnemyChicken extends Entity{
 	
 	public static final int Top = 0;
     public static final int Down = 1;
+
     
 	public EnemyChicken(String name) {
 		super(name);
@@ -24,15 +25,7 @@ public class EnemyChicken extends Entity{
 		
 	}
 	
-	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, 0));
-	}
-	
-	public ChickenAvatar getAvatar() {
-		return (ChickenAvatar) this.avatar;
-	}
-	
-	private class ChickenAvatar extends Avatar {
+	private class ChickenAvatar extends Avatar{
 		
 		private List<BufferedImage> death;
 
@@ -64,6 +57,8 @@ public class EnemyChicken extends Entity{
                 this.getSprites(g);
             }
 			
+             this.getSprites(g);
+            
 			ISU.Coord center = EnemyChicken.this.center(); 
             int posX = this.toPixel(center.x_cm - (EnemyChicken.this.size.x_cm / 2));
             int posY = this.toPixel(center.y_cm - (EnemyChicken.this.size.y_cm / 2));

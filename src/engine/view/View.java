@@ -9,8 +9,7 @@ import debugmode.ProfilingManager;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.shapes.Circle;
-import engine.shapes.Rect;
+
 import game.Main;
 import game.Model;
 import game.entities.Avatar;
@@ -32,7 +31,7 @@ public class View {
 	private int shiftPX;
 	
 	public static final int viewSpeedChg = (int)((Main.windowScale));
-	public static final int speed = -1;
+	public static final int speed = 0;
 	public static final int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {
@@ -46,8 +45,12 @@ public class View {
 		this.shiftPX = 0;
 	}
 	
-	public void add(Avatar e) {
-		this.avatars.add(e);
+	public void add(Avatar a) {
+		this.avatars.add(a);
+	}
+	
+	public void remove(Avatar a) {
+		this.avatars.remove(a);
 	}
 	
 	public boolean shift() {
@@ -61,12 +64,12 @@ public class View {
 	}
 	
 	public void paint(Graphics g) {
-		
 		Model model = null;
 		if (ProfilingManager.PROFILING)
 			vp.start();
 		for (Avatar a : avatars) {
             a.paint(g, shiftPX);
+            
 			if (Main.debug) {
 	            Entity entity = a.entity();
 	            model = entity.getModel();
@@ -83,6 +86,7 @@ public class View {
 		            }
 	            }
 			}
+			
 		}
 		frames++;		
 		

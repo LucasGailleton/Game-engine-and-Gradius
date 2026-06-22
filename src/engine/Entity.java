@@ -40,9 +40,11 @@ public abstract class Entity {
 	protected Avatar avatar;
 
 	private Stunt stunt;
-	private Model model;
+	protected Model model;
 	private Vector lSpeed;
 	private double aSpeed;
+	
+	protected boolean alive = true;
 
 	// CONSTRUCTOR
 	public Entity(String name) {
@@ -56,6 +58,7 @@ public abstract class Entity {
 		this.occupied = new HashSet<Grid.Cell>();
 		this.lSpeed = this.isu.new Vector(0, 0);
 //		this.updateBoundingBox();
+		
 	}
 
 	// SETTER
@@ -84,6 +87,10 @@ public abstract class Entity {
 	public void setBounding(Bounding bounding) {
 		this.bounding = bounding;
 	}
+	
+	public void setBounding() {
+		this.bounding().add(new Rect(this.center(), this.size, 0));
+	}
 
 	public void setStunt(Stunt stunt) {
 		this.stunt = stunt;
@@ -101,7 +108,7 @@ public abstract class Entity {
 		this.bot = bot;
 	}
 	
-	public void setModel(Model model) {
+	public void setModel(Model model) { //On est sûr de ça la ?
 		this.model = model;
 	}
 
@@ -149,6 +156,17 @@ public abstract class Entity {
 	public Model getModel() {
 		return model;
 	}
+	
+	
+	public Avatar getAvatar() {
+		return this.avatar;
+	}
+	
+	public boolean isAlive() {
+        return this.alive;
+    }
+	
+	
 
 	// BOUNDING BOX UPDATE
 	public void updateBoundingBox() {
@@ -281,14 +299,18 @@ public abstract class Entity {
 	}
 
 	public void collision(List<Entity> le) {
-		this.stunt.collision(le);
+		if (this.stunt() != null) {
+	        this.stunt().collision(le); 
+	    } else {
+	        // Comportement par défaut si l'entité n'a pas de stunt
+	        this.setlSpeed(0, 0);
+	        die();
+	    }
 	}
 
 	public boolean haslSpeed() {
 		return this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0);
 	}
-	
-	public abstract void setBounding();
 
 	public void deploy() {
 		if (this.position != null) {
@@ -320,5 +342,18 @@ public abstract class Entity {
 		for (Grid.Cell c : this.occupied) {
 			c.remove(this);
 		}
+		this.occupied.clear(); //au cas ou
 	}
+	
+	public void die() {
+		System.out.println("entité despawn");
+        this.alive = false;
+        
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+        
+    }
+	
+	//public abstract void tick();
 }
