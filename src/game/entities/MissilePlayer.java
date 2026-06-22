@@ -15,7 +15,7 @@ public class MissilePlayer extends Entity{
 
 	public MissilePlayer(String name) {
 		super(name);
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*1)/Main.windowScale));
+		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
         this.avatar = new MissilePlayerAvatar(this);
 	}
 	
