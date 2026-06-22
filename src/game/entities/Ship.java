@@ -125,20 +125,17 @@ public class Ship extends Entity implements Shooter{
 	
 	public void gotHit()  {
 		
-		if(hp == 1) {
-			this.mort.play(1);
-		}
-		
-		if(!hit) {
-			hp--;
-		}
-		
 		if(hit)
 			return;
 		
-		hit = true;
+		if(hp <= 1) {
+			this.mort.play(1);
+			//méthode de game over
+		}
 		
+		hp--;
 		this.degat.play(1);
+		hit = true;
 
 		ShipAvatar sa = (ShipAvatar) avatar;
 		

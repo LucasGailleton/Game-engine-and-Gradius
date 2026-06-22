@@ -33,13 +33,12 @@ public class Mur extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			// Pas de sprite pour un mur invisible
+			
 		}
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			// On ne dessine aucune image. 
-			// Mais grâce à cet avatar, View.java dessignera la hitbox rouge par-dessus !
+			
 		}
 	}
 }
