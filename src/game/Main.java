@@ -40,11 +40,13 @@ public class Main implements Runnable {
 	Task task;
 	List<Entity> entities;
 	public static final double windowScale = 4;
+	public static final int windowWidth = 256;
+	public static final int windowHeight = 240;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
+		Dimension d = new Dimension((int) (windowWidth*windowScale), (int) (windowHeight*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
 
@@ -63,8 +65,6 @@ public class Main implements Runnable {
 		
 		ShipStunt shipStunt = init(model,view);
 
-
-
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -80,7 +80,7 @@ public class Main implements Runnable {
 	
 	public ShipStunt init(Model model, View view) {
 		
-		Ship ship = new Ship();
+		Ship ship = new Ship(view);
 		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
@@ -92,14 +92,14 @@ public class Main implements Runnable {
 		view.add(va);
 		
 		ship.setStunt(shipStunt);
-//			
 		MontFendu mf = new MontFendu();
 		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 22*Game.cmPerCell*windowScale));
 		mf.setBounding();
 		model.add(mf);
 		view.add(mf.getAvatar());
-//		
-//		
+		
+		System.out.println("canvas width : " + canvas.getWidth());
+		
 //		Ship ship = new Ship();
 //		
 //		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));

@@ -28,7 +28,7 @@ public class View {
 	int currentFPS = 0;
 	
 	private int shiftChg;
-	private int shiftPX;
+	public int shiftPX;
 	
 	public static final int viewSpeedChg = 3;
 	public static final int speed = -1;
@@ -61,6 +61,10 @@ public class View {
 		}
 		this.shiftChg += 1;
 		return false;
+	}
+	
+	public Canvas canvas() {
+		return this.canvas;
 	}
 	
 	public void paint(Graphics g) {

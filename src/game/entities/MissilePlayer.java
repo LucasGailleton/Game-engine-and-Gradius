@@ -3,39 +3,56 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.ISU.Coord;
 import engine.ISU.Dimension;
+import engine.ISU.Vector;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
+import oop.graphics.Canvas;
 import oop.graphics.Graphics;
+import oop.tasks.Runtime;
 
-public class MissilePlayer extends Entity{
+public class MissilePlayer extends Entity {
 	
-	
+	private View view;
 
-	public MissilePlayer(String name) {
+	public MissilePlayer(View view, String name) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
         this.avatar = new MissilePlayerAvatar(this);
+        this.view = view;
 	}
 	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm-(32*Main.windowScale));
+		ISU.Coord shapeCenter = isu.new Coord(x, y+(15*Main.windowScale));
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+	}
 	
-	public void tick() {
-		if (this.position().x >=140) { //récupérer taille fenetre/ViewPort
+	public void tick(double seconds, boolean shift) {
+		if (this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) // récupérer taille fenetre/ViewPort
 			die();
-		}
-//		if (collision()) {
+//		if (collision())
 //			die();
-//		}
 	}
-	
 
-	
 	private class MissilePlayerAvatar extends Avatar{
+		
+		public static final int spriteSizeX = 8;
+	    public static final int spriteSizeY = 3;
 
 		public MissilePlayerAvatar(Entity e) {
-			super(e);
-			
+			super(e);			
 		}
 
 		@Override
@@ -51,12 +68,11 @@ public class MissilePlayer extends Entity{
 		public void paint(Graphics g, int shiftPX) {
 			this.getSprites(g);
             
-            ISU.Coord center = MissilePlayer.this.center(); //para el Gruber
-            int posX = this.toPixel(center.x_cm - (MissilePlayer.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (MissilePlayer.this.size.y_cm / 2));
-            
-           
-            g.drawImage(sprites[0][0], posX, posY, (int)(6 * Main.windowScale), (int)(3*Main.windowScale));
+            ISU.Coord center = MissilePlayer.this.center();
+            int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
+            int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
+
+            g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 			
 		}
 		

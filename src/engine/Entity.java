@@ -89,7 +89,6 @@ public abstract class Entity {
 	}
 	
 	public void setBounding() {
-		
 		this.bounding().add(new Rect(this.center(), this.size, this.orientation_degree));
 	}
 

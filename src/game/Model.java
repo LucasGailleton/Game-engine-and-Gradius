@@ -39,6 +39,7 @@ public class Model {
 		this.grid = Game.game().grid;
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
+		this.ps = new Physic(this); 
 	}
 	
 	// ADD, REMOVE Entity
@@ -71,23 +72,19 @@ public class Model {
 	    boolean shift = v.shift();
 	    this.seconds = elapsed / 1000.0;
 	    
-	    // Instancier Physic une seule fois dans le constructeur de Model serait mieux !
-	    this.ps = new Physic(this); 
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
 	        
 	        
-	        if (entity instanceof Ship) {
+	        if (entity instanceof Ship)
 	            ((Ship) entity).tick(seconds, shift);
-	        } else if (entity instanceof MissilePlayer) {
-	            ((MissilePlayer) entity).tick();
-	        }
+	        
+	        else if (entity instanceof MissilePlayer)
+	            ((MissilePlayer) entity).tick(seconds, shift);
 	        
 	        
 	        if (entity.haslSpeed()) {
-	            
-	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);

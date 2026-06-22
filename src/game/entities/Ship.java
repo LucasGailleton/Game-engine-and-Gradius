@@ -17,6 +17,7 @@ import engine.view.View;
 import game.Main;
 import game.Model;
 import oop.graphics.BufferedImage;
+import oop.graphics.Canvas;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
 import oop.tasks.Task;
@@ -27,36 +28,33 @@ import oop.tasks.Runtime;
 public class Ship extends Entity implements Shooter{
 
 	public static final double ShipSpeed = 5*Main.windowScale;
-
-	public static final int missileSpeed = 150;
+	public static final int missileSpeed = 1500;
 	
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
-    private final double SHOOT_DELAY = 0.2; //DELAI (on peut modifier)
+    private final double SHOOT_DELAY = 0.15 ; //DELAI (on peut modifier)
 
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
+	private View view;
 	
 	private SoundPlayer tir1,tir2,degat,mort;
 	private int indexAudio;
 
 	
-	public Ship() {
+	public Ship(View view) {
 		super("Ship");
-		
 		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
 		this.avatar = new ShipAvatar();
-
 		this.task = Runtime.task();
+		this.view = view;
 		
 		try {
 			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
 			this.tir2 = new SoundPlayer(new File("Audio/Piou2.wav"));
 			this.degat = new SoundPlayer(new File("Audio/Aie.wav"));
 			this.mort = new SoundPlayer(new File("Audio/PlayerBoom1.wav"));
-			
 		} catch (IOException e) {
-			
 			e.printStackTrace();
 		}
 		
@@ -67,8 +65,7 @@ public class Ship extends Entity implements Shooter{
 	    double angularSpeed = aSpeed();
 	    if (angularSpeed != 0) {
 	        turn((int) (angularSpeed * seconds));
-	        
-	        
+	            
 	        List<Entity> collisions = this.model.getCollision(this); 
 	        
 	        if (!collisions.isEmpty()) {
@@ -78,10 +75,9 @@ public class Ship extends Entity implements Shooter{
 	        }
 	    }
 	    
-	    
-	    if (shift) {
-	        translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));				
-	    }
+	    // Annulation du scrolling
+	    if (shift)
+	        translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 	    
 	    if (this.shootCooldown > 0) {
             this.shootCooldown -= seconds;
@@ -90,17 +86,14 @@ public class Ship extends Entity implements Shooter{
 	
 	@Override
 	public void tryToShoot() {
-        
         if (this.shootCooldown <= 0.0) {
             this.shoot(); 
             this.shootCooldown = SHOOT_DELAY;
         }
     }
 
-	
-	
 	private void shoot() {
-		MissilePlayer msp = new MissilePlayer("missile 1 ");
+		MissilePlayer msp = new MissilePlayer(view, "missile");
 		Position pos = this.position();
 		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
 		msp.setBounding();
@@ -108,15 +101,11 @@ public class Ship extends Entity implements Shooter{
 		this.model.add(msp);
 		this.model.getView().add(msp.getAvatar());
 		
-		if (indexAudio%2==0) {
-			tir1.play(1);
-			
-		}else {
+		if (indexAudio%2==0)
+			tir1.play(1);	
+		else
 			tir2.play(1);
-		}
 		indexAudio++;
-	
-		
 	}
 	
 	public boolean getHit() {
@@ -150,8 +139,8 @@ public class Ship extends Entity implements Shooter{
 		
 		private List<BufferedImage> death;
 	   
-	    public static final int spriteSizeX = 32; 
-	    public static final int spriteSizeY = 16; 
+	    public static final int spriteSizeX = 32;
+	    public static final int spriteSizeY = 16;
 	    public static final int spriteNeutral = 0;
 	    public static final int spriteUp = 1;
 	    public static final int spriteDown = 2;
@@ -191,9 +180,9 @@ public class Ship extends Entity implements Shooter{
 	        this.sprites = new BufferedImage[4][3];
 	        
 	      
-	        sprites[East][spriteNeutral] = imgSprites.getSubimage(262, 4, 32, 16);
-	        sprites[East][spriteUp] = imgSprites.getSubimage(295, 7, 32, 12);
-	        sprites[East][spriteDown] = imgSprites.getSubimage(327, 4, 32, 16);
+	        sprites[East][spriteNeutral] = imgSprites.getSubimage(262, 4, spriteSizeX, spriteSizeY);
+	        sprites[East][spriteUp] = imgSprites.getSubimage(295, 4, spriteSizeX, spriteSizeY);
+	        sprites[East][spriteDown] = imgSprites.getSubimage(327, 4, spriteSizeX, spriteSizeY);
 	       
 	        this.death.clear();
 	        this.death.add(imgSprites.getSubimage(238, 29, 24, 24));
