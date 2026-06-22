@@ -84,8 +84,15 @@ public class Controller {
 		dir = angle;
 		stopped = false;
 		player.forbiddenDirection = -1;
-
-		double speed = (dx != 0 && dy != 0) ? 0.212 : 0.3;
+		
+		double speed = 0;
+		
+		if(dx != 0 && dy != 0) {
+			speed = 0.212;
+		}
+		else {
+			speed = 0.3;
+		}
 
 		if (dx == -1)
 			player.direction = Avatar.West;

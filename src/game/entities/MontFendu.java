@@ -18,11 +18,11 @@ public class MontFendu extends Entity {
 	
 	@Override
 	public void setBounding() {
-		ISU.Dimension size1 = isu.new Dimension(this.size.x_cm/3, this.size.y_cm/3);
-		ISU.Dimension size2 = isu.new Dimension(this.size.x_cm, this.size.y_cm);
+		ISU.Dimension size1 = isu.new Dimension(this.size.x_cm/6, this.size.y_cm/6);
+		ISU.Dimension size2 = isu.new Dimension(this.size.x_cm/3, this.size.y_cm/3);
 		
-		ISU.Coord centre1 = isu.new Coord(this.center().x_cm, this.center().y_cm);
-		ISU.Coord centre2 = isu.new Coord(this.center().x_cm, this.center().y_cm+Game.cmPerCell*Main.windowScale);
+		ISU.Coord centre1 = isu.new Coord(this.center().x_cm, this.center().y_cm - 5);
+		ISU.Coord centre2 = isu.new Coord(this.center().x_cm, this.center().y_cm + 5);
 		
 		//this.bounding().add(new Circle(centre1, this.size.x_cm/2.0));
 		

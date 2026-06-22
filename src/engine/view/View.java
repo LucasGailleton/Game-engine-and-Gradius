@@ -107,6 +107,5 @@ public class View {
 			g.drawString(vp.toString(), 90, 20);
 			g.drawString(mp.toString(), 90, 40);
 		}
-
 	}	
 }
