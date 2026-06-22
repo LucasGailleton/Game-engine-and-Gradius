@@ -66,8 +66,7 @@ public class Ship extends Entity {
 				hit = false;
 			}
 			
-		}
-				, 3000);
+		}, 3000);
 	}
 	
 	public class ShipAvatar extends Avatar {
