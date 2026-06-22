@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import engine.Entity;
 
-public class Disjunction {
+public class Disjunction implements iGALCondition{
 
 	// FIELDS
 
@@ -23,7 +23,7 @@ public class Disjunction {
 	 }
 
 	// EVAL
-	 boolean eval(Entity e){ 
+	 public boolean eval(Entity e){ 
 		 for(iGALCondition cond:this.conditions) {
 			 boolean b=cond.eval(e);
 			 if(b) {

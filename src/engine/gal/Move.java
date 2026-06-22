@@ -23,19 +23,26 @@ class Move  extends GALAction{
 	 *                  interpretation.
 	 */
 	 Move(Direction dir, double intensity, int n){ 
+		super();
 		this.direction=dir;
 		this.intensity=intensity;
 		this.length_cm=n;
 	 }
 
 	 Move(Direction dir, double intensity){ 
+		 super();
 		 this.direction=dir;
 		 this.intensity=intensity;
 	 }
 
-	 Move(Direction dir, int n){ 
+	 Move(Direction dir, int n){
+		 super();
 		 this.direction=dir;
-		 this.;
+	 }
+	 
+	 Move(Direction dir){
+		 super();
+		 this.direction=dir;
 	 }
 
 	 Move(){ 

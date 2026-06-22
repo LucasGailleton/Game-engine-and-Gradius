@@ -33,5 +33,10 @@ public class Automaton extends Node {
 		visitor.exit(this);
 		return visitor.build(this, o_initial_state, list);
 	}
+	
+	/*public engine.gal.Automaton transform() {
+		return new engine.gal.Automaton(name,initial_state.transform());
+		
+	}*/
 
 }

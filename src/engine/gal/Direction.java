@@ -33,7 +33,7 @@ public class Direction {
 	 *          name.</LI>
 	 *          </UL>
 	 */
-	Map<String, Direction> directions = new HashMap<>();
+	static Map<String, Direction> directions = new HashMap<>();
 	//Direction directions; // <-- FIXME
 
 	// FACTORY
@@ -43,7 +43,7 @@ public class Direction {
 	 *          parser encounters a direction.
 	 * @return the existing direction associated to a name if it already exists
 	 */
-	public Direction canonical(String name) {
+	public static Direction canonical(String name) {
 		if(directions.containsKey(name)) {
 			return directions.get(name);
 		}
@@ -106,6 +106,22 @@ public class Direction {
 			return 180;
 		}
 		throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
+	}
+	
+	static public Direction toDir(int i) {
+		if (i == 90 || i==-270) {
+			return N;
+		}
+		if (i == 0 || i==-180) {
+			return E;
+		}
+		if (i == 270|| i==-90) {
+			return S;
+		}
+		if (i == 180) {
+			return W;
+		}
+		throw new IllegalStateException("Cannot convert relative direction '");
 	}
 
 }

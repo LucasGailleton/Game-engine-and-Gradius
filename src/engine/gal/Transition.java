@@ -2,7 +2,7 @@ package engine.gal;
 
 import engine.Entity;
 
-class Transition {
+public class Transition {
 
 	// FIELDS
 
@@ -13,7 +13,7 @@ class Transition {
 
 	// CONSTRUCTOR
 
-	 Transition(State source, iGALCondition condition, GALAction action, State target){ 
+	 public Transition(State source, iGALCondition condition, GALAction action, State target){ 
 		 this.source=source;
 		 this.condition=condition;
 		 this.action=(iGALAction) action;

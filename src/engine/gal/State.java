@@ -2,14 +2,14 @@ package engine.gal;
 
 
 
-class State {
+public class State {
 
 	String mode;
 	int id;
 
 	// CONSTRUCTOR
 
-	State(String mode, int id) {
+	public State(String mode, int id) {
 		this.id=id;
 		this.mode=mode;
 	}

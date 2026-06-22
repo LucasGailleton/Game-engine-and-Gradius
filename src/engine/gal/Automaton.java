@@ -12,12 +12,13 @@ public class Automaton {
 	 * @implNote Choose your representation carefully to efficiently identify the
 	 *           potential transitions for triggering.
 	 */
-	 iTransitions transitions;
+	 Transitions transitions;
 
 	// CONSTRUCTOR
 
-	 Automaton(String name, State initial){ 
+	 public Automaton(String name, State initial){ 
 		 this.initial=initial;
+		 this.transitions=new Transitions();
 	 }
 
 	// BUILDER

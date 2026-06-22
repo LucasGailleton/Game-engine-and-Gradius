@@ -2,16 +2,15 @@ package engine.gal;
 
 import engine.Entity;
 
-class True  extends GALCondition{
+class True  implements iGALCondition{
 
 	// CONSTRUCTOR
 
-	 True(){ 
-		 
+	 True(){
 	 }
 
 	// EVAL
-	 boolean eval(Entity __){
+	 public boolean eval(Entity __){
 		 return true;
 	 }
 
