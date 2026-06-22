@@ -89,7 +89,8 @@ public abstract class Entity {
 	}
 	
 	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, 0));
+		
+		this.bounding().add(new Rect(this.center(), this.size, this.orientation_degree));
 	}
 
 	public void setStunt(Stunt stunt) {
@@ -176,7 +177,7 @@ public abstract class Entity {
 	}
 	
 	public Rect boundingBox() {
-		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(this.size.x_cm, this.size.y_cm), 0);
+		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(this.size.x_cm, this.size.y_cm), this.orientation_degree);
 	}
 
 	// TRANSLATION
@@ -218,6 +219,9 @@ public abstract class Entity {
 		this.orientation_degree = (this.orientation_degree + angle_degree) % 360;
 		if (this.orientation_degree < 0)
 			this.orientation_degree += 360;
+		for (iShape shape : this.bounding.boundings()) {
+            shape.rotateAround(this.center, angle_degree);
+        }
 	}
 
 	// SHOW
@@ -313,7 +317,8 @@ public abstract class Entity {
 	}
 
 	public void deploy() {
-		if (this.position != null) {
+		this.retract();
+		if (this.center != null) {
 			double halfLongest = Math.max(this.size.x_cm / 2.0, this.size.y_cm / 2.0);
 			int xmin = ((int) Math.round((this.center.x_cm - halfLongest) / Game.cmPerCell)) - 1;
 			int ymin = ((int) Math.round((this.center.y_cm - halfLongest) / Game.cmPerCell)) - 1;
@@ -322,6 +327,7 @@ public abstract class Entity {
 
 			for (int y = ymin; y <= ymax; y++) {
 				for (int x = xmin; x <= xmax; x++) {
+					
 					Grid.Cell c = this.grid.cellAt(this.grid.new Position(this.grid.xAxis.normalize(x), this.grid.yAxis.normalize(y)));
 					c.add(this);
 					this.occupied.add(c);
