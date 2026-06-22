@@ -766,7 +766,7 @@ public class TestEngine {
 		System.out.println("Test20 : Vérification du Model et des Bounding Shapes des Entités");
 		Game game = new Game(15, 15);
 		Grid grid = game.grid;
-		Model model = new Model();
+		Model model = new Model(null);
 	
 		model.add(new Obstacle(1, 1));
 		
@@ -842,7 +842,7 @@ public class TestEngine {
 	public void test21() {
 		System.out.println("Test de la Physique : SuperBoundingBox & Swept AABB avec PacMan et un Obstacle (avec et sans collision) :");
 		Game game = new Game(10, 10);
-		Model model = new Model();
+		Model model = new Model(null);
 		Physic physic = new Physic(model);
 
 		PacMan pacman = new PacMan();
@@ -879,7 +879,7 @@ public class TestEngine {
 	public void test22() {
 		System.out.println("Test de non collision entre deux PacMan dont les trajectoires se croisent.");
 		Game game = new Game(10, 10);
-		Model model = new Model();
+		Model model = new Model(null);
 		Physic physic = new Physic(model);
 
 		PacMan pacman1 = new PacMan();

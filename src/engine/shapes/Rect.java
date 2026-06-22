@@ -4,7 +4,6 @@ package engine.shapes;
 import engine.Game;
 import engine.ISU;
 import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.ISU.Vector;
 
 public class Rect extends Shape implements iShape {
@@ -40,7 +39,12 @@ public class Rect extends Shape implements iShape {
 		this.angle_degree = (this.angle_degree + angle_degree)%360;
 	}
 
+	public boolean intersects(iShape shape) {
+		return shape.intersects(this);
+	}
+	
 	// === Rect/Circle Intersection ===
+	@Override
 	public boolean intersects(Circle circle) {
 		RectCircleIntersection rc = new RectCircleIntersection(this, circle);
 		return rc.intersects();
@@ -136,6 +140,7 @@ public class Rect extends Shape implements iShape {
 	}
 
 	// === Rect/Rect Intersection ===
+	@Override
 	public boolean intersects(Rect rect) {
 		RectRectIntersection rr = new RectRectIntersection(this, rect);
 		return rr.intersects();

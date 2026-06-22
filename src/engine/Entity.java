@@ -15,8 +15,9 @@ import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
 import game.Model;
+import game.entities.Avatar;
 
-public class Entity {
+public abstract class Entity {
 
 	// FIELDS
 	public Grid grid;
@@ -31,15 +32,19 @@ public class Entity {
 	private ISU.Coord center; // coordonnées en cm du centre de l'entité
 	private Bounding bounding;
 	private Set<Grid.Cell> occupied;
-	private engine.gal.Bot bot;
+	private engine.GAL.Bot bot;
 	private ISU.Coord boundingBoxTopLeft;
 	private ISU.Coord boundingBoxBottomRight;
 	private int orientation_degree; // orientation par rapport à l'axe des x
+	
+	protected Avatar avatar;
 
 	private Stunt stunt;
-	private Model model;
+	protected Model model;
 	private Vector lSpeed;
 	private double aSpeed;
+	
+	protected boolean alive = true;
 
 	// CONSTRUCTOR
 	public Entity(String name) {
@@ -53,12 +58,13 @@ public class Entity {
 		this.occupied = new HashSet<Grid.Cell>();
 		this.lSpeed = this.isu.new Vector(0, 0);
 //		this.updateBoundingBox();
+		
 	}
 
 	// SETTER
 	public void setPosition(Grid.Position position) {
 		this.position = position;
-		this.center = position.toISUCoordCentered() ;
+		this.center = position.toISUCoordCentered();
 	}
 
 	public void setCoord(ISU.Coord center) {
@@ -81,6 +87,10 @@ public class Entity {
 	public void setBounding(Bounding bounding) {
 		this.bounding = bounding;
 	}
+	
+	public void setBounding() {
+		this.bounding().add(new Rect(this.center(), this.size, 0));
+	}
 
 	public void setStunt(Stunt stunt) {
 		this.stunt = stunt;
@@ -94,8 +104,12 @@ public class Entity {
 		this.aSpeed = aSpeed;
 	}
 	
-	public void setBot(engine.gal.Bot bot) {
+	public void setBot(engine.GAL.Bot bot) {
 		this.bot = bot;
+	}
+	
+	public void setModel(Model model) { //On est sûr de ça la ?
+		this.model = model;
 	}
 
 	// GETTER
@@ -131,9 +145,28 @@ public class Entity {
 		return this.stunt;
 	}
 	
-	public engine.gal.Bot bot(){
+	public engine.GAL.Bot bot(){
 		return this.bot;
 	}
+	
+	public List<Entity> getEntities() {
+		return model.entities();
+	}
+	
+	public Model getModel() {
+		return model;
+	}
+	
+	
+	public Avatar getAvatar() {
+		return this.avatar;
+	}
+	
+	public boolean isAlive() {
+        return this.alive;
+    }
+	
+	
 
 	// BOUNDING BOX UPDATE
 	public void updateBoundingBox() {
@@ -143,8 +176,6 @@ public class Entity {
 	}
 	
 	public Rect boundingBox() {
-//		double longest = Math.max(this.size.x_cm, this.size.y_cm);
-//		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(longest, longest), 0);
 		return new Rect(this.isu.new Coord(this.center.x_cm, this.center.y_cm), this.isu.new Dimension(this.size.x_cm, this.size.y_cm), 0);
 	}
 
@@ -268,7 +299,13 @@ public class Entity {
 	}
 
 	public void collision(List<Entity> le) {
-		this.stunt.collision(le);
+		if (this.stunt() != null) {
+	        this.stunt().collision(le); 
+	    } else {
+	        // Comportement par défaut si l'entité n'a pas de stunt
+	        this.setlSpeed(0, 0);
+	        die();
+	    }
 	}
 
 	public boolean haslSpeed() {
@@ -305,5 +342,18 @@ public class Entity {
 		for (Grid.Cell c : this.occupied) {
 			c.remove(this);
 		}
+		this.occupied.clear(); //au cas ou
 	}
+	
+	public void die() {
+		System.out.println("entité despawn");
+        this.alive = false;
+        
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+        
+    }
+	
+	//public abstract void tick();
 }
