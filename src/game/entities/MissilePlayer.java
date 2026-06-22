@@ -56,7 +56,7 @@ public class MissilePlayer extends Entity{
             int posY = this.toPixel(center.y_cm - (MissilePlayer.this.size.y_cm / 2));
             
            
-            g.drawImage(sprites[0][0], posX, posY, (int)(6 * Main.windowScale), (int)(3*Main.windowScale));
+            g.drawImage(sprites[0][0], posX + shiftPX, posY, (int)(6 * Main.windowScale), (int)(3*Main.windowScale));
 			
 		}
 		

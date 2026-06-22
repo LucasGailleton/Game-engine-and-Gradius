@@ -79,11 +79,9 @@ public class View {
 		            
 		            double w = entity.size.x_cm/2.0;
 		            double h = entity.size.y_cm/2.0;
-		            
-		            if (ProfilingManager.PROFILING) {
-			            g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
-			            g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
-		            }
+
+			        g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
+			        g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
 	            }
 			}
 			

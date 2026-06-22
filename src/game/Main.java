@@ -7,6 +7,7 @@ import debugmode.VectAvatar;
 import engine.ShipStunt;
 import engine.Entity;
 import engine.Game;
+import engine.ISU;
 import engine.ISU.Coord;
 import engine.ShipStunt;
 import engine.Ticker;
@@ -82,10 +83,13 @@ public class Main implements Runnable {
 	}
 	
 	public ShipStunt init(Model model, View view) {
+		
+		ISU isu = Game.game().isu;
+		
 		MapBuilder.placeObstacle(model,view, canvas);
 		
 		Ship ship = new Ship();
-		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		ship.setCoord(isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
 		view.add(ship.new ShipAvatar());
@@ -97,12 +101,19 @@ public class Main implements Runnable {
 		
 		ship.setStunt(shipStunt);
 			
-//		MontFendu mf = new MontFendu();
-//		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-//		mf.setBounding();
-//		model.add(mf);
-//		view.add(mf.getAvatar());
+		MontFendu mf = new MontFendu();
+		mf.setCoord(isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		mf.setBounding();
+		model.add(mf);
+		view.add(mf.getAvatar());
 //		
+		Mur plafond = new Mur(75, 0);
+		model.add(plafond);
+		view.add(plafond.getAvatar());
+		
+		Mur sol = new Mur(75, 30);
+		model.add(sol);
+		view.add(sol.getAvatar());
 //		
 //		Ship ship = new Ship();
 //		

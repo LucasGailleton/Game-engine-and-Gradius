@@ -77,8 +77,9 @@ public class Model {
 	    
 	    for (Entity entity : copyEntities) {
 	        
+	    	boolean isShip = entity instanceof Ship;
 	        
-	        if (entity instanceof Ship) {
+	        if (isShip) {
 	            ((Ship) entity).tick(seconds, shift);
 	        } else if (entity instanceof MissilePlayer) {
 	            ((MissilePlayer) entity).tick();
@@ -109,11 +110,10 @@ public class Model {
 						}
 					}
 					if(!trueCollisions.isEmpty()) {
-						boolean isInvincible = (entity instanceof Ship) ? ((Ship)entity).getHit() : false;
-					    if (!isInvincible) {
-							entity.translate(entity.isu.new Vector(-moveX, -moveY));
-							entity.setlSpeed(0, 0); 
-							if (entity.stunt() instanceof ShipStunt) {
+						//boolean isInvincible = (isShip) ? ((Ship)entity).getHit() : false;
+						entity.translate(entity.isu.new Vector(-moveX, -moveY));
+						entity.setlSpeed(0, 0); 
+						if (entity.stunt() instanceof ShipStunt) {
 								ShipStunt bs = ((ShipStunt) entity.stunt());
 								bs.forbiddenDirection = bs.direction;
 								switch (bs.direction) {
@@ -121,11 +121,9 @@ public class Model {
 								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
 								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
 								default: bs.set(0, -0.05*Main.windowScale); break;
-								}
 							}
 							entity.collision(trueCollisions);
-							
-					    }
+						}
 					}
 				}
 			}
