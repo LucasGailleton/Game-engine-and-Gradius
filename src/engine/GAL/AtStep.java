@@ -9,8 +9,7 @@ class AtStep  extends GALCondition{
 	// CONSTRUCTOR
 
 	 AtStep(Direction dir, Category cat, int nbStep){ 
-		 this.direction=dir;
-		 this.category=cat;
+		 super(dir,cat);
 		 this.nbStep=nbStep;
 	 }
 

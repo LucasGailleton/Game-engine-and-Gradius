@@ -3,19 +3,19 @@ package engine.GAL;
 import java.util.HashMap;
 import java.util.Map;
 
-class Category {
+public class Category {
 
 	// CONSTANTS
 
-	 static Category Adversary, Obstacle, Team, Void;
+	public static Category Adversary, Obstacle, Team, Void;
 	// ...
 
 	// STATIC
-	Map<String, Category> categories = new HashMap<>();
+	public	Map<String, Category> categories = new HashMap<>();
 	//Object categories; // <-- FIXME
 
-	static boolean interaction[][];
-	static int ind;
+	public static boolean interaction[][];
+	public static int ind;
 	// STATIC INITIALIZATION
 
 	static {

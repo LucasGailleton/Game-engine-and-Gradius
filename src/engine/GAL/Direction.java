@@ -124,4 +124,22 @@ public class Direction {
 		throw new IllegalStateException("Cannot convert relative direction '");
 	}
 
+	int relativedir(Entity e) {
+		if (!isAbsolute()) {
+			throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
+		}
+		if (this == N) {
+			return 90;
+		}
+		if (this == E) {
+			return 0;
+		}
+		if (this == S) {
+			return 270;
+		}
+		if (this == W) {
+			return 180;
+		}
+		throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
+	}
 }

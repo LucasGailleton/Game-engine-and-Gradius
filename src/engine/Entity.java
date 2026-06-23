@@ -11,6 +11,7 @@ import engine.Grid.Cell;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
+import engine.GAL.Category;
 import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
@@ -43,6 +44,7 @@ public abstract class Entity {
 	protected Model model;
 	private Vector lSpeed;
 	private double aSpeed;
+	Category category;
 	
 	protected boolean alive = true;
 
@@ -111,6 +113,10 @@ public abstract class Entity {
 	public void setModel(Model model) { //On est sûr de ça la ?
 		this.model = model;
 	}
+	
+	public void setCategory(Category cat) { 
+		this.category = cat;
+	}
 
 	// GETTER
 	public ISU.Coord center() {
@@ -165,6 +171,10 @@ public abstract class Entity {
 	public boolean isAlive() {
         return this.alive;
     }
+	
+	public Category Category() {
+		return this.category;
+	}
 	
 	
 
