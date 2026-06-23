@@ -12,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class BossGunBottom extends Entity{
+public class BossGunBottom extends Entity implements Enemy{
 
 	public BossGunBottom(String name) {
 		super(name);

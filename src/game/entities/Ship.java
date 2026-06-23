@@ -121,7 +121,7 @@ public class Ship extends Entity implements Shooter {
 			this.model.getView().add(laser.getAvatar());
 		} else {
 			MissilePlayer msp = new MissilePlayer(view, "missile simple");
-			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 30, pos.y * Game.cmPerCell));
 			msp.setBounding();
 			msp.setlSpeed(missileSpeed, 0);
 			this.model.add(msp);

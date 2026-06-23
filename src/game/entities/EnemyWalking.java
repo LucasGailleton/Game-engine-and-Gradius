@@ -11,7 +11,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyWalking extends Entity{
+public class EnemyWalking extends Entity implements Enemy{
 	//Entité qui spawn avec chicken
 	
 	

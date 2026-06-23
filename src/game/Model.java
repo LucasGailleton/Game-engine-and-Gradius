@@ -17,8 +17,10 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PacMan.PacManAvatar;
+import game.entities.PowerUp;
 import game.entities.Ship;
 import engine.Physic;
 import engine.ShipStunt;
@@ -36,8 +38,8 @@ public class Model {
 	public Model(View v) {
 		if (ProfilingManager.PROFILING)
 			this.p = ProfilingManager.getProfiler("model");
-		this.ps = new Physic(this);
 		this.grid = Game.game().grid;
+		this.ps = new Physic(this);
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
 	}
@@ -77,6 +79,8 @@ public class Model {
 	    for (Entity entity : copyEntities) {
 	    	
 	    	boolean isShip = entity instanceof Ship;
+	    	boolean isLaser = entity instanceof LaserShot;
+	    	boolean isMissile = entity instanceof MissilePlayer;
 
 	        if (isShip)
 	            ((Ship) entity).tick(seconds, shift);
@@ -89,6 +93,7 @@ public class Model {
 	        
 	        
 	        if (entity.haslSpeed()) {
+	            
 	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
@@ -106,13 +111,23 @@ public class Model {
 					List<Entity> trueCollisions = new ArrayList<>();
 					
 					for(Entity e : boxCollisions) {
-						if(entity.bounding().intersects(e.bounding())) {
+						if((isMissile || isLaser) && !(e instanceof PowerUp)) {
 							trueCollisions.add(e);
+						}
+						else {
+							if(entity.bounding().intersects(e.bounding())) {
+								trueCollisions.add(e);
+							}
 						}
 					}
 					if(!trueCollisions.isEmpty()) {
-						boolean isInvincible = (isShip) ? ((Ship)entity).getHit() : false;
-					    if (!isInvincible) {
+						boolean isInvincible = false;
+						
+						if(isShip) {
+							isInvincible = ((Ship)entity).getHit();
+						}
+						
+					    if (!isInvincible && !isLaser) {
 							entity.translate(entity.isu.new Vector(-moveX, -moveY));
 							entity.setlSpeed(0, 0); 
 							if (entity.stunt() instanceof ShipStunt) {
@@ -131,9 +146,6 @@ public class Model {
 					}
 				}
 			}
-	        else {
-	        	
-	        }
 		}
 		if (Main.debug)
 			p.end();

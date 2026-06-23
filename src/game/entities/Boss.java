@@ -13,7 +13,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class Boss extends Entity {
+public class Boss extends Entity implements Enemy{
 
 	// CONSTRUCTOR
 	public Boss() {

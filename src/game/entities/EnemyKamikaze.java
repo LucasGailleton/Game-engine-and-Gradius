@@ -10,7 +10,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyKamikaze extends Entity{
+public class EnemyKamikaze extends Entity implements Enemy{
 	
 	public static final int spriteNeutral = 0;
     public static final int spriteUp = 1;

@@ -14,7 +14,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyChicken extends Entity{
+public class EnemyChicken extends Entity implements Enemy{
 	//enemie qui crée des nouveaux ennemies (assez gros)
 	public static final int spriteNeutral = 0;
 	

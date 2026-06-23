@@ -1,5 +1,7 @@
 package game.entities;
 
+import java.util.List;
+
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -22,7 +24,7 @@ public class MissilePlayer extends Entity {
         this.view = view;
 	}
 	
-	@Override
+	/*@Override
 	public void setBounding() {
 		double x_cm = this.size.x_cm;
 		double y_cm = this.size.y_cm;
@@ -31,10 +33,10 @@ public class MissilePlayer extends Entity {
 		double x = center.x_cm;
 		double y = center.y_cm;
 		
-		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm-(32*Main.windowScale));
-		ISU.Coord shapeCenter = isu.new Coord(x, y+(15*Main.windowScale));
+		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm-(32*Game.cmPerCell*Main.windowScale));
+		ISU.Coord shapeCenter = isu.new Coord(x, y+(15*Game.cmPerCell*Main.windowScale));
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
-	}
+	}*/
 	
 	public void tick(double seconds, boolean shift) {
 		if (!this.haslSpeed() || this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) {
@@ -74,6 +76,30 @@ public class MissilePlayer extends Entity {
 			
 		}
 		
+	}
+	
+	@Override
+	public void collision(List<Entity> le) {
+		boolean touche = false;
+
+		for (Entity e : le) {
+
+			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer) {
+				continue; 
+			}
+
+			touche = true;
+
+			if (e instanceof Enemy) {
+				System.out.println("On a touché : " + e.name);
+
+				e.die(); 
+			}
+		}
+
+		if (touche) {
+			this.die(); 
+		}
 	}
 
 }
