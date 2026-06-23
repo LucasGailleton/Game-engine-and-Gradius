@@ -52,6 +52,10 @@ public class View {
 	public void remove(Avatar a) {
 		this.avatars.remove(a);
 	}
+
+	public int shiftPX() {
+		return this.shiftPX;
+	}
 	
 	public boolean shift() {
 		if (this.shiftChg == viewSpeedChg) {

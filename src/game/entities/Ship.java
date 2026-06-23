@@ -40,6 +40,14 @@ public class Ship extends Entity implements Shooter{
 	private SoundPlayer tir1,tir2,degat,mort;
 	private int indexAudio;
 
+	// etat des power-ups
+	public static final int WEAPON_SIMPLE = 0;
+	public static final int WEAPON_DOUBLE = 1;
+	public static final int WEAPON_LASER = 2;
+	private int weapon = WEAPON_SIMPLE;
+	private int speedBoost = 0;
+	private final List<Slave> slaves = new ArrayList<>();
+
 	
 	public Ship() {
 		super("Ship");
@@ -64,6 +72,8 @@ public class Ship extends Entity implements Shooter{
 	
 	public void tick(double seconds, boolean shift) {
 		
+	    ramasserPowerUps();
+
 	    double angularSpeed = aSpeed();
 	    if (angularSpeed != 0) {
 	        turn((int) (angularSpeed * seconds));
@@ -100,14 +110,44 @@ public class Ship extends Entity implements Shooter{
 	
 	
 	private void shoot() {
-		MissilePlayer msp = new MissilePlayer("missile 1 ");
 		Position pos = this.position();
-		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
-		msp.setBounding();
-		msp.setlSpeed(missileSpeed, 0);
-		this.model.add(msp);
-		this.model.getView().add(msp.getAvatar());
-		
+
+		if (this.weapon == WEAPON_LASER) {
+			LaserShot laser = new LaserShot("laser");
+			laser.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+50, pos.y*Game.cmPerCell));
+			laser.setBounding();
+			laser.setlSpeed(missileSpeed * 2, 0);
+			this.model.add(laser);
+			this.model.getView().add(laser.getAvatar());
+		} else {
+			MissilePlayer msp = new MissilePlayer("missile 1 ");
+			msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
+			msp.setBounding();
+			msp.setlSpeed(missileSpeed, 0);
+			this.model.add(msp);
+			this.model.getView().add(msp.getAvatar());
+
+			// power-up du 2e tir a 45 deg vers le bas
+			if (this.weapon == WEAPON_DOUBLE) {
+				MissilePlayer msp2 = new MissilePlayer("missile double");
+				msp2.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20, pos.y*Game.cmPerCell));
+				msp2.setBounding();
+				msp2.setlSpeed(missileSpeed, missileSpeed);
+				this.model.add(msp2);
+				this.model.getView().add(msp2.getAvatar());
+			}
+		}
+
+		for (int i = 0; i < this.slaves.size(); i++) {
+			ISU.Coord oc = slaveCoord(i);
+			MissilePlayer m = new MissilePlayer("slave shot");
+			m.setCoord(this.isu.new Coord(oc.x_cm + 20, oc.y_cm));
+			m.setBounding();
+			m.setlSpeed(missileSpeed, 0);
+			this.model.add(m);
+			this.model.getView().add(m.getAvatar());
+		}
+
 		if (indexAudio%2==0) {
 			tir1.play(1);
 			
@@ -148,6 +188,50 @@ public class Ship extends Entity implements Shooter{
 		}, 3000);
 	}
 	
+	// applique l'effet d'un power-up ramasse
+	public void applyPowerUp(int type) {
+		switch (type) {
+		case PowerUp.SPEED: this.speedBoost++; break;
+		case PowerUp.DOUBLE: this.weapon = WEAPON_DOUBLE; break;
+		case PowerUp.LASER: this.weapon = WEAPON_LASER; break;
+		case PowerUp.SLAVE: addSlave(); break;
+		default: break;
+		}
+		System.out.println("[Ship] Power-up ramasse ! type = " + type);
+	}
+
+	// vitesse de deplacement, augmentee par le power-up Speed Up
+	public double walkSpeed() {
+		return 15.0 + this.speedBoost * 5.0;
+	}
+
+	// slave : ajoute un clone (max 4) qui suit le vaisseau et tire avec lui
+	private void addSlave() {
+		if (this.slaves.size() >= 4)
+			return;
+		Slave s = new Slave(this, this.slaves.size());
+		this.model.getView().add(s.getAvatar());
+		this.slaves.add(s);
+	}
+
+	// position d'un slave : alternance au-dessus / en dessous du vaisseau (pour ne pas tirer dedans)
+	public ISU.Coord slaveCoord(int i) {
+		double spacing = Game.cmPerCell * 2.0 * Main.windowScale;
+		int rang = i / 2 + 1;
+		int sign = (i % 2 == 0) ? -1 : 1;
+		return this.isu.new Coord(this.center().x_cm, this.center().y_cm + sign * rang * spacing);
+	}
+
+	// ramassage des power-ups par proximite : le vaisseau passe a travers et les attrape
+	private void ramasserPowerUps() {
+		for (Entity e : new ArrayList<Entity>(this.model.entities())) {
+			if (e instanceof PowerUp && this.center().distanceTo(e.center()) < (this.size.x_cm + e.size.x_cm) / 2.0) {
+				applyPowerUp(((PowerUp) e).type());
+				e.die();
+			}
+		}
+	}
+
 	public class ShipAvatar extends Avatar {
 		
 		private List<BufferedImage> death;

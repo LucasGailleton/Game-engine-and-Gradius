@@ -13,6 +13,8 @@ public class MissilePlayer extends Entity{
 	
 	
 
+	private int age = 0;
+
 	public MissilePlayer(String name) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
@@ -21,7 +23,20 @@ public class MissilePlayer extends Entity{
 	
 	
 	public void tick() {
-		if (this.position().x >=140) { //récupérer taille fenetre/ViewPort
+		this.age++;
+		//  tir stoppé par une collision > on le supprime
+		if (this.lSpeed().targetX_cm == 0 && this.lSpeed().targetY_cm == 0) {
+			die();
+			return;
+		}
+		int y = this.position().y;
+		// supprime missile dès qu'il sort de la fenetre
+		int screenX = (int) (this.center().x_cm * Game.pixelPerCm) + this.getModel().getView().shiftPX();
+		int largeurFenetre = (int) (256 * Main.windowScale);
+		boolean horsEcran = screenX > largeurFenetre + 100 || screenX < -100;
+		// et pour les tirs à 45 degres
+		boolean vertical = this.lSpeed().targetY_cm != 0;
+		if (horsEcran || this.age > 1000 || (vertical && (y < 10 || y > this.grid.height() - 10))) {
 			die();
 		}
 //		if (collision()) {

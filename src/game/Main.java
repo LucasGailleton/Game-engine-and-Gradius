@@ -175,6 +175,31 @@ public class Main implements Runnable {
 //		model.add(pu);
 //		view.add(pu.getAvatar());
 //		
+		// power-ups à ramasser
+		PowerUp puDouble = new PowerUp("double", PowerUp.DOUBLE);
+		puDouble.setCoord(isu.new Coord(18*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puDouble.setBounding();
+		model.add(puDouble);
+		view.add(puDouble.getAvatar());
+
+		PowerUp puSpeed = new PowerUp("speed", PowerUp.SPEED);
+		puSpeed.setCoord(isu.new Coord(22*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puSpeed.setBounding();
+		model.add(puSpeed);
+		view.add(puSpeed.getAvatar());
+
+		PowerUp puSlave = new PowerUp("slave", PowerUp.SLAVE);
+		puSlave.setCoord(isu.new Coord(26*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puSlave.setBounding();
+		model.add(puSlave);
+		view.add(puSlave.getAvatar());
+
+		PowerUp puLaser = new PowerUp("laser", PowerUp.LASER);
+		puLaser.setCoord(isu.new Coord(30*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puLaser.setBounding();
+		model.add(puLaser);
+		view.add(puLaser.getAvatar());
+
 		return shipStunt;
 	}
 }
