@@ -24,6 +24,10 @@ public class Borders extends Entity{
 		//this.setlSpeed(10, 0);
 	}
 	
+	@Override
+	public void setBounding() {
+	}
+	
 	public class BorderAvatar extends Avatar{
 		
 		private final static int Top = 1;

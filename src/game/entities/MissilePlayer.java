@@ -3,16 +3,11 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Coord;
 import engine.ISU.Dimension;
-import engine.ISU.Vector;
 import engine.shapes.Rect;
-import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
-import oop.graphics.Canvas;
 import oop.graphics.Graphics;
-import oop.tasks.Runtime;
 
 public class MissilePlayer extends Entity {
 	
@@ -44,8 +39,11 @@ public class MissilePlayer extends Entity {
 			die();
 //		if (collision())
 //			die();
+//		}
 	}
+	
 
+	
 	private class MissilePlayerAvatar extends Avatar{
 		
 		public static final int spriteSizeX = 8;

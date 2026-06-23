@@ -113,19 +113,21 @@ public class Ship extends Entity implements Shooter{
 	}
 	
 	public void gotHit()  {
+		
 		if(hit)
 			return;
-		hit = true;
 		
-		this.degat.play(1);
-
-		if(hp == 0) {
+		if(hp <= 1) {
 			this.mort.play(1);
-			throw new IllegalStateException("GAME OVER\n");
-		}		
-		hp--;
+			//méthode de game over
+		}
 		
+		hp--;
+		this.degat.play(1);
+		hit = true;
+
 		ShipAvatar sa = (ShipAvatar) avatar;
+		
 		if (!sa.clignote)
 			sa.clignoter();
 		
@@ -170,7 +172,7 @@ public class Ship extends Entity implements Shooter{
 		        public void run() throws Exception {
 		            clignoter();
 		        }
-		    }, 150);
+		    }, 50);
 
 		}
 

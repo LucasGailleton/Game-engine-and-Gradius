@@ -85,6 +85,8 @@ public class Model {
 	        
 	        
 	        if (entity.haslSpeed()) {
+	            
+	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);

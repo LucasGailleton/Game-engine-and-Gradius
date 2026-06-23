@@ -318,18 +318,25 @@ public abstract class Entity {
 	public void deploy() {
 		this.retract();
 		if (this.center != null) {
-			double halfLongest = Math.max(this.size.x_cm / 2.0, this.size.y_cm / 2.0);
-			int xmin = ((int) Math.round((this.center.x_cm - halfLongest) / Game.cmPerCell)) - 1;
-			int ymin = ((int) Math.round((this.center.y_cm - halfLongest) / Game.cmPerCell)) - 1;
-			int xmax = ((int) Math.floor((this.center.x_cm + halfLongest - 1e-9) / Game.cmPerCell)) + 1;
-			int ymax = ((int) Math.floor((this.center.y_cm + halfLongest - 1e-9) / Game.cmPerCell)) + 1;
+			
+			double halfX = this.size.x_cm / 2.0;
+			double halfY = this.size.y_cm / 2.0;
+			//double halfLongest = Math.max(this.size.x_cm / 2.0, this.size.y_cm / 2.0);
+			
+			int xmin = ((int) Math.round((this.center.x_cm - halfX) / Game.cmPerCell)) - 1;
+			int ymin = ((int) Math.round((this.center.y_cm - halfY) / Game.cmPerCell)) - 1;
+			int xmax = ((int) Math.floor((this.center.x_cm + halfX - 1e-9) / Game.cmPerCell)) + 1;
+			int ymax = ((int) Math.floor((this.center.y_cm + halfY - 1e-9) / Game.cmPerCell)) + 1;
 
 			for (int y = ymin; y <= ymax; y++) {
 				for (int x = xmin; x <= xmax; x++) {
 					
-					Grid.Cell c = this.grid.cellAt(this.grid.new Position(this.grid.xAxis.normalize(x), this.grid.yAxis.normalize(y)));
-					c.add(this);
-					this.occupied.add(c);
+					try {
+						Grid.Cell c = this.grid.cellAt(this.grid.new Position(this.grid.xAxis.normalize(x), this.grid.yAxis.normalize(y)));
+						c.add(this);
+						this.occupied.add(c);
+					} catch (Exception e) {
+					}
 				}
 			}
 		}

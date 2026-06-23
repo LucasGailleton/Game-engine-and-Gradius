@@ -27,6 +27,7 @@ public class VectAvatar extends Avatar {
 
 	@Override
 	public void paint(Graphics g, int shiftPX) {
+
 		ISU.Vector v = e.lSpeed();
 		ISU.Coord centre = e.center();
 		g.setColor(Colors.green);

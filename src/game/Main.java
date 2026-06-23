@@ -49,6 +49,8 @@ public class Main implements Runnable {
 		Dimension d = new Dimension((int) (windowWidth*windowScale), (int) (windowHeight*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
+	
+	
 
 	@Override
 	public void run() throws Exception {
@@ -65,6 +67,8 @@ public class Main implements Runnable {
 		
 		ShipStunt shipStunt = init(model,view);
 
+
+
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -79,6 +83,7 @@ public class Main implements Runnable {
 	}
 	
 	public ShipStunt init(Model model, View view) {
+		MapBuilder.placeObstacle(model,view, canvas);
 		
 		Ship ship = new Ship(view);
 		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
@@ -92,14 +97,21 @@ public class Main implements Runnable {
 		view.add(va);
 		
 		ship.setStunt(shipStunt);
+			
 		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 22*Game.cmPerCell*windowScale));
+		mf.setCoord(isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
 		mf.setBounding();
 		model.add(mf);
 		view.add(mf.getAvatar());
+//		
+		Mur plafond = new Mur(75, 0);
+		model.add(plafond);
+		view.add(plafond.getAvatar());
 		
-		System.out.println("canvas width : " + canvas.getWidth());
-		
+		Mur sol = new Mur(75, 30);
+		model.add(sol);
+		view.add(sol.getAvatar());
+//		
 //		Ship ship = new Ship();
 //		
 //		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));
