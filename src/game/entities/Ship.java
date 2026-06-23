@@ -217,6 +217,7 @@ public class Ship extends Entity implements Shooter {
 		if (this.slaves.size() >= 4)
 			return;
 		Slave s = new Slave(this, this.slaves.size());
+		this.model.add(s);
 		this.model.getView().add(s.getAvatar());
 		this.slaves.add(s);
 	}

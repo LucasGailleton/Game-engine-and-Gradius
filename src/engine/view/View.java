@@ -112,8 +112,7 @@ public class View {
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString("FPS: " + currentFPS, 10, 20);
 		    
-		    if(model != null)
-		    	g.drawString("E: " + model.entities().size(), 10, 40);
+		    g.drawString("E: " + model.entities().size(), 10, 40);
 		    
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);
