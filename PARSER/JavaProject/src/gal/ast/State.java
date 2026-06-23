@@ -33,7 +33,7 @@ public class State extends Node {
 		return visitor.visit(this);
 	}
 
-	public engine.gal.State transform() {
-		return new engine.gal.State(name,0);
+	public engine.GAL.State transform() {
+		return new engine.GAL.State(name,0);
 	}
 }

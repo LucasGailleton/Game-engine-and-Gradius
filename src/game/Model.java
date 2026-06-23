@@ -98,7 +98,11 @@ public class Model {
 				entity.translate(entity.isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));				
 			}
 				
-			
+				
+			if (!(entity instanceof Ship) && entity.bot()!=null) {
+				entity.bot().tick(elapsed);
+			}
+				
 			if (entity.haslSpeed()) {
 				
 				//Missile Test

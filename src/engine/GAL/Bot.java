@@ -53,10 +53,13 @@ public abstract class Bot {
 	 * @apiNote wakes up the Bot so that it can take action
 	 * @param elapsed_ms
 	 */
-	 void tick(double elapsed_ms) {
+	 public void tick(double elapsed_ms) {
 		 think(elapsed_ms);
 	 }
-
+	 
+	 public void tick() {
+		 think();
+	 }
 	/**
 	 * @apiNote notifies the Bot that a collision has occurred with {@code impactor}
 	 *          after {@code elapsed_ms} so that the Bot can take action
@@ -71,5 +74,6 @@ public abstract class Bot {
 	 abstract void completed();
 	 
 	 abstract void think(double elapsed_ms);
+	 abstract void think();
 
 }

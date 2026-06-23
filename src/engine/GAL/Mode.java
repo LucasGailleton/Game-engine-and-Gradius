@@ -3,7 +3,7 @@ package engine.GAL;
 import java.util.HashMap;
 import java.util.Map;
 
-class Mode {
+public class Mode {
 
 	public static Mode Blocking, Dying, Escaping, Fighting, Resting, Running, Searching, Sleeping, Waiting,
 			Walking;

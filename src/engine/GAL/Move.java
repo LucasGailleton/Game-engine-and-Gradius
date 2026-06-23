@@ -1,7 +1,10 @@
 
-package engine.gal;
+package engine.GAL;
 
+import engine.BasicStunt;
 import engine.Entity;
+import engine.ShipStunt;
+import engine.Stunt;
 
 class Move  extends GALAction{
 
@@ -52,15 +55,13 @@ class Move  extends GALAction{
 	 }
 
 	// EXEC
-	 boolean exec(Entity e){ 
-		 
+	 public boolean exec(Entity e){ 
+		 Stunt s=e.stunt();
+		 s.walk(0);
+		 System.out.println("move");
+		 return true;
 	 }
 
-	 @Override
-	 public boolean exec(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
-	 }
 
 
 }

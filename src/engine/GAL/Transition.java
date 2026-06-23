@@ -1,5 +1,5 @@
 
-package engine.gal;
+package engine.GAL;
 
 
 import engine.Entity;
@@ -41,7 +41,7 @@ public class Transition {
 	 * @return {@code true} if the condition is satisfied and the action can start
 	 */
 	 boolean exec(Entity e){ 
-		 if(e.bot().state()==this.source && this.condition.eval(e)) {
+		 if(e.bot().state().equals(source) && this.condition.eval(e)) {
 			 boolean b=this.action.exec(e);
 			 if(b) {
 				 e.bot().state(tgt);

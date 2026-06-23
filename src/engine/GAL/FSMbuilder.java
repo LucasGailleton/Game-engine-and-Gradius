@@ -1,4 +1,4 @@
-package engine.gal;
+package engine.GAL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +27,7 @@ import JavaProject.src.gal.ast.iVisitor;
 
 public class FSMbuilder implements iVisitor{
 
-	private engine.gal.Automaton currentAutomaton;
+	private engine.GAL.Automaton currentAutomaton;
 	
 	// REQUIRED BY INTERFACE IVisitor
 
@@ -193,31 +193,31 @@ public class FSMbuilder implements iVisitor{
 	}
 
 	public Object build(Automaton automaton, Object initial_state, List<Object> modes) {
-        engine.gal.State initial = new engine.gal.State(initial_state.toString(),0);
+        engine.GAL.State initial = new engine.GAL.State(initial_state.toString(),0);
         
         // Création de VOTRE instance d'Automaton avec son constructeur : Automaton(String name, State initial)
-        this.currentAutomaton = new engine.gal.Automaton(automaton.name, initial);
+        this.currentAutomaton = new engine.GAL.Automaton(automaton.name, initial);
         
         for(Mode m:(List<Mode>) (Object) modes) {
             for(Transition t:m.behaviour.transitions) {
             	HashMap var_map=new HashMap<String,Variable>();    //tableau des variables de la transition
-            	engine.gal.State targ=new engine.gal.State(t.target.toString(),0); 
-            	engine.gal.State source=new engine.gal.State(m.state.toString(),0);
+            	engine.GAL.State targ=new engine.GAL.State(t.target.toString(),0); 
+            	engine.GAL.State source=new engine.GAL.State(m.state.toString(),0);
             	////////////////////////////
             	// On crée une liste pour stocker toutes les actions de la transition
-                List<engine.gal.GALAction> executionActions = new ArrayList<>();
+                List<engine.GAL.GALAction> executionActions = new ArrayList<>();
                 
-                // t.action est un gal.ast.Actions, on boucle sur sa LinkedList<FunCall>
+                // t.action est un GAL.ast.Actions, on boucle sur sa LinkedList<FunCall>
                 if (t.action != null && t.action.actions != null) {
                     for (FunCall call : t.action.actions) {
                     	executionActions.add(transformfuncall(call));
                     }
                 }
-            	//engine.gal.GALAction act=new engine.gal.Move(t.action.);
-                engine.gal.GALAction act=executionActions.get(0);
-            	//engine.gal.GALCondition cond=new engine.gal.GALCondition(t.action);
-                True tru=engine.gal.GALCondition.TRUE;
-            	engine.gal.Transition tran=new engine.gal.Transition(source,(iGALCondition)tru,act,targ);
+            	//engine.GAL.GALAction act=new engine.GAL.Move(t.action.);
+                engine.GAL.GALAction act=executionActions.get(0);
+            	//engine.GAL.GALCondition cond=new engine.GAL.GALCondition(t.action);
+                True tru=engine.GAL.GALCondition.TRUE;
+            	engine.GAL.Transition tran=new engine.GAL.Transition(source,(iGALCondition)tru,act,targ);
             	this.currentAutomaton.add(tran);
             }
         }
@@ -229,21 +229,21 @@ public class FSMbuilder implements iVisitor{
 	
 	//transform
 	
-	public engine.gal.GALAction transformfuncall(FunCall f){
+	public engine.GAL.GALAction transformfuncall(FunCall f){
 		int paramSize = f.parameters.size();
         String actionName = f.name;
 		switch(paramSize) {
 		case 1:
 			Object param = f.parameters.get(0);
-			engine.gal.Direction d;
+			engine.GAL.Direction d;
     		if(param instanceof IntValue) {
-    			d=engine.gal.Direction.toDir(((IntValue)param).value);
+    			d=engine.GAL.Direction.toDir(((IntValue)param).value);
     		}
     		else if(param instanceof Direction) {
-    			d=engine.gal.Direction.canonical(((Direction)f.parameters.get(0)).toString());
+    			d=engine.GAL.Direction.canonical(((Direction)f.parameters.get(0)).toString());
     		}
     		else if(param instanceof Variable) {
-    			d=engine.gal.Direction.canonical("E");	
+    			d=engine.GAL.Direction.canonical("E");	
     		}
     		else {
     			throw new IllegalArgumentException("Type de paramètre inconnue");
@@ -251,53 +251,53 @@ public class FSMbuilder implements iVisitor{
 	    	switch(actionName) {
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	case"Hit":
-	    		return new engine.gal.Move(d);
+	    		return new engine.GAL.Move(d);
 	    	case"Push":
-	    		return new engine.gal.Move(d);
+	    		return new engine.GAL.Shoot(d);
 	    	case"Move":
-	    		return new engine.gal.Move(d);
+	    		return new engine.GAL.Move(d);
 	    	default:
 	            // Par défaut ou pour les autres actions
-	            //executionActions.add(new engine.gal.GALAction(call.name));
+	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
 		case 2:
 	    	switch(f.name) {
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	case"Hit":
-	    		engine.gal.Direction dt=engine.gal.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
+	    		engine.GAL.Direction dt=engine.GAL.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
 	    		double j=(double)((IntValue)(f.parameters.get(1))).value;
-	    		return new engine.gal.Move(dt,j);
+	    		return new engine.GAL.Move(dt,j);
 	    	case"Push":
-	    		engine.gal.Direction d2=engine.gal.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
+	    		engine.GAL.Direction d2=engine.GAL.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
 	    		double j3=(double)((IntValue)(f.parameters.get(1))).value;
-	    		return new engine.gal.Move(d2,j3);
+	    		return new engine.GAL.Move(d2,j3);
 	    	case"Move":
-	    		engine.gal.Direction d3=engine.gal.Direction.toDir(((IntValue)f.parameters.get(1)).value);
+	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
 	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
-	    		return new engine.gal.Move(d3,j2);
+	    		return new engine.GAL.Move(d3,j2);
 	    	default:
 	            // Par défaut ou pour les autres actions
-	            //executionActions.add(new engine.gal.GALAction(call.name));
+	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
 		case 3:
 	    	switch(f.name) {
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	case"Hit":
-	    		engine.gal.Direction dt=engine.gal.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
+	    		engine.GAL.Direction dt=engine.GAL.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
 	    		double j=(double)((IntValue)(f.parameters.get(1))).value;
-	    		return new engine.gal.Move(dt,j);
+	    		return new engine.GAL.Move(dt,j);
 	    	case"Push":
-	    		engine.gal.Direction d2=engine.gal.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
-	    		return new engine.gal.Move(d2,0);
+	    		engine.GAL.Direction d2=engine.GAL.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
+	    		return new engine.GAL.Move(d2,0);
 	    	case"Move":
-	    		engine.gal.Direction d3=engine.gal.Direction.toDir(((IntValue)f.parameters.get(1)).value);
+	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
 	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
-	    		return new engine.gal.Move(d3,j2);
+	    		return new engine.GAL.Move(d3,j2);
 	    	default:
 	            // Par défaut ou pour les autres actions
-	            //executionActions.add(new engine.gal.GALAction(call.name));
+	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
 	    default:
@@ -306,17 +306,17 @@ public class FSMbuilder implements iVisitor{
 	}
 
 	
-	public engine.gal.iGALCondition transformcond(Expression f){
+	public engine.GAL.iGALCondition transformcond(Expression f){
 		if(f instanceof BinaryOp bo) {
 			String op=bo.operator;
 			if(op.equals("&")) {
-				engine.gal.Conjunction con=new engine.gal.Conjunction();
+				engine.GAL.Conjunction con=new engine.GAL.Conjunction();
 				con.add(transformcond(bo.right_operand));
 				con.add(transformcond(bo.right_operand));
 				return con;
 			}
 			if(op.equals("|")) {
-				engine.gal.Disjunction dis=new engine.gal.Disjunction();
+				engine.GAL.Disjunction dis=new engine.GAL.Disjunction();
 				dis.add(transformcond(bo.right_operand));
 				dis.add(transformcond(bo.right_operand));
 				return dis;

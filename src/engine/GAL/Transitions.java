@@ -1,5 +1,5 @@
 
-package engine.gal;
+package engine.GAL;
 
 
 import java.util.HashMap;
@@ -17,4 +17,5 @@ class Transitions  implements iTransitions{
 	 }
 	 public List<Transition> get(State state) {
 		 return this.map.get(state);
+	 }
 }

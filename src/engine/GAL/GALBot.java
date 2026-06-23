@@ -2,24 +2,25 @@ package engine.GAL;
 
 import engine.Entity;
 
-class GALBot  extends Bot{
-
+public class GALBot  extends Bot{
+	int speed=5;
 	
 	// CONSTRUCTOR
 
-	 GALBot(Entity e){ 
+	 public GALBot(Entity e){ 
 		 super(e);
+		 e.setBot(this);
 	 }
 
 	// ENTITY SELECTED BY CONDITON
 
 	 Entity selectedEndity;
 
-	 void selectedEntity(Entity e){ 
+	 public void selectedEntity(Entity e){ 
 		 this.selectedEndity=e;
 	 }
 
-	Entity selected(){ 
+	 public Entity selected(){ 
 		return this.selectedEndity;
 	}
 
@@ -32,8 +33,9 @@ class GALBot  extends Bot{
 	 * @impNote Que devient l'état (State) du Bot ?
 	 * @param automaton
 	 */
-	 void set(Automaton automaton){
+	 public void set(Automaton automaton){
 		 this.automaton=automaton;
+		 this.state=automaton.initial;
 	 }
 
 	// TICK & COLLISION & COMPLETED
@@ -44,7 +46,7 @@ class GALBot  extends Bot{
 	 * @param elapsed is not used by the automaton
 	 */
 
-	 void tick(double elapsed){ 
+	 public void tick(double elapsed){ 
 		 super.tick(elapsed);
 	 }
 
@@ -52,22 +54,30 @@ class GALBot  extends Bot{
 	 * @apiNote stops the current action and then queries the PLC to select a new
 	 *          action
 	 */
-	 void collision(Entity impactor, double elapsed_ms) {
+	 public void collision(Entity impactor, double elapsed_ms) {
 		 throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `add`");
 	 }
 
 	/**
 	 * @apiNote notifies the Bot that the action of its Stunt is completed.
 	 */
-	 void completed() {
+	 public void completed() {
 		 throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `add`");
 	 }
 
 	@Override
-	void think(double elapsed_ms) {
+	public void think(double elapsed_ms) {
+		if(this.automaton!=null && elapsed_ms%this.speed==0) {
+			boolean transitionFranchie = this.automaton.step(this.entity);
+		}
+		
+	}
 
-        // Le Bot demande à son automate d'évaluer la situation actuelle de son Entity
-        boolean transitionFranchie = this.automaton.step(this.entity);
+	@Override
+	public void think() {
+        if(this.automaton!=null) {
+        	boolean transitionFranchie = this.automaton.step(this.entity);
+        }
 		
 	}
 

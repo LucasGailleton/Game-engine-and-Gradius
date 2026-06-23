@@ -5,12 +5,15 @@ import java.util.List;
 
 import debugmode.VectAvatar;
 import engine.ShipStunt;
+import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
 import engine.ShipStunt;
 import engine.Ticker;
-
+import engine.GAL.Automaton;
+import engine.GAL.AutomatonLoader;
+import engine.GAL.GALBot;
 import engine.GAL.Mode;
 
 import engine.view.Controller;
@@ -41,6 +44,7 @@ public class Main implements Runnable {
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
+	List<Automaton> auts;
 	public static final double windowScale = 4;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
@@ -62,7 +66,8 @@ public class Main implements Runnable {
 		Ticker ticker = new Ticker(model, tick, 10);
 		AutomatonLoader al=new AutomatonLoader(3);
 		try {
-		    al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+			auts=al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
 		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
 		} catch (Exception e) {
 		    e.printStackTrace(); // Regardez votre console !
@@ -108,6 +113,15 @@ public class Main implements Runnable {
 		mf.setBounding();
 		model.add(mf);
 		view.add(mf.getAvatar());
+		
+		EnemyChicken chick=new EnemyChicken("testchick");
+		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		chick.setBounding();
+		chick.setStunt(new BasicStunt(chick.getModel(),chick));
+		model.add(chick);
+		view.add(chick.getAvatar());
+		GALBot gb=new GALBot(chick); 
+		gb.set(auts.get(0));
 //		
 //		
 //		Ship ship = new Ship();

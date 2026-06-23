@@ -1,5 +1,5 @@
 
-package engine.gal;
+package engine.GAL;
 
 import engine.Entity;
 
@@ -76,6 +76,7 @@ class GALStunt  {
 
 	 boolean startMoving(Direction direction, double intensity, double duration_ms){ 
 		 new Move(direction,intensity);
+		 return false;
 		 
 	 }
 
@@ -83,6 +84,7 @@ class GALStunt  {
 
 	 boolean startTurning(int angle_deg, double intensity){ 
 		 new Turn(angle_deg,intensity);
+		 return false;
 	 }
 
 }
