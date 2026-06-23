@@ -3,32 +3,29 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
 public class PowerUp extends Entity{
 
-	public static final int SPEED = 0;
-	public static final int DOUBLE = 1;
-	public static final int LASER = 2;
-	public static final int SLAVE = 3;
+	public static final int Speed = 1;
+	public static final int Double = 2;
+	public static final int Laser = 3;
+	public static final int Slave = 4;
+	
+	private PowerUpAvatar self;
 
-	private int type;
-
-	public PowerUp(String name, int type) {
+	public PowerUp(String name) {
 		super(name);
-		this.type = type;
-		this.setSize(this.isu.new Dimension(18.0*Main.windowScale/Game.pixelPerCm, 16.0*Main.windowScale/Game.pixelPerCm));
+		this.setSize(this.isu.new Dimension((PowerUpAvatar.spriteSizeX/Game.cmPerCell)*Main.windowScale, (PowerUpAvatar.spriteSizeY/Game.cmPerCell)*Main.windowScale));
         this.avatar = new PowerUpAvatar(this);
-	}
-
-	public int type() {
-		return this.type;
 	}
 
 	public void setBounding() {
 		// powerup doit pas etre un obstacle pour le vaisseay
+		this.bounding().add(new Rect(this.center(), this.size, this.orientation()));
 	}
 
 	public class PowerUpAvatar extends Avatar{
@@ -39,8 +36,8 @@ public class PowerUp extends Entity{
 
 		public PowerUpAvatar(Entity e) {
 			super(e);
-			this.index =0;
-			this.indChg =0;
+			this.index = 0;
+			this.indChg = 0;
 		}
 
 		@Override
@@ -58,8 +55,8 @@ public class PowerUp extends Entity{
 				this.getSprites(g);
 
             ISU.Coord center = PowerUp.this.center();
-            int posX = this.toPixel(center.x_cm - (PowerUp.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (PowerUp.this.size.y_cm / 2));
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 
             g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 

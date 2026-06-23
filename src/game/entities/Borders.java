@@ -12,6 +12,7 @@ import oop.graphics.Graphics;
 //A voir si on fait comme ça parce que ya pas les sprites pour le haut donc faurdrait faire des rotations
 // En soit on peut aussi juste faire les sprites en les retournant dans un logiciel
 // Mais pourquoi pas tenter de les tourner directemement dans le code
+
 public class Borders extends Entity{
 	protected int chosenSprite; //compris entre 0 et 1 pour l'instant
 	protected int chosenPos; //entre 0 et 1
@@ -21,17 +22,17 @@ public class Borders extends Entity{
 		this.chosenSprite = chosenSprite;
 		this.chosenPos = chosenPos;
 		this.avatar = new BorderAvatar(this);
-		//this.setlSpeed(10, 0);
 	}
 	
 	@Override
 	public void setBounding() {
+		
 	}
 	
 	public class BorderAvatar extends Avatar{
 		
 		private final static int Top = 1;
-		private final static int Bottom =0;
+		private final static int Bottom = 0;
 
 		public BorderAvatar(Entity e) {
 			super(e);
@@ -48,14 +49,12 @@ public class Borders extends Entity{
 		    
 		    this.sprites[1][Bottom] = imgSprites.getSubimage(71, 117, 47, 12);
 		    this.sprites[1][Top] = imgSprites.getSubimage(146, 46, 47, 12);
-		    
-		    //this.sprites[2][0] = imgSprites.getSubimage(121, 111, 47, 18);
-		    
 		}
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			this.getSprites(g);
+			if (sprites == null)
+				this.getSprites(g);
 	           
             ISU.Coord center = Borders.this.center();
             int posX = this.toPixel(center.x_cm - (Borders.this.size.x_cm / 2));

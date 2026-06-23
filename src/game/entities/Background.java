@@ -34,6 +34,11 @@ public class Background extends Entity {
 		@Override
 		public void getSprites(Graphics g) {
 			this.sprites = new BufferedImage[1][1];
+//			BufferedImage original = g.load("background.png");
+//			int w = canvas.getWidth();
+//	        int h = canvas.getHeight();
+////	        BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+//	        this.sprites[0][0] = scaled;
 			this.sprites[0][0] = g.load("background.png");
 		}
 
@@ -56,6 +61,5 @@ public class Background extends Entity {
 	@Override
 	public void setBounding() {
 		// TODO Auto-generated method stub
-		
 	}
 }

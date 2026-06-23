@@ -2,6 +2,7 @@
 package engine;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import engine.shapes.Rect;
 import engine.shapes.iShape;
 import game.Model;
 import game.entities.Avatar;
+import game.entities.Ship;
 
 public abstract class Entity {
 
@@ -39,6 +41,7 @@ public abstract class Entity {
 	private int orientation_degree; // orientation par rapport à l'axe des x
 	
 	protected Avatar avatar;
+	public List<Entity> trueCollisions;
 
 	private Stunt stunt;
 	protected Model model;
@@ -59,8 +62,7 @@ public abstract class Entity {
 		this.bounding = new Bounding();
 		this.occupied = new HashSet<Grid.Cell>();
 		this.lSpeed = this.isu.new Vector(0, 0);
-//		this.updateBoundingBox();
-		
+		this.trueCollisions = new ArrayList<Entity>();
 	}
 
 	// SETTER
@@ -322,7 +324,7 @@ public abstract class Entity {
 	}
 
 	public boolean haslSpeed() {
-		return this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0);
+		return this instanceof Ship || (this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0));
 	}
 
 	public void deploy() {
@@ -346,6 +348,7 @@ public abstract class Entity {
 						c.add(this);
 						this.occupied.add(c);
 					} catch (Exception e) {
+						// En dehors du tore (on s'en blc)
 					}
 				}
 			}

@@ -59,11 +59,10 @@ public class ShipStunt extends Stunt {
 	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
-		double speed = this.ship.walkSpeed();
 		
-		double vx = Math.round(Math.cos(rad))*speed*Main.windowScale;
-		double vy = Math.round(Math.sin(rad))*speed*Main.windowScale;
-		this.entity.setlSpeed(vx, vy);
+		double vx = Math.round(Math.cos(rad));
+		double vy = Math.round(Math.sin(rad));
+		this.entity.setlSpeed(vx*Ship.ShipSpeed, vy*Ship.ShipSpeed);
 	}
 
 	public void stop() {

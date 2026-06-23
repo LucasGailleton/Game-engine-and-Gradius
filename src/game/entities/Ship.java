@@ -26,7 +26,7 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity implements Shooter {
 
-	public static final double ShipSpeed = 5 * Main.windowScale;
+	public static double ShipSpeed = 20 * Main.windowScale;
 	public static final int missileSpeed = 1500;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
@@ -41,6 +41,7 @@ public class Ship extends Entity implements Shooter {
 	private SoundPlayer tir1, tir2, degat, mort;
 	private int indexAudio;
 
+	private int powerUp;
 	public static final int WEAPON_SIMPLE = 0;
 	public static final int WEAPON_DOUBLE = 1;
 	public static final int WEAPON_LASER = 2;
@@ -50,11 +51,11 @@ public class Ship extends Entity implements Shooter {
 
 	public Ship(View view) {
 		super("Ship");
-		this.setSize(game.isu.new Dimension(2.0 * Game.cmPerCell * Main.windowScale,
-				1.0 * Game.cmPerCell * Main.windowScale));
+		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
 		this.avatar = new ShipAvatar();
 		this.task = Runtime.task();
 		this.view = view;
+		this.powerUp = 0;
 
 		try {
 			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
@@ -68,20 +69,8 @@ public class Ship extends Entity implements Shooter {
 	}
 
 	public void tick(double seconds, boolean shift) {
-		ramasserPowerUps ();
-		double angularSpeed = aSpeed();
-		if (angularSpeed != 0) {
-			turn((int) (angularSpeed * seconds));
-
-			List<Entity> collisions = this.model.getCollision(this);
-
-			if (!collisions.isEmpty()) {
-				turn((int) -(angularSpeed * seconds));
-				setaSpeed(0);
-				collision(collisions);
-			}
-		}
-
+		pickUpPowerUps();
+		
 		// Annulation du scrolling
 		if (shift)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
@@ -93,7 +82,6 @@ public class Ship extends Entity implements Shooter {
 
 	@Override
 	public void tryToShoot() {
-
 		if (this.shootCooldown <= 0.0) {
 			this.shoot();
 			this.shootCooldown = SHOOT_DELAY;
@@ -101,52 +89,34 @@ public class Ship extends Entity implements Shooter {
 	}
 
 	private void shoot() {
-//		MissilePlayer msp = new MissilePlayer(view, "missile");
-//		Position pos = this.position();
-//		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
-//		msp.setBounding();
-//		msp.setlSpeed(missileSpeed, 0);
-//		this.model.add(msp);
-//		this.model.getView().add(msp.getAvatar());
-
-		// Code de Dario
 		Position pos = this.position();
 
 		if (this.weapon == WEAPON_LASER) {
 			LaserShot laser = new LaserShot(view, "laser");
 			laser.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 50, pos.y * Game.cmPerCell));
-			laser.setBounding();
 			laser.setlSpeed(missileSpeed * 2, 0);
-			this.model.add(laser);
-			this.model.getView().add(laser.getAvatar());
+			Main.mb.placeEntity(laser);
 		} else {
 			MissilePlayer msp = new MissilePlayer(view, "missile simple");
 			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
-			msp.setBounding();
 			msp.setlSpeed(missileSpeed, 0);
-			this.model.add(msp);
-			this.model.getView().add(msp.getAvatar());
+			Main.mb.placeEntity(msp);
 
 			// power-up du 2e tir a 45 deg vers le bas
 			if (this.weapon == WEAPON_DOUBLE) {
 				MissilePlayer msp2 = new MissilePlayer(view, "missile double");
 				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
-				msp2.setBounding();
 				msp2.setlSpeed(missileSpeed, missileSpeed);
-				this.model.add(msp2);
-				this.model.getView().add(msp2.getAvatar());
+				Main.mb.placeEntity(msp2);
 			}
 		}
 		for (int i=0; i<this.slaves.size(); i++) {
 			ISU.Coord oc = slaveCoord(i);
 			MissilePlayer m = new MissilePlayer(view, "slave shot");
 			m.setCoord(this.isu.new Coord(oc.x_cm + 20, oc.y_cm));
-			m.setBounding();
 			m.setlSpeed(missileSpeed, 0);
-			this.model.add(m);
-			this.model.getView().add(m.getAvatar());
+			Main.mb.placeEntity(m);
 		}
-		// Fin du code de Dario
 
 		if (indexAudio % 2 == 0)
 			tir1.play(1);
@@ -160,10 +130,8 @@ public class Ship extends Entity implements Shooter {
 	}
 
 	public void gotHit() {
-
 		if (hit || gameOver)
 			return;
-
 		hp--;
 
 		if (hp <= 0) {
@@ -188,29 +156,18 @@ public class Ship extends Entity implements Shooter {
 			hit = false;
 		}, 3000);
 	}
-
-	public void applyPowerUp(int type) {
-		switch (type) {
-		case PowerUp.SPEED:
-			this.speedBoost++;
-			break;
-		case PowerUp.DOUBLE:
-			this.weapon = WEAPON_DOUBLE;
-			break;
-		case PowerUp.LASER:
-			this.weapon = WEAPON_LASER;
-			break;
-		case PowerUp.SLAVE:
-			addSlave();
-			break;
-		default:
-			break;
+	
+	public void upgradePowerUp() {
+		if (this.powerUp <= 4)
+			this.powerUp++;
+		
+		switch (this.powerUp) {
+		case PowerUp.Speed: Ship.ShipSpeed *= 1.5; break;
+		case PowerUp.Double: this.weapon = WEAPON_DOUBLE; break;
+		case PowerUp.Laser: this.weapon = WEAPON_LASER; break;
+		case PowerUp.Slave: this.addSlave(); break;
+		default: break;
 		}
-		System.out.println("[Ship] Power-up ramasse ! type = " + type);
-	}
-
-	public double walkSpeed() {
-		return 15.0 + this.speedBoost * 5.0;
 	}
 
 	private void addSlave() {
@@ -229,10 +186,11 @@ public class Ship extends Entity implements Shooter {
 		return this.isu.new Coord(this.center().x_cm, this.center().y_cm + sign * rang * spacing);
 	}
 
-	private void ramasserPowerUps() {
-		for (Entity e : new ArrayList<Entity>(this.model.entities())) {
-			if (e instanceof PowerUp && this.center().distanceTo(e.center()) < (this.size.x_cm + e.size.x_cm) / 2.0) {
-				applyPowerUp(((PowerUp) e).type());
+	private void pickUpPowerUps() {
+		for (Entity e : this.trueCollisions) {
+			if (e instanceof PowerUp) {
+				System.out.println("Augumenation de powerUp !!!");
+				upgradePowerUp();
 				e.die();
 			}
 		}
@@ -342,11 +300,9 @@ public class Ship extends Entity implements Shooter {
 
 			if (this.exploding) {
 				int i = Math.min(this.deathIndex, this.death.size() - 1);
-				g.drawImage(this.death.get(i), posX - 3 + shiftPX, posY - 3, (int) (spriteSizeX * Main.windowScale),
-						(int) (spriteSizeY * Main.windowScale));
+				g.drawImage(this.death.get(i), posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
 			} else if (this.visible) {
-				g.drawImage(sprites[direction][index], posX - 3 + shiftPX, posY - 3,
-						(int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
+				g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
 			}
 
 			if (gameOver) {

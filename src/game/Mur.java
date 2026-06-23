@@ -8,21 +8,9 @@ import oop.graphics.Graphics;
 
 public class Mur extends Entity {
 
-	public Mur(int x, int y) {
+	public Mur() {
 		super("mur");
-		
-		this.setSize(this.isu.new Dimension(
-				(int)(150 * Game.cmPerCell * Main.windowScale),
-				(int)(2 * Game.cmPerCell * Main.windowScale)
-		));
-		
-		this.setCoord(isu.new Coord(
-				x * Game.cmPerCell * Main.windowScale, 
-				y * Game.cmPerCell * Main.windowScale
-		));
-
-		this.deploy();
-		this.setBounding();		
+		this.setSize(this.isu.new Dimension(150*Game.cmPerCell*Main.windowScale, 2*Game.cmPerCell*Main.windowScale));
 		this.avatar = new MurAvatar();
 	}
 	

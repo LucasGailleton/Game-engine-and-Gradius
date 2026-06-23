@@ -63,7 +63,8 @@ public class MissilePlayer extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			this.getSprites(g);
+			if (sprites == null)
+				this.getSprites(g);
             
             ISU.Coord center = MissilePlayer.this.center();
             int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);

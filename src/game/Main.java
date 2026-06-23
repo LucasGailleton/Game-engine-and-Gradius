@@ -1,21 +1,17 @@
 package game;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.List;
 
 import debugmode.VectAvatar;
 import engine.ShipStunt;
-import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
 import engine.ShipStunt;
 import engine.Ticker;
-import engine.GAL.Automaton;
-import engine.GAL.AutomatonLoader;
-import engine.GAL.GALBot;
 import engine.GAL.Mode;
-
 import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
@@ -38,29 +34,40 @@ import oop.tasks.Runtime;
 import oop.tasks.Task;
 import engine.ISU.*;
 
-
 public class Main implements Runnable {
-	
+
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
-	List<Automaton> auts;
 	public static final double windowScale = 4;
 	public static final int windowWidth = 256;
 	public static final int windowHeight = 240;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
+	
+	public static MapBuilder mb;
 
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (windowWidth*windowScale), (int) (windowHeight*windowScale)+headerSize);
+
+		if (debug) {
+			long pid = ProcessHandle.current().pid();
+			System.out.println("PID: " + pid);
+			System.out.println("Hit enter to start the execution");
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+
+		Dimension d = new Dimension((int) (windowWidth * windowScale), (int) (windowHeight * windowScale) + headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
-	
-	
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (150*windowScale), (int) (35*windowScale));
+		Game game = new Game((int) (150 * windowScale), (int) (35 * windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
@@ -68,22 +75,41 @@ public class Main implements Runnable {
 		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
-		AutomatonLoader al=new AutomatonLoader(3);
-		try {
-		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-			auts=al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
-		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
-		} catch (Exception e) {
-		    e.printStackTrace(); // Regardez votre console !
-		}
-			
 		Background bg = new Background();
-		view.add(bg.new BackgroundAvatar());	
+		view.add(bg.new BackgroundAvatar());
+
+		this.mb = new MapBuilder(model, view);
+		mb.placeObjects();
+
+		Ship ship = new Ship(view);
+		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
+		mb.placeEntity(ship);
+
+		ShipStunt shipStunt = new ShipStunt(model, ship);
+		ship.setStunt(shipStunt);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+
 		
-		ShipStunt shipStunt = init(model,view);
+
+		
+		// On va s'en occuper après ce ces deux conneries là
+		Mur plafond = new Mur();
+		plafond.setCoord(Game.game().isu.new Coord(150 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
+		model.add(plafond);
+		view.add(plafond.getAvatar());
+
+		Mur sol = new Mur();
+		sol.setCoord(Game.game().isu.new Coord(150 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
+		model.add(sol);
+		view.add(sol.getAvatar());
+		
+		
+		
 
 
-
+		
+		
 		this.task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
@@ -91,51 +117,14 @@ public class Main implements Runnable {
 				task.post(this, 17);
 			}
 		}, 17);
-		
+
 		Controller ct = new Controller(shipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 	}
-	
+
 	public ShipStunt init(Model model, View view) {
-		MapBuilder.placeObstacle(model,view, canvas);
-		
-		Ship ship = new Ship(view);
-		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		ship.setBounding();
-		model.add(ship);
-		view.add(ship.new ShipAvatar());
-		
-		ShipStunt shipStunt = new ShipStunt(model, ship);
-		ship.setStunt(shipStunt);
-		VectAvatar va = new VectAvatar(ship);
-		view.add(va);
-		
-		ship.setStunt(shipStunt);
-			
-		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-		mf.setBounding();
-		model.add(mf);
-		view.add(mf.getAvatar());
-		
-		EnemyChicken chick=new EnemyChicken("testchick");
-		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		chick.setBounding();
-		chick.setStunt(new BasicStunt(chick.getModel(),chick));
-		model.add(chick);
-		view.add(chick.getAvatar());
-		GALBot gb=new GALBot(chick); 
-		gb.set(auts.get(0));
-//		
-		Mur plafond = new Mur(75, 0);
-		model.add(plafond);
-		view.add(plafond.getAvatar());
-		
-		Mur sol = new Mur(75, 30);
-		model.add(sol);
-		view.add(sol.getAvatar());
-//		
+		return null;
 //		Ship ship = new Ship();
 //		
 //		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));
@@ -189,7 +178,7 @@ public class Main implements Runnable {
 //		wk.setBounding();
 //		view.add(wk.getAvatar());
 //		model.add(wk);
-		
+
 //		PowerUp pu = new PowerUp("pu1");
 //		pu.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
 //		pu.setBounding();
@@ -197,32 +186,7 @@ public class Main implements Runnable {
 //		view.add(pu.getAvatar());
 //		
 		// power-ups à ramasser
-		PowerUp puDouble = new PowerUp("double", PowerUp.DOUBLE);
-		puDouble.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		puDouble.setBounding();
-		model.add(puDouble);
-		view.add(puDouble.getAvatar());
-
-		PowerUp puSpeed = new PowerUp("speed", PowerUp.SPEED);
-		puSpeed.setCoord(Game.game().isu.new Coord(22*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		puSpeed.setBounding();
-		model.add(puSpeed);
-		view.add(puSpeed.getAvatar());
-
-		PowerUp puSlave = new PowerUp("slave", PowerUp.SLAVE);
-		puSlave.setCoord(Game.game().isu.new Coord(26*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		puSlave.setBounding();
-		model.add(puSlave);
-		view.add(puSlave.getAvatar());
-
-		PowerUp puLaser = new PowerUp("laser", PowerUp.LASER);
-		puLaser.setCoord(Game.game().isu.new Coord(30*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		puLaser.setBounding();
-		model.add(puLaser);
-		view.add(puLaser.getAvatar());
-
-		return shipStunt;
+		//
+//		return shipStunt;
 	}
 }
-
-
