@@ -35,6 +35,7 @@ public class Ship extends Entity implements Shooter{
 
 	private static boolean hit = false;
 	private static int hp = 3;
+	private static boolean gameOver = false;
 	private Task task;
 	
 	private SoundPlayer tir1,tir2,degat,mort;
@@ -72,6 +73,11 @@ public class Ship extends Entity implements Shooter{
 	
 	public void tick(double seconds, boolean shift) {
 		
+	    if (gameOver) {
+	        setlSpeed(0, 0);
+	        return;
+	    }
+
 	    ramasserPowerUps();
 
 	    double angularSpeed = aSpeed();
@@ -101,8 +107,10 @@ public class Ship extends Entity implements Shooter{
 	@Override
 	public void tryToShoot() {
         
+        if (gameOver)
+            return;
         if (this.shootCooldown <= 0.0) {
-            this.shoot(); 
+            this.shoot();
             this.shootCooldown = SHOOT_DELAY;
         }
     }
@@ -164,16 +172,21 @@ public class Ship extends Entity implements Shooter{
 	}
 	
 	public void gotHit()  {
-		
-		if(hit)
+
+		if(hit || gameOver)
 			return;
-		
-		if(hp <= 1) {
-			this.mort.play(1);
-			//méthode de game over
-		}
-		
+
 		hp--;
+
+		if(hp <= 0) {
+			// game over : explosion + le vaisseau disparait
+			this.mort.play(1);
+			gameOver = true;
+			setlSpeed(0, 0);
+			((ShipAvatar) avatar).exploser();
+			return;
+		}
+
 		this.degat.play(1);
 		hit = true;
 
@@ -188,7 +201,6 @@ public class Ship extends Entity implements Shooter{
 		}, 3000);
 	}
 	
-	// applique l'effet d'un power-up ramasse
 	public void applyPowerUp(int type) {
 		switch (type) {
 		case PowerUp.SPEED: this.speedBoost++; break;
@@ -200,12 +212,10 @@ public class Ship extends Entity implements Shooter{
 		System.out.println("[Ship] Power-up ramasse ! type = " + type);
 	}
 
-	// vitesse de deplacement, augmentee par le power-up Speed Up
 	public double walkSpeed() {
 		return 15.0 + this.speedBoost * 5.0;
 	}
 
-	// slave : ajoute un clone (max 4) qui suit le vaisseau et tire avec lui
 	private void addSlave() {
 		if (this.slaves.size() >= 4)
 			return;
@@ -214,7 +224,7 @@ public class Ship extends Entity implements Shooter{
 		this.slaves.add(s);
 	}
 
-	// position d'un slave : alternance au-dessus / en dessous du vaisseau (pour ne pas tirer dedans)
+	// alternance au-dessus / en dessous du vaisseau
 	public ISU.Coord slaveCoord(int i) {
 		double spacing = Game.cmPerCell * 2.0 * Main.windowScale;
 		int rang = i / 2 + 1;
@@ -222,7 +232,6 @@ public class Ship extends Entity implements Shooter{
 		return this.isu.new Coord(this.center().x_cm, this.center().y_cm + sign * rang * spacing);
 	}
 
-	// ramassage des power-ups par proximite : le vaisseau passe a travers et les attrape
 	private void ramasserPowerUps() {
 		for (Entity e : new ArrayList<Entity>(this.model.entities())) {
 			if (e instanceof PowerUp && this.center().distanceTo(e.center()) < (this.size.x_cm + e.size.x_cm) / 2.0) {
@@ -244,6 +253,8 @@ public class Ship extends Entity implements Shooter{
 	    
 	    private boolean visible = true;
 	    private boolean clignote = false;
+	    private boolean exploding = false;
+	    private int deathIndex = 0;
 	    
 	    public ShipAvatar() {
 	        super(Ship.this);
@@ -269,6 +280,28 @@ public class Ship extends Entity implements Shooter{
 		        }
 		    }, 50);
 
+		}
+
+		public void exploser() {
+			this.exploding = true;
+			this.visible = true;
+			this.deathIndex = 0;
+			avancerExplosion();
+		}
+
+		private void avancerExplosion() {
+			if (this.deathIndex >= this.death.size()) {
+				this.exploding = false;
+				this.visible = false;
+				return;
+			}
+			task.post(new Runnable() {
+				@Override
+				public void run() throws Exception {
+					deathIndex++;
+					avancerExplosion();
+				}
+			}, 120);
 		}
 
 		@Override
@@ -311,8 +344,18 @@ public class Ship extends Entity implements Shooter{
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString(vies, 10, 120);
 		    
-		    if (this.visible)
+		    if (this.exploding) {
+		    	int i = Math.min(this.deathIndex, this.death.size() - 1);
+		    	g.drawImage(this.death.get(i), posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    } else if (this.visible) {
 		    	g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+		    }
+
+		    if (gameOver) {
+		    	g.setColor(Colors.red);
+		    	g.setFont(g.getFont("Monospaced", 1, 40));
+		    	g.drawString("GAME OVER", 400, 480);
+		    }
 		}
 
 
