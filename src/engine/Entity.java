@@ -11,6 +11,7 @@ import engine.Grid.Cell;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
+import engine.GAL.Category;
 import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
@@ -43,6 +44,7 @@ public abstract class Entity {
 	protected Model model;
 	private Vector lSpeed;
 	private double aSpeed;
+	Category category;
 	
 	protected boolean alive = true;
 
@@ -89,7 +91,6 @@ public abstract class Entity {
 	}
 	
 	public void setBounding() {
-		
 		this.bounding().add(new Rect(this.center(), this.size, this.orientation_degree));
 	}
 
@@ -111,6 +112,10 @@ public abstract class Entity {
 	
 	public void setModel(Model model) { 
 		this.model = model;
+	}
+	
+	public void setCategory(Category cat) { 
+		this.category = cat;
 	}
 
 	// GETTER
@@ -166,6 +171,10 @@ public abstract class Entity {
 	public boolean isAlive() {
         return this.alive;
     }
+	
+	public Category Category() {
+		return this.category;
+	}
 	
 	
 
@@ -319,18 +328,25 @@ public abstract class Entity {
 	public void deploy() {
 		this.retract();
 		if (this.center != null) {
-			double halfLongest = Math.max(this.size.x_cm / 2.0, this.size.y_cm / 2.0);
-			int xmin = ((int) Math.round((this.center.x_cm - halfLongest) / Game.cmPerCell)) - 1;
-			int ymin = ((int) Math.round((this.center.y_cm - halfLongest) / Game.cmPerCell)) - 1;
-			int xmax = ((int) Math.floor((this.center.x_cm + halfLongest - 1e-9) / Game.cmPerCell)) + 1;
-			int ymax = ((int) Math.floor((this.center.y_cm + halfLongest - 1e-9) / Game.cmPerCell)) + 1;
+			
+			double halfX = this.size.x_cm / 2.0;
+			double halfY = this.size.y_cm / 2.0;
+			//double halfLongest = Math.max(this.size.x_cm / 2.0, this.size.y_cm / 2.0);
+			
+			int xmin = ((int) Math.round((this.center.x_cm - halfX) / Game.cmPerCell)) - 1;
+			int ymin = ((int) Math.round((this.center.y_cm - halfY) / Game.cmPerCell)) - 1;
+			int xmax = ((int) Math.floor((this.center.x_cm + halfX - 1e-9) / Game.cmPerCell)) + 1;
+			int ymax = ((int) Math.floor((this.center.y_cm + halfY - 1e-9) / Game.cmPerCell)) + 1;
 
 			for (int y = ymin; y <= ymax; y++) {
 				for (int x = xmin; x <= xmax; x++) {
 					
-					Grid.Cell c = this.grid.cellAt(this.grid.new Position(this.grid.xAxis.normalize(x), this.grid.yAxis.normalize(y)));
-					c.add(this);
-					this.occupied.add(c);
+					try {
+						Grid.Cell c = this.grid.cellAt(this.grid.new Position(this.grid.xAxis.normalize(x), this.grid.yAxis.normalize(y)));
+						c.add(this);
+						this.occupied.add(c);
+					} catch (Exception e) {
+					}
 				}
 			}
 		}

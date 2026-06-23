@@ -14,17 +14,12 @@ public class Controller {
 	private Task task;
 	private boolean stopped = true;
 
-
 	private int dir = -1;
-	
 	private boolean left, right, up, down, space;
-	
 
 	public Controller(ShipStunt player) {
-
 		this.player = player;
 		this.task = Runtime.task();
-	
 	}
 
 	public void update(int keyCode, boolean isDown) {
@@ -42,8 +37,7 @@ public class Controller {
 		int dy = 0;
 		
 		if(space) {
-			shoot();
-//			
+			shoot();	
 		}
 
 		if (left) dx -= 1;
@@ -78,8 +72,15 @@ public class Controller {
 		dir = angle;
 		stopped = false;
 		player.forbiddenDirection = -1;
-
-		double speed = (dx != 0 && dy != 0) ? 0.212 : 0.3;
+		
+		double speed = 0;
+		
+		if(dx != 0 && dy != 0) {
+			speed = 0.212;
+		}
+		else {
+			speed = 0.3;
+		}
 
 		if (dx == -1)
 			player.direction = Avatar.West;
@@ -139,9 +140,7 @@ public class Controller {
 	}
 	
 	public void shoot() {
-		
 		player.shootOnce();
-		
 	}
 
 	public void stop() {

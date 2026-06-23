@@ -5,12 +5,17 @@ import java.util.List;
 
 import debugmode.VectAvatar;
 import engine.ShipStunt;
+import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
 import engine.ShipStunt;
 import engine.Ticker;
+import engine.GAL.Automaton;
+import engine.GAL.AutomatonLoader;
+import engine.GAL.GALBot;
 import engine.GAL.Mode;
+
 import engine.view.Controller;
 import engine.view.KeyListener;
 import engine.view.PaintListener;
@@ -39,13 +44,15 @@ public class Main implements Runnable {
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
+	List<Automaton> auts;
 	public static final double windowScale = 4;
+	public static final int windowWidth = 256;
+	public static final int windowHeight = 240;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
-	
-	;
+
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
+		Dimension d = new Dimension((int) (windowWidth*windowScale), (int) (windowHeight*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
 	
@@ -61,6 +68,15 @@ public class Main implements Runnable {
 		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
+		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+			auts=al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
+			
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());	
 		
@@ -84,7 +100,7 @@ public class Main implements Runnable {
 	public ShipStunt init(Model model, View view) {
 		MapBuilder.placeObstacle(model,view, canvas);
 		
-		Ship ship = new Ship();
+		Ship ship = new Ship(view);
 		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
@@ -97,12 +113,28 @@ public class Main implements Runnable {
 		
 		ship.setStunt(shipStunt);
 			
-//		MontFendu mf = new MontFendu();
-//		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-//		mf.setBounding();
-//		model.add(mf);
-//		view.add(mf.getAvatar());
-//		
+		MontFendu mf = new MontFendu();
+		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		mf.setBounding();
+		model.add(mf);
+		view.add(mf.getAvatar());
+		
+//		EnemyChicken chick=new EnemyChicken("testchick");
+//		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+//		chick.setBounding();
+//		chick.setStunt(new BasicStunt(chick.getModel(),chick));
+//		model.add(chick);
+//		view.add(chick.getAvatar());
+//		GALBot gb=new GALBot(chick); 
+//		gb.set(auts.get(0));
+		
+		Mur plafond = new Mur(75, 0);
+		model.add(plafond);
+		view.add(plafond.getAvatar());
+		
+		Mur sol = new Mur(75, 30);
+		model.add(sol);
+		view.add(sol.getAvatar());
 //		
 //		Ship ship = new Ship();
 //		
@@ -164,6 +196,31 @@ public class Main implements Runnable {
 //		model.add(pu);
 //		view.add(pu.getAvatar());
 //		
+		// power-ups à ramasser
+		PowerUp puDouble = new PowerUp("double", PowerUp.DOUBLE);
+		puDouble.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puDouble.setBounding();
+		model.add(puDouble);
+		view.add(puDouble.getAvatar());
+
+		PowerUp puSpeed = new PowerUp("speed", PowerUp.SPEED);
+		puSpeed.setCoord(Game.game().isu.new Coord(22*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puSpeed.setBounding();
+		model.add(puSpeed);
+		view.add(puSpeed.getAvatar());
+
+		PowerUp puSlave = new PowerUp("slave", PowerUp.SLAVE);
+		puSlave.setCoord(Game.game().isu.new Coord(26*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puSlave.setBounding();
+		model.add(puSlave);
+		view.add(puSlave.getAvatar());
+
+		PowerUp puLaser = new PowerUp("laser", PowerUp.LASER);
+		puLaser.setCoord(Game.game().isu.new Coord(30*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puLaser.setBounding();
+		model.add(puLaser);
+		view.add(puLaser.getAvatar());
+
 		return shipStunt;
 	}
 }

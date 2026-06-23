@@ -2,13 +2,16 @@ package engine.GAL;
 
 import engine.Entity;
 
-class AtStep  {
+class AtStep  extends GALCondition{
 
 	int nbStep;
 
 	// CONSTRUCTOR
 
-	 AtStep(Direction dir, Category cat, int nbStep){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `AtStep`"); }
+	 AtStep(Direction dir, Category cat, int nbStep){ 
+		 super(dir,cat);
+		 this.nbStep=nbStep;
+	 }
 
 	// EVAL
 
@@ -21,6 +24,37 @@ class AtStep  {
 	 *           the Model and the Bot.
 	 */
 
-	 boolean eval(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `eval`"); }
+	 boolean eval(Entity e){ 
+		 
+	 }
 
+	 @Override
+		boolean eval(Entity e) {
+			if (e == null || this.dir == null || this.cat == null || this.nbStep <= 0) {
+				return false;
+			}
+
+			// 1. On récupère la position actuelle du Bot
+			int currentX = e.x(); 
+			int currentY = e.y(); 
+
+			// 2. On extrait les vecteurs de direction (-1, 0, ou 1)
+			int dx = this.dir.getDx(); 
+			int dy = this.dir.getDy(); 
+
+			// 3. CALCUL DIRECT : On cible directement la case située à 'nbStep' pas
+			int targetX = currentX + (dx * this.nbStep);
+			int targetY = currentY + (dy * this.nbStep);
+
+			// 4. Sécurité : Si la case visée est hors de la map
+			if (e.model().isOutOfBounds(targetX, targetY)) {
+				return false;
+			}
+
+			// 5. On regarde ce qui se trouve sur cette case précise
+			Entity targetEntity = e.model().getEntityAt(targetX, targetY);
+
+			// La condition est vraie si une entité existe à cet endroit ET qu'elle appartient à la bonne catégorie
+			return targetEntity != null && targetEntity.category() == this.cat;
+		}
 }

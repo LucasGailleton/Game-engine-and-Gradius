@@ -35,6 +35,7 @@ public class Background extends Entity {
 		public void getSprites(Graphics g) {
 			this.sprites = new BufferedImage[1][1];
 			this.sprites[0][0] = g.load("background.png");
+			
 		}
 
 		@Override
@@ -44,7 +45,7 @@ public class Background extends Entity {
 			
 			int canvasWidth = canvas.getWidth();
 			int canvasHeight = canvas.getHeight();
-			
+		
 			
 			
 			if (xPosition+shiftPX < -canvasWidth)

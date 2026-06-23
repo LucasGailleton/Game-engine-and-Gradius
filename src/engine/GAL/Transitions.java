@@ -1,13 +1,21 @@
+
 package engine.GAL;
 
+
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-class Transitions  {
-
+class Transitions  implements iTransitions{
+	private final Map<State, List<Transition>> map = new HashMap<>();
+	
 	 long serialVersionUID = 1L;
-	 void add(Transition t){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `add`"); }
-	 List<Transition> get(State state) {
-		return null;
-		 
+	 
+	 public void add(Transition t){ 
+		 this.map.computeIfAbsent(t.source, k -> new LinkedList<>()).add(t);
+	 }
+	 public List<Transition> get(State state) {
+		 return this.map.get(state);
 	 }
 }

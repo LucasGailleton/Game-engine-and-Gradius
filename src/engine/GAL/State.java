@@ -1,35 +1,46 @@
 package engine.GAL;
 
+import java.util.Objects;
+
 public class State {
 
-	Mode mode;
+	String mode;
 	int id;
+	private final String toString;
 
 	// CONSTRUCTOR
 
-	State(String mode, int id) {
-		this.mode = new Mode(mode);
-		this.id = id;
+	public State(String mode, int id) {
+		this.id=id;
+		this.mode=mode;
+		this.toString = mode + id; 
 	}
 
 	// EQUALS
 	@Override
 	public boolean equals(Object o) {
-		if (o == this)
+		if (this == o) {
 			return true;
-		if (o instanceof State)
-			return this.equals((State) o);
-		return false;
+		}
+        if (o == null) {
+        	return false;
+        }
+        return o instanceof State s && this.id == s.id && this.mode.equals(s.mode);
 	}
 
-	public boolean equals(State s) {
-		return this.hashCode() == s.hashCode();
+	
+	boolean equals(State s) {
+		return s.id==this.id && s.mode.equals(this.mode);
 	}
 
 	// HASH
-	@Override
 	public int hashCode() {
-		return this.id;
+		return Objects.hash(id, mode); // Basé sur le contenu
+	}
+	
+	@Override
+	public String toString(){
+		return this.toString;
 	}
 
 }

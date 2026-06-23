@@ -27,7 +27,9 @@ public class MapBuilder {
 
 	    double currentX = 0.0; 
 	    int id = 0;
-	    while (currentX < screenWidth) {
+	    double width = 63.0;
+	    for (int i=0;i<5;i++) {
+	    	
 	    	int spriteType=0;
 	        double rand = Math.random();
 	        if (rand<0.2) {
@@ -41,9 +43,6 @@ public class MapBuilder {
 	        }else if(rand>=0.8){
 	        	spriteType=4;
 	        }
-	        
-	        
-	        double width = 63.0;
 	        
 	        // --- PLACEMENT EN HAUT ---
 	        Borders topBorder = new Borders("top_" + id, spriteType, 1);

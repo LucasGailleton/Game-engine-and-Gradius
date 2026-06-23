@@ -19,15 +19,15 @@
 
   + Explications: taille du modèle en X = plusieurs scenes
 
-**  + Démo :  le viewport affiche tout le modèle ou 1 seul scène et on voit l'effet du tore**
+**  + Démo :  le viewport affiche tout le modèle ou 1 seule scène et on voit l'effet du tore**
 
 
 
 * [X] **\_\_défilement / scrolling\_\_**
 
-  + Explications: [défilement automatique vers la droite.Les ennemis qui sortent du view port par la gauche meurt]
+  + Explications: [défilement automatique vers la droite. Les ennemis qui sortent du view port par la gauche meurent]
 
-  + Démo : [Lancer le jeu sans toucher aux commandes : la caméra avance seule] 
+  + Démo : [Lancer le jeu sans toucher aux commandes : la caméra et le joueur avance tous seuls] 
 
  
 
@@ -41,9 +41,9 @@
 
 * [X] **\_\_bords du monde\_\_** 
 
-  + Explications: [codage ? comportement: le bord gauche poussera le joueur mais pas les ennemie]
+  + Explications: [codage ? comportement: le bord gauche poussera le joueur mais pas les ennemis]
 
-  + Démo : [Le joueur arrête de se déplacer et se laisse rattraper par le bord gauche de l'écran : le vaisseau est "poussé" par la bordure sans pouvoir sortir de la vue]
+  + Démo : [Le joueur ne peut pas sortir du viewport: le vaisseau est "poussé" par la bordure sans pouvoir sortir de la vue]
 
 
 
@@ -71,11 +71,11 @@
 
 * [ X] **\_\_aléatoire\_\_**
 
-  + Explications: [on regénère la scene qui n'est pas dans le viewport]->La génération sera aléatoire mais devra respecter des règles pour éviter que le joueur soit bloqué:
-                règles de générations: -obstacle:sol et plafond n'ont pas de restriction mais les montagne et les obstacles au milieu doivent être suffisament espacés.
-                                        -ennemis: les ennemis volants peuvent apparaitre dans les airs et les ennemis terrestres apparaissent sur les parois(sol,plafond,montagne).Les ennemis sont générés à intervalle régulier en dehors du viewport et à une distance minimale les uns des autres (cela permet d'éviter qu'il y ai trop d'ennemis au même endroit).  
+  + Explications: [on regénère la scène qui n'est pas dans le viewport]->La génération sera aléatoire mais devra respecter des règles pour éviter que le joueur soit bloqué:
+                règles de générations: -obstacle:sol et plafond n'ont pas de restriction mais les montagnes et les obstacles au milieu doivent être suffisament espacés.
+                                        -ennemis: les ennemis volants peuvent apparaitre dans les airs et les ennemis terrestres apparaissent sur les parois(sol,plafond,montagne).Les ennemis sont générés à intervalles réguliers en dehors du viewport et à une distance minimale les uns des autres (cela permet d'éviter qu'il y ait trop d'ennemis au même endroit).  
 
-  + Démo : [ Faire deux parties successifs : montrer que l'agencement des obstacles et des ennemis change d'une partie à l'autre]
+  + Démo : [ Faire deux parties successives : montrer que l'agencement des obstacles et des ennemis change d'une partie à l'autre]
 
 
 
@@ -93,7 +93,7 @@
 
 * [] **\_\_annulation d'une action\_\_**
 
-  + Explications: [Une attaque chargé annulable pendant le chargement]
+  + Explications: [Une attaque chargée annulable pendant le chargement]
 
   + Démo: [ ]
 
@@ -133,7 +133,7 @@
 
       - clignotement du joueur si touché + temps d'invicibilité 
 
-   *       - champs booléen associé à une durée qui affecte la méthode coliision
+   *       - champ booléen associé à une durée qui affecte la méthode collision
       - une animation pour l'explosion d'une entité
 
       - explosions de toutes les entités lors de la mort
@@ -176,7 +176,7 @@
 
   + Explications: 
 
-  + Démo : changement d'image. Lorsque les slaves du boss meurt ils changent d'avatars 
+  + Démo : changement d'image. Lorsque les slaves du boss meurt ils changent d'avatar 
 
 
 
@@ -203,8 +203,8 @@
   * [X] scrolling
 
        * - le viewport avance à vitesse constante
-       * - le joueur se déplace librement dans le viewport et se fait pousser s'il va à l'extermité gauche
-   *      - gestion fine du vecteur vitesse du joueur qui a toujours un vecteur vitesse par défaut et auqule on ajoute un boost quand le joueur appuie sur les touches déplacements.
+       * - le joueur se déplace librement dans le viewport
+   *      - gestion fine du vecteur vitesse du joueur qui a toujours un vecteur vitesse par défaut et auquel on ajoute un boost quand le joueur appuie sur les touches déplacement.
    * 
 
    *     
@@ -223,7 +223,8 @@
     + Démo: maximum d'entités actives : Spawner EGG  
 
       
-
+  * [x] affichage des vecteurs vitesses
+  
   * [x] affichage de l'action et l'état au dessus du bot
 
   * [x] affichage des bounding box    
@@ -270,7 +271,7 @@
 
  [X] Bonus et extensions du vaisseau
 
-   *  - change le tir (double tir, angle différent)
+   * - change le tir (double tir, angle différent)
    * - entité double : autre entité (slave) avec l'avatar vaisseau + copie la décision du vaisseau master
    * => entité composite ?
    * + Démo : en mode debug on voit les deux hitbox du master et du slave
@@ -298,7 +299,7 @@
 
 
 
-Rester appuyer sur le bouton d'attaque, attaque continuellement.->Démo: on montre dans la vidéo quand restant appuyé le vaisseau attaque continuellement.
+Rester appuyé sur le bouton d'attaque, attaque continuellement.->Démo: on montre dans la vidéo quand restant appuyé le vaisseau attaque continuellement.
 
 Frames d'invincibilité pour le joueur si touché et pv>1.
 
@@ -308,9 +309,9 @@ Des power-ups aléatoires accumulables.
 
 Ennemis:
 
-[x] Un ennemis avec une attaque à téte-chercheuse (GAL : Closest(P,...))
+[x] Un ennemi avec une attaque à tête-chercheuse (GAL : Closest(P,...))
 
-[x] Un ennemi qui tire un projectile qui attire le joueur si il est dans une zone autour de celui-ci-> fais faire des petite translation au joueurs (de plus en plus grande plus le joueur est proche).
+[x] Un ennemi qui tire un projectile qui attire le joueur s'il est dans une zone autour de celui-ci-> fais faire des petites translations au joueurs (de plus en plus grande plus le joueur est proche).
 
   - par influence sur le vecteur vitesse du joueur
 
