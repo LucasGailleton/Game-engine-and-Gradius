@@ -105,12 +105,14 @@ public class Main implements Runnable {
 		model.add(ship);
 		view.add(ship.new ShipAvatar());
 		
-		ShipStunt shipStunt = new ShipStunt(model, ship);
+		ship.initComponents(model);
+		//ShipStunt shipStunt =new ShipStunt(model,ship);
+		ShipStunt shipStunt = ship.getShipStunt();
 		ship.setStunt(shipStunt);
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 		
-		ship.setStunt(shipStunt);
+		//ship.setStunt(shipStunt);
 			
 //		MontFendu mf = new MontFendu();
 //		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));

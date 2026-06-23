@@ -1,7 +1,6 @@
 package engine.view;
 
 
-import engine.BasicStunt;
 import engine.ShipStunt;
 import game.entities.Avatar;
 import oop.tasks.Task;
@@ -24,10 +23,10 @@ public class Controller {
 
 	public void update(int keyCode, boolean isDown) {
 		if (keyCode == VirtualKeyCodes.VK_LEFT) left = isDown;
-        else if (keyCode == VirtualKeyCodes.VK_RIGHT) right = isDown;
-        else if (keyCode == VirtualKeyCodes.VK_UP) up = isDown;
-        else if (keyCode == VirtualKeyCodes.VK_DOWN) down = isDown;
-        else if (keyCode == VirtualKeyCodes.VK_SPACE) space = isDown;
+        if (keyCode == VirtualKeyCodes.VK_RIGHT) right = isDown;
+        if (keyCode == VirtualKeyCodes.VK_UP) up = isDown;
+        if (keyCode == VirtualKeyCodes.VK_DOWN) down = isDown;
+        if (keyCode == VirtualKeyCodes.VK_SPACE) space = isDown;
 
 		recalculer();
 	}
@@ -36,8 +35,8 @@ public class Controller {
 		int dx = 0;
 		int dy = 0;
 		
-		if(space) {
-			shoot();	
+		if(space) {		
+			shoot();
 		}
 
 		if (left) dx -= 1;
@@ -95,50 +94,8 @@ public class Controller {
 		player.walk(angle);
 	}
 
-	public void left() {
-		if (player.forbiddenDirection != Avatar.West) {
-			if (player.forbiddenDirection != -1)
-				player.set(-0.3, 0);
-			player.forbiddenDirection = -1;
-			player.direction = Avatar.West;
-			player.walk(180);
-			stopped = false;
-		}
-	}
-
-	public void right() {
-		if (player.forbiddenDirection != Avatar.East) {
-			if (player.forbiddenDirection != -1)
-				player.set(0.3, 0);
-			player.forbiddenDirection = -1;
-			player.direction = Avatar.East;
-			player.walk(0);
-			stopped = false;
-		}
-	}
-
-	public void up() {
-		if (player.forbiddenDirection != Avatar.North) {
-			if (player.forbiddenDirection != -1)
-				player.set(0, -0.3);
-			player.forbiddenDirection = -1;
-			player.direction = Avatar.North;
-			player.walk(270);
-			stopped = false;
-		}
-	}
-
-	public void down() {
-		if (player.forbiddenDirection != Avatar.South) {
-			if (player.forbiddenDirection != -1)
-				player.set(0, 0.3);
-			player.forbiddenDirection = -1;
-			player.direction = Avatar.South;
-			player.walk(90);
-			stopped = false;
-		}
-	}
 	
+
 	public void shoot() {
 		player.shootOnce();
 	}
@@ -150,3 +107,49 @@ public class Controller {
 		}
 	}
 }
+	
+	
+//	public void right() {
+//	if (player.forbiddenDirection != Avatar.East) {
+//		if (player.forbiddenDirection != -1)
+//			player.set(0.3, 0);
+//		player.forbiddenDirection = -1;
+//		player.direction = Avatar.East;
+//		player.walk(0);
+//		stopped = false;
+//	}
+//}
+//
+//public void up() {
+//	if (player.forbiddenDirection != Avatar.North) {
+//		if (player.forbiddenDirection != -1)
+//			player.set(0, -0.3);
+//		player.forbiddenDirection = -1;
+//		player.direction = Avatar.North;
+//		player.walk(270);
+//		stopped = false;
+//	}
+//}
+//
+//public void down() {
+//	if (player.forbiddenDirection != Avatar.South) {
+//		if (player.forbiddenDirection != -1)
+//			player.set(0, 0.3);
+//		player.forbiddenDirection = -1;
+//		player.direction = Avatar.South;
+//		player.walk(90);
+//		stopped = false;
+//	}
+//}
+	
+//	public void left() {
+//		if (player.forbiddenDirection != Avatar.West) {
+//			if (player.forbiddenDirection != -1)
+//				player.set(-0.3, 0);
+//			player.forbiddenDirection = -1;
+//			player.direction = Avatar.West;
+//			player.walk(180);
+//			stopped = false;
+//		}
+//	}
+//}

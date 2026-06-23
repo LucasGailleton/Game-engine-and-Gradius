@@ -76,20 +76,12 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
-
-	        if (entity instanceof Ship)
-	            ((Ship) entity).tick(seconds, shift);
-	        
-	        else if (entity instanceof MissilePlayer)
-	            ((MissilePlayer) entity).tick(seconds, shift);
-	        else if(entity.bot()!=null){
+	    	
+	    	entity.tick(elapsed, shift);
+	        if(entity.bot()!=null){
 	        	entity.bot().tick(elapsed);
-	        }else if(entity instanceof Mur)
-	        	((Mur)entity).tick(elapsed, shift);
-	        else if (entity instanceof Borders) {
-	        	((Borders)entity).tick(elapsed, shift);
 	        }
-	        
+
 	        if (entity.haslSpeed()) {
 	            
 	            

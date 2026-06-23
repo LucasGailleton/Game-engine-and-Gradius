@@ -19,6 +19,12 @@ public class Slave extends Entity {
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*Main.windowScale, (Game.cmPerCell/2.0)*Main.windowScale));
 		this.avatar = new SlaveAvatar(this);
 	}
+	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		
+		
+	}
 
 	private class SlaveAvatar extends Avatar {
 
@@ -50,4 +56,6 @@ public class Slave extends Entity {
 			g.drawImage(this.sprite, posX, posY, w, h);
 		}
 	}
+
+	
 }

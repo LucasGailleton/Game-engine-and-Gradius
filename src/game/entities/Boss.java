@@ -13,7 +13,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class Boss extends Entity {
+public class Boss extends Entity implements Shooter{
 
 	// CONSTRUCTOR
 	public Boss() {
@@ -62,6 +62,24 @@ public class Boss extends Entity {
             		(int) (60*Main.windowScale));
 			
 		}
+		
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
 		
 	}
 

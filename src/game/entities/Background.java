@@ -60,4 +60,10 @@ public class Background extends Entity {
 	public void setBounding() {
 		
 	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		
+		
+	}
 }

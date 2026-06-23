@@ -12,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class BossGunBottom extends Entity{
+public class BossGunBottom extends Entity implements Shooter{
 
 	public BossGunBottom(String name) {
 		super(name);
@@ -70,6 +70,24 @@ public class BossGunBottom extends Entity{
 			//A IMPLEMENTER : DEATH
 			
 		}
+		
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
 		
 	}
 

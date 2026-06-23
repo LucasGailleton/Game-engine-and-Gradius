@@ -12,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyHoming extends Entity {
+public class EnemyHoming extends Entity implements Shooter{
 	
     public static final int spriteNeutral = 0;
     public static final int Sprite45degrees = 1;
@@ -75,4 +75,25 @@ public class EnemyHoming extends Entity {
             //A IMPLEMENTER : DIFFERENTES ORIENTATION EN FONCTION DE LA POSITION DU JOUEUR PAR RAPPORT A L'ENNEMI
 		}
     }
+
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
+	}
 }

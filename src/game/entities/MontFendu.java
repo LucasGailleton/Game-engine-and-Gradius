@@ -91,4 +91,10 @@ public class MontFendu extends Entity {
 		}
 		
 	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
 }

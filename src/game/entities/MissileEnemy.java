@@ -3,7 +3,6 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Dimension;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -20,7 +19,9 @@ public class MissileEnemy extends Entity{
 		this.avatar =new MissileEnemyAvatar(this);
 		this.view = jiew;
 	}
-
+	
+	
+	//A modif je pense
 	@Override
 	public void tick(double elapsed, boolean shift) {
 		if (!this.haslSpeed() || this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) {

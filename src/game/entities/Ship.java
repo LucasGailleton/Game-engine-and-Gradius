@@ -11,8 +11,10 @@ import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Vector;
+import engine.ShipStunt;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
+import engine.view.Controller;
 import engine.view.View;
 import game.Main;
 import game.Model;
@@ -47,6 +49,10 @@ public class Ship extends Entity implements Shooter {
 	private int weapon = WEAPON_SIMPLE;
 	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
+	
+	private Controller controller;
+	
+	private ShipStunt shipStunt;
 
 	public Ship(View view) {
 		super("Ship");
@@ -55,6 +61,7 @@ public class Ship extends Entity implements Shooter {
 		this.avatar = new ShipAvatar();
 		this.task = Runtime.task();
 		this.view = view;
+		
 
 		try {
 			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
@@ -66,8 +73,20 @@ public class Ship extends Entity implements Shooter {
 		}
 
 	}
+	
+	public void initComponents(Model model) {
+	    this.shipStunt = new ShipStunt(model, this);
+	    this.controller = new Controller(this.shipStunt);
+	}
+	
+	public ShipStunt getShipStunt() {
+		return this.shipStunt;
+	}
 
-	public void tick(double seconds, boolean shift) {
+	public void tick(double elapsed, boolean shift) {
+		
+		double seconds = elapsed/1000;
+		this.controller.recalculer();
 		ramasserPowerUps ();
 		double angularSpeed = aSpeed();
 		if (angularSpeed != 0) {
@@ -99,15 +118,8 @@ public class Ship extends Entity implements Shooter {
 			this.shootCooldown = SHOOT_DELAY;
 		}
 	}
-
-	private void shoot() {
-//		MissilePlayer msp = new MissilePlayer(view, "missile");
-//		Position pos = this.position();
-//		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
-//		msp.setBounding();
-//		msp.setlSpeed(missileSpeed, 0);
-//		this.model.add(msp);
-//		this.model.getView().add(msp.getAvatar());
+	@Override
+	public void shoot() {
 
 		// Code de Dario
 		Position pos = this.position();
