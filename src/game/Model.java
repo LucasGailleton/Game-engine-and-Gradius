@@ -39,6 +39,7 @@ public class Model {
 		this.grid = Game.game().grid;
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
+		this.ps = new Physic(this); 
 	}
 	
 	// ADD, REMOVE Entity
@@ -51,7 +52,7 @@ public class Model {
 		this.entities.remove(e);
 	}
 	
-	public View getView() { //Méthode temporaire, structurellement pas ouf
+	public View getView() { // Méthode temporaire, structurellement pas ouf
 		return this.v;
 	}
 	
@@ -71,19 +72,15 @@ public class Model {
 	    boolean shift = v.shift();
 	    this.seconds = elapsed / 1000.0;
 	    
-	    // Instancier Physic une seule fois dans le constructeur de Model serait mieux !
-	    this.ps = new Physic(this); 
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
 	        
-	    	boolean isShip = entity instanceof Ship;
-	        
-	        if (isShip) {
+	        if (entity instanceof Ship)
 	            ((Ship) entity).tick(seconds, shift);
-	        } else if (entity instanceof MissilePlayer) {
-	            ((MissilePlayer) entity).tick();
-	        }
+	        
+	        else if (entity instanceof MissilePlayer)
+	            ((MissilePlayer) entity).tick(seconds, shift);
 	        
 	        
 	        if (entity.haslSpeed()) {
@@ -110,10 +107,11 @@ public class Model {
 						}
 					}
 					if(!trueCollisions.isEmpty()) {
-						//boolean isInvincible = (isShip) ? ((Ship)entity).getHit() : false;
-						entity.translate(entity.isu.new Vector(-moveX, -moveY));
-						entity.setlSpeed(0, 0); 
-						if (entity.stunt() instanceof ShipStunt) {
+						boolean isInvincible = (entity instanceof Ship) ? ((Ship)entity).getHit() : false;
+					    if (!isInvincible) {
+							entity.translate(entity.isu.new Vector(-moveX, -moveY));
+							entity.setlSpeed(0, 0); 
+							if (entity.stunt() instanceof ShipStunt) {
 								ShipStunt bs = ((ShipStunt) entity.stunt());
 								bs.forbiddenDirection = bs.direction;
 								switch (bs.direction) {
@@ -121,9 +119,11 @@ public class Model {
 								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
 								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
 								default: bs.set(0, -0.05*Main.windowScale); break;
+								}
 							}
 							entity.collision(trueCollisions);
-						}
+							
+					    }
 					}
 				}
 			}
