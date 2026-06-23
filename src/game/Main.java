@@ -99,7 +99,7 @@ public class Main implements Runnable {
 		ship.setStunt(shipStunt);
 			
 		MontFendu mf = new MontFendu();
-		mf.setCoord(isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
 		mf.setBounding();
 		model.add(mf);
 		view.add(mf.getAvatar());
