@@ -30,7 +30,7 @@ public class EnemyChicken extends Entity{
 	
 
 	public void shoot() {
-		MissilePlayer msp = new MissilePlayer("missile 1 ");
+		MissilePlayer msp = new MissilePlayer("missile 1 ",view);
 		Position pos = this.position();
 		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
 		msp.setBounding();
@@ -57,7 +57,7 @@ public class EnemyChicken extends Entity{
             
             this.sprites[Top][spriteNeutral] = imgSprites.getSubimage(218, 245, 36, 28);
             this.sprites[Down][spriteNeutral] = imgSprites.getSubimage(218, 214, 36, 28);
-			//Animation à ajouter peut etre ?
+			
             
 			this.death.clear();
 		    this.death.add(imgSprites.getSubimage(278, 753, 32, 32));

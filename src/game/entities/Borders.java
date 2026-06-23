@@ -14,14 +14,16 @@ import oop.graphics.Graphics;
 // En soit on peut aussi juste faire les sprites en les retournant dans un logiciel
 // Mais pourquoi pas tenter de les tourner directemement dans le code
 public class Borders extends Entity{
-	protected int chosenSprite; //compris entre 0 et 1 pour l'instant
-	protected int chosenPos; //entre 0 et 4
-	public Borders(String name, int chosenSprite, int chosenPos) {
+	protected int chosenSprite; 
+	protected int chosenPos;
+	private View view;
+	public Borders(String name, int chosenSprite, int chosenPos, View view) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*63)/Main.windowScale + 69, (Game.cmPerCell*12)/Main.windowScale + 14));
 		this.chosenSprite = chosenSprite;
 		this.chosenPos = chosenPos;
 		this.avatar = new BorderAvatar(this);
+		this.view = view;
 		
 	}
 	
@@ -30,12 +32,19 @@ public class Borders extends Entity{
 		//pas de boundingbox
 	}
 	
+	@Override
 	public void tick(double seconds, boolean shift) {
-	    if (shift) {
-	        translate(isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));
+		if (shift) {
+	        translate(isu.new Vector((View.speed / 4.0) * Main.windowScale, 0.0));
 	    }
 
-	    if (this.position().x < 0) {
+	    // On calcule la position logique du bord GAUCHE de la caméra dans le monde.
+	    // (J'utilise votre facteur 0.5 exactement comme dans votre missile)
+	    double leftScreenEdge = -(view.shiftPX * 0.5);
+
+	    // On vérifie si la bordure est passée à gauche de cette ligne
+	    // (On soustrait aussi la moitié de sa taille pour qu'elle disparaisse sans effet de coupure "popping")
+	    if (this.center().x_cm <= leftScreenEdge - (this.size.x_cm / 2.0)) {
 	        this.die();
 	    }
 	}
@@ -61,10 +70,10 @@ public class Borders extends Entity{
 		    this.sprites[1][Bottom] = imgSprites.getSubimage(6, 157, 63, 12);
 		    this.sprites[1][Top] = imgSprites.getSubimage(6, 177, 63, 12);
 		    
-		    this.sprites[2][Bottom] = imgSprites.getSubimage(74, 150, 63, 18);
+		    this.sprites[2][Bottom] = imgSprites.getSubimage(74, 150, 63, 18); //+6
 		    this.sprites[2][Top] = imgSprites.getSubimage(74, 177, 63, 18);
 		    
-		    this.sprites[3][Bottom] = imgSprites.getSubimage(142, 153, 63, 15);
+		    this.sprites[3][Bottom] = imgSprites.getSubimage(142, 153, 63, 15); //+3
 		    this.sprites[3][Top] = imgSprites.getSubimage(142, 177, 63, 15);
 		    
 		    this.sprites[4][Bottom] = imgSprites.getSubimage(213, 155, 63, 12);

@@ -27,7 +27,7 @@ import oop.tasks.Runtime;
 public class Ship extends Entity implements Shooter {
 
 	public static final double ShipSpeed = 5 * Main.windowScale;
-	public static final int missileSpeed = 1500;
+	public static final int missileSpeed = 150;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
 	private final double SHOOT_DELAY = 0.15; // DELAI (on peut modifier)

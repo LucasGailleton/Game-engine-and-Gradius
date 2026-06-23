@@ -28,7 +28,6 @@ import game.entities.EnemyChicken;
 import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
-import game.entities.Ghost;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import game.entities.Ship;
@@ -113,11 +112,11 @@ public class Main implements Runnable {
 		
 		ship.setStunt(shipStunt);
 			
-		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-		mf.setBounding();
-		model.add(mf);
-		view.add(mf.getAvatar());
+//		MontFendu mf = new MontFendu();
+//		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+//		mf.setBounding();
+//		model.add(mf);
+//		view.add(mf.getAvatar());
 		
 //		EnemyChicken chick=new EnemyChicken("testchick");
 //		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
@@ -128,11 +127,11 @@ public class Main implements Runnable {
 //		GALBot gb=new GALBot(chick); 
 //		gb.set(auts.get(0));
 		
-		Mur plafond = new Mur(75, 0);
+		Mur plafond = new Mur(30, 0);
 		model.add(plafond);
 		view.add(plafond.getAvatar());
 		
-		Mur sol = new Mur(75, 30);
+		Mur sol = new Mur(30, 30);
 		model.add(sol);
 		view.add(sol.getAvatar());
 //		

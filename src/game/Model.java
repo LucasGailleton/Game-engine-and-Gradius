@@ -17,6 +17,7 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.Borders;
 import game.entities.MissilePlayer;
 import game.entities.PacMan.PacManAvatar;
 import game.entities.Ship;
@@ -83,8 +84,11 @@ public class Model {
 	            ((MissilePlayer) entity).tick(seconds, shift);
 	        else if(entity.bot()!=null){
 	        	entity.bot().tick(elapsed);
+	        }else if(entity instanceof Mur)
+	        	((Mur)entity).tick(elapsed, shift);
+	        else if (entity instanceof Borders) {
+	        	((Borders)entity).tick(elapsed, shift);
 	        }
-	        
 	        
 	        if (entity.haslSpeed()) {
 	            

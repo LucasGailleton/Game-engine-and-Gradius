@@ -57,7 +57,9 @@ public class BossGunTop extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			this.getSprites(g);
+			if (this.sprites ==null) {
+				this.getSprites(g);
+			}
             
             ISU.Coord center = BossGunTop.this.center(); 
             int posX = this.toPixel(center.x_cm - (BossGunTop.this.size.x_cm / 2));

@@ -368,7 +368,7 @@ public abstract class Entity {
 	}
 	
 	public void die() {
-		System.out.println("entité despawn");
+		System.out.println("entité despawn : " + name);
         this.alive = false;
         
         this.retract();
@@ -377,5 +377,5 @@ public abstract class Entity {
         
     }
 	
-	//public abstract void tick();
+	public abstract void tick(double elapsed,boolean shift);
 }

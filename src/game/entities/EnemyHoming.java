@@ -61,7 +61,9 @@ public class EnemyHoming extends Entity {
 		@Override
 		public void paint(Graphics g, int shiftPX) {
 			
-            this.getSprites(g);
+			if (this.sprites ==null) {
+				this.getSprites(g);
+			}
             
             ISU.Coord center = EnemyHoming.this.center(); //para el Gruber
             int posX = this.toPixel(center.x_cm - (EnemyHoming.this.size.x_cm / 2));
