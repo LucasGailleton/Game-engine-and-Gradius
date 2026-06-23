@@ -36,10 +36,10 @@ public class Model {
 	public Model(View v) {
 		if (ProfilingManager.PROFILING)
 			this.p = ProfilingManager.getProfiler("model");
+		this.ps = new Physic(this);
 		this.grid = Game.game().grid;
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
-		this.ps = new Physic(this); 
 	}
 	
 	// ADD, REMOVE Entity
@@ -75,12 +75,15 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
-	        
+
 	        if (entity instanceof Ship)
 	            ((Ship) entity).tick(seconds, shift);
 	        
 	        else if (entity instanceof MissilePlayer)
 	            ((MissilePlayer) entity).tick(seconds, shift);
+	        else if(entity.bot()!=null){
+	        	entity.bot().tick(elapsed);
+	        }
 	        
 	        
 	        if (entity.haslSpeed()) {

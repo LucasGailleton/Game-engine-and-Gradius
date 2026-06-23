@@ -1,14 +1,18 @@
+
 package engine.GAL;
 
 import engine.Entity;
 
-class True  {
+class True  implements iGALCondition{
 
 	// CONSTRUCTOR
 
-	 True(){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `True`"); }
+	 True(){
+	 }
 
 	// EVAL
-	 boolean eval(Entity __){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `eval`"); }
+	 public boolean eval(Entity __){
+		 return true;
+	 }
 
 }

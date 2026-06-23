@@ -7,6 +7,7 @@ import game.Main;
 import game.Model;
 import game.entities.Avatar;
 import game.entities.PacMan;
+import game.entities.EnemyChicken;
 
 public class BasicStunt extends Stunt {
 	
@@ -55,4 +56,7 @@ public class BasicStunt extends Stunt {
 		this.entity.setlSpeed(0, 0);
 	}
 	
+	public void shoot(int degree) {
+		((EnemyChicken)this.entity).shoot();
+	}
 }

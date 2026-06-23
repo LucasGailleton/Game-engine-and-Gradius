@@ -1,23 +1,28 @@
+
 package engine.GAL;
+
+
 import engine.Entity;
 
-class Transition {
+public class Transition {
 
 	// FIELDS
 
-	State source;
-	iGALCondition condition;
-	iGALAction action;
-	State tgt;
+	 State source;
+	 iGALCondition condition;
+	 iGALAction action;
+	 State tgt;
 
 	// CONSTRUCTOR
 
-	Transition(State source, iGALCondition condition, iGALAction action, State target) {
-		this.source = source;
-		this.condition = condition;
-		this.action = action;
-		this.tgt = target;
-	}
+	 public Transition(State source, iGALCondition condition, GALAction action, State target){ 
+		 this.source=source;
+		 this.condition=condition;
+		 this.action=(iGALAction) action;
+		 this.tgt=target;
+	 }
+	 
+	 
 
 	// EXEC
 
@@ -35,14 +40,15 @@ class Transition {
 	 *          figures (health, state, ...) and triggers the {@code Stunt} action
 	 * @return {@code true} if the condition is satisfied and the action can start
 	 */
-	boolean exec(Entity e) {
-		if (e.bot().state() == this.source && condition.eval(e)) {
-			if (action.exec(e)) {
-				e.bot().state(tgt);
-				return true;
-			}
-		}
-		return false;
-	}
+	 boolean exec(Entity e){ 
+		 if(e.bot().state().equals(source) && this.condition.eval(e)) {
+			 boolean b=this.action.exec(e);
+			 if(b) {
+				 e.bot().state(tgt);
+				 return true;
+			 }
+		 }
+		 return false;
+	 }
 
 }

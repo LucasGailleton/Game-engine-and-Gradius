@@ -1,4 +1,6 @@
+
 package engine.GAL;
+
 
 import engine.Entity;
 
@@ -12,18 +14,23 @@ public class Automaton {
 	 * @implNote Choose your representation carefully to efficiently identify the
 	 *           potential transitions for triggering.
 	 */
-	 iTransitions transitions;
+	 Transitions transitions;
 
 	// CONSTRUCTOR
 
-	 Automaton(String name, State initial){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Automaton`"); }
+	 public Automaton(String name, State initial){ 
+		 this.initial=initial;
+		 this.transitions=new Transitions();
+	 }
 
 	// BUILDER
 
 	/**
 	 * @apiNote add a transition to the automaton after the previous ones
 	 */
-	 void add(Transition t){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `add`"); }
+	 void add(Transition t){ 
+		 transitions.add(t);
+	 }
 
 	// AUTOMATON STEP = TRIGGER A TRANSITION or FAIL and STAY IN THE SAME STATE
 
@@ -35,6 +42,13 @@ public class Automaton {
 	 *         the {@code bot}
 	 *         <LI>{@code false} if no transition can be taken.</LI>
 	 */
-	 boolean step(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `step`"); }
+	 boolean step(Entity e){ 
+		 for(Transition t:this.transitions.get(e.bot().state())) {
+			 if(t.exec(e)) {
+				 return true;
+			 }
+		 }
+		 return false;
+	 }
 
 }

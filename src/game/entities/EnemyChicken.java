@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
+import engine.Game;
 import engine.ISU;
+import engine.Grid.Position;
+import engine.ISU.Coord;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -17,12 +21,25 @@ public class EnemyChicken extends Entity{
 	public static final int Top = 0;
     public static final int Down = 1;
 
+    private View view;
     
-	public EnemyChicken(String name) {
+	public EnemyChicken(View view, String name) {
 		super(name);
+		this.view = view;
 		this.setSize(this.game.grid.new Dimension((int)(36/Main.windowScale),(int)(28/Main.windowScale)));
 		this.avatar = new ChickenAvatar(this);
 		
+	}
+	
+
+	public void shoot() {
+		MissilePlayer msp = new MissilePlayer(view, "missile 1");
+		Position pos = this.position();
+		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
+		msp.setBounding();
+		msp.setlSpeed(150, 0);
+		this.model.add(msp);
+		this.model.getView().add(msp.getAvatar());
 	}
 	
 	private class ChickenAvatar extends Avatar{

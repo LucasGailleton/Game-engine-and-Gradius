@@ -1,8 +1,13 @@
+
 package engine.GAL;
 
+import engine.BasicStunt;
 import engine.Entity;
+import engine.ShipStunt;
+import engine.Stunt;
 
-class Move  {
+class Move  extends GALAction{
+
 
 	Direction direction;
 	double duration_ms;
@@ -22,15 +27,41 @@ class Move  {
 	 * @param n         : number of ticks? or number of steps? Choose your
 	 *                  interpretation.
 	 */
-	 Move(Direction dir, double intensity, int n){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(Direction dir, double intensity, int n){ 
+		super();
+		this.direction=dir;
+		this.intensity=intensity;
+		this.length_cm=n;
+	 }
 
-	 Move(Direction dir, double intensity){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(Direction dir, double intensity){ 
+		 super();
+		 this.direction=dir;
+		 this.intensity=intensity;
+	 }
 
-	 Move(Direction dir, int n){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(Direction dir, int n){
+		 super();
+		 this.direction=dir;
+	 }
+	 
+	 Move(Direction dir){
+		 super();
+		 this.direction=dir;
+	 }
 
-	 Move(){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Move`"); }
+	 Move(){ 
+		 
+	 }
 
 	// EXEC
-	 boolean exec(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `exec`"); }
+	 public boolean exec(Entity e){ 
+		 Stunt s=e.stunt();
+		 s.walk(0);
+		 System.out.println("move");
+		 return true;
+	 }
+
+
 
 }
