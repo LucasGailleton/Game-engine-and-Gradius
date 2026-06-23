@@ -106,7 +106,7 @@ public class Main implements Runnable {
 		mf.setBounding();
 		model.add(mf);
 		view.add(mf.getAvatar());
-//		
+		
 		Mur plafond = new Mur(75, 0);
 		model.add(plafond);
 		view.add(plafond.getAvatar());
