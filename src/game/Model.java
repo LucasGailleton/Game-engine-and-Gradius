@@ -52,7 +52,7 @@ public class Model {
 		this.entities.remove(e);
 	}
 	
-	public View getView() { //Méthode temporaire, structurellement pas ouf
+	public View getView() { // Méthode temporaire, structurellement pas ouf
 		return this.v;
 	}
 	
@@ -75,7 +75,6 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
-	        
 	        
 	        if (entity instanceof Ship)
 	            ((Ship) entity).tick(seconds, shift);

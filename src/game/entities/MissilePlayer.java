@@ -5,13 +5,15 @@ import engine.Game;
 import engine.ISU;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class MissilePlayer extends Entity {
+public class MissilePlayer extends Entity{
 	
 	private View view;
+	private int age = 0;
 
 	public MissilePlayer(View view, String name) {
 		super(name);
@@ -35,15 +37,12 @@ public class MissilePlayer extends Entity {
 	}
 	
 	public void tick(double seconds, boolean shift) {
-		if (this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) // récupérer taille fenetre/ViewPort
+		if (!this.haslSpeed() || this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) {
 			die();
-//		if (collision())
-//			die();
-//		}
+			return;
+		}
 	}
-	
-
-	
+		
 	private class MissilePlayerAvatar extends Avatar{
 		
 		public static final int spriteSizeX = 8;
