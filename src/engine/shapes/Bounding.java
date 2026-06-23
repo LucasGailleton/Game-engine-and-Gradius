@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import engine.ISU;
+import oop.graphics.Graphics;
 
 public class Bounding {
 
@@ -50,4 +51,9 @@ public class Bounding {
 			s.rotateAround(c, angle_degree);
 	}
 
+	public void paint(Graphics g, int shiftPX) {
+		for (iShape s : boundings)
+			s.paint(g, shiftPX);
+	}
+	
 }

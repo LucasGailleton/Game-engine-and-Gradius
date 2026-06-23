@@ -13,7 +13,6 @@ public class Ticker implements Runnable {
 	
 	public Ticker(Model model, Task task, int ms) {
 		long time = System.currentTimeMillis();
-//		this.task = Runtime.newTask("Ticker");
 		this.model = model;
 		this.task = task;
 		this.ms = ms;

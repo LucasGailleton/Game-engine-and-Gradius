@@ -34,10 +34,15 @@ public class Gum extends Entity {
 			this.sprites = new BufferedImage[1][1];
 		}
 
-		@Override
 		public void paint(Graphics g) {
 			getSprites(g);
 			g.drawImage(sprites[0][0], Gum.this.position().x, Gum.this.position().y);
+		}
+
+		@Override
+		public void paint(Graphics g, int shiftPX) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

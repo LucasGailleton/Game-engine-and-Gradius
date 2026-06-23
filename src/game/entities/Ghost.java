@@ -91,7 +91,6 @@ public class Ghost extends Entity {
 			}
 		}
 
-		@Override
 		public void paint(Graphics g) {
 			if (this.sprites == null)
 		        getSprites(g);
@@ -119,6 +118,12 @@ public class Ghost extends Entity {
 		    indChg++;
 		    if (indChg > 4)
 		    	indChg = 0;
+		}
+
+		@Override
+		public void paint(Graphics g, int shiftPX) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

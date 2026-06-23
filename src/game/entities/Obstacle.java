@@ -35,8 +35,13 @@ public class Obstacle extends Entity {
 		@Override
 		public void getSprites(Graphics g) {}
 
-		@Override
 		public void paint(Graphics g) {}
+
+		@Override
+		public void paint(Graphics g, int shiftPX) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 

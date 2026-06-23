@@ -3,6 +3,7 @@ package engine.shapes;
 import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Vector;
+import oop.graphics.Graphics;
 
 public interface iShape {
 
@@ -17,4 +18,6 @@ public interface iShape {
 	public void translate(int dx, int dy);
 
 	public void translate(ISU.Vector v);
+
+	public void paint(Graphics g, int shiftPX);
 }

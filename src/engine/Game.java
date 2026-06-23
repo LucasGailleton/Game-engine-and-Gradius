@@ -7,7 +7,7 @@ public class Game {
 
 	// CONSTANT
 	public static final boolean torusOnXaxis = true; // vrai si l'axe X est une boucle fermée
-	public static final boolean torusOnYaxis = true; // vrai si l'axe Y est une boucle fermée
+	public static final boolean torusOnYaxis = false; // vrai si l'axe Y est une boucle fermée
 	public static final double cmPerCell = 3.7; // échelle qui relie l'unité ncell à cm
 	public static final int pixelPerCm = 2; // échelle qui relie l'unité pixel à cm
 

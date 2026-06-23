@@ -4,8 +4,9 @@ package engine.shapes;
 import engine.Game;
 import engine.ISU;
 import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.ISU.Vector;
+import game.Main;
+import oop.graphics.Graphics;
 
 public class Rect extends Shape implements iShape {
 
@@ -37,10 +38,15 @@ public class Rect extends Shape implements iShape {
 
 	// ROTATION
 	public void rotate(int angle_degree) {
-		this.angle_degree = (this.angle_degree + angle_degree)%360;
+		this.angle_degree = Math.floorMod(this.angle_degree + angle_degree,360)%360;
 	}
 
+	public boolean intersects(iShape shape) {
+		return shape.intersects(this);
+	}
+	
 	// === Rect/Circle Intersection ===
+	@Override
 	public boolean intersects(Circle circle) {
 		RectCircleIntersection rc = new RectCircleIntersection(this, circle);
 		return rc.intersects();
@@ -136,6 +142,7 @@ public class Rect extends Shape implements iShape {
 	}
 
 	// === Rect/Rect Intersection ===
+	@Override
 	public boolean intersects(Rect rect) {
 		RectRectIntersection rr = new RectRectIntersection(this, rect);
 		return rr.intersects();
@@ -198,5 +205,11 @@ public class Rect extends Shape implements iShape {
 	public void rotateAround(Coord c, int angle_degree) {
 		this.center.rotateAround(c, angle_degree);
 		this.rotate(angle_degree);
+	}
+
+	@Override
+	public void paint(Graphics g, int shiftPX) {
+		g.setColor(Graphics.Colors.yellow);
+		g.drawRect((int)((center.x_cm-halfWidth)*Game.pixelPerCm)+shiftPX, (int)((center.y_cm-halfHeight)*Game.pixelPerCm), (int)(halfWidth*2*Game.pixelPerCm), (int)(halfHeight*2*Game.pixelPerCm));
 	}
 }
