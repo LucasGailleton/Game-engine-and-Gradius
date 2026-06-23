@@ -5,6 +5,7 @@ import engine.Game;
 import engine.ISU;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -14,14 +15,29 @@ import oop.graphics.Graphics;
 // Mais pourquoi pas tenter de les tourner directemement dans le code
 public class Borders extends Entity{
 	protected int chosenSprite; //compris entre 0 et 1 pour l'instant
-	protected int chosenPos; //entre 0 et 1
+	protected int chosenPos; //entre 0 et 4
 	public Borders(String name, int chosenSprite, int chosenPos) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*63)/Main.windowScale + 69, (Game.cmPerCell*12)/Main.windowScale + 14));
 		this.chosenSprite = chosenSprite;
 		this.chosenPos = chosenPos;
 		this.avatar = new BorderAvatar(this);
-		//this.setlSpeed(10, 0);
+		
+	}
+	
+	@Override
+	public void setBounding() {
+		//pas de boundingbox
+	}
+	
+	public void tick(double seconds, boolean shift) {
+	    if (shift) {
+	        translate(isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));
+	    }
+
+	    if (this.position().x < 0) {
+	        this.die();
+	    }
 	}
 	
 	public class BorderAvatar extends Avatar{
@@ -37,27 +53,39 @@ public class Borders extends Entity{
 		@Override
 		public void getSprites(Graphics g) {
 			BufferedImage imgSprites = g.load("obstacles.png");
-		    this.sprites = new BufferedImage[3][2];
+		    this.sprites = new BufferedImage[5][2];
 		    
 		    this.sprites[0][Bottom] = imgSprites.getSubimage(5, 117, 63, 12);
 		    this.sprites[0][Top] = imgSprites.getSubimage(80, 46, 63, 12);
 		    
-		    this.sprites[1][Bottom] = imgSprites.getSubimage(71, 117, 47, 12);
-		    this.sprites[1][Top] = imgSprites.getSubimage(146, 46, 47, 12);
+		    this.sprites[1][Bottom] = imgSprites.getSubimage(6, 157, 63, 12);
+		    this.sprites[1][Top] = imgSprites.getSubimage(6, 177, 63, 12);
 		    
-		    //this.sprites[2][0] = imgSprites.getSubimage(121, 111, 47, 18);
+		    this.sprites[2][Bottom] = imgSprites.getSubimage(74, 150, 63, 18);
+		    this.sprites[2][Top] = imgSprites.getSubimage(74, 177, 63, 18);
+		    
+		    this.sprites[3][Bottom] = imgSprites.getSubimage(142, 153, 63, 15);
+		    this.sprites[3][Top] = imgSprites.getSubimage(142, 177, 63, 15);
+		    
+		    this.sprites[4][Bottom] = imgSprites.getSubimage(213, 155, 63, 12);
+		    this.sprites[4][Top] = imgSprites.getSubimage(213, 177, 63, 12);
 		    
 		}
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			this.getSprites(g);
+			if (this.sprites == null) {
+	            this.getSprites(g);
+	        }
 	           
             ISU.Coord center = Borders.this.center();
             int posX = this.toPixel(center.x_cm - (Borders.this.size.x_cm / 2));
             int posY = this.toPixel(center.y_cm - (Borders.this.size.y_cm / 2));
+            BufferedImage currentImg = sprites[chosenSprite][chosenPos];
+            int width = (int)(currentImg.getWidth() * Main.windowScale);
+            int height = (int)(currentImg.getHeight() * Main.windowScale);
 			
-            g.drawImage(sprites[chosenSprite][chosenPos], posX+shiftPX, posY, (int)(63 * Main.windowScale), (int)(12*Main.windowScale));
+            g.drawImage(currentImg, posX + shiftPX, posY, width, height);
             
 		}
 		

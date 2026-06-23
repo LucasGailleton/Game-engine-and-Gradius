@@ -12,38 +12,59 @@ import oop.graphics.Canvas;
 //WORK IN PROGRESS
 public class MapBuilder {
 	
-//	private MontFendu mfd;
-//	private Borders[] borders;
-//	private int nbBorders;
-//	private Model model;
-//	private View view;
 
 	public MapBuilder(Model model, View view) {
-//		this.mfd = new MontFendu();
-//		this.nbBorders = 4;
-//		this.borders = new Borders[nbBorders];
-//		this.model = model;
-//		this.view =view;
 		
-		//placeObstacle();
 	}
 	
 	public static void placeObstacle(Model model, View view, Canvas c) {
-		int nbBorders = 4;
-		Borders[] borders = new Borders[nbBorders];
+
 		
-		borders[0] = new Borders("n1",0,1);
-		Borders b1 = borders[0];
-		b1.setCoord(Game.game().isu.new Coord(c.getWidth()/Main.windowScale, 10));
-		placeEntity(model,view,b1);
-		borders[1] = new Borders("n2",0,0);
-		Borders b2 = borders[1];
-		b2.setCoord(Game.game().isu.new Coord(c.getWidth()/Main.windowScale, c.getHeight()*1.75/Main.windowScale));
-		placeEntity(model,view,b2);
+	    double screenWidth = c.getWidth() / Main.windowScale; 
+	    System.out.println("width" + screenWidth);
+	    double topY = 10.0; 
+	    double bottomY = (c.getHeight() / Main.windowScale) + 130;
+
+	    double currentX = 0.0; 
+	    int id = 0;
+	    while (currentX < screenWidth) {
+	    	int spriteType=0;
+	        double rand = Math.random();
+	        if (rand<0.2) {
+	        	spriteType=0;
+	        }else if(rand<0.4 && rand>=0.2) {
+	        	spriteType=1;
+	        }else if(rand<0.6 && rand>=0.4) {
+	        	spriteType=2;
+	        }else if(rand<0.8 && rand>=0.6) {
+	        	spriteType=3;
+	        }else if(rand>=0.8){
+	        	spriteType=4;
+	        }
+	        
+	        
+	        double width = 63.0;
+	        
+	        // --- PLACEMENT EN HAUT ---
+	        Borders topBorder = new Borders("top_" + id, spriteType, 1);
+	        
+	        topBorder.setCoord(Game.game().isu.new Coord(currentX + (width / 2.0), topY));
+	       
+	        topBorder.size = Game.game().isu.new Dimension(width, 12); 
+	        placeEntity(model, view, topBorder);
+	        
+	        // --- PLACEMENT EN BAS ---
+	        Borders botBorder = new Borders("bot_" + id, spriteType, 0);
+	        botBorder.setCoord(Game.game().isu.new Coord(currentX + (width / 2.0), bottomY));
+	        botBorder.size = Game.game().isu.new Dimension(width, 12);
+	        placeEntity(model, view, botBorder);
+	        currentX += width;
+	        id++;
+	    }
 	}
 	
 	private static void placeEntity(Model model, View view, Entity e) {
-		e.setBounding();
+		//e.setBounding();
 		model.add(e);
 		view.add(e.getAvatar());
 	}

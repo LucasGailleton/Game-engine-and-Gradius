@@ -109,7 +109,7 @@ public abstract class Entity {
 		this.bot = bot;
 	}
 	
-	public void setModel(Model model) { //On est sûr de ça la ?
+	public void setModel(Model model) { 
 		this.model = model;
 	}
 

@@ -45,6 +45,8 @@ public class Background extends Entity {
 			int canvasWidth = canvas.getWidth();
 			int canvasHeight = canvas.getHeight();
 			
+			
+			
 			if (xPosition+shiftPX < -canvasWidth)
 				xPosition += canvasWidth;
 			
@@ -55,7 +57,6 @@ public class Background extends Entity {
 
 	@Override
 	public void setBounding() {
-		// TODO Auto-generated method stub
 		
 	}
 }

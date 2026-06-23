@@ -11,7 +11,7 @@ import oop.graphics.Graphics;
 
 public class MissilePlayer extends Entity{
 	
-	
+	private int shift;
 
 	public MissilePlayer(String name) {
 		super(name);
@@ -21,7 +21,7 @@ public class MissilePlayer extends Entity{
 	
 	
 	public void tick() {
-		if (this.position().x >=140) { //récupérer taille fenetre/ViewPort
+		if (this.position().x >=140 + shift) { //récupérer taille fenetre/ViewPort
 			die();
 		}
 //		if (collision()) {
@@ -49,6 +49,7 @@ public class MissilePlayer extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
+			shift = shiftPX;
 			this.getSprites(g);
             
             ISU.Coord center = MissilePlayer.this.center(); //para el Gruber
@@ -56,7 +57,7 @@ public class MissilePlayer extends Entity{
             int posY = this.toPixel(center.y_cm - (MissilePlayer.this.size.y_cm / 2));
             
            
-            g.drawImage(sprites[0][0], posX, posY, (int)(6 * Main.windowScale), (int)(3*Main.windowScale));
+            g.drawImage(sprites[0][0], posX + shiftPX, posY, (int)(6 * Main.windowScale), (int)(3*Main.windowScale));
 			
 		}
 		
