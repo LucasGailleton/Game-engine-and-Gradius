@@ -74,7 +74,7 @@ public class Main implements Runnable {
 			auts=al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
 		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
 		} catch (Exception e) {
-		    e.printStackTrace(); // Regardez votre console !
+		    e.printStackTrace();
 		}
 			
 		Background bg = new Background();
@@ -119,14 +119,14 @@ public class Main implements Runnable {
 		model.add(mf);
 		view.add(mf.getAvatar());
 		
-		EnemyChicken chick=new EnemyChicken(view, "testchick");
+		/*EnemyChicken chick=new EnemyChicken(view, "testchick");
 		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		chick.setBounding();
 		chick.setStunt(new BasicStunt(chick.getModel(),chick));
 		model.add(chick);
 		view.add(chick.getAvatar());
 		GALBot gb=new GALBot(chick); 
-		gb.set(auts.get(0));
+		gb.set(auts.get(0));*/
 
 		Mur plafond = new Mur(75, 0);
 		model.add(plafond);
@@ -171,12 +171,11 @@ public class Main implements Runnable {
 //		model.add(ship2);
 //		view.add(ship2.new ShipAvatar());
 //		
-//		EnemyKamikaze kz= new EnemyKamikaze("kz1");
-//		
-//		kz.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
-//		kz.setBounding();
-//		view.add(kz.getAvatar());
-//		model.add(kz);
+		EnemyKamikaze kz= new EnemyKamikaze("kz1");	
+		kz.setCoord(Game.game().isu.new Coord(20.0*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale+100));
+		kz.setBounding();
+		view.add(kz.getAvatar());
+		model.add(kz);
 //		
 //		EnemyHoming hm = new EnemyHoming("hm1");
 //		hm.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));

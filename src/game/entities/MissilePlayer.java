@@ -10,7 +10,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class MissilePlayer extends Entity{
+public class MissilePlayer extends Entity {
 	
 	private View view;
 	private int age = 0;
@@ -43,7 +43,7 @@ public class MissilePlayer extends Entity{
 		}
 	}
 		
-	private class MissilePlayerAvatar extends Avatar{
+	private class MissilePlayerAvatar extends Avatar {
 		
 		public static final int spriteSizeX = 8;
 	    public static final int spriteSizeY = 3;
@@ -63,7 +63,8 @@ public class MissilePlayer extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			this.getSprites(g);
+			if(this.sprites == null)
+				this.getSprites(g);
             
             ISU.Coord center = MissilePlayer.this.center();
             int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);

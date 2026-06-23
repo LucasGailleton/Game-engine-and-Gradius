@@ -75,8 +75,10 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
+	    	
+	    	boolean isShip = entity instanceof Ship;
 
-	        if (entity instanceof Ship)
+	        if (isShip)
 	            ((Ship) entity).tick(seconds, shift);
 	        
 	        else if (entity instanceof MissilePlayer)
@@ -87,7 +89,6 @@ public class Model {
 	        
 	        
 	        if (entity.haslSpeed()) {
-	            
 	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
@@ -110,7 +111,7 @@ public class Model {
 						}
 					}
 					if(!trueCollisions.isEmpty()) {
-						boolean isInvincible = (entity instanceof Ship) ? ((Ship)entity).getHit() : false;
+						boolean isInvincible = (isShip) ? ((Ship)entity).getHit() : false;
 					    if (!isInvincible) {
 							entity.translate(entity.isu.new Vector(-moveX, -moveY));
 							entity.setlSpeed(0, 0); 
@@ -130,6 +131,9 @@ public class Model {
 					}
 				}
 			}
+	        else {
+	        	
+	        }
 		}
 		if (Main.debug)
 			p.end();

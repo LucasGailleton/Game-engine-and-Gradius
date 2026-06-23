@@ -20,7 +20,7 @@ public class EnemyChicken extends Entity{
 	
 	public static final int Top = 0;
     public static final int Down = 1;
-
+    
     private View view;
     
 	public EnemyChicken(View view, String name) {
@@ -45,6 +45,10 @@ public class EnemyChicken extends Entity{
 	private class ChickenAvatar extends Avatar{
 		
 		private List<BufferedImage> death;
+		
+		 private static final int spriteSizeX = 36; 
+		 private static final int spriteSizeY = 28;
+
 
 		public ChickenAvatar(Entity e) {
 			super(e);
@@ -77,10 +81,10 @@ public class EnemyChicken extends Entity{
              this.getSprites(g);
             
 			ISU.Coord center = EnemyChicken.this.center(); 
-            int posX = this.toPixel(center.x_cm - (EnemyChicken.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (EnemyChicken.this.size.y_cm / 2));
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
-            g.drawImage(sprites[Top][spriteNeutral], posX, posY,
+            g.drawImage(sprites[Top][spriteNeutral], posX+shiftPX, posY,
             		(int) (36*Main.windowScale), 
             		(int) (28*Main.windowScale));
 			

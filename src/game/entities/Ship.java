@@ -68,7 +68,7 @@ public class Ship extends Entity implements Shooter {
 	}
 
 	public void tick(double seconds, boolean shift) {
-		ramasserPowerUps ();
+		ramasserPowerUps();
 		double angularSpeed = aSpeed();
 		if (angularSpeed != 0) {
 			turn((int) (angularSpeed * seconds));
@@ -172,6 +172,9 @@ public class Ship extends Entity implements Shooter {
 			gameOver = true;
 			setlSpeed(0, 0);
 			((ShipAvatar) avatar).exploser();
+			task.post(() -> {
+				this.die();
+			}, 200);
 			return;
 		}
 
@@ -183,10 +186,9 @@ public class Ship extends Entity implements Shooter {
 		if (!sa.clignote)
 			sa.clignoter();
 
-		// 3 secondes d'invicibilité
 		task.post(() -> {
 			hit = false;
-		}, 3000);
+		}, 1500);
 	}
 
 	public void applyPowerUp(int type) {
@@ -312,10 +314,10 @@ public class Ship extends Entity implements Shooter {
 			sprites[East][spriteDown] = imgSprites.getSubimage(327, 4, spriteSizeX, spriteSizeY);
 
 			this.death.clear();
-			this.death.add(imgSprites.getSubimage(238, 29, 24, 24));
-			this.death.add(imgSprites.getSubimage(267, 25, 24, 24));
-			this.death.add(imgSprites.getSubimage(298, 21, 24, 24));
-			this.death.add(imgSprites.getSubimage(330, 27, 24, 24));
+			this.death.add(imgSprites.getSubimage(238, 29, 24, 12));
+			this.death.add(imgSprites.getSubimage(267, 25, 24, 12));
+			this.death.add(imgSprites.getSubimage(298, 21, 24, 12));
+			this.death.add(imgSprites.getSubimage(330, 27, 24, 12));
 		}
 
 		@Override

@@ -24,12 +24,11 @@ public class EnemyKamikaze extends Entity{
 		
 	}
 	
-	
-	private class KamikazeAvatar extends Avatar{
+	private class KamikazeAvatar extends Avatar {
 		
 		private List<BufferedImage> death;
-		private final int spriteSizeX = 18; 
-        private final int spriteSizeY = 18;
+		private static final int spriteSizeX = 18; 
+        private static final int spriteSizeY = 18;
         
         private int index;
         private int indChg;
@@ -65,16 +64,17 @@ public class EnemyKamikaze extends Entity{
 			@Override
 			public void paint(Graphics g, int shiftPX) {
 				
-	            this.getSprites(g);
+				if(this.sprites == null)
+					this.getSprites(g);
 	           
 	            ISU.Coord center = EnemyKamikaze.this.center();
-	            int posX = this.toPixel(center.x_cm - (EnemyKamikaze.this.size.x_cm / 2));
-	            int posY = this.toPixel(center.y_cm - (EnemyKamikaze.this.size.y_cm / 2));
+	            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+	            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 	            
 	            
 	            
-	             g.drawImage(sprites[0][index], posX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-	             if (indChg == 0)
+	             g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+	            if (indChg == 0)
 	 		    	index++;
 	 		    if (index > 5)
 	 		    	index = 0;
