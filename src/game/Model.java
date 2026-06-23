@@ -51,7 +51,7 @@ public class Model {
 		this.entities.remove(e);
 	}
 	
-	public View getView() { //Méthode temporaire, structurellement pas ouf
+	public View getView() { // Méthode temporaire, structurellement pas ouf
 		return this.v;
 	}
 	
@@ -65,54 +65,30 @@ public class Model {
 	}
 	
 	public void tick(long elapsed) {
-		if (Main.debug)
-			p.start();
-		if (elapsed > 100) 
-	        elapsed = 10;
+		if (Main.debug) p.start();
+	    if (elapsed > 100) elapsed = 10;
 
-		boolean shift = v.shift();
-		
-		this.seconds = elapsed / 1000.0;
-	    this.ps = new Physic(this); //bruh
-		List<Entity> copyEntities = new ArrayList<>(this.entities);
-		
-		for (Entity entity : copyEntities) {
-			
-			boolean isShip = entity instanceof Ship;
-			boolean invincible = isShip && ((Ship) entity).getHit();
-			
-			ISU.Vector speedVector = entity.lSpeed();
-			double angularSpeed = entity.aSpeed();
-			
-			if (angularSpeed != 0) {
-				entity.turn((int) (angularSpeed * seconds));
-				List<Entity> collisions = this.getCollision(entity);
-				if (!collisions.isEmpty()) {
-					entity.turn((int) -(angularSpeed * seconds));
-					entity.setaSpeed(0);
-					entity.collision(collisions);
-				}
-			}
-			
-			if (shift && isShip) {
-				entity.translate(entity.isu.new Vector((-View.speed/4.0)*Main.windowScale, 0.0));				
-			}
-				
-				
-			if (!(entity instanceof Ship) && entity.bot()!=null) {
-				entity.bot().tick(elapsed);
-			}
-				
-			if (entity.haslSpeed()) {
-				
-				//Missile Test
-				if (entity instanceof MissilePlayer) {
-					
-						
-					((MissilePlayer) entity).tick();
-					
-				}
-				
+	    boolean shift = v.shift();
+	    this.seconds = elapsed / 1000.0;
+	    
+	    List<Entity> copyEntities = new ArrayList<>(this.entities);
+	    
+	    for (Entity entity : copyEntities) {
+
+	        if (entity instanceof Ship)
+	            ((Ship) entity).tick(seconds, shift);
+	        
+	        else if (entity instanceof MissilePlayer)
+	            ((MissilePlayer) entity).tick(seconds, shift);
+	        else if(entity.bot()!=null){
+	        	entity.bot().tick(elapsed);
+	        }
+	        
+	        
+	        if (entity.haslSpeed()) {
+	            
+	            
+	            ISU.Vector speedVector = entity.lSpeed();
 				
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
 				double moveX = speedVector.targetX_cm * seconds;
@@ -133,7 +109,8 @@ public class Model {
 						}
 					}
 					if(!trueCollisions.isEmpty()) {
-					    if (!invincible) {
+						boolean isInvincible = (entity instanceof Ship) ? ((Ship)entity).getHit() : false;
+					    if (!isInvincible) {
 							entity.translate(entity.isu.new Vector(-moveX, -moveY));
 							entity.setlSpeed(0, 0); 
 							if (entity.stunt() instanceof ShipStunt) {

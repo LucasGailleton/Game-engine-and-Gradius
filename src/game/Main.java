@@ -46,13 +46,17 @@ public class Main implements Runnable {
 	List<Entity> entities;
 	List<Automaton> auts;
 	public static final double windowScale = 4;
+	public static final int windowWidth = 256;
+	public static final int windowHeight = 240;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 
 	public static void main(String[] args) {
-		Dimension d = new Dimension((int) (256*windowScale), (int) (240*windowScale)+headerSize);
+		Dimension d = new Dimension((int) (windowWidth*windowScale), (int) (windowHeight*windowScale)+headerSize);
 		Runtime.boot(d, new Main(), debug);
 	}
+	
+	
 
 	@Override
 	public void run() throws Exception {
@@ -94,8 +98,9 @@ public class Main implements Runnable {
 	}
 	
 	public ShipStunt init(Model model, View view) {
+		MapBuilder.placeObstacle(model,view, canvas);
 		
-		Ship ship = new Ship();
+		Ship ship = new Ship(view);
 		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
 		ship.setBounding();
 		model.add(ship);
@@ -107,7 +112,7 @@ public class Main implements Runnable {
 		view.add(va);
 		
 		ship.setStunt(shipStunt);
-//			
+			
 		MontFendu mf = new MontFendu();
 		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
 		mf.setBounding();
@@ -123,6 +128,13 @@ public class Main implements Runnable {
 		GALBot gb=new GALBot(chick); 
 		gb.set(auts.get(0));
 //		
+		Mur plafond = new Mur(75, 0);
+		model.add(plafond);
+		view.add(plafond.getAvatar());
+		
+		Mur sol = new Mur(75, 30);
+		model.add(sol);
+		view.add(sol.getAvatar());
 //		
 //		Ship ship = new Ship();
 //		
@@ -184,6 +196,31 @@ public class Main implements Runnable {
 //		model.add(pu);
 //		view.add(pu.getAvatar());
 //		
+		// power-ups à ramasser
+		PowerUp puDouble = new PowerUp("double", PowerUp.DOUBLE);
+		puDouble.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puDouble.setBounding();
+		model.add(puDouble);
+		view.add(puDouble.getAvatar());
+
+		PowerUp puSpeed = new PowerUp("speed", PowerUp.SPEED);
+		puSpeed.setCoord(Game.game().isu.new Coord(22*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puSpeed.setBounding();
+		model.add(puSpeed);
+		view.add(puSpeed.getAvatar());
+
+		PowerUp puSlave = new PowerUp("slave", PowerUp.SLAVE);
+		puSlave.setCoord(Game.game().isu.new Coord(26*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puSlave.setBounding();
+		model.add(puSlave);
+		view.add(puSlave.getAvatar());
+
+		PowerUp puLaser = new PowerUp("laser", PowerUp.LASER);
+		puLaser.setCoord(Game.game().isu.new Coord(30*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		puLaser.setBounding();
+		model.add(puLaser);
+		view.add(puLaser.getAvatar());
+
 		return shipStunt;
 	}
 }

@@ -14,32 +14,20 @@ public class Controller {
 	private Task task;
 	private boolean stopped = true;
 
-	private boolean leftDown = false;
-	private boolean rightDown = false;
-	private boolean upDown = false;
-	private boolean downDown = false;
-	private boolean space =false;
-
 	private int dir = -1;
+	private boolean left, right, up, down, space;
 
 	public Controller(ShipStunt player) {
-
 		this.player = player;
 		this.task = Runtime.task();
 	}
 
 	public void update(int keyCode, boolean isDown) {
-		if (keyCode == VirtualKeyCodes.VK_LEFT)
-			leftDown = isDown;
-		else if (keyCode == VirtualKeyCodes.VK_RIGHT)
-			rightDown = isDown;
-		else if (keyCode == VirtualKeyCodes.VK_UP)
-			upDown = isDown;
-		else if (keyCode == VirtualKeyCodes.VK_DOWN)
-			downDown = isDown;
-		else if (keyCode == VirtualKeyCodes.VK_SPACE) {
-			space = isDown;
-		}
+		if (keyCode == VirtualKeyCodes.VK_LEFT) left = isDown;
+        else if (keyCode == VirtualKeyCodes.VK_RIGHT) right = isDown;
+        else if (keyCode == VirtualKeyCodes.VK_UP) up = isDown;
+        else if (keyCode == VirtualKeyCodes.VK_DOWN) down = isDown;
+        else if (keyCode == VirtualKeyCodes.VK_SPACE) space = isDown;
 
 		recalculer();
 	}
@@ -49,20 +37,13 @@ public class Controller {
 		int dy = 0;
 		
 		if(space) {
-			shoot();
-//			task.post(()->{
-//				shoot();
-//			},100);
+			shoot();	
 		}
 
-		if (leftDown)
-			dx -= 1;
-		if (rightDown)
-			dx += 1;
-		if (upDown)
-			dy -= 1;
-		if (downDown)
-			dy += 1;
+		if (left) dx -= 1;
+        if (right) dx += 1;
+        if (up) dy -= 1;
+        if (down) dy += 1;
 
 		if (dx == 0 && dy == 0) {
 			if (!stopped) {
@@ -75,22 +56,14 @@ public class Controller {
 
 		int angle = 0;
 
-		if (dx == 1 && dy == 0)
-			angle = 0;
-		else if (dx == 1 && dy == 1)
-			angle = 45;
-		else if (dx == 0 && dy == 1)
-			angle = 90;
-		else if (dx == -1 && dy == 1)
-			angle = 135;
-		else if (dx == -1 && dy == 0)
-			angle = 180;
-		else if (dx == -1 && dy == -1)
-			angle = 225;
-		else if (dx == 0 && dy == -1)
-			angle = 270;
-		else if (dx == 1 && dy == -1)
-			angle = 315;
+		if (dx == 1 && dy == 0) angle = 0;
+        else if (dx == 1 && dy == 1) angle = 45;
+        else if (dx == 0 && dy == 1) angle = 90;
+        else if (dx == -1 && dy == 1) angle = 135;
+        else if (dx == -1 && dy == 0) angle = 180;
+        else if (dx == -1 && dy == -1) angle = 225;
+        else if (dx == 0 && dy == -1) angle = 270;
+        else if (dx == 1 && dy == -1) angle = 315;
 
 		if (angle == dir && !stopped) {
 			return;
@@ -99,8 +72,15 @@ public class Controller {
 		dir = angle;
 		stopped = false;
 		player.forbiddenDirection = -1;
-
-		double speed = (dx != 0 && dy != 0) ? 0.212 : 0.3;
+		
+		double speed = 0;
+		
+		if(dx != 0 && dy != 0) {
+			speed = 0.212;
+		}
+		else {
+			speed = 0.3;
+		}
 
 		if (dx == -1)
 			player.direction = Avatar.West;

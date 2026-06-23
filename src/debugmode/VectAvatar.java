@@ -27,6 +27,7 @@ public class VectAvatar extends Avatar {
 
 	@Override
 	public void paint(Graphics g, int shiftPX) {
+
 		ISU.Vector v = e.lSpeed();
 		ISU.Coord centre = e.center();
 		g.setColor(Colors.green);
@@ -34,14 +35,16 @@ public class VectAvatar extends Avatar {
 	    int posY = (int)(centre.y_cm*Game.pixelPerCm);
 	    
 
-	    String scrolling = "Vect scrolling = (" + Ship.ShipSpeed + ", 0.0)";
-	    String boost = "Vect boost = (" + v.targetX_cm + ", " + v.targetY_cm + ')';
-	    String somme = "Somme = (" + (Ship.ShipSpeed + v.targetX_cm) + ", " + v.targetY_cm + ')';
-	    
-	    g.setFont(g.getFont("Monospaced", 0, 16));
-	    g.drawString(scrolling, 90, 80);
-	    g.drawString(boost, 90, 95);
-	    g.drawString(somme, 90, 110);
+	    if (Main.debug) {
+		    String scrolling = "Vect scrolling: (" + Ship.ShipSpeed + ", 0.0)";
+		    String boost = "Vect boost: (" + v.targetX_cm + ", " + v.targetY_cm + ')';
+		    String somme = "Sum: (" + (Ship.ShipSpeed + v.targetX_cm) + ", " + v.targetY_cm + ')';
+		    
+		    g.setFont(g.getFont("Monospaced", 0, 16));
+		    g.drawString(scrolling, 10, 60);
+		    g.drawString(boost, 10, 80);
+		    g.drawString(somme, 10, 100);
+	    }
 
 
 		g.drawLine(posX+shiftPX, posY, (int)(posX+shiftPX + v.targetX_cm), (int)(posY + v.targetY_cm));

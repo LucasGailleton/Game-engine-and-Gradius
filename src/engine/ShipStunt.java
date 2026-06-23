@@ -7,6 +7,8 @@ import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Ship;
+import game.entities.MissilePlayer;
+import game.entities.PowerUp;
 
 public class ShipStunt extends Stunt {
 
@@ -33,8 +35,10 @@ public class ShipStunt extends Stunt {
 
 	@Override
 	public void collision(Entity e) {
+		// pour pas que le vaisseau perde de la  vie avec ses propres tirs
+		if (e instanceof MissilePlayer || e instanceof PowerUp)
+			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-
 		if(entity instanceof Ship) {
 			((Ship) entity).gotHit();
 		}
@@ -43,6 +47,8 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
+			if (entity instanceof MissilePlayer || entity instanceof PowerUp)
+				continue;
 			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
 			if(this.entity instanceof Ship) {
 				((Ship) this.entity).gotHit();
@@ -53,7 +59,7 @@ public class ShipStunt extends Stunt {
 	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
-		double speed = 15.0;
+		double speed = this.ship.walkSpeed();
 		
 		double vx = Math.round(Math.cos(rad))*speed*Main.windowScale;
 		double vy = Math.round(Math.sin(rad))*speed*Main.windowScale;
@@ -65,7 +71,7 @@ public class ShipStunt extends Stunt {
 	}
 	
 	public void shootOnce() {
-		this.ship.shoot();
+		this.ship.tryToShoot();
 		System.out.println("shot once ! ");
 	}
 	
