@@ -54,17 +54,17 @@ public class Main implements Runnable {
 
 	public static void main(String[] args) {
 
-		if (debug) {
-			long pid = ProcessHandle.current().pid();
-			System.out.println("PID: " + pid);
-			System.out.println("Hit enter to start the execution");
-			try {
-				System.in.read();
-			} catch (IOException e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
-		}
+//		if (debug) {
+//			long pid = ProcessHandle.current().pid();
+//			System.out.println("PID: " + pid);
+//			System.out.println("Hit enter to start the execution");
+//			try {
+//				System.in.read();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				System.exit(1);
+//			}
+//		}
 
 		Dimension d = new Dimension((int) (windowWidth * windowScale), (int) (windowHeight * windowScale) + headerSize);
 		Runtime.boot(d, new Main(), debug);
@@ -74,7 +74,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (50 * windowScale), (int) (35 * windowScale));
+		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
@@ -108,15 +108,18 @@ public class Main implements Runnable {
 		view.add(va);
 
 		// On va s'en occuper après ce ces deux conneries là
-		/*Mur plafond = new Mur();
-		plafond.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
-		model.add(plafond);
-		view.add(plafond.getAvatar());
-
-		Mur sol = new Mur();
-		sol.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 30 * Game.cmPerCell * Main.windowScale));
-		model.add(sol);
-		view.add(sol.getAvatar());*/
+//		Mur plafond = new Mur();
+//		plafond.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
+//		model.add(plafond);
+//		view.add(plafond.getAvatar());
+//
+//		Mur sol = new Mur();
+//		sol.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 30 * Game.cmPerCell * Main.windowScale));
+//		model.add(sol);
+//		view.add(sol.getAvatar());
+		
+		
+		
 
 		this.task.post(new Runnable() {
 			@Override

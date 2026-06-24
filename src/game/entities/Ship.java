@@ -79,6 +79,26 @@ public class Ship extends Entity implements Shooter {
 		double seconds = elapsed/1000;
 		pickUpPowerUps();
 		
+	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
+	    
+	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
+	    
+	    int shift1 = view.shiftPX;
+	    int screenX = entityX + shift1;
+	    int w = view.canvas().getWidth();
+
+	    if (screenX < -300) {
+	        shift1 += taille_map;
+	    } else if (screenX > w + 300) {
+	        shift1 -= taille_map;
+	    }
+
+	    int bordX = entityX + shift1;
+
+	    if (bordX < 0 || bordX > w) {
+	    	this.translate(isu.new Vector(20.0, 0.0));
+	    }
+		
 		// Annulation du scrolling
 //		if (shift)
 //			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
@@ -301,7 +321,7 @@ public class Ship extends Entity implements Shooter {
 			ISU.Coord center = Ship.this.center();
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-
+			
 			int index;
 			ISU.Vector lSpeed = Ship.this.lSpeed();
 			if (lSpeed.targetY_cm == 0)

@@ -6,9 +6,9 @@ import engine.ISU;
 import engine.ISU.Coord;
 import engine.view.View;
 import game.entities.Borders;
+import game.entities.Borders.BorderAvatar;
 import game.entities.Boss;
 import game.entities.EnemyKamikaze;
-import game.entities.MissileSpecial;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import oop.graphics.Canvas;
@@ -17,6 +17,10 @@ import oop.graphics.Canvas;
 //WORK IN PROGRESS
 
 public class MapBuilder {
+
+	public static final double mult = Game.cmPerCell * Main.windowScale;
+	public static final double borderStartX = 40 * mult;
+
 	private Model model;
 	private View view;
 	private ISU isu;
@@ -28,15 +32,14 @@ public class MapBuilder {
 	}
 	
 	public void placeObjects() {
-		double mult = Game.cmPerCell*Main.windowScale;
-		
-		EnemyKamikaze kz = new EnemyKamikaze("kz1");	
-		kz.setCoord(Game.game().isu.new Coord(20.0*mult, 1.8*mult+100));
+
+		EnemyKamikaze kz = new EnemyKamikaze("kz1");
+		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
 		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");
-		puDouble.setCoord(isu.new Coord(18 *mult, 10 * mult));
+		puDouble.setCoord(isu.new Coord(18 * mult, 10 * mult));
 		placeEntity(puDouble);
 
 		PowerUp puSpeed = new PowerUp("speed");
@@ -60,57 +63,40 @@ public class MapBuilder {
 	    placeBorder();
 
 		MontFendu mf = new MontFendu();
-		mf.setCoord(isu.new Coord(18*mult, 25*mult));
+		mf.setCoord(isu.new Coord(10 * mult, 25 * mult));
 		placeEntity(mf);
 	}
 	
 	private void placeBorder() {
-		
-		double screenWidth = view.canvas().getWidth() / Main.windowScale; 
-	    
-	    double topY = 10.0; 
-	    double bottomY = (view.canvas().getHeight() / Main.windowScale) + 180;
-	    
-		double currentX = 0.0;
-	    double adjustY =0.0;
-	    int id = 0;
-	    double width = 63.0;
-	    for (int i=0;i<10;i++) {
-	    	
-	    	int spriteType=0;
-	        double rand = Math.random();
-	        if (rand<0.2) {
-	        	spriteType=0;
-	        }else if(rand<0.4 && rand>=0.2) {
-	        	spriteType=1;
-	        }else if(rand<0.6 && rand>=0.4) {
-	        	spriteType=2;
-	        	adjustY = 12;
-	        }else if(rand<0.8 && rand>=0.6) {
-	        	spriteType=3;
-	        	adjustY = 6;
-	        }else if(rand>=0.8){
-	        	spriteType=4;
-	        }
-	        
-	        // --- PLACEMENT EN HAUT ---
-	        Borders topBorder = new Borders("top_" + id, spriteType, 1, view);
-	        
-	        topBorder.setCoord(isu.new Coord(currentX + (width / 2.0), topY));
-	       
-	        topBorder.size = isu.new Dimension(width, 12); 
-	        placeEntity(topBorder);
-	        
-	        // --- PLACEMENT EN BAS ---
-	        Borders botBorder = new Borders("bot_" + id, spriteType, 0,view);
-	        botBorder.setCoord(isu.new Coord(currentX + (width / 2.0), bottomY-adjustY));
-	        botBorder.size = isu.new Dimension(width, 12); 
-	        placeEntity(botBorder);
-	        
-	        currentX += width*2;
-	        id++;
-	        adjustY=0;
-	    }
+
+//		double topY = -4.8;
+		double topY = 8.7;
+		double bottomY = 28 * mult; // 28 cases semble être la bonne hauteur minimale
+		double currentX = borderStartX;
+
+		Borders firstTopBorder = new Borders("top_init", 0, BorderAvatar.Top, view);
+		firstTopBorder.setCoord(isu.new Coord(currentX, topY));
+		placeEntity(firstTopBorder);
+
+		Borders firstBottomBorder = new Borders("bot_init", 0, BorderAvatar.Bottom, view);
+		firstBottomBorder.setCoord(isu.new Coord(currentX, bottomY));
+		placeEntity(firstBottomBorder);
+
+		for (int i = 0; i < 10; i++) {
+			int spriteType = (int) (Math.random() * 4) + 1;
+
+			// --- PLACEMENT EN HAUT ---
+			Borders topBorder = new Borders("top_" + i, spriteType, BorderAvatar.Top, view);
+			topBorder.setCoord(isu.new Coord(currentX+topBorder.size.x_cm, topY));
+			placeEntity(topBorder);
+
+			// --- PLACEMENT EN BAS ---
+			Borders botBorder = new Borders("bot_" + i, spriteType, BorderAvatar.Bottom, view);
+			botBorder.setCoord(isu.new Coord(currentX+botBorder.size.x_cm, bottomY));
+			placeEntity(botBorder);
+
+			currentX += botBorder.size.x_cm;
+		}
 	}
 	
 	public void placeEntity(Entity e) {
