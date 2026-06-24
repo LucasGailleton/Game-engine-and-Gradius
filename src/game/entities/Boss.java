@@ -39,12 +39,12 @@ public class Boss extends Entity implements Enemy{
 			this.sprites = new BufferedImage[4][3];
 			
 			//FULL HP
-			this.sprites[0][0]= imgSprites.getSubimage(83, 25, 54, 50);
-			this.sprites[0][1]= imgSprites.getSubimage(146, 26, 54, 50);
+			this.sprites[0][0]= imgSprites.getSubimage(83, 25, 54, spriteSizeY);
+			this.sprites[0][1]= imgSprites.getSubimage(146, 26, 54, spriteSizeY);
 			
 			//LOW HP
-			this.sprites[1][0] = imgSprites.getSubimage(87, 176, 54, 50);
-			this.sprites[1][1] = imgSprites.getSubimage(150, 177, 54, 50);
+			this.sprites[1][0] = imgSprites.getSubimage(87, 176, 54, spriteSizeY);
+			this.sprites[1][1] = imgSprites.getSubimage(150, 177, 54, spriteSizeY);
 			
 			//this.death.add(imgSprites.getSubimage(South, East, West, North));
 		}

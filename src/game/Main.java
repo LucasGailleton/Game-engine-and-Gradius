@@ -108,9 +108,6 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		
-
-		
 		// On va s'en occuper après ce ces deux conneries là
 		Mur plafond = new Mur();
 		plafond.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
@@ -121,9 +118,6 @@ public class Main implements Runnable {
 		sol.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 30 * Game.cmPerCell * Main.windowScale));
 		model.add(sol);
 		view.add(sol.getAvatar());
-		
-		
-		
 
 		this.task.post(new Runnable() {
 			@Override
@@ -139,26 +133,27 @@ public class Main implements Runnable {
 	}
 	
 	public ShipStunt init(Model model, View view) {
-		MapBuilder.placeObjects();
-		
-		Ship ship = new Ship(view);
-		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
-		ship.setBounding();
-		model.add(ship);
-		view.add(ship.new ShipAvatar());
-		
-		ShipStunt shipStunt = new ShipStunt(model, ship);
-		ship.setStunt(shipStunt);
-		VectAvatar va = new VectAvatar(ship);
-		view.add(va);
-		
-		ship.setStunt(shipStunt);
-			
-		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
-		mf.setBounding();
-		model.add(mf);
-		view.add(mf.getAvatar());
+		return null;
+//		MapBuilder.placeObstacle(model,view, canvas);
+//		
+//		Ship ship = new Ship(view);
+//		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+//		ship.setBounding();
+//		model.add(ship);
+//		view.add(ship.new ShipAvatar());
+//		
+//		ShipStunt shipStunt = new ShipStunt(model, ship);
+//		ship.setStunt(shipStunt);
+//		VectAvatar va = new VectAvatar(ship);
+//		view.add(va);
+//		
+//		ship.setStunt(shipStunt);
+//			
+//		MontFendu mf = new MontFendu();
+//		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+//		mf.setBounding();
+//		model.add(mf);
+//		view.add(mf.getAvatar());
 		
 		/*EnemyChicken chick=new EnemyChicken(view, "testchick");
 		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
@@ -168,14 +163,14 @@ public class Main implements Runnable {
 		view.add(chick.getAvatar());
 		GALBot gb=new GALBot(chick); 
 		gb.set(auts.get(0));*/
-
-		Mur plafond = new Mur(75, 0);
-		model.add(plafond);
-		view.add(plafond.getAvatar());
-		
-		Mur sol = new Mur(75, 30);
-		model.add(sol);
-		view.add(sol.getAvatar());
+//
+//		Mur plafond = new Mur(75, 0);
+//		model.add(plafond);
+//		view.add(plafond.getAvatar());
+//		
+//		Mur sol = new Mur(75, 30);
+//		model.add(sol);
+//		view.add(sol.getAvatar());
 //		
 //		Ship ship = new Ship();
 //		
