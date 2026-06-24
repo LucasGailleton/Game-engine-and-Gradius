@@ -38,10 +38,31 @@ public class MissilePlayer extends Entity {
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
-	public void tick(double elapsed, boolean shift) {
-		if (!this.haslSpeed() || this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) {
-			die();
-		}
+	public void tick(double seconds, boolean shift) {
+		if (!this.haslSpeed()) {
+	        this.die();
+	        return;
+	    }
+	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
+	    
+	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
+	    
+	    int shift1 = view.shiftPX;
+	    int screenX = entityX + shift1;
+	    int w = view.canvas().getWidth();
+
+	    if (screenX < -300) {
+	        shift1 += taille_map;
+	    } else if (screenX > w + 300) {
+	        shift1 -= taille_map;
+	    }
+
+	    int bordX = entityX + shift1;
+
+	    int marge = 50; 
+	    if (bordX < -marge || bordX > (w + marge)) {
+	        this.die();
+	    }
 	}
 		
 	private class MissilePlayerAvatar extends Avatar {

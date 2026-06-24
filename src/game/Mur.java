@@ -12,7 +12,7 @@ public class Mur extends Entity {
 
 	public Mur() {
 		super("mur");
-		this.setSize(this.isu.new Dimension(150*Game.cmPerCell*Main.windowScale, 2*Game.cmPerCell*Main.windowScale));
+		this.setSize(this.isu.new Dimension(Game.game().width_ncell*Game.cmPerCell*Main.windowScale, Game.game().height_ncell*Game.cmPerCell*Main.windowScale));
 		this.avatar = new MurAvatar();
 	}
 	

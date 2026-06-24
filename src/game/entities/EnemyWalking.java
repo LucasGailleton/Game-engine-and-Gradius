@@ -41,6 +41,10 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public Avatar getAvatar() {
+		return this.avatar;
+	}
 	
 	private class WalkingAvatar extends Avatar{
 		public static final int TopLeft = 0;
@@ -53,7 +57,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 	    public static final int Walk2 = 2;
 	    
 	    private static final int spriteSizeX = 18; 
-		private static final int spriteSizeY = 18;
+        private static final int spriteSizeY = 18;
 
 		private List<BufferedImage> death;
 		
@@ -97,8 +101,6 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			
-			
 
 			if(this.sprites == null)
 				this.getSprites(g);
@@ -123,6 +125,4 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 			
 		}	
 	}
-
-	
 }

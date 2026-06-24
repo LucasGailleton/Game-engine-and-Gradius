@@ -74,7 +74,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
+		Game game = new Game((int) (50 * windowScale), (int) (35 * windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
@@ -107,11 +107,8 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		
-
-		
 		// On va s'en occuper après ce ces deux conneries là
-		Mur plafond = new Mur();
+		/*Mur plafond = new Mur();
 		plafond.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
 		model.add(plafond);
 		view.add(plafond.getAvatar());
@@ -119,10 +116,7 @@ public class Main implements Runnable {
 		Mur sol = new Mur();
 		sol.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 30 * Game.cmPerCell * Main.windowScale));
 		model.add(sol);
-		view.add(sol.getAvatar());
-		
-		
-		
+		view.add(sol.getAvatar());*/
 
 		this.task.post(new Runnable() {
 			@Override

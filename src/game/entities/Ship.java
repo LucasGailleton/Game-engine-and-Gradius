@@ -45,9 +45,9 @@ public class Ship extends Entity implements Shooter {
 
 	private int powerUp;
 	public boolean isShooting;
+	public static boolean double_tir = false;
 	public static final int WEAPON_SIMPLE = 0;
-	public static final int WEAPON_DOUBLE = 1;
-	public static final int WEAPON_LASER = 2;
+	public static final int WEAPON_LASER = 1;
 	private int weapon = WEAPON_SIMPLE;
 	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
@@ -109,15 +109,16 @@ public class Ship extends Entity implements Shooter {
 			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
 			msp.setlSpeed(missileSpeed, 0);
 			Main.mb.placeEntity(msp);
-
-			// power-up du 2e tir a 45 deg vers le bas
-			if (this.weapon == WEAPON_DOUBLE) {
-				MissilePlayer msp2 = new MissilePlayer(view, "missile double");
-				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
-				msp2.setlSpeed(missileSpeed, missileSpeed);
-				Main.mb.placeEntity(msp2);
-			}
 		}
+
+		// power-up du 2e tir a 45 deg vers le bas
+		if (double_tir) {
+			MissilePlayer msp2 = new MissilePlayer(view, "missile double");
+			msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+			msp2.setlSpeed(missileSpeed, missileSpeed);
+			Main.mb.placeEntity(msp2);
+		}
+		
 		for (int i=0; i<this.slaves.size(); i++) {
 			ISU.Coord oc = slaveCoord(i);
 			MissilePlayer m = new MissilePlayer(view, "slave shot");
@@ -163,7 +164,7 @@ public class Ship extends Entity implements Shooter {
 		if (!sa.clignote)
 			sa.clignoter();
 
-		// 3 secondes d'invicibilité
+		// 1.5 secondes d'invicibilité
 		task.post(() -> {
 			hit = false;
 		}, 1500);
@@ -175,7 +176,7 @@ public class Ship extends Entity implements Shooter {
 		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
 		case PowerUp.Speed: Ship.ShipSpeed *= 1.5; break;
-		case PowerUp.Double: this.weapon = WEAPON_DOUBLE; break;
+		case PowerUp.Double: Ship.double_tir = true; break;
 		case PowerUp.Laser: this.weapon = WEAPON_LASER; break;
 		case PowerUp.Slave: this.addSlave(); break;
 		default: break;

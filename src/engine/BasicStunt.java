@@ -6,7 +6,6 @@ import engine.Grid.Cell;
 import game.Main;
 import game.Model;
 import game.entities.Avatar;
-import game.entities.PacMan;
 import game.entities.EnemyChicken;
 
 public class BasicStunt extends Stunt {
