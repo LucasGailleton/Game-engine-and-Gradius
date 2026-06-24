@@ -139,7 +139,7 @@ public class Main implements Runnable {
 	}
 	
 	public ShipStunt init(Model model, View view) {
-		MapBuilder.placeObstacle(model,view, canvas);
+		MapBuilder.placeObjects();
 		
 		Ship ship = new Ship(view);
 		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));

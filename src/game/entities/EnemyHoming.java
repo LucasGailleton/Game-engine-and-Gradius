@@ -77,4 +77,11 @@ public class EnemyHoming extends Entity implements Enemy{
             //A IMPLEMENTER : DIFFERENTES ORIENTATION EN FONCTION DE LA POSITION DU JOUEUR PAR RAPPORT A L'ENNEMI
 		}
     }
+
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
 }
