@@ -5,6 +5,7 @@ import engine.Game;
 import engine.ISU.Coord;
 import engine.view.View;
 import game.entities.Borders;
+import game.entities.EnemyKamikaze;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import oop.graphics.Canvas;
@@ -36,7 +37,9 @@ public class MapBuilder {
 		b2.setCoord(Game.game().isu.new Coord(canvasHeight*Main.windowScale, canvasHeight*1.75*Main.windowScale));
 		placeEntity(b2);
 		
-		
+		EnemyKamikaze kz = new EnemyKamikaze("kz1");	
+		kz.setCoord(Game.game().isu.new Coord(20.0*Game.cmPerCell*Main.windowScale, 1.8*Game.cmPerCell*Main.windowScale+100));
+		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");

@@ -132,14 +132,51 @@ public class Main implements Runnable {
 				task.post(this, 17);
 			}
 		}, 17);
-
+		
 		Controller ct = new Controller(shipStunt);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 	}
 	
 	public ShipStunt init(Model model, View view) {
-		return null;
+		MapBuilder.placeObstacle(model,view, canvas);
+		
+		Ship ship = new Ship(view);
+		ship.setCoord(Game.game().isu.new Coord(15*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		ship.setBounding();
+		model.add(ship);
+		view.add(ship.new ShipAvatar());
+		
+		ShipStunt shipStunt = new ShipStunt(model, ship);
+		ship.setStunt(shipStunt);
+		VectAvatar va = new VectAvatar(ship);
+		view.add(va);
+		
+		ship.setStunt(shipStunt);
+			
+		MontFendu mf = new MontFendu();
+		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		mf.setBounding();
+		model.add(mf);
+		view.add(mf.getAvatar());
+		
+		/*EnemyChicken chick=new EnemyChicken(view, "testchick");
+		chick.setCoord(Game.game().isu.new Coord(5*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+		chick.setBounding();
+		chick.setStunt(new BasicStunt(chick.getModel(),chick));
+		model.add(chick);
+		view.add(chick.getAvatar());
+		GALBot gb=new GALBot(chick); 
+		gb.set(auts.get(0));*/
+
+		Mur plafond = new Mur(75, 0);
+		model.add(plafond);
+		view.add(plafond.getAvatar());
+		
+		Mur sol = new Mur(75, 30);
+		model.add(sol);
+		view.add(sol.getAvatar());
+//		
 //		Ship ship = new Ship();
 //		
 //		ship.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale));
@@ -175,12 +212,7 @@ public class Main implements Runnable {
 //		model.add(ship2);
 //		view.add(ship2.new ShipAvatar());
 //		
-//		EnemyKamikaze kz= new EnemyKamikaze("kz1");
-//		
-//		kz.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
-//		kz.setBounding();
-//		view.add(kz.getAvatar());
-//		model.add(kz);
+		
 //		
 //		EnemyHoming hm = new EnemyHoming("hm1");
 //		hm.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
