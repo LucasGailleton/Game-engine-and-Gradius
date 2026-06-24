@@ -146,9 +146,21 @@ public class Model {
 					}
 				}
 			}
+	        tore(entity);
 		}
 		if (Main.debug)
 			p.end();
+	}
+	
+	public void tore(Entity entity) {
+		double map_taille = Game.game().width_ncell * Game.cmPerCell;
+		
+		if (entity.center().x_cm < 0) {
+			entity.translate(entity.isu.new Vector(map_taille, 0));
+		}
+		else if (entity.center().x_cm > map_taille) {
+			entity.translate(entity.isu.new Vector(-map_taille, 0));
+		}
 	}
 	
 	public List<Entity> getCollision(Entity e){

@@ -12,7 +12,7 @@ public class Mur extends Entity {
 		super("mur");
 		
 		this.setSize(this.isu.new Dimension(
-				(int)(150 * Game.cmPerCell * Main.windowScale),
+				(int)(Game.game().width_ncell * Game.cmPerCell * Main.windowScale),
 				(int)(2 * Game.cmPerCell * Main.windowScale)
 		));
 		

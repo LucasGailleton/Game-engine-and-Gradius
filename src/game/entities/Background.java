@@ -42,20 +42,19 @@ public class Background extends Entity {
 			if (this.sprites == null)
 				this.getSprites(g);
 			
-			int canvasWidth = canvas.getWidth();
-			int canvasHeight = canvas.getHeight();
-			
-			if (xPosition+shiftPX < -canvasWidth)
-				xPosition += canvasWidth;
-			
-			g.drawImage(this.sprites[0][0], xPosition+shiftPX, 0, canvasWidth, canvasHeight);
-			g.drawImage(this.sprites[0][0], canvasWidth+xPosition+shiftPX+1, 0, canvasWidth+1, canvasHeight);
+			int w = canvas.getWidth();
+			int h = canvas.getHeight();
+
+			int x = shiftPX % w;
+
+			g.drawImage(this.sprites[0][0], x, 0, w, h);
+
+			g.drawImage(this.sprites[0][0], x + w, 0, w, h);
 		}
 	}
 
 	@Override
 	public void setBounding() {
 		// TODO Auto-generated method stub
-		
 	}
 }
