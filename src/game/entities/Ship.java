@@ -42,7 +42,8 @@ public class Ship extends Entity implements Shooter {
 
 	private SoundPlayer tir1, tir2, degat, mort;
 	private int indexAudio;
-
+	
+	public boolean isShooting;
 	public static final int WEAPON_SIMPLE = 0;
 	public static final int WEAPON_DOUBLE = 1;
 	public static final int WEAPON_LASER = 2;
@@ -86,7 +87,7 @@ public class Ship extends Entity implements Shooter {
 	public void tick(double elapsed, boolean shift) {
 		
 		double seconds = elapsed/1000;
-		this.controller.recalculer();
+		//this.controller.recalculer();
 		ramasserPowerUps ();
 		double angularSpeed = aSpeed();
 		if (angularSpeed != 0) {
@@ -112,7 +113,7 @@ public class Ship extends Entity implements Shooter {
 
 	@Override
 	public void tryToShoot() {
-
+		
 		if (this.shootCooldown <= 0.0) {
 			this.shoot();
 			this.shootCooldown = SHOOT_DELAY;

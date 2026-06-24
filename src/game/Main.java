@@ -112,6 +112,12 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 		
+		Boss boss = new Boss();
+		boss.setCoord(Game.game().isu.new Coord(30*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
+		boss.setBounding();
+		boss.createGuns(model,view);
+		model.add(boss);
+		view.add(boss.getAvatar());
 		//ship.setStunt(shipStunt);
 			
 //		MontFendu mf = new MontFendu();

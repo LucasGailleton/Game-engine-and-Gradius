@@ -58,7 +58,7 @@ public class BossGunBottom extends Entity implements Shooter{
             int posY = this.toPixel(center.y_cm - (BossGunBottom.this.size.y_cm / 2));
             
            
-            g.drawImage(sprites[0][index], posX, posY, (int)(26 * Main.windowScale), (int)(8*Main.windowScale));
+            g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(26 * Main.windowScale), (int)(8*Main.windowScale));
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -75,7 +75,7 @@ public class BossGunBottom extends Entity implements Shooter{
 
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

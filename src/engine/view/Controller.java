@@ -32,12 +32,13 @@ public class Controller {
 	}
 
 	public void recalculer() {
-		int dx = 0;
-		int dy = 0;
 		
 		if(space) {		
 			shoot();
 		}
+		int dx = 0;
+		int dy = 0;
+		
 
 		if (left) dx -= 1;
         if (right) dx += 1;
@@ -92,6 +93,7 @@ public class Controller {
 		
 		player.set(dx * speed, dy * speed);
 		player.walk(angle);
+		
 	}
 
 	

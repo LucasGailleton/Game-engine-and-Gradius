@@ -13,11 +13,11 @@ public class MissileEnemy extends Entity{
 	private View view;
 	private int shift;
 
-	public MissileEnemy(String name, View jiew) {
+	public MissileEnemy(String name) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
 		this.avatar =new MissileEnemyAvatar(this);
-		this.view = jiew;
+		
 	}
 	
 	

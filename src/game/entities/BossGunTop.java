@@ -66,7 +66,7 @@ public class BossGunTop extends Entity implements Shooter{
             int posY = this.toPixel(center.y_cm - (BossGunTop.this.size.y_cm / 2));
             
            
-            g.drawImage(sprites[0][index], posX, posY, (int)(26 * Main.windowScale), (int)(8*Main.windowScale));
+            g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(26 * Main.windowScale), (int)(8*Main.windowScale));
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)

@@ -78,6 +78,7 @@ public class Model {
 	    for (Entity entity : copyEntities) {
 	    	
 	    	entity.tick(elapsed, shift);
+	    	
 	        if(entity.bot()!=null){
 	        	entity.bot().tick(elapsed);
 	        }
