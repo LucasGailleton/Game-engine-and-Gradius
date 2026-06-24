@@ -51,6 +51,7 @@ public class Main implements Runnable {
 	public static final int windowHeight = 240;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
+	public static boolean GAMEOVER = false;
 
 	public static void main(String[] args) {
 

@@ -15,18 +15,27 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import game.Model;
+import game.entities.Ship.ShipAvatar;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
+import oop.tasks.Runnable;
+import oop.tasks.Runtime;
+import oop.tasks.Task;
+import engine.BasicStunt;
 
-public class Boss extends Entity implements Enemy, Shooter {
+public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	
 	private int missileSpeed = 15;
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
-	private double SHOOT_DELAY = 0.2;
+	private double SHOOT_DELAY = 1.5;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
 	
 	private boolean isAlive;
+	private boolean hit = false;
+	protected int hp = 10;
+	
+	private Task task;
 	
 
 	// CONSTRUCTOR
@@ -35,6 +44,8 @@ public class Boss extends Entity implements Enemy, Shooter {
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*29.0, Game.cmPerCell*32.0));
 		this.avatar = new BossAvatar(this);
 		this.isAlive=true;
+		this.task = Runtime.task();
+		setStunt(new BasicStunt(model, this));
 		
 	}
 	
@@ -85,8 +96,9 @@ public class Boss extends Entity implements Enemy, Shooter {
 		
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
-			tryToShoot();
+			
 		}
+		tryToShoot();
 		
 		
 	}
@@ -121,10 +133,38 @@ public class Boss extends Entity implements Enemy, Shooter {
 		
 	}
 	
+	@Override
+	public void gotHit() {
+		if (hit || Main.GAMEOVER)
+			return;
+		hp--;
+		System.out.println("HP : " + hp);
+
+		if (hp <= 0) {
+			isAlive =false;
+			// game over : explosion + le boss disparait
+			//this.mort.play(1);
+			Main.GAMEOVER = true;
+			
+			((BossAvatar)this.avatar).exploser();
+			task.post(() -> {
+				this.die();
+			}, 2000);
+			return;
+		}
+
+		//this.degat.play(1);
+		//pas de hit = true, le vaisseau n'a pas d'invicibilité
+
+	}
+	
 	private class BossAvatar extends Avatar{
 		private List<BufferedImage> death;
 		private int index;
 		private int indChg;
+		private boolean exploding = false;
+		private boolean visible = true;
+		private int deathIndex = 0;
 		
 		private static final int spriteSizeX = 54; 
 		private static final int spriteSizeY = 50;
@@ -134,6 +174,29 @@ public class Boss extends Entity implements Enemy, Shooter {
 			this.death = new ArrayList<>();
 			this.index =0;
 			this.indChg = 0;
+		}
+		
+		public void exploser() {
+			this.exploding = true;
+			this.visible = true;
+			this.deathIndex = 0;
+			avancerExplosion();
+		}
+
+		private void avancerExplosion() {
+			if (this.deathIndex >= this.death.size()) {
+				this.exploding = false;
+				this.visible = false;
+		
+				return;
+			}
+			task.post(new Runnable() {
+				@Override
+				public void run() throws Exception {
+					deathIndex++;
+					avancerExplosion();
+				}
+			}, 120);
 		}
 
 		@Override
@@ -149,6 +212,12 @@ public class Boss extends Entity implements Enemy, Shooter {
 			this.sprites[1][0] = imgSprites.getSubimage(87, 176, 54, spriteSizeY);
 			this.sprites[1][1] = imgSprites.getSubimage(150, 177, 54, spriteSizeY);
 			
+			for (int i=0;i<10;i++) {
+				deathAnimation(imgSprites);
+			}
+		}
+		
+		private void deathAnimation(BufferedImage imgSprites) {
 			this.death.add(imgSprites.getSubimage(237, 186, 31, 31));
 			this.death.add(imgSprites.getSubimage(279, 186, 22, 24));
 		}
@@ -162,17 +231,26 @@ public class Boss extends Entity implements Enemy, Shooter {
 			ISU.Coord center = Boss.this.center(); 
             int posX = this.toPixel(center.x_cm) - ((int)(spriteSizeX*Main.windowScale)/ 2);
             int posY = this.toPixel(center.y_cm) - ((int)(spriteSizeY*Main.windowScale)/ 2);
-            
-            g.drawImage(sprites[0][index], posX+shiftPX, posY,
-            		(int) (spriteSizeX*Main.windowScale), 
-            		(int) (spriteSizeY*Main.windowScale));
+            if (this.exploding) {
+            	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
+            }else if(hp < 5 && hp >= 0) {
+            	g.drawImage(sprites[1][index], posX+shiftPX, posY,
+                 		(int) (spriteSizeX*Main.windowScale), 
+                 		(int) (spriteSizeY*Main.windowScale));
+            }
+            else if (this.visible){
+            	 g.drawImage(sprites[0][index], posX+shiftPX, posY,
+                 		(int) (spriteSizeX*Main.windowScale), 
+                 		(int) (spriteSizeY*Main.windowScale));
+            }
+           
             
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
  		    	index = 0;
  		    indChg++;
- 		    if (indChg % 20 == 0) {
+ 		    if (indChg % 40 == 0) {
  		    	indChg = 0;
  		    }
 			
