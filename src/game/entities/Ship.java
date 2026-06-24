@@ -171,7 +171,6 @@ public class Ship extends Entity implements Shooter {
 		case PowerUp.Slave: this.addSlave(); break;
 		default: break;
 		}
-		System.out.println("[Ship] Power-up ramasse ! type = " + type);
 	}
 
 	public double walkSpeed() {

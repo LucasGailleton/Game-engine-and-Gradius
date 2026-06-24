@@ -28,10 +28,10 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		
 		private List<BufferedImage> death;
 		private static final int spriteSizeX = 18; 
-        private static final int spriteSizeY = 18;
+        	private static final int spriteSizeY = 18;
         
-        private int index;
-        private int indChg;
+	        private int index;
+	        private int indChg;
 
 		public KamikazeAvatar(Entity e) {
 			super(e);

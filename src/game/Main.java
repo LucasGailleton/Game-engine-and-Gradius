@@ -42,7 +42,6 @@ import engine.ISU.*;
 
 public class Main implements Runnable {
 	
-	
 	Canvas canvas;
 	Task task;
 	List<Entity> entities;
@@ -176,8 +175,9 @@ public class Main implements Runnable {
 //		model.add(ship2);
 //		view.add(ship2.new ShipAvatar());
 //		
-//		EnemyKamikaze kz= new EnemyKamikaze("kz1");	
-//		kz.setCoord(Game.game().isu.new Coord(20.0*Game.cmPerCell*windowScale, 1.8*Game.cmPerCell*windowScale+100));
+//		EnemyKamikaze kz= new EnemyKamikaze("kz1");
+//		
+//		kz.setCoord(Game.game().isu.new Coord(1.8*Game.cmPerCell*windowScale+100, 1.8*Game.cmPerCell*windowScale+100));
 //		kz.setBounding();
 //		view.add(kz.getAvatar());
 //		model.add(kz);
@@ -193,7 +193,7 @@ public class Main implements Runnable {
 //		wk.setBounding();
 //		view.add(wk.getAvatar());
 //		model.add(wk);
-
+		
 //		PowerUp pu = new PowerUp("pu1");
 //		pu.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 25*Game.cmPerCell*windowScale));
 //		pu.setBounding();
@@ -201,7 +201,30 @@ public class Main implements Runnable {
 //		view.add(pu.getAvatar());
 //		
 		// power-ups à ramasser
-		//
+//		PowerUp puDouble = new PowerUp("double", PowerUp.DOUBLE);
+//		puDouble.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+//		puDouble.setBounding();
+//		model.add(puDouble);
+//		view.add(puDouble.getAvatar());
+//
+//		PowerUp puSpeed = new PowerUp("speed", PowerUp.SPEED);
+//		puSpeed.setCoord(Game.game().isu.new Coord(22*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+//		puSpeed.setBounding();
+//		model.add(puSpeed);
+//		view.add(puSpeed.getAvatar());
+//
+//		PowerUp puSlave = new PowerUp("slave", PowerUp.SLAVE);
+//		puSlave.setCoord(Game.game().isu.new Coord(26*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+//		puSlave.setBounding();
+//		model.add(puSlave);
+//		view.add(puSlave.getAvatar());
+//
+//		PowerUp puLaser = new PowerUp("laser", PowerUp.LASER);
+//		puLaser.setCoord(Game.game().isu.new Coord(30*Game.cmPerCell*windowScale, 10*Game.cmPerCell*windowScale));
+//		puLaser.setBounding();
+//		model.add(puLaser);
+//		view.add(puLaser.getAvatar());
+//
 //		return shipStunt;
 	}
 }

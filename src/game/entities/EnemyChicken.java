@@ -76,8 +76,6 @@ public class EnemyChicken extends Entity implements Enemy{
 		public void paint(Graphics g, int shiftPX) {
 			if (this.sprites == null)
                 this.getSprites(g);
-			
-             this.getSprites(g);
             
 			ISU.Coord center = EnemyChicken.this.center(); 
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);

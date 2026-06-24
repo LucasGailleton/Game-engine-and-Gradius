@@ -20,6 +20,11 @@ public class Slave extends Entity {
 		this.setCoord(master.center());
 		this.avatar = new SlaveAvatar(this);
 	}
+	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub	
+	}
 
 	private class SlaveAvatar extends Avatar {
 

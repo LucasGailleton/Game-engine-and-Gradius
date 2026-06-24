@@ -34,7 +34,7 @@ public class EnemyHoming extends Entity implements Enemy{
         private List<BufferedImage> death;
         
         private static final int spriteSizeX = 16; 
-		private static final int spriteSizeY = 16;
+	private static final int spriteSizeY = 16;
 
         public HomingAvatar(Entity e) {
             super(e);
@@ -72,7 +72,7 @@ public class EnemyHoming extends Entity implements Enemy{
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
            
-            g.drawImage(sprites[Down][spriteNeutral], posX+shiftPX, posY, (int)(16 * Main.windowScale), (int)(16*Main.windowScale));
+            g.drawImage(sprites[Down][spriteNeutral], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
                         
             //A IMPLEMENTER : DIFFERENTES ORIENTATION EN FONCTION DE LA POSITION DU JOUEUR PAR RAPPORT A L'ENNEMI
 		}

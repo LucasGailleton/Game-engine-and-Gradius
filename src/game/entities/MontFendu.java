@@ -60,6 +60,11 @@ public class MontFendu extends Entity {
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub	
+	}
+	
 	public class MontFenduAvatar extends Avatar {
 		 public static final int spriteSizeX = 96; 
 		 public static final int spriteSizeY = 76; 
@@ -87,7 +92,6 @@ public class MontFendu extends Entity {
 		    int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
 		    
 		    g.drawImage(sprites[0][0], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
-		}
-		
+		}	
 	}
 }

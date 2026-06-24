@@ -26,12 +26,12 @@ public class MapBuilder {
 		Borders[] borders = new Borders[nbBorders];
 		int canvasHeight = view.canvas().getHeight();
 		
-		borders[0] = new Borders("n1",0,1);
+		borders[0] = new Borders("n1", 0, 1, view);
 		Borders b1 = borders[0];
 		b1.setCoord(Game.game().isu.new Coord(canvasHeight*Main.windowScale, 10));
 		placeEntity(b1);
 		
-		borders[1] = new Borders("n2",0,0);
+		borders[1] = new Borders("n2", 0, 0, view);
 		Borders b2 = borders[1];
 		b2.setCoord(Game.game().isu.new Coord(canvasHeight*Main.windowScale, canvasHeight*1.75*Main.windowScale));
 		placeEntity(b2);

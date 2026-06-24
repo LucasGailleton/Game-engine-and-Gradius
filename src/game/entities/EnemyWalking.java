@@ -30,6 +30,11 @@ public class EnemyWalking extends Entity implements Enemy{
 		return this.avatar;
 	}
 	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub	
+	}
+	
 	private class WalkingAvatar extends Avatar{
 		public static final int TopLeft = 0;
 		public static final int TopRight = 1;
@@ -52,8 +57,7 @@ public class EnemyWalking extends Entity implements Enemy{
 			super(e);
 			this.death = new ArrayList<>();
 			this.index =0;
-			this.indChg=0;
-			
+			this.indChg=0;			
 		}
 
 		@Override
@@ -96,8 +100,8 @@ public class EnemyWalking extends Entity implements Enemy{
             
             //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
             g.drawImage(sprites[DownLeft][index], posX+shiftPX, posY, 
-            		(int) (16*Main.windowScale), 
-            		(int) (16*Main.windowScale));
+            		(int) (spriteSizeX*Main.windowScale), 
+            		(int) (spriteSizeY*Main.windowScale));
             
             if (indChg == 0)
  		    	index++;
@@ -108,8 +112,6 @@ public class EnemyWalking extends Entity implements Enemy{
  		    	indChg = 0;
  		    }
 			
-		}
-		
+		}	
 	}
-
 }
