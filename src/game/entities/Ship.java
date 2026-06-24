@@ -299,7 +299,7 @@ public class Ship extends Entity implements Shooter {
 			ISU.Coord center = Ship.this.center();
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-
+			
 			int index;
 			ISU.Vector lSpeed = Ship.this.lSpeed();
 			if (lSpeed.targetY_cm == 0)

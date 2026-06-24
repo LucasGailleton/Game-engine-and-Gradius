@@ -24,14 +24,12 @@ public class PowerUp extends Entity{
 	}
 
 	public void setBounding() {
-		// powerup doit pas etre un obstacle pour le vaisseay
 		this.bounding().add(new Rect(this.center(), this.size, this.orientation()));
 	}
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
 		//wallah elle fait rien je crois
-		
 	}
 
 	public class PowerUpAvatar extends Avatar{
