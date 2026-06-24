@@ -73,7 +73,7 @@ public class Ship extends Entity implements Shooter {
 		
 		// Annulation du scrolling
 		if (shift)
-			translate(isu.new Vector((-View.speed / 8.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -94,7 +94,7 @@ public class Ship extends Entity implements Shooter {
 		if (this.weapon == WEAPON_LASER) {
 			LaserShot laser = new LaserShot(view, "laser");
 			laser.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 50, pos.y * Game.cmPerCell));
-			laser.setlSpeed(missileSpeed * 2, 0);
+			laser.setlSpeed(missileSpeed*2, 0);
 			Main.mb.placeEntity(laser);
 		} else {
 			MissilePlayer msp = new MissilePlayer(view, "missile simple");
@@ -163,7 +163,7 @@ public class Ship extends Entity implements Shooter {
 	public void upgradePowerUp() {
 		if (this.powerUp <= 4)
 			this.powerUp++;
-		
+		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
 		case PowerUp.Speed: Ship.ShipSpeed *= 1.5; break;
 		case PowerUp.Double: this.weapon = WEAPON_DOUBLE; break;
@@ -182,6 +182,7 @@ public class Ship extends Entity implements Shooter {
 			return;
 		Slave s = new Slave(this, this.slaves.size());
 		this.model.getView().add(s.getAvatar());
+		this.model.add(s);
 		this.slaves.add(s);
 	}
 
@@ -196,7 +197,6 @@ public class Ship extends Entity implements Shooter {
 	private void pickUpPowerUps() {
 		for (Entity e : this.trueCollisions) {
 			if (e instanceof PowerUp) {
-				System.out.println("Augumenation de powerUp !!!");
 				upgradePowerUp();
 				e.die();
 			}

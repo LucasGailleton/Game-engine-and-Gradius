@@ -66,7 +66,7 @@ public class Model {
 	public Grid grid() {
 		return this.grid;
 	}
-	
+
 	public void tick(long elapsed) {
 		if (Main.debug) p.start();
 	    if (elapsed > 100) elapsed = 10;
@@ -81,20 +81,9 @@ public class Model {
 	    	boolean isShip = entity instanceof Ship;
 	    	boolean isLaser = entity instanceof LaserShot;
 	    	boolean isMissile = entity instanceof MissilePlayer;
-
-	        if (isShip)
-	            ((Ship) entity).tick(seconds, shift);
-	        
-	        else if (entity instanceof MissilePlayer)
-	            ((MissilePlayer) entity).tick(seconds, shift);
-	        else if(entity.bot()!=null){
-	        	entity.bot().tick(elapsed);
-	        }
-	        
-		entity.trueCollisions = new ArrayList<>();
+	    	entity.trueCollisions = new ArrayList<Entity>();
 	        
 	        if (entity.haslSpeed()) {
-	            
 	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
@@ -103,31 +92,22 @@ public class Model {
 				double moveY = speedVector.targetY_cm * seconds;
 				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
 				
-				if (boxCollisions.isEmpty()) {
-					entity.translate(moveVec);
-				} 
-				else {
-					entity.translate(moveVec);
-					
-					List<Entity> trueCollisions = new ArrayList<>();
-					
-					for(Entity e : boxCollisions) {
-						if((isMissile || isLaser) && !(e instanceof PowerUp)) {
-							trueCollisions.add(e);
-						}
-						else {
-							if(entity.bounding().intersects(e.bounding())) {
-								trueCollisions.add(e);
-							}
-						}
+				entity.translate(moveVec);
+				
+				if (!boxCollisions.isEmpty()) {
+
+					for (Entity e : boxCollisions) {
+						if ((isMissile || isLaser) && !(e instanceof PowerUp))
+							entity.trueCollisions.add(e);
+						else if (entity.bounding().intersects(e.bounding()))
+							entity.trueCollisions.add(e);
 					}
 					
 					if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
 						boolean isInvincible = false;
 						
-						if(isShip) {
+						if(isShip)
 							isInvincible = ((Ship)entity).getHit();
-						}
 						
 					    if (!isInvincible && !isLaser) {
 							entity.translate(entity.isu.new Vector(-moveX, -moveY));
@@ -144,23 +124,112 @@ public class Model {
 							}
 							entity.collision(entity.trueCollisions);
 					    }
-					} else {
-						// Faut pas genre le foutre le le putain de translate à la con là putain ?
-						entity.translate(moveVec);
 					}
 				}
+				entity.tick(seconds, shift);
 			}
-	        if (entity instanceof Ship)
-	            ((Ship) entity).tick(seconds, shift);
-	        else if (entity instanceof MissilePlayer)
-	            ((MissilePlayer) entity).tick(seconds, shift);
-	        else if(entity.bot() != null){
-	        	entity.bot().tick(elapsed);
-	        }
 		}
 		if (Main.debug)
 			p.end();
 	}
+
+
+	
+	
+//	public void tick(long elapsed) {
+//		if (Main.debug) p.start();
+//	    if (elapsed > 100) elapsed = 10;
+//
+//	    boolean shift = v.shift();
+//	    this.seconds = elapsed / 1000.0;
+//	    
+//	    List<Entity> copyEntities = new ArrayList<>(this.entities);
+//	    
+//	    for (Entity entity : copyEntities) {
+//	    	
+//	    	boolean isShip = entity instanceof Ship;
+//	    	boolean isLaser = entity instanceof LaserShot;
+//	    	boolean isMissile = entity instanceof MissilePlayer;
+//
+//	        if (isShip)
+//	            ((Ship) entity).tick(seconds, shift);
+//	        
+//	        else if (entity instanceof MissilePlayer)
+//	            ((MissilePlayer) entity).tick(seconds, shift);
+//	        else if(entity.bot()!=null){
+//	        	entity.bot().tick(elapsed);
+//	        }
+//	        
+//		entity.trueCollisions = new ArrayList<>();
+//	        
+//	        if (entity.haslSpeed()) {
+//	            
+//	            
+//	            ISU.Vector speedVector = entity.lSpeed();
+//				
+//				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
+//				double moveX = speedVector.targetX_cm * seconds;
+//				double moveY = speedVector.targetY_cm * seconds;
+//				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
+//				
+//				if (boxCollisions.isEmpty()) {
+//					entity.translate(moveVec);
+//				} 
+//				else {
+//					entity.translate(moveVec);
+//					
+//					List<Entity> trueCollisions = new ArrayList<>();
+//					
+//					for(Entity e : boxCollisions) {
+//						if((isMissile || isLaser) && !(e instanceof PowerUp)) {
+//							trueCollisions.add(e);
+//						}
+//						else {
+//							if(entity.bounding().intersects(e.bounding())) {
+//								trueCollisions.add(e);
+//							}
+//						}
+//					}
+//					
+//					if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
+//						boolean isInvincible = false;
+//						
+//						if(isShip) {
+//							isInvincible = ((Ship)entity).getHit();
+//						}
+//						
+//					    if (!isInvincible && !isLaser) {
+//							entity.translate(entity.isu.new Vector(-moveX, -moveY));
+//							entity.setlSpeed(0, 0); 
+//							if (entity.stunt() instanceof ShipStunt) {
+//								ShipStunt bs = ((ShipStunt) entity.stunt());
+//								bs.forbiddenDirection = bs.direction;
+//								switch (bs.direction) {
+//								case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+//								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+//								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+//								default: bs.set(0, -0.05*Main.windowScale); break;
+//								}
+//							}
+//							entity.collision(entity.trueCollisions);
+//					    }
+//					} else {
+//						// Faut pas genre le foutre le le putain de translate à la con là putain ?
+//						entity.translate(moveVec);
+//					}
+//				}
+//			}
+//	        if (entity instanceof Ship)
+//	            ((Ship) entity).tick(seconds, shift);
+//	        else if (entity instanceof MissilePlayer)
+//	            ((MissilePlayer) entity).tick(seconds, shift);
+//	        else if(entity.bot() != null){
+//	        	entity.bot().tick(elapsed);
+//	        }
+//		}
+//		if (Main.debug)
+//			p.end();
+//	}
 	
 	public List<Entity> getCollision(Entity e){
 		List<Entity> collisions = new ArrayList<Entity>();
