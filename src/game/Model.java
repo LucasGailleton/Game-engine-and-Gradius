@@ -19,9 +19,9 @@ import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
-import game.entities.PacMan.PacManAvatar;
 import game.entities.PowerUp;
 import game.entities.Ship;
+import game.entities.Slave;
 import engine.Physic;
 import engine.ShipStunt;
 
@@ -97,6 +97,9 @@ public class Model {
 				if (!boxCollisions.isEmpty()) {
 
 					for (Entity e : boxCollisions) {
+	                    if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave)) {
+	                        continue;
+	                    }
 						if ((isMissile || isLaser) && !(e instanceof PowerUp))
 							entity.trueCollisions.add(e);
 						else if (entity.bounding().intersects(e.bounding()))
@@ -133,10 +136,6 @@ public class Model {
 		}
 		if (Main.debug)
 			p.end();
-	}
-	
-	public void tore() {
-		
 	}
 	
 	public List<Entity> getCollision(Entity e){
