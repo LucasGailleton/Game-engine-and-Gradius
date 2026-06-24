@@ -19,9 +19,9 @@ import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
-import game.entities.PacMan.PacManAvatar;
 import game.entities.PowerUp;
 import game.entities.Ship;
+import game.entities.Slave;
 import engine.Physic;
 import engine.ShipStunt;
 
@@ -97,6 +97,9 @@ public class Model {
 				if (!boxCollisions.isEmpty()) {
 
 					for (Entity e : boxCollisions) {
+	                    if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave)) {
+	                        continue;
+	                    }
 						if ((isMissile || isLaser) && !(e instanceof PowerUp))
 							entity.trueCollisions.add(e);
 						else if (entity.bounding().intersects(e.bounding()))
@@ -109,9 +112,11 @@ public class Model {
 						if(isShip)
 							isInvincible = ((Ship)entity).getHit();
 						
-					    if (!isInvincible && !isLaser) {
-							entity.translate(entity.isu.new Vector(-moveX, -moveY));
-							entity.setlSpeed(0, 0); 
+					    if (!isInvincible) {
+					    	if(!isLaser) {
+								entity.translate(entity.isu.new Vector(-moveX, -moveY));
+								entity.setlSpeed(0, 0); 
+					    	}
 							if (entity.stunt() instanceof ShipStunt) {
 								ShipStunt bs = ((ShipStunt) entity.stunt());
 								bs.forbiddenDirection = bs.direction;

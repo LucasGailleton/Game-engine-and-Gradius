@@ -19,7 +19,7 @@ import oop.graphics.Canvas;
 public class MapBuilder {
 
 	public static final double mult = Game.cmPerCell * Main.windowScale;
-	public static final double borderStartX = 38 * mult;
+	public static final double borderStartX = 40 * mult;
 
 	private Model model;
 	private View view;

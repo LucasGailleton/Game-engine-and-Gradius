@@ -60,11 +60,6 @@ public class MontFendu extends Entity {
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub	
-	}
-	
 	public class MontFenduAvatar extends Avatar {
 		 public static final int spriteSizeX = 96; 
 		 public static final int spriteSizeY = 76; 

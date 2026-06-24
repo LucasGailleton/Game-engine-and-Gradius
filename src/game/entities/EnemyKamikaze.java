@@ -28,7 +28,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		
 		private List<BufferedImage> death;
 		private static final int spriteSizeX = 18; 
-        	private static final int spriteSizeY = 18;
+        private static final int spriteSizeY = 18;
         
 	        private int index;
 	        private int indChg;
@@ -86,12 +86,9 @@ public class EnemyKamikaze extends Entity implements Enemy{
 			}	
 	    }
 
-
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

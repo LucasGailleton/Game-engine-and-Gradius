@@ -29,7 +29,6 @@ import game.entities.EnemyChicken;
 import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
-import game.entities.Ghost;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import game.entities.Ship;
@@ -108,9 +107,6 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		
-
-		
 		// On va s'en occuper après ce ces deux conneries là
 //		Mur plafond = new Mur();
 //		plafond.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
