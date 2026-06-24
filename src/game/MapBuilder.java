@@ -8,6 +8,7 @@ import engine.view.View;
 import game.entities.Borders;
 import game.entities.Boss;
 import game.entities.EnemyKamikaze;
+import game.entities.MissileSpecial;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import oop.graphics.Canvas;
@@ -53,8 +54,9 @@ public class MapBuilder {
 	    Boss boss= new Boss();
 	    boss.setCoord(isu.new Coord(30*mult,15* mult));
 	    placeEntity(boss);
-	    //boss.createGuns(model, view);
+	    boss.createGuns(model, view);
 		
+	    
 	    placeBorder();
 
 		MontFendu mf = new MontFendu();

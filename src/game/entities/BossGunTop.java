@@ -6,8 +6,12 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.Grid.Position;
+import engine.ISU.Coord;
 import engine.ISU.Dimension;
+import engine.ISU.Vector;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -17,7 +21,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter{
 	private int missileSpeed = 150;
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 0.2;
-	
+	private View view;
 	private Boss master;
 
 	public BossGunTop(String name, Boss master) {
@@ -25,17 +29,23 @@ public class BossGunTop extends Entity implements Enemy, Shooter{
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
 		this.avatar = new BossGunTopAvatar(this);
 		this.master = master;
+		this.view=view;
 	}
 	
-	public void setBounding() {
-    	this.bounding().add(new Rect(this.center(), this.size, 0));
-    	
-    }
     
     @Override
 	public void tick(double elapsed, boolean shift) {
-		
-		
+    	double seconds=elapsed/1000;
+    	if (!master.isAlive()) {
+			die();
+		}
+    	
+    	if (shift)
+			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+    	if (this.shootCooldown > 0) {
+			this.shootCooldown -= seconds;
+			tryToShoot();
+		}
 	}
 
 	@Override
@@ -49,7 +59,14 @@ public class BossGunTop extends Entity implements Enemy, Shooter{
 
 	@Override
 	public void shoot() {
-		// TODO Auto-generated method stub
+		View vew = this.model.getView();
+		Position pos = this.position();
+		MissileSpecial mss = new MissileSpecial("mssTop",vew);
+		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 30, pos.y * Game.cmPerCell));
+		mss.setBounding();
+		mss.setlSpeed(-missileSpeed * 2, 0);
+		this.model.add(mss);
+		vew.add(mss.getAvatar());
 		
 	}
 	

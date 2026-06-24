@@ -20,12 +20,13 @@ import oop.graphics.Graphics;
 
 public class Boss extends Entity implements Enemy, Shooter {
 	
-	private int missileSpeed = 150;
+	private int missileSpeed = 15;
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 0.2;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
 	
+	private boolean isAlive;
 	
 
 	// CONSTRUCTOR
@@ -33,7 +34,7 @@ public class Boss extends Entity implements Enemy, Shooter {
 		super("Boss");
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*29.0, Game.cmPerCell*32.0));
 		this.avatar = new BossAvatar(this);
-		
+		this.isAlive=true;
 		
 	}
 	
@@ -80,8 +81,7 @@ public class Boss extends Entity implements Enemy, Shooter {
 		double seconds = elapsed/1000;
 		
 		if (shift)
-			
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 		
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -94,7 +94,7 @@ public class Boss extends Entity implements Enemy, Shooter {
 	@Override
 	public void tryToShoot() {
 		if (this.shootCooldown <= 0.0) {
-			this.shoot();
+			 this.shoot();
 			this.shootCooldown = SHOOT_DELAY;
 		}
 		
@@ -104,14 +104,14 @@ public class Boss extends Entity implements Enemy, Shooter {
 	public void shoot() {
 		View view = this.model.getView();
 		Position pos = this.position();
-		MissileEnemy mse = new MissileEnemy("mse1");
+		MissileEnemy mse = new MissileEnemy("mse1",view);
 		mse.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell+20));
 		mse.setBounding();
 		mse.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mse);
 		view.add(mse.getAvatar());
 		
-		MissileEnemy mse2 = new MissileEnemy("mse2");
+		MissileEnemy mse2 = new MissileEnemy("mse2",view);
 		mse2.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell-20));
 		mse2.setBounding();
 		mse2.setlSpeed(-missileSpeed * 2, 0);

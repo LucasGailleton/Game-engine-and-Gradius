@@ -64,6 +64,22 @@ public class MissilePlayer extends Entity {
 	        this.die();
 	    }
 	}
+	
+	@Override
+	public void collision(List<Entity> le) {
+		boolean touche = false;
+		for (Entity e : le) {
+			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer)
+				continue; 
+			touche = true;
+			if (e instanceof Enemy) {
+				System.out.println("On a touché : " + e.name);
+				e.die(); 
+			}
+		}
+		if (touche)
+			this.die();
+	}
 		
 	private class MissilePlayerAvatar extends Avatar {
 		
@@ -98,20 +114,6 @@ public class MissilePlayer extends Entity {
 		
 	}
 	
-	@Override
-	public void collision(List<Entity> le) {
-		boolean touche = false;
-		for (Entity e : le) {
-			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer)
-				continue; 
-			touche = true;
-			if (e instanceof Enemy) {
-				System.out.println("On a touché : " + e.name);
-				e.die(); 
-			}
-		}
-		if (touche)
-			this.die();
-	}
+	
 
 }
