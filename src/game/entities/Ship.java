@@ -248,6 +248,7 @@ public class Ship extends Entity implements Shooter {
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
+		
 				return;
 			}
 			task.post(new Runnable() {
