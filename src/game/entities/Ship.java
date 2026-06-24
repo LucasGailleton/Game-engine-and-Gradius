@@ -11,8 +11,10 @@ import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Vector;
+import engine.ShipStunt;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
+import engine.view.Controller;
 import engine.view.View;
 import game.Main;
 import game.Model;
@@ -42,12 +44,17 @@ public class Ship extends Entity implements Shooter {
 	private int indexAudio;
 
 	private int powerUp;
+	public boolean isShooting;
 	public static final int WEAPON_SIMPLE = 0;
 	public static final int WEAPON_DOUBLE = 1;
 	public static final int WEAPON_LASER = 2;
 	private int weapon = WEAPON_SIMPLE;
 	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
+	
+	private Controller controller;
+	
+	private ShipStunt shipStunt;
 
 	public Ship(View view) {
 		super("Ship");
@@ -88,7 +95,7 @@ public class Ship extends Entity implements Shooter {
 		}
 	}
 
-	private void shoot() {
+	public void shoot() {
 		Position pos = this.position();
 
 		if (this.weapon == WEAPON_LASER) {
@@ -117,6 +124,7 @@ public class Ship extends Entity implements Shooter {
 			m.setlSpeed(missileSpeed, 0);
 			Main.mb.placeEntity(m);
 		}
+		// Fin du code de Dario
 
 		if (indexAudio % 2 == 0)
 			tir1.play(1);
