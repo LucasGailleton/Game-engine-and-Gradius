@@ -115,7 +115,7 @@ public class View {
 			        g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shift, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
 			        g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shift, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
 			        
-			        entity.bounding().paint(g, shiftPX);
+			        entity.bounding().paint(g, shift);
 	            }
 			}
 			
