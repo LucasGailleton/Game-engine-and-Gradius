@@ -6,6 +6,7 @@ import engine.ISU;
 import engine.ISU.Coord;
 import engine.view.View;
 import game.entities.Borders;
+import game.entities.Boss;
 import game.entities.EnemyKamikaze;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
@@ -17,54 +18,58 @@ import oop.graphics.Canvas;
 public class MapBuilder {
 	private Model model;
 	private View view;
+	private ISU isu;
 
 	public MapBuilder(Model model, View view) {
 		this.model = model;
 		this.view = view;
+		this.isu = Game.game().isu;
 	}
 	
 	public void placeObjects() {
-		int nbBorders = 4;
-		Borders[] borders = new Borders[nbBorders];
-		int canvasHeight = view.canvas().getHeight();
-		
-		borders[0] = new Borders("n1", 0, 1, view);
-		Borders b1 = borders[0];
-		b1.setCoord(Game.game().isu.new Coord(canvasHeight*Main.windowScale, 10));
-		placeEntity(b1);
-		
-		borders[1] = new Borders("n2", 0, 0, view);
-		Borders b2 = borders[1];
-		b2.setCoord(Game.game().isu.new Coord(canvasHeight*Main.windowScale, canvasHeight*1.75*Main.windowScale));
-		placeEntity(b2);
+		double mult = Game.cmPerCell*Main.windowScale;
 		
 		EnemyKamikaze kz = new EnemyKamikaze("kz1");	
-		kz.setCoord(Game.game().isu.new Coord(20.0*Game.cmPerCell*Main.windowScale, 1.8*Game.cmPerCell*Main.windowScale+100));
+		kz.setCoord(Game.game().isu.new Coord(20.0*mult, 1.8*mult+100));
 		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");
-		puDouble.setCoord(Game.game().isu.new Coord(18 * Game.cmPerCell * Main.windowScale, 10 * Game.cmPerCell * Main.windowScale));
+		puDouble.setCoord(isu.new Coord(18 *mult, 10 * mult));
 		placeEntity(puDouble);
 
 		PowerUp puSpeed = new PowerUp("speed");
-		puSpeed.setCoord(Game.game().isu.new Coord(22 * Game.cmPerCell * Main.windowScale, 10 * Game.cmPerCell * Main.windowScale));
+		puSpeed.setCoord(isu.new Coord(22 * mult, 10 * mult));
 		placeEntity(puSpeed);
 
 		PowerUp puSlave = new PowerUp("slave");
-		puSlave.setCoord(Game.game().isu.new Coord(26 * Game.cmPerCell * Main.windowScale, 10 * Game.cmPerCell * Main.windowScale));
+		puSlave.setCoord(isu.new Coord(26 * mult, 10 * mult));
 		placeEntity(puSlave);
 
 		PowerUp puLaser = new PowerUp("laser");
-		puLaser.setCoord(Game.game().isu.new Coord(30 * Game.cmPerCell * Main.windowScale, 10 * Game.cmPerCell * Main.windowScale));
+		puLaser.setCoord(isu.new Coord(30 * mult, 10 * mult));
 		placeEntity(puLaser);
 		
-	    double screenWidth = view.canvas().getWidth() / Main.windowScale; 
-	    System.out.println("width" + screenWidth);
+	    Boss boss= new Boss();
+	    boss.setCoord(isu.new Coord(30*mult,15* mult));
+	    placeEntity(boss);
+	    //boss.createGuns(model, view);
+		
+	    placeBorder();
+
+		MontFendu mf = new MontFendu();
+		mf.setCoord(isu.new Coord(18*mult, 25*mult));
+		placeEntity(mf);
+	}
+	
+	private void placeBorder() {
+		
+		double screenWidth = view.canvas().getWidth() / Main.windowScale; 
+	    
 	    double topY = 10.0; 
 	    double bottomY = (view.canvas().getHeight() / Main.windowScale) + 180;
-
-	    double currentX = 0.0;
+	    
+		double currentX = 0.0;
 	    double adjustY =0.0;
 	    int id = 0;
 	    double width = 63.0;
@@ -89,25 +94,21 @@ public class MapBuilder {
 	        // --- PLACEMENT EN HAUT ---
 	        Borders topBorder = new Borders("top_" + id, spriteType, 1, view);
 	        
-	        topBorder.setCoord(Game.game().isu.new Coord(currentX + (width / 2.0), topY));
+	        topBorder.setCoord(isu.new Coord(currentX + (width / 2.0), topY));
 	       
-	        topBorder.size = Game.game().isu.new Dimension(width, 12); 
+	        topBorder.size = isu.new Dimension(width, 12); 
 	        placeEntity(topBorder);
 	        
 	        // --- PLACEMENT EN BAS ---
 	        Borders botBorder = new Borders("bot_" + id, spriteType, 0,view);
-	        botBorder.setCoord(Game.game().isu.new Coord(currentX + (width / 2.0), bottomY-adjustY));
-	        botBorder.size = Game.game().isu.new Dimension(width, 12); 
+	        botBorder.setCoord(isu.new Coord(currentX + (width / 2.0), bottomY-adjustY));
+	        botBorder.size = isu.new Dimension(width, 12); 
 	        placeEntity(botBorder);
 	        
 	        currentX += width*2;
 	        id++;
 	        adjustY=0;
 	    }
-
-		MontFendu mf = new MontFendu();
-		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*Main.windowScale, 25*Game.cmPerCell*Main.windowScale));
-		placeEntity(mf);
 	}
 	
 	public void placeEntity(Entity e) {
