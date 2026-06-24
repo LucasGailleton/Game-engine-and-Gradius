@@ -11,10 +11,9 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyWalking extends Entity implements Enemy{
+public class EnemyWalking extends Entity implements Enemy, Shooter {
 	//Entité qui spawn avec chicken
-	
-	
+
 
 	public EnemyWalking(String name) {
 		super(name);
@@ -25,14 +24,21 @@ public class EnemyWalking extends Entity implements Enemy{
 	public void setBounding() {
 		this.bounding().add(new Rect(this.center(), this.size, 0));
 	}
-	
-	public Avatar getAvatar() {
-		return this.avatar;
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
 	}
-	
+
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Avatar getAvatar() {
+		return this.avatar;
 	}
 	
 	private class WalkingAvatar extends Avatar{
@@ -46,7 +52,7 @@ public class EnemyWalking extends Entity implements Enemy{
 	    public static final int Walk2 = 2;
 	    
 	    private static final int spriteSizeX = 18; 
-		private static final int spriteSizeY = 18;
+        private static final int spriteSizeY = 18;
 
 		private List<BufferedImage> death;
 		
@@ -113,5 +119,11 @@ public class EnemyWalking extends Entity implements Enemy{
  		    }
 			
 		}	
+	}
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
 	}
 }

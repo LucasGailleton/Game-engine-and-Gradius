@@ -12,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class BossGunBottom extends Entity implements Enemy{
+public class BossGunBottom extends Entity implements Enemy, Shooter{
 
 	public BossGunBottom(String name) {
 		super(name);
@@ -59,7 +59,7 @@ public class BossGunBottom extends Entity implements Enemy{
             int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
            
-            g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(26 * Main.windowScale), (int)(8*Main.windowScale));
+            g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -76,6 +76,18 @@ public class BossGunBottom extends Entity implements Enemy{
 
 	@Override
 	public void tick(double elapsed, boolean shift) {
+		
+		
+	}
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shoot() {
 		// TODO Auto-generated method stub
 		
 	}

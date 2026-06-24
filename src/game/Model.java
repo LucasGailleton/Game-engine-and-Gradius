@@ -39,9 +39,9 @@ public class Model {
 		if (ProfilingManager.PROFILING)
 			this.p = ProfilingManager.getProfiler("model");
 		this.grid = Game.game().grid;
-		this.ps = new Physic(this);
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
+		this.ps = new Physic(this);
 	}
 	
 	// ADD, REMOVE Entity

@@ -2,6 +2,7 @@ package game;
 
 import engine.Entity;
 import engine.Game;
+import engine.ISU;
 import engine.ISU.Coord;
 import engine.view.View;
 import game.entities.Borders;
@@ -58,8 +59,52 @@ public class MapBuilder {
 		puLaser.setCoord(Game.game().isu.new Coord(30 * Game.cmPerCell * Main.windowScale, 10 * Game.cmPerCell * Main.windowScale));
 		placeEntity(puLaser);
 		
-		
-		
+	    double screenWidth = view.canvas().getWidth() / Main.windowScale; 
+	    System.out.println("width" + screenWidth);
+	    double topY = 10.0; 
+	    double bottomY = (view.canvas().getHeight() / Main.windowScale) + 180;
+
+	    double currentX = 0.0;
+	    double adjustY =0.0;
+	    int id = 0;
+	    double width = 63.0;
+	    for (int i=0;i<10;i++) {
+	    	
+	    	int spriteType=0;
+	        double rand = Math.random();
+	        if (rand<0.2) {
+	        	spriteType=0;
+	        }else if(rand<0.4 && rand>=0.2) {
+	        	spriteType=1;
+	        }else if(rand<0.6 && rand>=0.4) {
+	        	spriteType=2;
+	        	adjustY = 12;
+	        }else if(rand<0.8 && rand>=0.6) {
+	        	spriteType=3;
+	        	adjustY = 6;
+	        }else if(rand>=0.8){
+	        	spriteType=4;
+	        }
+	        
+	        // --- PLACEMENT EN HAUT ---
+	        Borders topBorder = new Borders("top_" + id, spriteType, 1, view);
+	        
+	        topBorder.setCoord(Game.game().isu.new Coord(currentX + (width / 2.0), topY));
+	       
+	        topBorder.size = Game.game().isu.new Dimension(width, 12); 
+	        placeEntity(topBorder);
+	        
+	        // --- PLACEMENT EN BAS ---
+	        Borders botBorder = new Borders("bot_" + id, spriteType, 0,view);
+	        botBorder.setCoord(Game.game().isu.new Coord(currentX + (width / 2.0), bottomY-adjustY));
+	        botBorder.size = Game.game().isu.new Dimension(width, 12); 
+	        placeEntity(botBorder);
+	        
+	        currentX += width*2;
+	        id++;
+	        adjustY=0;
+	    }
+
 		MontFendu mf = new MontFendu();
 		mf.setCoord(Game.game().isu.new Coord(18*Game.cmPerCell*Main.windowScale, 25*Game.cmPerCell*Main.windowScale));
 		placeEntity(mf);
