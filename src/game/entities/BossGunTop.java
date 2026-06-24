@@ -21,7 +21,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter{
 	private int missileSpeed = 150;
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 0.2;
-	private View view;
+	
 	private Boss master;
 
 	public BossGunTop(String name, Boss master) {
@@ -29,7 +29,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter{
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
 		this.avatar = new BossGunTopAvatar(this);
 		this.master = master;
-		this.view=view;
+		
 	}
 	
     
