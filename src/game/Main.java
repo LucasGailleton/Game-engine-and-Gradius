@@ -67,7 +67,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (150 * windowScale), (int) (35 * windowScale));
+		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
 		this.task = Runtime.task();
 		this.canvas = (Canvas) this.task.find("canvas");
 		View view = new View(canvas);
@@ -78,7 +78,7 @@ public class Main implements Runnable {
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
 
-		this.mb = new MapBuilder(model, view);
+		Main.mb = new MapBuilder(model, view);
 		mb.placeObjects();
 
 		Ship ship = new Ship(view);
@@ -95,12 +95,12 @@ public class Main implements Runnable {
 		
 		// On va s'en occuper après ce ces deux conneries là
 		Mur plafond = new Mur();
-		plafond.setCoord(Game.game().isu.new Coord(150 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
+		plafond.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
 		model.add(plafond);
 		view.add(plafond.getAvatar());
 
 		Mur sol = new Mur();
-		sol.setCoord(Game.game().isu.new Coord(150 * Game.cmPerCell * Main.windowScale, 2 * Game.cmPerCell * Main.windowScale));
+		sol.setCoord(Game.game().isu.new Coord(20 * Game.cmPerCell * Main.windowScale, 30 * Game.cmPerCell * Main.windowScale));
 		model.add(sol);
 		view.add(sol.getAvatar());
 		
