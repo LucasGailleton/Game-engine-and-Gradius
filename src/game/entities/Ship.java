@@ -73,7 +73,7 @@ public class Ship extends Entity implements Shooter {
 		
 		// Annulation du scrolling
 		if (shift)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 8.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -140,6 +140,9 @@ public class Ship extends Entity implements Shooter {
 			gameOver = true;
 			setlSpeed(0, 0);
 			((ShipAvatar) avatar).exploser();
+			task.post(() -> {
+				this.die();
+			}, 200);
 			return;
 		}
 
@@ -154,7 +157,7 @@ public class Ship extends Entity implements Shooter {
 		// 3 secondes d'invicibilité
 		task.post(() -> {
 			hit = false;
-		}, 3000);
+		}, 1500);
 	}
 	
 	public void upgradePowerUp() {
@@ -168,6 +171,11 @@ public class Ship extends Entity implements Shooter {
 		case PowerUp.Slave: this.addSlave(); break;
 		default: break;
 		}
+		System.out.println("[Ship] Power-up ramasse ! type = " + type);
+	}
+
+	public double walkSpeed() {
+		return 15.0 + this.speedBoost * 5.0;
 	}
 
 	private void addSlave() {
@@ -269,10 +277,10 @@ public class Ship extends Entity implements Shooter {
 			sprites[East][spriteDown] = imgSprites.getSubimage(327, 4, spriteSizeX, spriteSizeY);
 
 			this.death.clear();
-			this.death.add(imgSprites.getSubimage(238, 29, 24, 24));
-			this.death.add(imgSprites.getSubimage(267, 25, 24, 24));
-			this.death.add(imgSprites.getSubimage(298, 21, 24, 24));
-			this.death.add(imgSprites.getSubimage(330, 27, 24, 24));
+			this.death.add(imgSprites.getSubimage(238, 29, 24, 12));
+			this.death.add(imgSprites.getSubimage(267, 25, 24, 12));
+			this.death.add(imgSprites.getSubimage(298, 21, 24, 12));
+			this.death.add(imgSprites.getSubimage(330, 27, 24, 12));
 		}
 
 		@Override

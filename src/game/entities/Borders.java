@@ -29,8 +29,10 @@ public class Borders extends Entity{
 		
 	}
 	
-	public class BorderAvatar extends Avatar{
+	public class BorderAvatar extends Avatar {
 		
+		private static final int spriteSizeX = 63;
+		private static final int spriteSizeY = 12;
 		private final static int Top = 1;
 		private final static int Bottom = 0;
 
@@ -57,10 +59,10 @@ public class Borders extends Entity{
 				this.getSprites(g);
 	           
             ISU.Coord center = Borders.this.center();
-            int posX = this.toPixel(center.x_cm - (Borders.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (Borders.this.size.y_cm / 2));
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 			
-            g.drawImage(sprites[chosenSprite][chosenPos], posX+shiftPX, posY, (int)(63 * Main.windowScale), (int)(12*Main.windowScale));
+            g.drawImage(sprites[chosenSprite][chosenPos], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
             
 		}
 		

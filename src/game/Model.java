@@ -17,6 +17,7 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PacMan.PacManAvatar;
 import game.entities.PowerUp;
@@ -76,9 +77,25 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
-	    	entity.trueCollisions = new ArrayList<>();
+	    	
+	    	boolean isShip = entity instanceof Ship;
+	    	boolean isLaser = entity instanceof LaserShot;
+	    	boolean isMissile = entity instanceof MissilePlayer;
+
+	        if (isShip)
+	            ((Ship) entity).tick(seconds, shift);
+	        
+	        else if (entity instanceof MissilePlayer)
+	            ((MissilePlayer) entity).tick(seconds, shift);
+	        else if(entity.bot()!=null){
+	        	entity.bot().tick(elapsed);
+	        }
+	        
+		entity.trueCollisions = new ArrayList<>();
 	        
 	        if (entity.haslSpeed()) {
+	            
+	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
@@ -88,33 +105,41 @@ public class Model {
 				
 				if (boxCollisions.isEmpty()) {
 					entity.translate(moveVec);
-				} else {
-//					entity.translate(moveVec);
+				} 
+				else {
+					entity.translate(moveVec);
+					
+					List<Entity> trueCollisions = new ArrayList<>();
 					
 					for(Entity e : boxCollisions) {
-						if(entity.bounding().intersects(e.bounding()))
-							entity.trueCollisions.add(e);
+						if((isMissile || isLaser) && !(e instanceof PowerUp)) {
+							trueCollisions.add(e);
+						}
+						else {
+							if(entity.bounding().intersects(e.bounding())) {
+								trueCollisions.add(e);
+							}
+						}
 					}
 					
 					if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
+						boolean isInvincible = false;
 						
-						boolean isInvincible;
-						if (entity instanceof Ship)
+						if(isShip) {
 							isInvincible = ((Ship)entity).getHit();
-						else
-							isInvincible = false;
+						}
 						
-						if (!isInvincible) {
+					    if (!isInvincible && !isLaser) {
 							entity.translate(entity.isu.new Vector(-moveX, -moveY));
 							entity.setlSpeed(0, 0); 
 							if (entity.stunt() instanceof ShipStunt) {
 								ShipStunt bs = ((ShipStunt) entity.stunt());
 								bs.forbiddenDirection = bs.direction;
 								switch (bs.direction) {
-									case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-									case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-									case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-									default: bs.set(0, -0.05*Main.windowScale); break;
+								case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+								default: bs.set(0, -0.05*Main.windowScale); break;
 								}
 							}
 							entity.collision(entity.trueCollisions);

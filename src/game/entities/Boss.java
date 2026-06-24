@@ -13,7 +13,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class Boss extends Entity {
+public class Boss extends Entity implements Enemy{
 
 	// CONSTRUCTOR
 	public Boss() {
@@ -24,6 +24,9 @@ public class Boss extends Entity {
 	
 	private class BossAvatar extends Avatar{
 		private List<BufferedImage> death;
+		
+		private static final int spriteSizeX = 50; 
+		private static final int spriteSizeY = 50;
 		
 		public BossAvatar(Entity e) {
 			super(e);
@@ -48,13 +51,14 @@ public class Boss extends Entity {
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			this.getSprites(g);
+			if(this.sprites == null)
+				this.getSprites(g);
             
 			ISU.Coord center = Boss.this.center(); 
-            int posX = this.toPixel(center.x_cm - (Boss.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (Boss.this.size.y_cm / 2));
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
-            g.drawImage(sprites[0][1], posX, posY,
+            g.drawImage(sprites[0][1], posX + shiftPX, posY,
             		(int) (54*Main.windowScale), 
             		(int) (60*Main.windowScale));
 			

@@ -11,7 +11,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyWalking extends Entity{
+public class EnemyWalking extends Entity implements Enemy{
 	//Entité qui spawn avec chicken
 	
 	
@@ -39,6 +39,9 @@ public class EnemyWalking extends Entity{
 	    public static final int Neutral = 0;
 	    public static final int Walk1 = 1;
 	    public static final int Walk2 = 2;
+	    
+	    private static final int spriteSizeX = 18; 
+		private static final int spriteSizeY = 18;
 
 		private List<BufferedImage> death;
 		
@@ -83,14 +86,16 @@ public class EnemyWalking extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-this.getSprites(g);
+
+			if(this.sprites == null)
+				this.getSprites(g);
 			
 			ISU.Coord center = EnemyWalking.this.center(); 
-            int posX = this.toPixel(center.x_cm - (EnemyWalking.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (EnemyWalking.this.size.y_cm / 2));
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[DownLeft][index], posX, posY, 
+            g.drawImage(sprites[DownLeft][index], posX+shiftPX, posY, 
             		(int) (16*Main.windowScale), 
             		(int) (16*Main.windowScale));
             

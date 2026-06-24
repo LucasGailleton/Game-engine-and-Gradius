@@ -12,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyHoming extends Entity {
+public class EnemyHoming extends Entity implements Enemy{
 	
     public static final int spriteNeutral = 0;
     public static final int Sprite45degrees = 1;
@@ -32,6 +32,9 @@ public class EnemyHoming extends Entity {
     private class HomingAvatar extends Avatar {
 		
         private List<BufferedImage> death;
+        
+        private static final int spriteSizeX = 16; 
+		private static final int spriteSizeY = 16;
 
         public HomingAvatar(Entity e) {
             super(e);
@@ -61,14 +64,15 @@ public class EnemyHoming extends Entity {
 		@Override
 		public void paint(Graphics g, int shiftPX) {
 			
-            this.getSprites(g);
+			if(this.sprites == null)
+				this.getSprites(g);
             
             ISU.Coord center = EnemyHoming.this.center(); //para el Gruber
-            int posX = this.toPixel(center.x_cm - (EnemyHoming.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (EnemyHoming.this.size.y_cm / 2));
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
            
-            g.drawImage(sprites[Down][spriteNeutral], posX, posY, (int)(16 * Main.windowScale), (int)(16*Main.windowScale));
+            g.drawImage(sprites[Down][spriteNeutral], posX+shiftPX, posY, (int)(16 * Main.windowScale), (int)(16*Main.windowScale));
                         
             //A IMPLEMENTER : DIFFERENTES ORIENTATION EN FONCTION DE LA POSITION DU JOUEUR PAR RAPPORT A L'ENNEMI
 		}

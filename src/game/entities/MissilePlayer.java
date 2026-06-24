@@ -1,5 +1,7 @@
 package game.entities;
 
+import java.util.List;
+
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -10,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class MissilePlayer extends Entity{
+public class MissilePlayer extends Entity {
 	
 	private View view;
 	private int age = 0;
@@ -43,7 +45,7 @@ public class MissilePlayer extends Entity{
 		}
 	}
 		
-	private class MissilePlayerAvatar extends Avatar{
+	private class MissilePlayerAvatar extends Avatar {
 		
 		public static final int spriteSizeX = 8;
 	    public static final int spriteSizeY = 3;
@@ -63,7 +65,7 @@ public class MissilePlayer extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			if (sprites == null)
+			if(this.sprites == null)
 				this.getSprites(g);
             
             ISU.Coord center = MissilePlayer.this.center();
@@ -74,6 +76,22 @@ public class MissilePlayer extends Entity{
 			
 		}
 		
+	}
+	
+	@Override
+	public void collision(List<Entity> le) {
+		boolean touche = false;
+		for (Entity e : le) {
+			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer)
+				continue; 
+			touche = true;
+			if (e instanceof Enemy) {
+				System.out.println("On a touché : " + e.name);
+				e.die(); 
+			}
+		}
+		if (touche)
+			this.die();
 	}
 
 }
