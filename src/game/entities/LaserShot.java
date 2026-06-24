@@ -1,5 +1,7 @@
 package game.entities;
 
+import java.util.List;
+
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -14,6 +16,23 @@ public class LaserShot extends MissilePlayer {
 		super(view, name);
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*3*Main.windowScale, (Game.cmPerCell/3.0)*Main.windowScale));
 		this.avatar = new LaserAvatar(this);
+	}
+	
+	@Override
+	public void collision(List<Entity> le) {
+
+		for (Entity e : le) {
+
+			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer) {
+				continue; 
+			}
+
+			if (e instanceof Enemy) {
+				System.out.println("On a touché : " + e.name);
+
+				e.die(); 
+			}
+		}
 	}
 
 	public class LaserAvatar extends Avatar {

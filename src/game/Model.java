@@ -127,9 +127,12 @@ public class Model {
 							isInvincible = ((Ship)entity).getHit();
 						}
 						
-					    if (!isInvincible && !isLaser) {
-							entity.translate(entity.isu.new Vector(-moveX, -moveY));
-							entity.setlSpeed(0, 0); 
+					    if (!isInvincible) {
+					    	if(!isLaser) {
+								entity.translate(entity.isu.new Vector(-moveX, -moveY));
+								entity.setlSpeed(0, 0); 
+					    	}
+
 							if (entity.stunt() instanceof ShipStunt) {
 								ShipStunt bs = ((ShipStunt) entity.stunt());
 								bs.forbiddenDirection = bs.direction;
@@ -141,7 +144,6 @@ public class Model {
 								}
 							}
 							entity.collision(trueCollisions);
-							
 					    }
 					}
 				}
