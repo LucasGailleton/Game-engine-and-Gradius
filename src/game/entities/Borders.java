@@ -33,7 +33,7 @@ public class Borders extends Entity{
 	}
 	
 	@Override
-	public void tick(double seconds, boolean shift) {
+	public void tick(double elapsed, boolean shift) {
 		if (shift) {
 	        translate(isu.new Vector((View.speed / 4.0) * Main.windowScale, 0.0));
 	    }
@@ -92,7 +92,15 @@ public class Borders extends Entity{
             int posX = this.toPixel(center.x_cm - (Borders.this.size.x_cm / 2));
             int posY = this.toPixel(center.y_cm - (Borders.this.size.y_cm / 2));
             BufferedImage currentImg = sprites[chosenSprite][chosenPos];
-            g.drawImage(currentImg, posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+            if(chosenSprite == 2) {
+            	g.drawImage(currentImg, posX+shiftPX, posY, (int)(spriteSizeX* Main.windowScale), (int)(18*Main.windowScale));
+            }else if (chosenSprite ==3) {
+            	g.drawImage(currentImg, posX+shiftPX, posY, (int)(spriteSizeX* Main.windowScale), (int)(15*Main.windowScale));
+            }else {
+            	g.drawImage(currentImg, posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+            }
+            
+            
             
 		}
 		

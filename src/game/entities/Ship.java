@@ -75,12 +75,13 @@ public class Ship extends Entity implements Shooter {
 
 	}
 
-	public void tick(double seconds, boolean shift) {
+	public void tick(double elapsed, boolean shift) {
+		double seconds = elapsed/1000;
 		pickUpPowerUps();
 		
 		// Annulation du scrolling
-		if (shift)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+//		if (shift)
+//			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;

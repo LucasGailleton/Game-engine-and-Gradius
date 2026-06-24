@@ -29,7 +29,6 @@ import game.entities.EnemyChicken;
 import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
-import game.entities.Ghost;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import game.entities.Ship;

@@ -62,7 +62,7 @@ public class MontFendu extends Entity {
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub	
+		//rien
 	}
 	
 	public class MontFenduAvatar extends Avatar {
@@ -93,11 +93,5 @@ public class MontFendu extends Entity {
 		    
 		    g.drawImage(sprites[0][0], posX-3+shiftPX, posY-3, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
 		}	
-	}
-
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
 	}
 }

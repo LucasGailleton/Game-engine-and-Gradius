@@ -13,11 +13,38 @@ import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
 public class BossGunBottom extends Entity implements Enemy, Shooter{
+	
+	private int missileSpeed = 150;
+	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
+	private double SHOOT_DELAY = 0.2;
+	
+	private Boss master;
 
-	public BossGunBottom(String name) {
+	public BossGunBottom(String name, Boss master) {
 		super(name);
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
 		this.avatar = new BossGunBottomAvatar(this);
+		this.master= master;
+	}
+	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		
+		
+	}
+
+	@Override
+	public void tryToShoot() {
+		if (this.shootCooldown <= 0.0) {
+			this.shoot();
+			this.shootCooldown = SHOOT_DELAY;
+		}
+		
+	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
 		
 	}
 	
@@ -26,7 +53,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter{
 		private List<BufferedImage> death;
 		private int index,indChg;
 		
-		private static final int spriteSizeX = 8; 
+		private static final int spriteSizeX = 26; 
 		private static final int spriteSizeY = 8;
 
 		public BossGunBottomAvatar(Entity e) {
@@ -74,22 +101,6 @@ public class BossGunBottom extends Entity implements Enemy, Shooter{
 		
 	}
 
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		
-		
-	}
-
-	@Override
-	public void tryToShoot() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void shoot() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

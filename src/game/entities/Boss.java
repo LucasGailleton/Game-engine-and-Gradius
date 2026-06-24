@@ -10,6 +10,7 @@ import engine.ISU;
 import engine.Grid.Position;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
+import engine.ISU.Vector;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -20,10 +21,11 @@ import oop.graphics.Graphics;
 public class Boss extends Entity implements Enemy, Shooter {
 	
 	private int missileSpeed = 150;
-	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
+	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 0.2;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
+	
 	
 
 	// CONSTRUCTOR
@@ -39,20 +41,52 @@ public class Boss extends Entity implements Enemy, Shooter {
 		ISU is = Game.game().isu;
 		double x = this.center().x_cm;
 		double y = this.center().y_cm;
-		this.bgb = new BossGunBottom("bgb");
-		this.bgb.setCoord(is.new Coord(x+10,y+65));
+		this.bgb = new BossGunBottom("bgb",this);
+		this.bgb.setCoord(is.new Coord(x+10,y+60));
 		this.bgb.setBounding();
 		model.add(bgb);
 		view.add(this.bgb.getAvatar());
-		this.bgt = new BossGunTop("bgt");
-		this.bgt.setCoord(is.new Coord(x+10,y-65));
+		this.bgt = new BossGunTop("bgt",this);
+		this.bgt.setCoord(is.new Coord(x+10,y-60));
 		this.bgt.setBounding();
 		model.add(bgt);
 		view.add(this.bgt.getAvatar());
 	}
 	
 	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm-12*Main.windowScale, y_cm-7*Main.windowScale);
+		shapeCenter = isu.new Coord(x+5*Main.windowScale, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		
+		shapeSize = isu.new Dimension(x_cm-17*Main.windowScale, y_cm-14*Main.windowScale);
+		shapeCenter = isu.new Coord(x-8*Main.windowScale, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+
+	}
+	
+	@Override
 	public void tick(double elapsed, boolean shift) {
+		double seconds = elapsed/1000;
+		
+		if (shift)
+			
+			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+		
+		if (this.shootCooldown > 0) {
+			this.shootCooldown -= seconds;
+			tryToShoot();
+		}
 		
 		
 	}
@@ -68,13 +102,23 @@ public class Boss extends Entity implements Enemy, Shooter {
 
 	@Override
 	public void shoot() {
+		View view = this.model.getView();
 		Position pos = this.position();
 		MissileEnemy mse = new MissileEnemy("mse1");
-		mse.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell));
+		mse.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell+20));
 		mse.setBounding();
-		mse.setlSpeed(missileSpeed * 2, 0);
+		mse.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mse);
-		this.model.getView().add(mse.getAvatar());
+		view.add(mse.getAvatar());
+		
+		MissileEnemy mse2 = new MissileEnemy("mse2");
+		mse2.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell-20));
+		mse2.setBounding();
+		mse2.setlSpeed(-missileSpeed * 2, 0);
+		this.model.add(mse2);
+		view.add(mse2.getAvatar());
+		
+		
 	}
 	
 	private class BossAvatar extends Avatar{
@@ -82,7 +126,7 @@ public class Boss extends Entity implements Enemy, Shooter {
 		private int index;
 		private int indChg;
 		
-		private static final int spriteSizeX = 50; 
+		private static final int spriteSizeX = 54; 
 		private static final int spriteSizeY = 50;
 		
 		public BossAvatar(Entity e) {
@@ -115,14 +159,13 @@ public class Boss extends Entity implements Enemy, Shooter {
 				this.getSprites(g);
 			}
 			
-            
 			ISU.Coord center = Boss.this.center(); 
-            int posX = this.toPixel(center.x_cm - (Boss.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (Boss.this.size.y_cm / 2));
+            int posX = this.toPixel(center.x_cm) - ((int)(spriteSizeX*Main.windowScale)/ 2);
+            int posY = this.toPixel(center.y_cm) - ((int)(spriteSizeY*Main.windowScale)/ 2);
             
             g.drawImage(sprites[0][index], posX+shiftPX, posY,
-            		(int) (54*Main.windowScale), 
-            		(int) (60*Main.windowScale));
+            		(int) (spriteSizeX*Main.windowScale), 
+            		(int) (spriteSizeY*Main.windowScale));
             
             if (indChg == 0)
  		    	index++;

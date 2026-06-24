@@ -19,7 +19,6 @@ import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
-import game.entities.PacMan.PacManAvatar;
 import game.entities.PowerUp;
 import game.entities.Ship;
 import engine.Physic;
@@ -126,8 +125,9 @@ public class Model {
 					    }
 					}
 				}
-				entity.tick(seconds, shift);
+				
 			}
+	        entity.tick(elapsed, shift);
 		}
 		if (Main.debug)
 			p.end();

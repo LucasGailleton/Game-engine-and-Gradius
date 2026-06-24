@@ -38,7 +38,7 @@ public class MissilePlayer extends Entity {
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
-	public void tick(double seconds, boolean shift) {
+	public void tick(double elapsed, boolean shift) {
 		if (!this.haslSpeed() || this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) {
 			die();
 		}
