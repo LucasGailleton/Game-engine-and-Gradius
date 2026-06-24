@@ -3,6 +3,8 @@ package engine.GAL;
 import java.util.HashMap;
 import java.util.Map;
 
+import engine.Entity;
+
 public class Direction {
 
 	// CONSTANTS

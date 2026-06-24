@@ -17,6 +17,7 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PacMan.PacManAvatar;
 import game.entities.PowerUp;
@@ -39,8 +40,8 @@ public class Model {
 			this.p = ProfilingManager.getProfiler("model");
 		this.grid = Game.game().grid;
 		this.entities = new ArrayList<Entity>();
-		this.ps = new Physic(this);
 		this.v = v;
+		this.ps = new Physic(this);
 	}
 	
 	// ADD, REMOVE Entity
@@ -65,7 +66,7 @@ public class Model {
 	public Grid grid() {
 		return this.grid;
 	}
-	
+
 	public void tick(long elapsed) {
 		if (Main.debug) p.start();
 	    if (elapsed > 100) elapsed = 10;
@@ -76,9 +77,14 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
-	    	entity.trueCollisions = new ArrayList<>();
+	    	
+	    	boolean isShip = entity instanceof Ship;
+	    	boolean isLaser = entity instanceof LaserShot;
+	    	boolean isMissile = entity instanceof MissilePlayer;
+	    	entity.trueCollisions = new ArrayList<Entity>();
 	        
 	        if (entity.haslSpeed()) {
+	            
 	            ISU.Vector speedVector = entity.lSpeed();
 				
 				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
@@ -86,52 +92,42 @@ public class Model {
 				double moveY = speedVector.targetY_cm * seconds;
 				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
 				
-				if (boxCollisions.isEmpty()) {
-					entity.translate(moveVec);
-				} else {
-//					entity.translate(moveVec);
-					
-					for(Entity e : boxCollisions) {
-						if(entity.bounding().intersects(e.bounding()))
+				entity.translate(moveVec);
+				
+				if (!boxCollisions.isEmpty()) {
+
+					for (Entity e : boxCollisions) {
+						if ((isMissile || isLaser) && !(e instanceof PowerUp))
+							entity.trueCollisions.add(e);
+						else if (entity.bounding().intersects(e.bounding()))
 							entity.trueCollisions.add(e);
 					}
 					
 					if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
+						boolean isInvincible = false;
 						
-						boolean isInvincible;
-						if (entity instanceof Ship)
+						if(isShip)
 							isInvincible = ((Ship)entity).getHit();
-						else
-							isInvincible = false;
 						
-						if (!isInvincible) {
+					    if (!isInvincible && !isLaser) {
 							entity.translate(entity.isu.new Vector(-moveX, -moveY));
 							entity.setlSpeed(0, 0); 
 							if (entity.stunt() instanceof ShipStunt) {
 								ShipStunt bs = ((ShipStunt) entity.stunt());
 								bs.forbiddenDirection = bs.direction;
 								switch (bs.direction) {
-									case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-									case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-									case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-									default: bs.set(0, -0.05*Main.windowScale); break;
+								case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+								default: bs.set(0, -0.05*Main.windowScale); break;
 								}
 							}
 							entity.collision(entity.trueCollisions);
 					    }
-					} else {
-						// Faut pas genre le foutre le le putain de translate à la con là putain ?
-						entity.translate(moveVec);
 					}
 				}
+				entity.tick(seconds, shift);
 			}
-	        if (entity instanceof Ship)
-	            ((Ship) entity).tick(seconds, shift);
-	        else if (entity instanceof MissilePlayer)
-	            ((MissilePlayer) entity).tick(seconds, shift);
-	        else if(entity.bot() != null){
-	        	entity.bot().tick(elapsed);
-	        }
 		}
 		if (Main.debug)
 			p.end();

@@ -9,20 +9,23 @@ import engine.ISU;
 import engine.Grid.Position;
 import engine.ISU.Coord;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyChicken extends Entity{
+public class EnemyChicken extends Entity implements Enemy{
 	//enemie qui crée des nouveaux ennemies (assez gros)
 	public static final int spriteNeutral = 0;
 	
 	public static final int Top = 0;
     public static final int Down = 1;
-
     
-	public EnemyChicken(String name) {
+    private View view;
+    
+	public EnemyChicken(View view, String name) {
 		super(name);
+		this.view = view;
 		this.setSize(this.game.grid.new Dimension((int)(36/Main.windowScale),(int)(28/Main.windowScale)));
 		this.avatar = new ChickenAvatar(this);
 		
@@ -30,7 +33,7 @@ public class EnemyChicken extends Entity{
 	
 
 	public void shoot() {
-		MissilePlayer msp = new MissilePlayer("missile 1 ");
+		MissilePlayer msp = new MissilePlayer(view, "missile 1");
 		Position pos = this.position();
 		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
 		msp.setBounding();
@@ -42,6 +45,10 @@ public class EnemyChicken extends Entity{
 	private class ChickenAvatar extends Avatar{
 		
 		private List<BufferedImage> death;
+		
+		 private static final int spriteSizeX = 36; 
+		 private static final int spriteSizeY = 28;
+
 
 		public ChickenAvatar(Entity e) {
 			super(e);
@@ -69,18 +76,22 @@ public class EnemyChicken extends Entity{
 		public void paint(Graphics g, int shiftPX) {
 			if (this.sprites == null)
                 this.getSprites(g);
-			
-             this.getSprites(g);
             
 			ISU.Coord center = EnemyChicken.this.center(); 
-            int posX = this.toPixel(center.x_cm - (EnemyChicken.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (EnemyChicken.this.size.y_cm / 2));
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
-            g.drawImage(sprites[Top][spriteNeutral], posX, posY,
+            g.drawImage(sprites[Top][spriteNeutral], posX+shiftPX, posY,
             		(int) (36*Main.windowScale), 
             		(int) (28*Main.windowScale));
 			
 		}
+		
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
 		
 	}
 

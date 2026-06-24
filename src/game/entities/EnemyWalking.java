@@ -11,7 +11,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class EnemyWalking extends Entity{
+public class EnemyWalking extends Entity implements Enemy, Shooter {
 	//Entité qui spawn avec chicken
 	
 	
@@ -25,7 +25,19 @@ public class EnemyWalking extends Entity{
 	public void setBounding() {
 		this.bounding().add(new Rect(this.center(), this.size, 0));
 	}
-	
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public Avatar getAvatar() {
 		return this.avatar;
 	}
@@ -49,8 +61,7 @@ public class EnemyWalking extends Entity{
 			super(e);
 			this.death = new ArrayList<>();
 			this.index =0;
-			this.indChg=0;
-			
+			this.indChg=0;			
 		}
 
 		@Override
@@ -83,16 +94,18 @@ public class EnemyWalking extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-this.getSprites(g);
+
+			if(this.sprites == null)
+				this.getSprites(g);
 			
 			ISU.Coord center = EnemyWalking.this.center(); 
-            int posX = this.toPixel(center.x_cm - (EnemyWalking.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (EnemyWalking.this.size.y_cm / 2));
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[DownLeft][index], posX, posY, 
-            		(int) (16*Main.windowScale), 
-            		(int) (16*Main.windowScale));
+            g.drawImage(sprites[DownLeft][index], posX+shiftPX, posY, 
+            		(int) (spriteSizeX*Main.windowScale), 
+            		(int) (spriteSizeY*Main.windowScale));
             
             if (indChg == 0)
  		    	index++;
@@ -103,8 +116,6 @@ this.getSprites(g);
  		    	indChg = 0;
  		    }
 			
-		}
-		
+		}	
 	}
-
 }

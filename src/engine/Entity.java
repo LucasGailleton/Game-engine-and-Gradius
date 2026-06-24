@@ -112,7 +112,7 @@ public abstract class Entity {
 		this.bot = bot;
 	}
 	
-	public void setModel(Model model) { //On est sûr de ça la ?
+	public void setModel(Model model) { 
 		this.model = model;
 	}
 	
@@ -371,7 +371,7 @@ public abstract class Entity {
 	}
 	
 	public void die() {
-		System.out.println("entité despawn");
+		System.out.println("entité despawn : " + name);
         this.alive = false;
         
         this.retract();
@@ -380,5 +380,5 @@ public abstract class Entity {
         
     }
 	
-	//public abstract void tick();
+	public abstract void tick(double elapsed,boolean shift);
 }

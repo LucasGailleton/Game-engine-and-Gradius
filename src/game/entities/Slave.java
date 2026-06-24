@@ -17,7 +17,13 @@ public class Slave extends Entity {
 		this.master = master;
 		this.index = index;
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*Main.windowScale, (Game.cmPerCell/2.0)*Main.windowScale));
+		this.setCoord(master.center());
 		this.avatar = new SlaveAvatar(this);
+	}
+	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub	
 	}
 
 	private class SlaveAvatar extends Avatar {

@@ -11,8 +11,10 @@ import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Vector;
+import engine.ShipStunt;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
+import engine.view.Controller;
 import engine.view.View;
 import game.Main;
 import game.Model;
@@ -42,12 +44,17 @@ public class Ship extends Entity implements Shooter {
 	private int indexAudio;
 
 	private int powerUp;
+	public boolean isShooting;
 	public static final int WEAPON_SIMPLE = 0;
 	public static final int WEAPON_DOUBLE = 1;
 	public static final int WEAPON_LASER = 2;
 	private int weapon = WEAPON_SIMPLE;
 	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
+	
+	private Controller controller;
+	
+	private ShipStunt shipStunt;
 
 	public Ship(View view) {
 		super("Ship");
@@ -88,13 +95,13 @@ public class Ship extends Entity implements Shooter {
 		}
 	}
 
-	private void shoot() {
+	public void shoot() {
 		Position pos = this.position();
 
 		if (this.weapon == WEAPON_LASER) {
 			LaserShot laser = new LaserShot(view, "laser");
 			laser.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 50, pos.y * Game.cmPerCell));
-			laser.setlSpeed(missileSpeed * 2, 0);
+			laser.setlSpeed(missileSpeed*2, 0);
 			Main.mb.placeEntity(laser);
 		} else {
 			MissilePlayer msp = new MissilePlayer(view, "missile simple");
@@ -117,6 +124,7 @@ public class Ship extends Entity implements Shooter {
 			m.setlSpeed(missileSpeed, 0);
 			Main.mb.placeEntity(m);
 		}
+		// Fin du code de Dario
 
 		if (indexAudio % 2 == 0)
 			tir1.play(1);
@@ -140,6 +148,9 @@ public class Ship extends Entity implements Shooter {
 			gameOver = true;
 			setlSpeed(0, 0);
 			((ShipAvatar) avatar).exploser();
+			task.post(() -> {
+				this.die();
+			}, 200);
 			return;
 		}
 
@@ -154,13 +165,13 @@ public class Ship extends Entity implements Shooter {
 		// 3 secondes d'invicibilité
 		task.post(() -> {
 			hit = false;
-		}, 3000);
+		}, 1500);
 	}
 	
 	public void upgradePowerUp() {
 		if (this.powerUp <= 4)
 			this.powerUp++;
-		
+		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
 		case PowerUp.Speed: Ship.ShipSpeed *= 1.5; break;
 		case PowerUp.Double: this.weapon = WEAPON_DOUBLE; break;
@@ -170,11 +181,16 @@ public class Ship extends Entity implements Shooter {
 		}
 	}
 
+	public double walkSpeed() {
+		return 15.0 + this.speedBoost * 5.0;
+	}
+
 	private void addSlave() {
 		if (this.slaves.size() >= 4)
 			return;
 		Slave s = new Slave(this, this.slaves.size());
 		this.model.getView().add(s.getAvatar());
+		this.model.add(s);
 		this.slaves.add(s);
 	}
 
@@ -189,7 +205,6 @@ public class Ship extends Entity implements Shooter {
 	private void pickUpPowerUps() {
 		for (Entity e : this.trueCollisions) {
 			if (e instanceof PowerUp) {
-				System.out.println("Augumenation de powerUp !!!");
 				upgradePowerUp();
 				e.die();
 			}
@@ -270,10 +285,10 @@ public class Ship extends Entity implements Shooter {
 			sprites[East][spriteDown] = imgSprites.getSubimage(327, 4, spriteSizeX, spriteSizeY);
 
 			this.death.clear();
-			this.death.add(imgSprites.getSubimage(238, 29, 24, 24));
-			this.death.add(imgSprites.getSubimage(267, 25, 24, 24));
-			this.death.add(imgSprites.getSubimage(298, 21, 24, 24));
-			this.death.add(imgSprites.getSubimage(330, 27, 24, 24));
+			this.death.add(imgSprites.getSubimage(238, 29, 24, 12));
+			this.death.add(imgSprites.getSubimage(267, 25, 24, 12));
+			this.death.add(imgSprites.getSubimage(298, 21, 24, 12));
+			this.death.add(imgSprites.getSubimage(330, 27, 24, 12));
 		}
 
 		@Override

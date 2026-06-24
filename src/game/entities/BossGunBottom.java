@@ -12,7 +12,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class BossGunBottom extends Entity{
+public class BossGunBottom extends Entity implements Enemy, Shooter{
 
 	public BossGunBottom(String name) {
 		super(name);
@@ -25,6 +25,9 @@ public class BossGunBottom extends Entity{
 		
 		private List<BufferedImage> death;
 		private int index,indChg;
+		
+		private static final int spriteSizeX = 8; 
+		private static final int spriteSizeY = 8;
 
 		public BossGunBottomAvatar(Entity e) {
 			super(e);
@@ -49,14 +52,14 @@ public class BossGunBottom extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-this.getSprites(g);
+			if(this.sprites == null)
+				this.getSprites(g);
             
             ISU.Coord center = BossGunBottom.this.center(); 
-            int posX = this.toPixel(center.x_cm - (BossGunBottom.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (BossGunBottom.this.size.y_cm / 2));
-            
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
            
-            g.drawImage(sprites[0][index], posX, posY, (int)(26 * Main.windowScale), (int)(8*Main.windowScale));
+            g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -68,6 +71,24 @@ this.getSprites(g);
 			//A IMPLEMENTER : DEATH
 			
 		}
+		
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		
+		
+	}
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
 		
 	}
 

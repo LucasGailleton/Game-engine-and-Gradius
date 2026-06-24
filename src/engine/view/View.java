@@ -1,6 +1,5 @@
 package engine.view;
 
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +59,11 @@ public class View {
 	public boolean shift() {
 		if (this.shiftChg == viewSpeedChg) {
 			this.shiftPX += viewSpeed;
+			int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
+			
+			if (this.shiftPX <= -taille_map) {
+				this.shiftPX += taille_map;
+			}
 			this.shiftChg = 0;
 			return true;
 		}
@@ -72,14 +76,34 @@ public class View {
 	}
 	
 	public void paint(Graphics g) {
+		
 		Model model = null;
 		if (ProfilingManager.PROFILING)
 			vp.start();
+		
+		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
+		int canvasWidth = canvas.getWidth();
+		
 		for (Avatar a : avatars) {
             a.paint(g, shiftPX);
+            Entity entity = a.entity();
+            
+            int shift = shiftPX;
+            
+            if (!(entity instanceof Background)) {
+				int entityX = (int)(entity.center().x_cm * Game.pixelPerCm);
+				int screenX = entityX + shiftPX;
+				
+				if (screenX < -300) {
+					shift += taille_map;
+				}
+				else if (screenX > canvasWidth + 300) {
+					shift -= taille_map;
+				}
+			}
+            a.paint(g, shift);
             
 			if (Main.debug) {
-	            Entity entity = a.entity();
 	            model = entity.getModel();
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);
@@ -88,10 +112,10 @@ public class View {
 		            double w = entity.size.x_cm/2.0;
 		            double h = entity.size.y_cm/2.0;
 		            
-			        g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shiftPX, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
-			        g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shiftPX, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
+			        g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shift, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
+			        g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shift, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);
 			        
-			        entity.bounding().paint(g, shiftPX);
+			        entity.bounding().paint(g, shift);
 	            }
 			}
 			
@@ -112,8 +136,7 @@ public class View {
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString("FPS: " + currentFPS, 10, 20);
 		    
-		    if(model != null)
-		    	g.drawString("E: " + model.entities().size(), 10, 40);
+		    g.drawString("E: " + model.entities().size(), 10, 40);
 		    
 			g.setColor(Graphics.Colors.red);
 			g.drawString(vp.toString(), 90, 20);

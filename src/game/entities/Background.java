@@ -34,11 +34,6 @@ public class Background extends Entity {
 		@Override
 		public void getSprites(Graphics g) {
 			this.sprites = new BufferedImage[1][1];
-//			BufferedImage original = g.load("background.png");
-//			int w = canvas.getWidth();
-//	        int h = canvas.getHeight();
-////	        BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//	        this.sprites[0][0] = scaled;
 			this.sprites[0][0] = g.load("background.png");
 		}
 
@@ -47,19 +42,25 @@ public class Background extends Entity {
 			if (this.sprites == null)
 				this.getSprites(g);
 			
-			int canvasWidth = canvas.getWidth();
-			int canvasHeight = canvas.getHeight();
-			
-			if (xPosition+shiftPX < -canvasWidth)
-				xPosition += canvasWidth;
-			
-			g.drawImage(this.sprites[0][0], xPosition+shiftPX, 0, canvasWidth, canvasHeight);
-			g.drawImage(this.sprites[0][0], canvasWidth+xPosition+shiftPX+1, 0, canvasWidth+1, canvasHeight);
+			int w = canvas.getWidth();
+			int h = canvas.getHeight();
+
+			int x = shiftPX % w;
+
+			g.drawImage(this.sprites[0][0], x, 0, w, h);
+
+			g.drawImage(this.sprites[0][0], x + w, 0, w, h);
 		}
 	}
 
 	@Override
 	public void setBounding() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		
+		
 	}
 }
