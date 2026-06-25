@@ -31,6 +31,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	private Task task;
 	private boolean isDead =false;
 	private Ship target;
+	private boolean hit;
 
 	public BossGunBottom(String name, Boss master, Ship target) {
 		super(name);
@@ -67,7 +68,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		}
 		
 		if (shift)
-			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
 			tryToShoot();
@@ -98,12 +99,18 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	
 	@Override
 	public void gotHit() {
-		hp--;
+		if(!hit)
+			hp--;
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead=true;
 			((BossGunBottomAvatar)this.avatar).exploser();
 		}
+		this.hit = true;
+		task.post(() -> {
+			this.hit = false;
+		}, 100);
+
 	}
 	
 	private class BossGunBottomAvatar extends Avatar{

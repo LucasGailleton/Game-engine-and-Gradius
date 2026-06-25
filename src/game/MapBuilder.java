@@ -48,9 +48,9 @@ public class MapBuilder {
 	
 	public void placeObjects() {
 
-//		EnemyKamikaze kz = new EnemyKamikaze("kz1");
-//		kz.setCoord(isu.new Coord(20.0 * mult, 1.8 * mult + 100));
-//		placeEntity(kz);
+		EnemyKamikaze kz = new EnemyKamikaze("kz1");
+		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
+		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");
