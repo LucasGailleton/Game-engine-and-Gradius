@@ -11,6 +11,7 @@ import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Vector;
+import engine.LaserStunt;
 import engine.ShipStunt;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
@@ -343,5 +344,17 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	public View getView() {
 		return this.view;
+	}
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
 	}
 }

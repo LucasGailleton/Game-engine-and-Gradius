@@ -8,7 +8,10 @@ import engine.view.View;
 import game.entities.Borders;
 import game.entities.Borders.BorderAvatar;
 import game.entities.Boss;
+import game.entities.EnemyChicken;
+import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
+import game.entities.EnemyWalking;
 import game.entities.MontFendu;
 import game.entities.PowerUp;
 import oop.graphics.Canvas;
@@ -25,9 +28,10 @@ public class MapBuilder {
 	private Model model;
 	private View view;
 	private ISU isu;
-	
-	public static double Timer = 10000;
+
 	public static int nbEnemies = 0;
+	private double spawnCooldown = 0.0;
+	private final double SPAWN_INTERVAL = 2.0; // Temps en secondes entre deux vagues	
 
 	public MapBuilder(Model model, View view) {
 		this.model = model;
@@ -37,9 +41,9 @@ public class MapBuilder {
 	
 	public void placeObjects() {
 
-		EnemyKamikaze kz = new EnemyKamikaze("kz1");
-		kz.setCoord(isu.new Coord(20.0 * mult, 1.8 * mult + 100));
-		placeEntity(kz);
+//		EnemyKamikaze kz = new EnemyKamikaze("kz1");
+//		kz.setCoord(isu.new Coord(20.0 * mult, 1.8 * mult + 100));
+//		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");
@@ -58,17 +62,17 @@ public class MapBuilder {
 		puLaser.setCoord(isu.new Coord(30 * mult, 10 * mult));
 		placeEntity(puLaser);
 		
-	    Boss boss= new Boss();
-	    boss.setCoord(isu.new Coord(30*mult,15* mult));
-	    placeEntity(boss);
-	    boss.createGuns(model, view);
+//	    Boss boss= new Boss();
+//	    boss.setCoord(isu.new Coord(30*mult,15* mult));
+//	    placeEntity(boss);
+//	    boss.createGuns(model, view);
 		
 	    
 	    placeBorder();
-
-		MontFendu mf = new MontFendu();
-		mf.setCoord(isu.new Coord(10 * mult, 25 * mult));
-		placeEntity(mf);
+	    
+//		MontFendu mf = new MontFendu();
+//		mf.setCoord(isu.new Coord(10 * mult, 25 * mult));
+//		placeEntity(mf);
 	}
 	
 	private void placeBorder() {
@@ -102,40 +106,62 @@ public class MapBuilder {
 		}
 	}
 	
-	public void genAleatoire() {
+	public void genAleatoire(double seconds) {
+		if (Main.Timer <= 0 || nbEnemies >= 10) {
+	        return;
+	    }
+		if (spawnCooldown > 0) {
+	        spawnCooldown -= seconds;
+	        return; // On attend que le cooldown tombe à 0 pour faire spawner
+	    }
 		
-		while (Timer >0 && nbEnemies <= 10) {
-			double al = Math.random();
-			if (al>=0.75) {
-				spawnKamikaze();
-			}else if (al>=0.5 && al < 0.75) {
-				spawnChicken();
-			}else if (al >=0.25 && al <0.5) {
-				spawnHoming();
-			}else {
-				spawnWalking();
-			}
-		}
+		double leftScreenEdge = -(view.shiftPX * 0.5); 
+	    // Largeur de la fenêtre en centimètres
+	    double screenWidthCm = view.canvas().getWidth() / (Game.pixelPerCm * Main.windowScale);
+	    double spawnX = leftScreenEdge + screenWidthCm + 50.0;
+	    
+	    double al = Math.random();
+	    if (al >= 0.75) {
+	        spawnKamikaze(spawnX);
+	    } else if (al >= 0.5) {
+	        spawnChicken(spawnX);
+	    } else if (al >= 0.25) {
+	        spawnHoming(spawnX);
+	    } else {
+	        spawnWalking(spawnX);
+	    }
+
+	    // 4. On comptabilise le monstre et on réenclenche le chronomètre
+	    nbEnemies++;
+	    spawnCooldown = SPAWN_INTERVAL;
 	}
 	
-	private void spawnWalking() {
-		
-		
+	private void spawnWalking(double x) {
+	    EnemyWalking wlk = new EnemyWalking("walker");
+	    double randomY = 100 + (Math.random() * 200); 
+	    wlk.setCoord(isu.new Coord(x, randomY));
+	    placeEntity(wlk);
 	}
 
-	private void spawnHoming() {
-		
-		
+	private void spawnHoming(double x) {
+	    EnemyHoming hom = new EnemyHoming("homing");
+	    double randomY = 80 + (Math.random() * 250);
+	    hom.setCoord(isu.new Coord(x, randomY));
+	    placeEntity(hom);
 	}
 
-	private void spawnChicken() {
-		
-		
+	private void spawnChicken(double x) {
+	    EnemyChicken chk = new EnemyChicken(view, "chicken");
+	    double randomY = 120 + (Math.random() * 180);
+	    chk.setCoord(isu.new Coord(x, randomY));
+	    placeEntity(chk);
 	}
 
-	private void spawnKamikaze() {
-		
-		
+	private void spawnKamikaze(double x) {
+	    EnemyKamikaze kmkz = new EnemyKamikaze("kamikaze");
+	    double randomY = 50 + (Math.random() * 300);
+	    kmkz.setCoord(isu.new Coord(x, randomY));
+	    placeEntity(kmkz);
 	}
 
 	public void placeEntity(Entity e) {

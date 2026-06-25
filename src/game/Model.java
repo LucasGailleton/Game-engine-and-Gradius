@@ -73,6 +73,7 @@ public class Model {
 
 	    boolean shift = v.shift();
 	    this.seconds = elapsed / 1000.0;
+	    Main.mb.genAleatoire(seconds);
 	    
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
