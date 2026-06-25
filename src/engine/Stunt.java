@@ -31,4 +31,6 @@ public abstract class Stunt {
 	public abstract void walk(int i);
 
 	public abstract void stop();
+
+	public abstract void shootOnce();
 }

@@ -115,7 +115,7 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-		Controller ct = new Controller(shipStunt);
+		Controller ct = new Controller(ship);
 		KeyListener kl = new KeyListener(ct);
 		canvas.set(kl);
 	}

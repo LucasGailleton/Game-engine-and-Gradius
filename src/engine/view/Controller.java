@@ -1,7 +1,9 @@
 package engine.view;
 
 
+import engine.Entity;
 import engine.ShipStunt;
+import engine.Stunt;
 import game.entities.Avatar;
 import oop.tasks.Task;
 import oop.graphics.VirtualKeyCodes;
@@ -9,14 +11,14 @@ import oop.tasks.Runtime;
 
 public class Controller {
 
-	private ShipStunt player;
+	private Entity player;
 	private Task task;
 	private boolean stopped = true;
 
 	private int dir = -1;
 	private boolean left, right, up, down, space;
 
-	public Controller(ShipStunt player) {
+	public Controller(Entity player) {
 		this.player = player;
 		this.task = Runtime.task();
 	}
@@ -47,7 +49,7 @@ public class Controller {
 
 		if (dx == 0 && dy == 0) {
 			if (!stopped) {
-				player.stop();
+				player.stunt().stop();
 				stopped = true;
 				dir = -1;
 			}
@@ -71,7 +73,7 @@ public class Controller {
 
 		dir = angle;
 		stopped = false;
-		player.forbiddenDirection = -1;
+		player.stunt().forbiddenDirection = -1;
 		
 		double speed = 0;
 		
@@ -83,28 +85,28 @@ public class Controller {
 		}
 
 		if (dx == -1)
-			player.direction = Avatar.West;
+			player.stunt().direction = Avatar.West;
 		else if (dx == 1)
-			player.direction = Avatar.East;
+			player.stunt().direction = Avatar.East;
 		else if (dy == -1)
-			player.direction = Avatar.North;
+			player.stunt().direction = Avatar.North;
 		else if (dy == 1)
-			player.direction = Avatar.South;
+			player.stunt().direction = Avatar.South;
 		
-		player.set(dx * speed, dy * speed);
-		player.walk(angle);
+		player.stunt().set(dx * speed, dy * speed);
+		player.stunt().walk(angle);
 		
 	}
 
 	
 
 	public void shoot() {
-		player.shootOnce();
+		player.stunt().shootOnce();
 	}
 
 	public void stop() {
 		if (!stopped) {
-			player.stop();
+			player.stunt().stop();
 			stopped = true;
 		}
 	}
