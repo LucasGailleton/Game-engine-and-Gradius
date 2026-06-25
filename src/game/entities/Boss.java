@@ -44,12 +44,11 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	// CONSTRUCTOR
 	public Boss() {
 		super("Boss");
-		this.setSize(this.isu.new Dimension(Game.cmPerCell*29.0, Game.cmPerCell*32.0));
+		this.setSize(this.isu.new Dimension(29.0*Main.windowScale,32.0*Main.windowScale));
 		this.avatar = new BossAvatar(this);
 		this.isAlive=true;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
-		
 		
 	}
 	

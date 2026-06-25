@@ -12,6 +12,8 @@ import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
+import oop.tasks.Runnable;
+import oop.tasks.Task;
 
 public class EnemyKamikaze extends Entity implements Enemy{
 	
@@ -19,6 +21,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
     public static final int spriteUp = 1;
     public static final int spriteDown = 2;
     
+    private Task task;
     
    
 	public EnemyKamikaze(String name) {
@@ -60,12 +63,40 @@ public class EnemyKamikaze extends Entity implements Enemy{
         
 	        private int index;
 	        private int indChg;
+	        
+	        private int deathIndex = 0;
+	        private boolean exploding = false;
+			private boolean visible = true;
+
 
 		public KamikazeAvatar(Entity e) {
 			super(e);
 			this.death = new ArrayList<>();
 			this.index =0;
 			this.indChg = 0;
+		}
+		
+		public void exploser() {
+			this.exploding = true;
+			this.visible = true;
+			this.deathIndex = 0;
+			avancerExplosion();
+		}
+
+		private void avancerExplosion() {
+			if (this.deathIndex >= this.death.size()) {
+				this.exploding = false;
+				this.visible = false;
+		
+				return;
+			}
+			task.post(new Runnable() {
+				@Override
+				public void run() throws Exception {
+					deathIndex++;
+					avancerExplosion();
+				}
+			}, 120);
 		}
 
 		@Override
@@ -86,6 +117,10 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		    this.death.clear();
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
 		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
+		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
+		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
+		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
+		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
 	        }
 
 
@@ -99,15 +134,18 @@ public class EnemyKamikaze extends Entity implements Enemy{
 	            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 	            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 	            
+	            if (this.exploding) {
+	            	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
+	            }else if(this.visible) {
+	            	g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+	            }
 	            
-	            
-	            g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 	            if (indChg == 0)
 	 		    	index++;
 	 		    if (index > 5)
 	 		    	index = 0;
 	 		    indChg++;
-	 		    if (indChg % 10 == 0) {
+	 		    if (indChg % 40 == 0) {
 	 		    	indChg = 0;
 	 		    }
 				

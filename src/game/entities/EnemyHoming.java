@@ -17,14 +17,11 @@ import oop.tasks.Runtime;
 import oop.tasks.Task;
 
 public class EnemyHoming extends Entity implements Enemy, Shooter {
-	
-    public static final int spriteNeutral = 0;
-    public static final int Sprite45degrees = 1;
-    public static final int sprite75degrees = 2;
-    public static final int Top = 0;
-    public static final int Down = 1;
     
     private Task task;
+    private double shootCooldown = 0.5; // Temps d'attente restant en secondes
+	private double SHOOT_DELAY = 1.5;
+	private int missileSpeed = 15;
 
     public EnemyHoming(String name) {
         super(name);
@@ -42,7 +39,10 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
 
 	@Override
 	public void tryToShoot() {
-		
+		if (this.shootCooldown <= 0.0) {
+			 this.shoot();
+			this.shootCooldown = SHOOT_DELAY;
+		}
 		
 	}
 
@@ -155,7 +155,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
  		    if (index > 1)
  		    	index = 0;
  		    indChg++;
- 		    if (indChg % 100 == 0) {
+ 		    if (indChg % 40 == 0) {
  		    	indChg = 0;
  		    }
             //Change de position en fonction de la position du joueur

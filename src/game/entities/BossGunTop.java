@@ -34,7 +34,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	
 	public BossGunTop(String name, Boss master,Ship target) {
 		super(name);
-		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
+		this.setSize(this.isu.new Dimension(26.0*Main.windowScale,15.0*Main.windowScale));
 		this.avatar = new BossGunTopAvatar(this);
 		this.master = master;
 		this.task = Runtime.task();
