@@ -35,7 +35,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	public EnemyChicken(View view, String name) {
 		super(name);
 		this.view = view;
-		this.setSize(this.game.grid.new Dimension((int)(36/Main.windowScale),(int)(28/Main.windowScale)));
+		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
 		this.avatar = new ChickenAvatar(this);
 		this.isAlive=true;
 		this.task = Runtime.task();
@@ -60,7 +60,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 		
-		shapeSize = isu.new Dimension(x_cm*2, y_cm*2+10);
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}

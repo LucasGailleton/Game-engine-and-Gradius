@@ -60,13 +60,13 @@ public class ShipStunt extends Stunt {
 
 	        MissilePlayer msp = new MissilePlayer(this.ship.getView(), "missile simple");
 
-	        msp.setCoord(Game.game().isu.new Coord(center.x_cm + 20, center.y_cm));
+	        msp.setCoord(Game.game().isu.new Coord(center.x_cm + 40, center.y_cm)); //Ajuster ici si collision ship
 	        msp.setlSpeed(Ship.missileSpeed, 0);
 	        Main.mb.placeEntity(msp);
 
 	        if (Ship.double_tir) {
 	            MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
-	            msp2.setCoord(Game.game().isu.new Coord(center.x_cm + 20, center.y_cm));
+	            msp2.setCoord(Game.game().isu.new Coord(center.x_cm + 30, center.y_cm+30)); //Ajuster ici si besoin
 	            msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
 	            Main.mb.placeEntity(msp2);
 	        }
@@ -75,6 +75,24 @@ public class ShipStunt extends Stunt {
 	        this.ship.playSound();
 	        this.ship.resetCooldown();
 	    }
+	}
+
+	@Override
+	public void set(int orientation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(Cell c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(double x, double y) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

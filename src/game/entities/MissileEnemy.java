@@ -17,7 +17,7 @@ public class MissileEnemy extends Entity{
 
 	public MissileEnemy(String name, View view) {
 		super(name);
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
+		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
 		this.avatar =new MissileEnemyAvatar(this);
 		this.view=view;
 		
@@ -25,8 +25,8 @@ public class MissileEnemy extends Entity{
 	
 	@Override
 	public void setBounding() {
-		this.bounding().add(new Circle(this.center(),2.5));
-		//this.bounding().add(new Rect(this.center(), this.size, 0));
+		this.bounding().add(new Circle(this.center(),this.size.x_cm/2));
+		
 	}
 	
 	

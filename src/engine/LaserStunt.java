@@ -59,13 +59,13 @@ public class LaserStunt extends Stunt {
 
 	        LaserShot laser = new LaserShot(this.ship.getView(), "laser");
 
-	        laser.setCoord(Game.game().isu.new Coord(center.x_cm + 50, center.y_cm));
+	        laser.setCoord(Game.game().isu.new Coord(center.x_cm + 50, center.y_cm)); //AJouster ici si collision Ship
 	        laser.setlSpeed(Ship.missileSpeed * 2, 0);
 	        Main.mb.placeEntity(laser);
 	        
 	        if (Ship.double_tir) {
 	            MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
-	            msp2.setCoord(Game.game().isu.new Coord(center.x_cm + 20, center.y_cm));
+	            msp2.setCoord(Game.game().isu.new Coord(center.x_cm + 30, center.y_cm+30)); //Ajuster ici aussi si besoin
 	            msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
 	            Main.mb.placeEntity(msp2);
 	        }
@@ -74,5 +74,23 @@ public class LaserStunt extends Stunt {
 	        this.ship.playSound();
 	        this.ship.resetCooldown();
 	    }
+	}
+
+	@Override
+	public void set(int orientation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(Cell c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(double x, double y) {
+		// TODO Auto-generated method stub
+		
 	}
 }

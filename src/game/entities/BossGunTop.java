@@ -55,7 +55,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 		
-		shapeSize = isu.new Dimension(x_cm, y_cm*1.5);
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
 		shapeCenter = isu.new Coord(x, y-5);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
     }

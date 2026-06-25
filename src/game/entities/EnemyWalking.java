@@ -19,7 +19,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 
 	public EnemyWalking(String name) {
 		super(name);
-		this.setSize(this.game.grid.new Dimension((int)(16/Main.windowScale),(int)(16/Main.windowScale)));
+		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
 	}
 	
@@ -55,7 +55,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 		
-		shapeSize = isu.new Dimension(x_cm*2, y_cm*2);
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}

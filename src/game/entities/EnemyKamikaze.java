@@ -27,7 +27,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
 	public EnemyKamikaze(String name) {
 		super(name);
 		
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*18)/Main.windowScale, (Game.cmPerCell*18)/Main.windowScale));
+		this.setSize(this.isu.new Dimension(18*Main.windowScale, 18*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
 		
 	}
@@ -50,7 +50,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 		
-		shapeSize = isu.new Dimension(x_cm*2, y_cm*2);
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
@@ -135,7 +135,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
 	            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 	            
 	            if (this.exploding) {
-	            	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
+	            	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (16 * Main.windowScale),(int) (16 * Main.windowScale));
 	            }else if(this.visible) {
 	            	g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 	            }

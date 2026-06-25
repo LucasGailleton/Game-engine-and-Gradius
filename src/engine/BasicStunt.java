@@ -66,7 +66,19 @@ public class BasicStunt extends Stunt {
 	}
 
 	@Override
-	public void shootOnce() {
+	public void set(int orientation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(Cell c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(double x, double y) {
 		// TODO Auto-generated method stub
 		
 	}

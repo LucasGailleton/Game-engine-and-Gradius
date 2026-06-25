@@ -23,7 +23,7 @@ public class Slave extends Entity {
 		this.master = master;
 		this.explode = false;
 		this.index = index;
-		this.setSize(this.isu.new Dimension(Game.cmPerCell*Main.windowScale, (Game.cmPerCell/2.0)*Main.windowScale));
+		this.setSize(this.isu.new Dimension(24*Main.windowScale/3.0, 12*Main.windowScale/3.0));
 		this.setCoord(master.center());
 		this.avatar = new SlaveAvatar(this);
 		

@@ -10,6 +10,7 @@ import engine.Game;
 import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
+import engine.ISU.Dimension;
 import engine.ISU.Vector;
 import engine.LaserStunt;
 import engine.ShipStunt;
@@ -52,7 +53,7 @@ public class Ship extends Entity {
 
 	public Ship(View view) {
 		super("Ship");
-		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
+		this.setSize(game.isu.new Dimension(16.0*Main.windowScale, 12.0*Main.windowScale));
 		this.avatar = new ShipAvatar();
 		this.task = Runtime.task();
 		this.view = view;
@@ -67,6 +68,23 @@ public class Ship extends Entity {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/1.4, y_cm/2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
 

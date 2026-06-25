@@ -5,6 +5,9 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.ISU.Coord;
+import engine.ISU.Dimension;
+import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -15,8 +18,25 @@ public class LaserShot extends MissilePlayer {
 
 	public LaserShot(View view, String name) {
 		super(view, name);
-		this.setSize(this.isu.new Dimension(Game.cmPerCell*3*Main.windowScale, (Game.cmPerCell/3.0)*Main.windowScale));
+		this.setSize(this.isu.new Dimension(15.0*Main.windowScale, 3.0*Main.windowScale));
 		this.avatar = new LaserAvatar(this);
+	}
+	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
 	@Override
