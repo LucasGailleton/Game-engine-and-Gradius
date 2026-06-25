@@ -35,7 +35,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	
 	
 	private boolean hit = false;
-	protected int hp = 10;
+	protected int hp = 100;
 	private boolean isAlive;
 	
 	private Task task;
@@ -49,8 +49,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.isAlive=true;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
-		
-		
 	}
 	
 	public void createGuns(Model model, View view) {
