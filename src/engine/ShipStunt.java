@@ -72,11 +72,27 @@ public class ShipStunt extends Stunt {
 		this.entity.setlSpeed(0, 0);
 	}
 	
+	@Override
 	public void shootOnce() {
-		
-		this.ship.tryToShoot();
-		
-		//System.out.println("shot once ! ");
+		if (this.ship.canShoot()) {
+			engine.Grid.Position pos = this.ship.position();
+
+			MissilePlayer msp = new MissilePlayer(this.ship.getView(), "missile simple");
+			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+			msp.setlSpeed(Ship.missileSpeed, 0);
+			Main.mb.placeEntity(msp);
+
+			if (Ship.double_tir) {
+				MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
+				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+				msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
+				Main.mb.placeEntity(msp2);
+			}
+
+			this.ship.triggerSlaves();
+			this.ship.playSound();
+			this.ship.resetCooldown();
+		}
 	}
 	
 
