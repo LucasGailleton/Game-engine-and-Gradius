@@ -19,20 +19,6 @@ public class ShipStunt extends Stunt {
 		super(model, ship);
 		this.ship = ship;
 	}
-	@Override
-	public void set(int orientation) {
-		this.entity.turn(orientation - this.entity.orientation());
-	}
-
-	@Override
-	public void set(Cell c) {
-		this.entity.setPosition(c.position);	
-	}
-
-	@Override
-	public void set(double x, double y) {
-		this.entity.translate(this.entity.isu.new Vector(x, y));
-	}
 
 	@Override
 	public void collision(Entity e) {

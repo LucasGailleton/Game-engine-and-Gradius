@@ -21,21 +21,6 @@ public class LaserStunt extends Stunt {
 	}
 
 	@Override
-	public void set(int orientation) {
-		this.entity.turn(orientation - this.entity.orientation());
-	}
-
-	@Override
-	public void set(Cell c) {
-		this.entity.setPosition(c.position);	
-	}
-
-	@Override
-	public void set(double x, double y) {
-		this.entity.translate(this.entity.isu.new Vector(x, y));
-	}
-
-	@Override
 	public void collision(Entity e) {
 		// pour pas que le vaisseau perde de la  vie avec ses propres tirs
 		if (e instanceof MissilePlayer || e instanceof PowerUp)
