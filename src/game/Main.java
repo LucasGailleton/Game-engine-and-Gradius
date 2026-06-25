@@ -42,10 +42,10 @@ import engine.ISU.*;
 public class Main implements Runnable {
 	
 	Canvas canvas;
-	Task task;
 	List<Entity> entities;
 	List<Automaton> auts;
 	public static MapBuilder mb;
+	public static Task task;
 	public static final double windowScale = 3;
 	public static final int windowWidth = 256;
 	public static final int windowHeight = 240;
@@ -76,8 +76,8 @@ public class Main implements Runnable {
 	@Override
 	public void run() throws Exception {
 		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
-		this.task = Runtime.task();
-		this.canvas = (Canvas) this.task.find("canvas");
+		task = Runtime.task();
+		this.canvas = (Canvas) task.find("canvas");
 		View view = new View(canvas);
 		canvas.set(new PaintListener(view));
 		Model model = new Model(view);
@@ -108,7 +108,7 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		this.task.post(new Runnable() {
+		task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
 				canvas.repaint();

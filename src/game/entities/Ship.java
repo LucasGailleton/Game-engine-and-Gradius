@@ -48,7 +48,7 @@ public class Ship extends Entity {
 	private int powerUp;
 	public boolean isShooting;
 	public static boolean double_tir = false;
-	private final List<Slave> slaves = new ArrayList<>();
+	public final List<Slave> slaves = new ArrayList<>();
 
 	public Ship(View view) {
 		super("Ship");
@@ -112,6 +112,10 @@ public class Ship extends Entity {
 			this.shootCooldown -= seconds;
 		}
 	}
+	
+	public List<Slave> slaves(){
+		return this.slaves;
+	}
 
 	public boolean getHit() {
 		return hit;
@@ -127,7 +131,8 @@ public class Ship extends Entity {
 			this.mort.play(1);
 			Main.GAMEOVER = true;
 			setlSpeed(0, 0);
-			((ShipAvatar) avatar).exploser();
+			View.viewSpeed = 0;
+			((ShipAvatar) avatar).explode();
 			task.post(() -> {
 				this.die();
 			}, 200);
@@ -256,7 +261,15 @@ public class Ship extends Entity {
 
 		}
 
-		public void exploser() {
+		public void explode() {
+			List<Slave> slaves = Ship.this.slaves; 
+			if (!slaves.isEmpty()) {
+				for (Slave s : slaves) {
+					Main.task.post(()->{
+						s.explode = true;
+					}, 100);
+				}
+			}
 			this.exploding = true;
 			this.visible = true;
 			this.deathIndex = 0;
