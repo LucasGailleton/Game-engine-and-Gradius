@@ -62,10 +62,10 @@ public class MapBuilder {
 		puLaser.setCoord(isu.new Coord(30 * mult, 10 * mult));
 		placeEntity(puLaser);
 		
-//	    Boss boss= new Boss();
-//	    boss.setCoord(isu.new Coord(30*mult,15* mult));
-//	    placeEntity(boss);
-//	    boss.createGuns(model, view);
+	    Boss boss= new Boss();
+	    boss.setCoord(isu.new Coord(30*mult,15* mult));
+	    placeEntity(boss);
+	    boss.createGuns(model, view);
 		
 	    
 	    placeBorder();

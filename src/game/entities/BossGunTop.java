@@ -30,14 +30,16 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	private Boss master;
 	private Task task;
 	private boolean isDead =false;
+	private Ship target;
 	
-	public BossGunTop(String name, Boss master) {
+	public BossGunTop(String name, Boss master,Ship target) {
 		super(name);
 		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
 		this.avatar = new BossGunTopAvatar(this);
 		this.master = master;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
+		this.target=target;
 		
 	}
 	
@@ -70,7 +72,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	public void shoot() {
 		View vew = this.model.getView();
 		Position pos = this.position();
-		MissileSpecial mss = new MissileSpecial("mssTop",vew);
+		MissileSpecial mss = new MissileSpecial("mssTop",vew,target);
 		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 30, pos.y * Game.cmPerCell));
 		mss.setBounding();
 		mss.setlSpeed(-missileSpeed * 2, 0);
