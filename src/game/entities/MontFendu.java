@@ -18,6 +18,12 @@ public class MontFendu extends Entity {
 	}
 	
 	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void setBounding() {
 		double x_cm = this.size.x_cm;
 		double y_cm = this.size.y_cm;
@@ -59,11 +65,7 @@ public class MontFendu extends Entity {
 		shapeCenter = isu.new Coord(x+0.5*Main.windowScale, y-(16.5*Main.windowScale));
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
-	
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		//rien
-	}
+
 	
 	public class MontFenduAvatar extends Avatar {
 		 public static final int spriteSizeX = 96; 
@@ -95,9 +97,5 @@ public class MontFendu extends Entity {
 		}	
 	}
 
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

@@ -43,6 +43,23 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	}
 	
 	@Override
+    public void setBounding() {
+    	double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm, y_cm*1.5);
+		shapeCenter = isu.new Coord(x, y+5);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+    }
+	
+	@Override
 	public void tick(double elapsed, boolean shift) {
 		double seconds=elapsed/1000;
 		if (!master.isAlive()) {
@@ -50,7 +67,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		}
 		
 		if (shift)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
 			tryToShoot();
@@ -99,7 +116,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		
 		
 		private static final int spriteSizeX = 26; 
-		private static final int spriteSizeY = 8;
+		private static final int spriteSizeY = 15;
 
 		public BossGunBottomAvatar(Entity e) {
 			super(e);
@@ -137,11 +154,11 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			BufferedImage imgSprites = g.load("Boss_Sprites.png");
             this.sprites = new BufferedImage[1][2];
             
-            sprites[0][0] = imgSprites.getSubimage(280, 82, 26, 8);
-            sprites[0][1] = imgSprites.getSubimage(280, 99, 26, 8);
+            sprites[0][0] = imgSprites.getSubimage(279, 75, 25, 15);
+            sprites[0][1] = imgSprites.getSubimage(279, 99, 25, 15);
             
-            this.death.add(imgSprites.getSubimage(281, 127, 26, 8));
-            this.death.add(imgSprites.getSubimage(281, 146, 26, 8));
+            this.death.add(imgSprites.getSubimage(281, 120, 26, 15));
+            this.death.add(imgSprites.getSubimage(281, 139, 26, 15));
 			
 		}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import engine.Entity;
 import engine.ISU;
 import engine.Grid.Dimension;
+import engine.ISU.Coord;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -41,11 +42,25 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public Avatar getAvatar() {
-		return this.avatar;
-	}
 	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm*2, y_cm*2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+	}
+
+		
 	private class WalkingAvatar extends Avatar{
 		public static final int TopLeft = 0;
 		public static final int TopRight = 1;

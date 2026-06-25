@@ -6,6 +6,7 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import game.Main;
@@ -30,22 +31,39 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
     
     @Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 
 	@Override
 	public void tryToShoot() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 
 	@Override
 	public void shoot() {
-		// TODO Auto-generated method stub
 		
+		
+	}
+	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm*2, y_cm*2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 
     
@@ -94,7 +112,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
            
             g.drawImage(sprites[Down][spriteNeutral], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
                         
-            //A IMPLEMENTER : DIFFERENTES ORIENTATION EN FONCTION DE LA POSITION DU JOUEUR PAR RAPPORT A L'ENNEMI
+            //Change de position en fonction de la position du joueur
 		}
     }
 
