@@ -28,7 +28,7 @@ import oop.utils.SoundPlayer;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 
-public class Ship extends Entity implements Shooter, Damageable {
+public class Ship extends Entity {
 
 	public static double ShipSpeed = 20 * Main.windowScale;
 	public static final int missileSpeed = 1500;
@@ -48,12 +48,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 	private int powerUp;
 	public boolean isShooting;
 	public static boolean double_tir = false;
-	public static final int WEAPON_SIMPLE = 0;
-	public static final int WEAPON_LASER = 1;
-	private int weapon = WEAPON_SIMPLE;
-	private int speedBoost = 0;
-	private final List<Slave> slaves = new ArrayList<>();
-	
+	public final List<Slave> slaves = new ArrayList<>();
 
 	public Ship(View view) {
 		super("Ship");
@@ -119,8 +114,6 @@ public class Ship extends Entity implements Shooter, Damageable {
 		}
 	}
 
-	
-
 	public boolean getHit() {
 		return hit;
 	}
@@ -136,7 +129,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 			Main.GAMEOVER = true;
 			setlSpeed(0, 0);
 			View.viewSpeed = 0;
-			((ShipAvatar) avatar).exploser();
+			((ShipAvatar) avatar).explode();
 			task.post(() -> {
 				this.die();
 			}, 200);
@@ -265,7 +258,15 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 		}
 
-		public void exploser() {
+		public void explode() {
+			List<Slave> slaves = Ship.this.slaves; 
+			if (!slaves.isEmpty()) {
+				for (Slave s : slaves) {
+					Main.task.post(()->{
+						s.explode = true;
+					}, 100);
+				}
+			}
 			this.exploding = true;
 			this.visible = true;
 			this.deathIndex = 0;
@@ -345,17 +346,5 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	public View getView() {
 		return this.view;
-	}
-
-	@Override
-	public void tryToShoot() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void shoot() {
-		// TODO Auto-generated method stub
-		
 	}
 }

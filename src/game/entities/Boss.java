@@ -29,14 +29,13 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
 	
-	private Ship target ;
+	private Ship target;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
 	
-	
+	private boolean isAlive;
 	private boolean hit = false;
 	protected int hp = 10;
-	private boolean isAlive;
 	
 	private Task task;
 	
@@ -95,8 +94,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed/1000;
 		
-		if (shift)
-			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
+//		if (shift)
+//			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 		
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -139,13 +138,13 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	
 	@Override
 	public void gotHit() {
-		if (hit || Main.GAMEOVER)
+		if (hit || Main.GAMEOVER || !isAlive)
 			return;
 		hp--;
 		System.out.println("HP : " + hp);
 
 		if (hp <= 0) {
-			isAlive =false;
+			isAlive = false;
 			// game over : explosion + le boss disparait
 			//this.mort.play(1);
 //			Main.GAMEOVER = true;
@@ -156,6 +155,11 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 			}, 2000);
 			return;
 		}
+		
+		this.hit = true;
+		task.post(() -> {
+			this.hit = false;
+		}, 100);
 
 		//this.degat.play(1);
 		//pas de hit = true, le vaisseau n'a pas d'invicibilité
@@ -248,7 +252,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
                  		(int) (spriteSizeY*Main.windowScale));
             }
            
-            
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -257,7 +260,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
  		    if (indChg % 40 == 0) {
  		    	indChg = 0;
  		    }
-			
 		}
 		
 	}

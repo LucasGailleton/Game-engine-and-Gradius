@@ -33,9 +33,8 @@ public class MissilePlayer extends Entity {
 		double x = center.x_cm;
 		double y = center.y_cm;
 		
-		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm-(32*Main.windowScale));
-		ISU.Coord shapeCenter = isu.new Coord(x, y+(15*Main.windowScale));
-		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		ISU.Dimension shapeSize = isu.new Dimension(x_cm + (2 * Main.windowScale), y_cm);
+		this.bounding().add(new Rect(this.center(), shapeSize, 0));
 	}
 	
 	public void tick(double seconds, boolean shift) {
