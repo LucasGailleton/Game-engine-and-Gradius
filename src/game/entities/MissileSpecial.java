@@ -130,9 +130,10 @@ public class MissileSpecial extends Entity{
             ISU.Coord center = MissileSpecial.this.center();
             int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
             int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
-
+            
+            
             g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-			
+			//g.drawOval(topX+shiftPX, topY, 100, 100);
 		}
 		
 	}
