@@ -89,15 +89,16 @@ public class MapBuilder {
 		firstBottomBorder.setCoord(isu.new Coord(currentX, bottomY));
 		placeEntity(firstBottomBorder);
 
+		int spriteType;
 		for (int i = 0; i < 10; i++) {
-			int spriteType = (int) (Math.random() * 4) + 1;
-
 			// --- PLACEMENT EN HAUT ---
+			spriteType = (int) (Math.random() * 4) + 1;
 			Borders topBorder = new Borders("top_" + i, spriteType, BorderAvatar.Top, view);
 			topBorder.setCoord(isu.new Coord(currentX+topBorder.size.x_cm, topY));
 			placeEntity(topBorder);
 
 			// --- PLACEMENT EN BAS ---
+			spriteType = (int) (Math.random() * 4) + 1;
 			Borders botBorder = new Borders("bot_" + i, spriteType, BorderAvatar.Bottom, view);
 			botBorder.setCoord(isu.new Coord(currentX+botBorder.size.x_cm, bottomY));
 			placeEntity(botBorder);
@@ -115,17 +116,14 @@ public class MapBuilder {
 	        return; // On attend que le cooldown tombe à 0 pour faire spawner
 	    }
 		
-		double leftScreenEdge = -(view.shiftPX * 0.5); 
-	    // Largeur de la fenêtre en centimètres
-	    double screenWidthCm = view.canvas().getWidth() / (Game.pixelPerCm * Main.windowScale);
-	    double spawnX = leftScreenEdge + screenWidthCm + 50.0;
+	    double spawnX = (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5) + 50;
 	    
-	    double al = Math.random();
-	    if (al >= 0.75) {
+	    int al = (int) (Math.random() * 4);
+	    if (al == 0) {
 	        spawnKamikaze(spawnX);
-	    } else if (al >= 0.5) {
+	    } else if (al == 1) {
 	        spawnChicken(spawnX);
-	    } else if (al >= 0.25) {
+	    } else if (al == 2) {
 	        spawnHoming(spawnX);
 	    } else {
 	        spawnWalking(spawnX);
