@@ -49,8 +49,6 @@ public class Ship extends Entity {
 	public static boolean double_tir = false;
 	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
-	
-	private Controller controller;
 
 	public Ship(View view) {
 		super("Ship");
