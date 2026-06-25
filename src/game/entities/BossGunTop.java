@@ -30,6 +30,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	private Boss master;
 	private Task task;
 	private boolean isDead =false;
+	private boolean hit;
 	
 	public BossGunTop(String name, Boss master) {
 		super(name);
@@ -81,13 +82,19 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	
 	@Override
 	public void gotHit() {
-		hp--;
+		if(!hit)
+			hp--;
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead= true;
 			((BossGunTopAvatar)this.avatar).exploser();
 			
 		}
+		this.hit = true;
+		task.post(() -> {
+			this.hit = false;
+		}, 100);
+
 		
 	}
 	

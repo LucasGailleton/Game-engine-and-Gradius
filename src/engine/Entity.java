@@ -318,7 +318,10 @@ public abstract class Entity {
 	}
 
 	public void collision(List<Entity> le) {
-	    this.stunt.collision(le); 
+		if(this.stunt != null)
+			this.stunt.collision(le); 
+		else
+			this.die();
 	}
 
 	public boolean haslSpeed() {

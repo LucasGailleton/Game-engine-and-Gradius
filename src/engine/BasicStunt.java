@@ -37,14 +37,16 @@ public class BasicStunt extends Stunt {
 	@Override
 	public void collision(Entity e) {
 		
-		if (e instanceof MissilePlayer || e instanceof LaserShot) {
+		if (e instanceof MissilePlayer) {
             
 			
             if (this.entity instanceof Damageable) {
-            	System.out.println("collision détécté");
+            	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
                 ((Damageable) this.entity).gotHit();
             }
-            e.die(); 
+            if (!(e instanceof LaserShot)) {
+                e.die(); 
+            }
         }
 	}
 
