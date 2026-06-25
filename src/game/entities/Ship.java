@@ -95,7 +95,7 @@ public class Ship extends Entity implements Shooter {
 	    int bordX = entityX + shift1;
 
 	    if (bordX < 0 || bordX > w) {
-	    	this.translate(isu.new Vector(20.0, 0.0));
+	    	this.translate(isu.new Vector(5.0, 0.0));
 	    }
 		
 		// Annulation du scrolling
