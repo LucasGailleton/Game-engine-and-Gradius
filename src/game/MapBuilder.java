@@ -1,5 +1,6 @@
 package game;
 
+import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -59,7 +60,7 @@ public class MapBuilder {
 	    boss.setCoord(isu.new Coord(30*mult,15* mult));
 	    placeEntity(boss);
 	    boss.createGuns(model, view);
-		
+	    boss.setStunt(new BasicStunt(model, boss));
 	    
 	    placeBorder();
 

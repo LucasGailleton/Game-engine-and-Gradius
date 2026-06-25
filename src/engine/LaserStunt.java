@@ -49,12 +49,7 @@ public class LaserStunt extends Stunt {
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
-			if (entity instanceof MissilePlayer || entity instanceof PowerUp)
-				continue;
-			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
-			if(this.entity instanceof Ship) {
-				((Ship) this.entity).gotHit();
-			}
+			collision(entity);
 		}
 	}
 	
@@ -62,8 +57,8 @@ public class LaserStunt extends Stunt {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
 		
-		double vx = Math.round(Math.cos(rad));
-		double vy = Math.round(Math.sin(rad));
+		double vx = Math.cos(rad);
+		double vy = Math.sin(rad);
 		this.entity.setlSpeed(vx*Ship.ShipSpeed, vy*Ship.ShipSpeed);
 	}
 

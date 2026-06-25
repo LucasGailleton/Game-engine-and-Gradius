@@ -49,12 +49,7 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
-			if (entity instanceof MissilePlayer || entity instanceof PowerUp)
-				continue;
-			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
-			if(this.entity instanceof Ship) {
-				((Ship) this.entity).gotHit();
-			}
+			collision(entity);
 		}
 	}
 	

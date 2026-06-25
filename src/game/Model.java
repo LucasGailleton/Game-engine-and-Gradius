@@ -82,7 +82,7 @@ public class Model {
 	    	boolean isLaser = entity instanceof LaserShot;
 	    	boolean isMissile = entity instanceof MissilePlayer;
 	    	entity.trueCollisions = new ArrayList<Entity>();
-	    	 
+	        
 	        if (entity.haslSpeed()) {
 	            
 	            ISU.Vector speedVector = entity.lSpeed();
@@ -131,11 +131,8 @@ public class Model {
 					    }
 					}
 				}
-				
+				entity.tick(seconds, shift);
 			}
-	        
-	        entity.tick(elapsed, shift);
-	       
 		}
 		if (Main.debug)
 			p.end();

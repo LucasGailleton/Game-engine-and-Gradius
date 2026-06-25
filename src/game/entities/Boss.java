@@ -45,8 +45,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.avatar = new BossAvatar(this);
 		this.isAlive=true;
 		this.task = Runtime.task();
-		setStunt(new BasicStunt(model, this));
-		
 	}
 	
 	public void createGuns(Model model, View view) {
@@ -129,8 +127,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		mse2.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mse2);
 		view.add(mse2.getAvatar());
-		
-		
 	}
 	
 	@Override

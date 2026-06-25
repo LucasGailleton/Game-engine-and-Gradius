@@ -8,6 +8,7 @@ import game.Model;
 import game.entities.Avatar;
 import game.entities.Damageable;
 import game.entities.EnemyChicken;
+import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 
 public class BasicStunt extends Stunt {
@@ -36,11 +37,11 @@ public class BasicStunt extends Stunt {
 	@Override
 	public void collision(Entity e) {
 		
-		if (e instanceof MissilePlayer) {
+		if (e instanceof MissilePlayer || e instanceof LaserShot) {
             
 			
             if (this.entity instanceof Damageable) {
-            	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
+            	System.out.println("collision détécté");
                 ((Damageable) this.entity).gotHit();
             }
             e.die(); 
@@ -68,6 +69,12 @@ public class BasicStunt extends Stunt {
 	
 	public void shoot(int degree) {
 		//((EnemyChicken)this.entity).shoot();
+		
+	}
+
+	@Override
+	public void shootOnce() {
+		// TODO Auto-generated method stub
 		
 	}
 }

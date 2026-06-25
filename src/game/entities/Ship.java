@@ -18,7 +18,6 @@ import engine.shapes.Rect;
 import engine.view.Controller;
 import engine.view.View;
 import game.Main;
-import game.MapBuilder;
 import game.Model;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -39,7 +38,7 @@ public class Ship extends Entity {
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
-	//private static boolean gameOver = false;
+	private static boolean gameOver = false;
 	private View view;
 
 	private SoundPlayer tir1, tir2, degat, mort;
@@ -48,6 +47,7 @@ public class Ship extends Entity {
 	private int powerUp;
 	public boolean isShooting;
 	public static boolean double_tir = false;
+	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
 
 	public Ship(View view) {
@@ -69,14 +69,12 @@ public class Ship extends Entity {
 
 	}
 
-	public void tick(double elapsed, boolean shift) {
-		double seconds = elapsed /1000;
+	public void tick(double seconds, boolean shift) {
 		pickUpPowerUps();
 		
 	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-	    ISU.Coord center = this.center();
-	    int entityX = (int) (center.x_cm * Game.pixelPerCm);
-	    int entityY = (int) (center.y_cm * Game.pixelPerCm);
+	    
+	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 	    
 	    int shift1 = view.shiftPX;
 	    int screenX = entityX + shift1;
@@ -90,22 +88,12 @@ public class Ship extends Entity {
 
 	    int bordX = entityX + shift1;
 
-	    // Limites bord gauche et droit
-	    if (bordX < 0) {
-	    	this.translate(isu.new Vector(ShipSpeed*seconds, 0.0));
-	    } else if (bordX > w) {
-	    	this.translate(isu.new Vector(-ShipSpeed*seconds, 0.0));
+	    if (bordX < 0 || bordX > w) {
+	    	this.translate(isu.new Vector(5.0, 0.0));
 	    }
 		
-	    // Limites haut et bas
-	    if (entityY < 0) {
-	    	this.translate(isu.new Vector(0.0, ShipSpeed*seconds));
-	    } else if (entityY > 210 * Main.windowScale) {
-	    	this.translate(isu.new Vector(0.0, -ShipSpeed*seconds));
-	    }
-	    
 		// Annulation du scrolling
-		if (shift && !Main.GAMEOVER)
+		if (shift)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
@@ -118,14 +106,14 @@ public class Ship extends Entity {
 	}
 
 	public void gotHit() {
-		if (hit || Main.GAMEOVER)
+		if (hit || gameOver)
 			return;
 		hp--;
 
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
 			this.mort.play(1);
-			Main.GAMEOVER = true;
+			gameOver = true;
 			setlSpeed(0, 0);
 			((ShipAvatar) avatar).exploser();
 			task.post(() -> {
@@ -187,6 +175,10 @@ public class Ship extends Entity {
 			m.setlSpeed(missileSpeed, 0);
 			Main.mb.placeEntity(m);
 		}
+	}
+
+	public double walkSpeed() {
+		return 15.0 + this.speedBoost * 5.0;
 	}
 
 	private void addSlave() {
@@ -325,7 +317,7 @@ public class Ship extends Entity {
 				g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
 			}
 
-			if (Main.GAMEOVER) {
+			if (gameOver) {
 				g.setColor(Colors.red);
 				g.setFont(g.getFont("Monospaced", 1, 40));
 				g.drawString("GAME OVER", 400, 480);

@@ -313,17 +313,12 @@ public abstract class Entity {
 		if (this.stunt != null) {
 	        this.stunt.collision(e);
 	    } else {
-	        this.die(); // Fallback pour les vieux ennemis sans Stunt
+	        this.die(); 
 	    }
 	}
 
 	public void collision(List<Entity> le) {
-		if (this.stunt != null) {
-	        this.stunt.collision(le); 
-	    } else {
-	        this.setlSpeed(0, 0);
-	        die();
-	    }
+	    this.stunt.collision(le); 
 	}
 
 	public boolean haslSpeed() {
