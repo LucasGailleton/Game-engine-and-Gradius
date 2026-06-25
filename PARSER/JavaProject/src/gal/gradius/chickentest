@@ -3,8 +3,8 @@ CHICKEN (Chicken){
 // single line comment are allowed
 
  * (Chicken):
- | Struck(B)        ? Hit(180°, 80%, 1)  :(Shooting)
+ | True        ? Move(E)  :(Shooting)
  * (Shooting):
- | Struck(B)        ? Push(N)  :(Chicken)
+ | Closest(N,A)        ? Hit($)  :(Chicken)
  
 }

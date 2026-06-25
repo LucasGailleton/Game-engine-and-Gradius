@@ -77,4 +77,10 @@ public class BasicStunt extends Stunt {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void shootOnce() {
+		// TODO Auto-generated method stub
+		
+	}
 }
