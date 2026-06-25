@@ -31,13 +31,13 @@ public class MapBuilder {
 		this.view = view;
 		this.isu = Game.game().isu;
 	}
-
+	
 	public void placeObjects() {
 
 		EnemyKamikaze kz = new EnemyKamikaze("kz1");
 		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
 		placeEntity(kz);
-
+		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");
 		puDouble.setCoord(isu.new Coord(18 * mult, 10 * mult));
@@ -54,19 +54,20 @@ public class MapBuilder {
 		PowerUp puLaser = new PowerUp("laser");
 		puLaser.setCoord(isu.new Coord(30 * mult, 10 * mult));
 		placeEntity(puLaser);
-
-		Boss boss = new Boss();
-		boss.setCoord(isu.new Coord(30 * mult, 15 * mult));
-		placeEntity(boss);
-		// boss.createGuns(model, view);
-
-		placeBorder();
+		
+	    Boss boss= new Boss();
+	    boss.setCoord(isu.new Coord(30*mult,15* mult));
+	    placeEntity(boss);
+	    boss.createGuns(model, view);
+		
+	    
+	    placeBorder();
 
 		MontFendu mf = new MontFendu();
 		mf.setCoord(isu.new Coord(10 * mult, 25 * mult));
 		placeEntity(mf);
 	}
-
+	
 	private void placeBorder() {
 
 		double topY = 8.7;
@@ -97,7 +98,7 @@ public class MapBuilder {
 			currentX += botBorder.size.x_cm;
 		}
 	}
-
+	
 	public void placeEntity(Entity e) {
 		e.setBounding();
 		model.add(e);

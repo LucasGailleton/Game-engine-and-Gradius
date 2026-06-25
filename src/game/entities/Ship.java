@@ -27,7 +27,7 @@ import oop.utils.SoundPlayer;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 
-public class Ship extends Entity implements Shooter {
+public class Ship extends Entity implements Shooter, Damageable {
 
 	public static double ShipSpeed = 20 * Main.windowScale;
 	public static final int missileSpeed = 1500;
@@ -38,7 +38,7 @@ public class Ship extends Entity implements Shooter {
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
-	private static boolean gameOver = false;
+	//private static boolean gameOver = false;
 	private View view;
 
 	private SoundPlayer tir1, tir2, degat, mort;
@@ -50,11 +50,8 @@ public class Ship extends Entity implements Shooter {
 	public static final int WEAPON_SIMPLE = 0;
 	public static final int WEAPON_LASER = 1;
 	private int weapon = WEAPON_SIMPLE;
-	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
-	
-	private Controller controller;
-	
+
 	private ShipStunt shipStunt;
 
 	public Ship(View view) {
@@ -76,7 +73,8 @@ public class Ship extends Entity implements Shooter {
 
 	}
 
-	public void tick(double seconds, boolean shift) {
+	public void tick(double elapsed, boolean shift) {
+		double seconds = elapsed /1000;
 		pickUpPowerUps();
 		
 	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
@@ -111,7 +109,7 @@ public class Ship extends Entity implements Shooter {
 	    }
 	    
 		// Annulation du scrolling
-		if (shift && !gameOver)
+		if (shift && !Main.GAMEOVER)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
@@ -171,16 +169,15 @@ public class Ship extends Entity implements Shooter {
 	}
 
 	public void gotHit() {
-		if (hit || gameOver)
+		if (hit || Main.GAMEOVER)
 			return;
 		hp--;
 
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
 			this.mort.play(1);
-			gameOver = true;
+			Main.GAMEOVER = true;
 			setlSpeed(0, 0);
-			View.viewSpeed = 0;
 			((ShipAvatar) avatar).exploser();
 			task.post(() -> {
 				this.die();
@@ -351,7 +348,7 @@ public class Ship extends Entity implements Shooter {
 				g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
 			}
 
-			if (gameOver) {
+			if (Main.GAMEOVER) {
 				g.setColor(Colors.red);
 				g.setFont(g.getFont("Monospaced", 1, 40));
 				g.drawString("GAME OVER", 400, 480);

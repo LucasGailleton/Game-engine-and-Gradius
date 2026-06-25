@@ -24,6 +24,12 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		
 	}
 	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private class KamikazeAvatar extends Avatar {
 		
 		private List<BufferedImage> death;
@@ -86,9 +92,8 @@ public class EnemyKamikaze extends Entity implements Enemy{
 			}	
 	    }
 
-	@Override
-	public void tick(double elapsed, boolean shift) {
 
-	}
+	
+
 
 }

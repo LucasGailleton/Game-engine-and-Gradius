@@ -23,7 +23,7 @@ public class Slave extends Entity {
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub	
+		
 	}
 
 	private class SlaveAvatar extends Avatar {

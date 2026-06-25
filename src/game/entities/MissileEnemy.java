@@ -3,6 +3,8 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.shapes.Circle;
+import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -13,22 +15,50 @@ public class MissileEnemy extends Entity{
 	private View view;
 	private int shift;
 
-	public MissileEnemy(String name) {
+	public MissileEnemy(String name, View view) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
 		this.avatar =new MissileEnemyAvatar(this);
+		this.view=view;
 		
+	}
+	
+	@Override
+	public void setBounding() {
+		this.bounding().add(new Circle(this.center(),2.5));
+		//this.bounding().add(new Rect(this.center(), this.size, 0));
 	}
 	
 	
 	//A modif je pense
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		if (!this.haslSpeed() || this.center().x_cm >= (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5)) {
+		if (!this.haslSpeed()) {
 
 			die();
 			return;
 		}
+		
+		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
+	    
+	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
+	    
+	    int shift1 = view.shiftPX;
+	    int screenX = entityX + shift1;
+	    int w = view.canvas().getWidth();
+
+	    if (screenX < -300) {
+	        shift1 += taille_map;
+	    } else if (screenX > w + 300) {
+	        shift1 -= taille_map;
+	    }
+
+	    int bordX = entityX + shift1;
+
+	    int marge = 50; 
+	    if (bordX < -marge || bordX > (w + marge)) {
+	        this.die();
+	    }
 		
 	}
 	
@@ -52,7 +82,7 @@ public class MissileEnemy extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			shift = shiftPX;
+			
 			if (this.sprites==null) {
 				this.getSprites(g);
 			}
@@ -61,7 +91,7 @@ public class MissileEnemy extends Entity{
             ISU.Coord center = MissileEnemy.this.center();
             int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
             int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
-
+            
             g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 			
 		}
