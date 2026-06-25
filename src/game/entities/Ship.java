@@ -17,6 +17,7 @@ import engine.shapes.Rect;
 import engine.view.Controller;
 import engine.view.View;
 import game.Main;
+import game.MapBuilder;
 import game.Model;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -79,7 +80,9 @@ public class Ship extends Entity implements Shooter {
 		pickUpPowerUps();
 		
 	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
+	    ISU.Coord center = this.center();
+	    int entityX = (int) (center.x_cm * Game.pixelPerCm);
+	    int entityY = (int) (center.y_cm * Game.pixelPerCm);
 	    
 	    int shift1 = view.shiftPX;
 	    int screenX = entityX + shift1;
@@ -93,12 +96,22 @@ public class Ship extends Entity implements Shooter {
 
 	    int bordX = entityX + shift1;
 
-	    if (bordX < 0 || bordX > w) {
-	    	this.translate(isu.new Vector(20.0, 0.0));
+	    // Limites bord gauche et droit
+	    if (bordX < 0) {
+	    	this.translate(isu.new Vector(ShipSpeed*seconds, 0.0));
+	    } else if (bordX > w) {
+	    	this.translate(isu.new Vector(-ShipSpeed*seconds, 0.0));
 	    }
 		
+	    // Limites haut et bas
+	    if (entityY < 0) {
+	    	this.translate(isu.new Vector(0.0, ShipSpeed*seconds));
+	    } else if (entityY > 210 * Main.windowScale) {
+	    	this.translate(isu.new Vector(0.0, -ShipSpeed*seconds));
+	    }
+	    
 		// Annulation du scrolling
-		if (shift && !hit)
+		if (shift && !gameOver)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
@@ -165,7 +178,6 @@ public class Ship extends Entity implements Shooter {
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
 			this.mort.play(1);
-			hit = true;
 			gameOver = true;
 			setlSpeed(0, 0);
 			View.viewSpeed = 0;
