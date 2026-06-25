@@ -8,6 +8,7 @@ import game.Main;
 import game.Model;
 import game.entities.Ship;
 import game.entities.Boss;
+import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PowerUp;
 
@@ -37,7 +38,7 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(Entity e) {
 		// pour pas que le vaisseau perde de la  vie avec ses propres tirs
-		if (e instanceof MissilePlayer || e instanceof PowerUp)
+		if (e instanceof MissilePlayer || e instanceof PowerUp || e instanceof LaserShot)
 			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
 		if(entity instanceof Ship) {
@@ -49,7 +50,7 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
-			if (entity instanceof MissilePlayer || entity instanceof PowerUp)
+			if (entity instanceof MissilePlayer || entity instanceof PowerUp || e instanceof LaserShot)
 				continue;
 			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
 			if(this.entity instanceof Ship) {

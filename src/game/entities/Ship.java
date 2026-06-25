@@ -52,9 +52,6 @@ public class Ship extends Entity implements Shooter, Damageable {
 	private int speedBoost = 0;
 	private final List<Slave> slaves = new ArrayList<>();
 	
-	private Controller controller;
-	
-	private ShipStunt shipStunt;
 
 	public Ship(View view) {
 		super("Ship");

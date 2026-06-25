@@ -45,8 +45,7 @@ public class Borders extends Entity{
 	
 	@Override
 	public void tick(double seconds, boolean shift) {
-		if (shift)
-			translate(isu.new Vector((View.speed / 4.0) * Main.windowScale, 0.0));
+		
 
 		// On calcule la position logique du bord GAUCHE de la caméra dans le monde.
 		// (J'utilise votre facteur 0.5 exactement comme dans votre missile)

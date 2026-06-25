@@ -104,20 +104,40 @@ public class MapBuilder {
 	
 	public void genAleatoire() {
 		
-		while (Timer >0 && nbEnemies < 10) {
+		while (Timer >0 && nbEnemies <= 10) {
 			double al = Math.random();
 			if (al>=0.75) {
-				
+				spawnKamikaze();
 			}else if (al>=0.5 && al < 0.75) {
-				
+				spawnChicken();
 			}else if (al >=0.25 && al <0.5) {
-				
+				spawnHoming();
 			}else {
-				
+				spawnWalking();
 			}
 		}
 	}
 	
+	private void spawnWalking() {
+		
+		
+	}
+
+	private void spawnHoming() {
+		
+		
+	}
+
+	private void spawnChicken() {
+		
+		
+	}
+
+	private void spawnKamikaze() {
+		
+		
+	}
+
 	public void placeEntity(Entity e) {
 		e.setBounding();
 		model.add(e);
