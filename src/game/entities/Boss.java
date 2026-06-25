@@ -240,7 +240,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
                  		(int) (spriteSizeY*Main.windowScale));
             }
            
-            
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -249,7 +248,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
  		    if (indChg % 40 == 0) {
  		    	indChg = 0;
  		    }
-			
 		}
 		
 	}
