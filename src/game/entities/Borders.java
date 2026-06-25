@@ -45,6 +45,8 @@ public class Borders extends Entity{
 	
 	@Override
 	public void tick(double seconds, boolean shift) {
+		
+
 		// On calcule la position logique du bord GAUCHE de la caméra dans le monde.
 		// (J'utilise votre facteur 0.5 exactement comme dans votre missile)
 		double leftScreenEdge = -(view.shiftPX * 0.5);

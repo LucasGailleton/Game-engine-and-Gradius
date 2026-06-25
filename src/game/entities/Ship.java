@@ -39,7 +39,7 @@ public class Ship extends Entity {
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
-	//private static boolean gameOver = false;
+	
 	private View view;
 
 	private SoundPlayer tir1, tir2, degat, mort;
@@ -68,6 +68,7 @@ public class Ship extends Entity {
 		}
 
 	}
+	
 
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed /1000;
@@ -111,10 +112,6 @@ public class Ship extends Entity {
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
 		}
-	}
-	
-	public List<Slave> slaves(){
-		return this.slaves;
 	}
 
 	public boolean getHit() {

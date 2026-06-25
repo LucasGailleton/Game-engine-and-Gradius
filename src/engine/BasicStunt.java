@@ -22,7 +22,7 @@ public class BasicStunt extends Stunt {
 	@Override
 	public void collision(Entity e) {
 		
-		if (e instanceof MissilePlayer) {
+		if (e instanceof MissilePlayer || e instanceof LaserShot) {
             
 			
             if (this.entity instanceof Damageable) {
@@ -55,7 +55,7 @@ public class BasicStunt extends Stunt {
 	}
 	
 	public void shoot(int degree) {
-		//((EnemyChicken)this.entity).shoot();
+		
 		
 	}
 
@@ -64,4 +64,5 @@ public class BasicStunt extends Stunt {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

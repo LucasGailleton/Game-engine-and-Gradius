@@ -15,12 +15,18 @@ public class MissileSpecial extends Entity{
 	
 	private View view;
 	private int shift;
+	private Ship target;
+	
+	private double explosionRadius = 10.0; // Distance pour exploser
+	private double attractionRadius = 50.0; // Zone d'effet de l'attraction
+	private double pullForce = 100.0; // Force d'attraction
 
-	public MissileSpecial(String name, View view) {
+	public MissileSpecial(String name, View view, Ship target) {
 		super(name);
 		this.setSize(this.isu.new Dimension((Game.cmPerCell*9)/Main.windowScale, (Game.cmPerCell*5)/Main.windowScale));
 		this.avatar =new MissileSpecialAvatar(this);
 		this.view=view;
+		this.target = target;
 		
 	}
 	
@@ -45,10 +51,31 @@ public class MissileSpecial extends Entity{
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
+		double seconds = elapsed / 1000.0;
 		if (!this.haslSpeed()) {
 
 			die();
 			return;
+		}
+		
+		//CHERCHER LE PLAYER
+		//Distance entre missile et player
+		double dx = this.center().x_cm - target.center().x_cm;
+		double dy = this.center().y_cm - target.center().y_cm;
+		double distance = Math.sqrt(dx * dx + dy * dy);
+		
+		if (distance <= explosionRadius) {
+			target.gotHit(); 
+			this.die();
+			return;
+		}
+		else if (distance <= attractionRadius) {
+			
+			double pullX = (dx / distance) * pullForce * seconds;
+			double pullY = (dy / distance) * pullForce * seconds;
+			
+			target.translate(target.isu.new Vector(pullX, pullY));
+			
 		}
 		
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
@@ -103,9 +130,10 @@ public class MissileSpecial extends Entity{
             ISU.Coord center = MissileSpecial.this.center();
             int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
             int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
-
+            
+            
             g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-			
+			//g.drawOval(topX+shiftPX, topY, 100, 100);
 		}
 		
 	}

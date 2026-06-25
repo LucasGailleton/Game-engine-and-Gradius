@@ -28,12 +28,15 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	private int missileSpeed = 15;
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
+	
+	private Ship target ;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
 	
-	private boolean isAlive;
+	
 	private boolean hit = false;
 	protected int hp = 10;
+	private boolean isAlive;
 	
 	private Task task;
 	
@@ -45,18 +48,22 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.avatar = new BossAvatar(this);
 		this.isAlive=true;
 		this.task = Runtime.task();
+		setStunt(new BasicStunt(model, this));
+		
+		
 	}
 	
 	public void createGuns(Model model, View view) {
 		ISU is = Game.game().isu;
+		this.target = model.getPlayer();
 		double x = this.center().x_cm;
 		double y = this.center().y_cm;
-		this.bgb = new BossGunBottom("bgb",this);
+		this.bgb = new BossGunBottom("bgb",this,target);
 		this.bgb.setCoord(is.new Coord(x+10,y+60));
 		this.bgb.setBounding();
 		model.add(bgb);
 		view.add(this.bgb.getAvatar());
-		this.bgt = new BossGunTop("bgt",this);
+		this.bgt = new BossGunTop("bgt",this,target);
 		this.bgt.setCoord(is.new Coord(x+10,y-60));
 		this.bgt.setBounding();
 		model.add(bgt);
@@ -89,8 +96,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed/1000;
 		
-		if (shift)
-			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
+//		if (shift)
+//			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 		
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -127,17 +134,19 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		mse2.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mse2);
 		view.add(mse2.getAvatar());
+		
+		
 	}
 	
 	@Override
 	public void gotHit() {
-		if (hit || Main.GAMEOVER || !isAlive)
+		if (hit || Main.GAMEOVER)
 			return;
 		hp--;
 		System.out.println("HP : " + hp);
 
 		if (hp <= 0) {
-			isAlive = false;
+			isAlive =false;
 			// game over : explosion + le boss disparait
 			//this.mort.play(1);
 //			Main.GAMEOVER = true;
@@ -148,11 +157,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 			}, 2000);
 			return;
 		}
-		
-		this.hit = true;
-		task.post(() -> {
-			this.hit = false;
-		}, 100);
 
 		//this.degat.play(1);
 		//pas de hit = true, le vaisseau n'a pas d'invicibilité
