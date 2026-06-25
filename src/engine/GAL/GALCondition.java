@@ -7,7 +7,8 @@ public abstract class GALCondition  implements iGALCondition{
 
 	Direction direction;
 	Category category;
-
+	Variable var;
+	
 	public GALCondition(Direction d,Category c){
 		this.direction=d;
 		this.category=c;

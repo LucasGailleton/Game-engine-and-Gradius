@@ -7,11 +7,11 @@ public class Category {
 
 	// CONSTANTS
 
-	public static Category Adversary, Obstacle, Team, Void;
+	public static Category Adversary, Obstacle, Team, Void,Joueur;
 	// ...
 
 	// STATIC
-	public	Map<String, Category> categories = new HashMap<>();
+	public	static Map<String, Category> categories = new HashMap<>();
 	//Object categories; // <-- FIXME
 
 	public static boolean interaction[][];
@@ -25,7 +25,7 @@ public class Category {
 				Category.interaction[i][j]=false;
 			}
 		}
-		Adversary = new Category("Adversary",0);
+		Adversary = new Category("A",0);
 		Obstacle = new Category("Obstacle",1);
 		Team = new Category("Team",2);
 		Void = new Category("Void",3);
@@ -34,7 +34,7 @@ public class Category {
 
 	// FACTORY
 
-	 public Category canonical(String name){ 
+	 public static Category canonical(String name){ 
 			if(categories.containsKey(name)) {
 				return categories.get(name);
 			}
@@ -46,10 +46,11 @@ public class Category {
 	// CONSTRUCTOR
 
 	 private int index;
-
+	 private String name;
 	 public Category(String name, int index){ 
 		 this.index=index;
 		 categories.put(name, this);
+		 this.name=name;
 	 }
 
 	// SETTER

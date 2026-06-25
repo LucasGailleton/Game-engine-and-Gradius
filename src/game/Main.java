@@ -85,14 +85,14 @@ public class Main implements Runnable {
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
 		
-//		AutomatonLoader al=new AutomatonLoader(3);
-//		try {
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
 //		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-//			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
 //		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
-//		} catch (Exception e) {
-//		    e.printStackTrace(); // Regardez votre console !
-//		}
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
 			
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
@@ -111,7 +111,17 @@ public class Main implements Runnable {
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
+		EnemyWalking walk1 = new EnemyWalking("walk1");
+		walk1.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 15 * Game.cmPerCell * windowScale));
+		model.add(walk1);
+		BasicStunt bs=new BasicStunt(model,walk1);
+		walk1.setStunt(bs);
+		view.add(walk1.getAvatar());
+		GALBot gb=new GALBot(walk1);
+		gb.set(auts.getFirst());
 		
+		
+		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
 
 		this.task.post(new Runnable() {
 			@Override

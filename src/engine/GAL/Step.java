@@ -15,4 +15,10 @@ public class Step extends GALCondition{
 		return false;
 	}
 
+	@Override
+	public Variable variable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

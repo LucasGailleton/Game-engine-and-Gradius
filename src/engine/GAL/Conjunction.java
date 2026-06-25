@@ -37,4 +37,10 @@ class Conjunction  implements iGALCondition{
 		 return true;
 	 }
 
+	 @Override
+	 public Variable variable() {
+		// TODO Auto-generated method stub
+		return null;
+	 }
+
 }

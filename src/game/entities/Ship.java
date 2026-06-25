@@ -74,6 +74,11 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	}
 	
+	//Getter
+	private static Ship ship;
+	public static Ship ship() {
+		return ship;
+	}
 
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed /1000;
