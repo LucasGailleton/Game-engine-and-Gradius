@@ -112,10 +112,6 @@ public class Ship extends Entity {
 			this.shootCooldown -= seconds;
 		}
 	}
-	
-	public List<Slave> slaves(){
-		return this.slaves;
-	}
 
 	public boolean getHit() {
 		return hit;
