@@ -144,7 +144,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 			isAlive =false;
 			// game over : explosion + le boss disparait
 			//this.mort.play(1);
-			Main.GAMEOVER = true;
+//			Main.GAMEOVER = true;
 			
 			((BossAvatar)this.avatar).exploser();
 			task.post(() -> {

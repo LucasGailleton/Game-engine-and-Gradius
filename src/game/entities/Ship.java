@@ -17,6 +17,7 @@ import engine.shapes.Rect;
 import engine.view.Controller;
 import engine.view.View;
 import game.Main;
+import game.MapBuilder;
 import game.Model;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -72,7 +73,8 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	}
 
-	public void tick(double seconds, boolean shift) {
+	public void tick(double elapsed, boolean shift) {
+		double seconds = elapsed /1000;
 		pickUpPowerUps();
 		
 	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
@@ -109,6 +111,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+>>>>>>>>> Temporary merge branch 2
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
