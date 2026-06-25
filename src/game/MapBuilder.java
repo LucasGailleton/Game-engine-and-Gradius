@@ -20,6 +20,7 @@ public class MapBuilder {
 
 	public static final double mult = Game.cmPerCell * Main.windowScale;
 	public static final double borderStartX = 40 * mult;
+	public static final int maxBottomCell = 28;
 
 	private Model model;
 	private View view;
@@ -72,9 +73,8 @@ public class MapBuilder {
 	
 	private void placeBorder() {
 
-//		double topY = -4.8;
 		double topY = 8.7;
-		double bottomY = 28 * mult; // 28 cases semble être la bonne hauteur minimale
+		double bottomY = maxBottomCell * mult; // 28 cases semble être la bonne hauteur minimale
 		double currentX = borderStartX;
 
 		Borders firstTopBorder = new Borders("top_init", 0, BorderAvatar.Top, view);

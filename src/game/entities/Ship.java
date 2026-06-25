@@ -75,13 +75,13 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	}
 
-	public void tick(double elapsed, boolean shift) {
-		double seconds = elapsed/1000;
+	public void tick(double seconds, boolean shift) {
 		pickUpPowerUps();
 		
 	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-	    
-	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
+	    ISU.Coord center = this.center();
+	    int entityX = (int) (center.x_cm * Game.pixelPerCm);
+	    int entityY = (int) (center.y_cm * Game.pixelPerCm);
 	    
 	    int shift1 = view.shiftPX;
 	    int screenX = entityX + shift1;
@@ -95,13 +95,23 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	    int bordX = entityX + shift1;
 
-	    if (bordX < 0 || bordX > w) {
-	    	this.translate(isu.new Vector(20.0, 0.0));
+	    // Limites bord gauche et droit
+	    if (bordX < 0) {
+	    	this.translate(isu.new Vector(ShipSpeed*seconds, 0.0));
+	    } else if (bordX > w) {
+	    	this.translate(isu.new Vector(-ShipSpeed*seconds, 0.0));
 	    }
 		
+	    // Limites haut et bas
+	    if (entityY < 0) {
+	    	this.translate(isu.new Vector(0.0, ShipSpeed*seconds));
+	    } else if (entityY > 210 * Main.windowScale) {
+	    	this.translate(isu.new Vector(0.0, -ShipSpeed*seconds));
+	    }
+	    
 		// Annulation du scrolling
-//		if (shift)
-//			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+		if (shift && !Main.GAMEOVER)
+			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -169,6 +179,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 			this.mort.play(1);
 			Main.GAMEOVER = true;
 			setlSpeed(0, 0);
+			View.viewSpeed = 0;
 			((ShipAvatar) avatar).exploser();
 			task.post(() -> {
 				this.die();
@@ -201,10 +212,6 @@ public class Ship extends Entity implements Shooter, Damageable {
 		case PowerUp.Slave: this.addSlave(); break;
 		default: break;
 		}
-	}
-
-	public double walkSpeed() {
-		return 15.0 + this.speedBoost * 5.0;
 	}
 
 	private void addSlave() {
