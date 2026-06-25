@@ -158,6 +158,18 @@ public class Ship extends Entity implements Shooter {
 		return hit;
 	}
 
+	public static boolean isGameOver() {
+		return gameOver;
+	}
+
+	// reset le vaisseau pour une nouvelle partie
+	public static void reset() {
+		hp = 3;
+		hit = false;
+		gameOver = false;
+		double_tir = false;
+	}
+
 	public void gotHit() {
 		if (hit || gameOver)
 			return;

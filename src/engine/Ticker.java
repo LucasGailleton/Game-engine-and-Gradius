@@ -10,7 +10,8 @@ public class Ticker implements Runnable {
 	private Task task;
 	private long time;
 	private int ms;
-	
+	private boolean stopped = false;
+
 	public Ticker(Model model, Task task, int ms) {
 		long time = System.currentTimeMillis();
 		this.model = model;
@@ -19,8 +20,14 @@ public class Ticker implements Runnable {
 		this.task.post(this, ms);
 	}
 
+	public void stop() {
+		this.stopped = true;
+	}
+
 	@Override
 	public void run() {
+		if (this.stopped)
+			return;
 		long now = System.currentTimeMillis();
 		long elapsed = now - this.time;
 		this.time = now;

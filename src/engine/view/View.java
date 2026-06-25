@@ -103,7 +103,7 @@ public class View {
 			}
             a.paint(g, shift);
             
-			if (Main.debug) {
+			if (Main.debugView) {
 	            model = entity.getModel();
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);
@@ -131,7 +131,7 @@ public class View {
 		
 		if (ProfilingManager.PROFILING)
 			vp.end();
-		if (ProfilingManager.PROFILING && showStats) {
+		if (Main.debugView && showStats) {
 			g.setColor(Colors.green);
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString("FPS: " + currentFPS, 10, 20);
