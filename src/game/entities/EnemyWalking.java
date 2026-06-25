@@ -13,7 +13,8 @@ import oop.graphics.Graphics;
 
 public class EnemyWalking extends Entity implements Enemy, Shooter {
 	//Entité qui spawn avec chicken
-
+	
+	
 
 	public EnemyWalking(String name) {
 		super(name);
@@ -21,8 +22,12 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		this.avatar =new WalkingAvatar(this);
 	}
 	
-	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, 0));
+	
+	
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -119,11 +124,5 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
  		    }
 			
 		}	
-	}
-
-	@Override
-	public void tryToShoot() {
-		// TODO Auto-generated method stub
-		
 	}
 }

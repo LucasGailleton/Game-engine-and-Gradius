@@ -7,6 +7,7 @@ import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Ship;
+import game.entities.Boss;
 import game.entities.MissilePlayer;
 import game.entities.PowerUp;
 
@@ -42,6 +43,7 @@ public class ShipStunt extends Stunt {
 		if(entity instanceof Ship) {
 			((Ship) entity).gotHit();
 		}
+		
 	}
 
 	@Override
@@ -60,8 +62,8 @@ public class ShipStunt extends Stunt {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
 		
-		double vx = Math.round(Math.cos(rad));
-		double vy = Math.round(Math.sin(rad));
+		double vx = Math.cos(rad);
+		double vy = Math.sin(rad);
 		this.entity.setlSpeed(vx*Ship.ShipSpeed, vy*Ship.ShipSpeed);
 	}
 

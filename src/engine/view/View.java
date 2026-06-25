@@ -31,7 +31,7 @@ public class View {
 	
 	public static final int viewSpeedChg = 3;
 	public static final int speed = -1;
-	public static final int viewSpeed = (int)(speed*Main.windowScale);
+	public static int viewSpeed = (int)(speed*Main.windowScale);
 	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");

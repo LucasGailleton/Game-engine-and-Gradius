@@ -31,15 +31,15 @@ public class EnemyChicken extends Entity implements Enemy{
 		
 	}
 	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 	public void shoot() {
-		MissilePlayer msp = new MissilePlayer(view, "missile 1");
-		Position pos = this.position();
-		msp.setCoord(Game.game().isu.new Coord(pos.x*Game.cmPerCell+20,pos.y*Game.cmPerCell));
-		msp.setBounding();
-		msp.setlSpeed(150, 0);
-		this.model.add(msp);
-		this.model.getView().add(msp.getAvatar());
+		//il tire pas lui il fait spawn des EnemyWalking
 	}
 	
 	private class ChickenAvatar extends Avatar{
@@ -89,10 +89,6 @@ public class EnemyChicken extends Entity implements Enemy{
 		
 	}
 
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

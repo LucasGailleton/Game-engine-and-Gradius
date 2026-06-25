@@ -14,11 +14,10 @@ import oop.graphics.Graphics;
 // En soit on peut aussi juste faire les sprites en les retournant dans un logiciel
 // Mais pourquoi pas tenter de les tourner directemement dans le code
 
-public class Borders extends Entity {
-	protected int chosenSprite;
+public class Borders extends Entity{
+	protected int chosenSprite; 
 	protected int chosenPos;
 	private View view;
-
 	public Borders(String name, int chosenSprite, int chosenPos, View view) {
 		super(name);
 		this.setSize(this.isu.new Dimension(8.6 * Game.cmPerCell * Main.windowScale,
@@ -28,7 +27,7 @@ public class Borders extends Entity {
 		this.avatar = new BorderAvatar(this);
 		this.view = view;
 	}
-
+	
 	@Override
 	public void setBounding() {
 		ISU.Coord center = this.center();
@@ -43,12 +42,9 @@ public class Borders extends Entity {
 		centerBorder = Game.game().isu.new Coord(center.x_cm, center.y_cm + factor * Game.cmPerCell * Main.windowScale);
 		this.bounding().add(new Rect(centerBorder, this.size, this.orientation()));
 	}
-
+	
 	@Override
 	public void tick(double seconds, boolean shift) {
-		if (shift)
-			translate(isu.new Vector((View.speed / 4.0) * Main.windowScale, 0.0));
-
 		// On calcule la position logique du bord GAUCHE de la caméra dans le monde.
 		// (J'utilise votre facteur 0.5 exactement comme dans votre missile)
 		double leftScreenEdge = -(view.shiftPX * 0.5);
@@ -71,6 +67,7 @@ public class Borders extends Entity {
 		public BorderAvatar(Entity e) {
 			super(e);
 		}
+		
 
 		@Override
 		public void getSprites(Graphics g) {
@@ -114,7 +111,7 @@ public class Borders extends Entity {
 					(int) (spriteSizeY * Main.windowScale));
 
 		}
-
+		
 	}
 
 }

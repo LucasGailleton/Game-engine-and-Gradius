@@ -6,7 +6,9 @@ import engine.Grid.Cell;
 import game.Main;
 import game.Model;
 import game.entities.Avatar;
+import game.entities.Damageable;
 import game.entities.EnemyChicken;
+import game.entities.MissilePlayer;
 
 public class BasicStunt extends Stunt {
 	
@@ -33,21 +35,30 @@ public class BasicStunt extends Stunt {
 
 	@Override
 	public void collision(Entity e) {
-		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
+		
+		if (e instanceof MissilePlayer) {
+            
+			
+            if (this.entity instanceof Damageable) {
+            	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
+                ((Damageable) this.entity).gotHit();
+            }
+            e.die(); 
+        }
 	}
 
 	@Override
 	public void collision(List<Entity> e) {
-		for (Entity entity : e) {
-			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
-		}
+		for (Entity entities : e) {
+            this.collision(entities); 
+        }
 	}
 	
 	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
-		double vx = Math.round(Math.cos(rad));
-		double vy = Math.round(Math.sin(rad));
+		double vx = Math.cos(rad);
+		double vy = Math.sin(rad);
 		this.entity.setlSpeed(vx, vy);
 	}
 
@@ -56,6 +67,7 @@ public class BasicStunt extends Stunt {
 	}
 	
 	public void shoot(int degree) {
-		((EnemyChicken)this.entity).shoot();
+		//((EnemyChicken)this.entity).shoot();
+		
 	}
 }

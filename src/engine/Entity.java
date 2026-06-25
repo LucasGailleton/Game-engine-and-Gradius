@@ -35,7 +35,7 @@ public abstract class Entity {
 	private ISU.Coord center; // coordonnées en cm du centre de l'entité
 	private Bounding bounding;
 	private Set<Grid.Cell> occupied;
-	private engine.GAL.Bot bot;
+	protected engine.GAL.Bot bot;
 	private ISU.Coord boundingBoxTopLeft;
 	private ISU.Coord boundingBoxBottomRight;
 	private int orientation_degree; // orientation par rapport à l'axe des x
@@ -43,7 +43,7 @@ public abstract class Entity {
 	protected Avatar avatar;
 	public List<Entity> trueCollisions;
 
-	private Stunt stunt;
+	protected Stunt stunt;
 	protected Model model;
 	private Vector lSpeed;
 	private double aSpeed;
@@ -310,14 +310,17 @@ public abstract class Entity {
 
 	// COLLISIONS
 	public void collision(Entity e) {
-		this.stunt.collision(e);
+		if (this.stunt != null) {
+	        this.stunt.collision(e);
+	    } else {
+	        this.die(); // Fallback pour les vieux ennemis sans Stunt
+	    }
 	}
 
 	public void collision(List<Entity> le) {
-		if (this.stunt() != null) {
-	        this.stunt().collision(le); 
+		if (this.stunt != null) {
+	        this.stunt.collision(le); 
 	    } else {
-	        // Comportement par défaut si l'entité n'a pas de stunt
 	        this.setlSpeed(0, 0);
 	        die();
 	    }

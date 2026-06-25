@@ -27,6 +27,26 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
         this.setSize(this.isu.new Dimension((Game.cmPerCell*16)/Main.windowScale, (Game.cmPerCell*16)/Main.windowScale));
         this.avatar = new HomingAvatar(this);
     }
+    
+    @Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
+	}
 
     
     private class HomingAvatar extends Avatar {
@@ -79,23 +99,5 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
     }
 
 
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void tryToShoot() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void shoot() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

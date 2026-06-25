@@ -46,11 +46,12 @@ public class Main implements Runnable {
 	List<Entity> entities;
 	List<Automaton> auts;
 	public static MapBuilder mb;
-	public static final double windowScale = 4;
+	public static final double windowScale = 3;
 	public static final int windowWidth = 256;
 	public static final int windowHeight = 240;
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
+	public static boolean GAMEOVER = false;
 
 	public static void main(String[] args) {
 
