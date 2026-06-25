@@ -11,6 +11,7 @@ import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Vector;
+import engine.LaserStunt;
 import engine.ShipStunt;
 import engine.shapes.Circle;
 import engine.shapes.Rect;
@@ -27,7 +28,7 @@ import oop.utils.SoundPlayer;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 
-public class Ship extends Entity implements Shooter, Damageable {
+public class Ship extends Entity {
 
 	public static double ShipSpeed = 20 * Main.windowScale;
 	public static final int missileSpeed = 1500;
@@ -47,12 +48,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 	private int powerUp;
 	public boolean isShooting;
 	public static boolean double_tir = false;
-	public static final int WEAPON_SIMPLE = 0;
-	public static final int WEAPON_LASER = 1;
-	private int weapon = WEAPON_SIMPLE;
 	private final List<Slave> slaves = new ArrayList<>();
-
-	private ShipStunt shipStunt;
 
 	public Ship(View view) {
 		super("Ship");
@@ -117,53 +113,6 @@ public class Ship extends Entity implements Shooter, Damageable {
 		}
 	}
 
-	@Override
-	public void tryToShoot() {
-		if (this.shootCooldown <= 0.0) {
-			this.shoot();
-			this.shootCooldown = SHOOT_DELAY;
-		}
-	}
-
-	public void shoot() {
-		Position pos = this.position();
-
-		if (this.weapon == WEAPON_LASER) {
-			LaserShot laser = new LaserShot(view, "laser");
-			laser.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 50, pos.y * Game.cmPerCell));
-			laser.setlSpeed(missileSpeed*2, 0);
-			Main.mb.placeEntity(laser);
-		} else {
-			MissilePlayer msp = new MissilePlayer(view, "missile simple");
-			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
-			msp.setlSpeed(missileSpeed, 0);
-			Main.mb.placeEntity(msp);
-		}
-
-		// power-up du 2e tir a 45 deg vers le bas
-		if (double_tir) {
-			MissilePlayer msp2 = new MissilePlayer(view, "missile double");
-			msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
-			msp2.setlSpeed(missileSpeed, missileSpeed);
-			Main.mb.placeEntity(msp2);
-		}
-		
-		for (int i=0; i<this.slaves.size(); i++) {
-			ISU.Coord oc = slaveCoord(i);
-			MissilePlayer m = new MissilePlayer(view, "slave shot");
-			m.setCoord(this.isu.new Coord(oc.x_cm + 20, oc.y_cm));
-			m.setlSpeed(missileSpeed, 0);
-			Main.mb.placeEntity(m);
-		}
-		// Fin du code de Dario
-
-		if (indexAudio % 2 == 0)
-			tir1.play(1);
-		else
-			tir2.play(1);
-		indexAudio++;
-	}
-
 	public boolean getHit() {
 		return hit;
 	}
@@ -206,9 +155,37 @@ public class Ship extends Entity implements Shooter, Damageable {
 		switch (this.powerUp) {
 		case PowerUp.Speed: Ship.ShipSpeed *= 1.5; break;
 		case PowerUp.Double: Ship.double_tir = true; break;
-		case PowerUp.Laser: this.weapon = WEAPON_LASER; break;
+		case PowerUp.Laser:
+			LaserStunt ls = new LaserStunt(this.model, this);
+			ls.direction = this.stunt().direction;
+			this.setStunt(ls); 
+			break;
 		case PowerUp.Slave: this.addSlave(); break;
 		default: break;
+		}
+	}
+	
+	public boolean canShoot() {
+		return this.shootCooldown <= 0.0;
+	}
+
+	public void resetCooldown() {
+		this.shootCooldown = SHOOT_DELAY;
+	}
+
+	public void playSound() {
+		if (indexAudio % 2 == 0) tir1.play(1);
+		else tir2.play(1);
+		indexAudio++;
+	}
+
+	public void triggerSlaves() {
+		for (int i=0; i<this.slaves.size(); i++) {
+			ISU.Coord oc = slaveCoord(i);
+			MissilePlayer m = new MissilePlayer(view, "slave shot");
+			m.setCoord(this.isu.new Coord(oc.x_cm + 20, oc.y_cm));
+			m.setlSpeed(missileSpeed, 0);
+			Main.mb.placeEntity(m);
 		}
 	}
 
@@ -355,5 +332,9 @@ public class Ship extends Entity implements Shooter, Damageable {
 			}
 		}
 
+	}
+
+	public View getView() {
+		return this.view;
 	}
 }
