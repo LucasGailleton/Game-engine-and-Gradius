@@ -24,6 +24,9 @@ public class MapBuilder {
 	private Model model;
 	private View view;
 	private ISU isu;
+	
+	public static double Timer = 10000;
+	public static int nbEnemies = 0;
 
 	public MapBuilder(Model model, View view) {
 		this.model = model;
@@ -34,7 +37,7 @@ public class MapBuilder {
 	public void placeObjects() {
 
 		EnemyKamikaze kz = new EnemyKamikaze("kz1");
-		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
+		kz.setCoord(isu.new Coord(20.0 * mult, 1.8 * mult + 100));
 		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
@@ -96,6 +99,22 @@ public class MapBuilder {
 			placeEntity(botBorder);
 
 			currentX += botBorder.size.x_cm;
+		}
+	}
+	
+	public void genAleatoire() {
+		
+		while (Timer >0 && nbEnemies < 10) {
+			double al = Math.random();
+			if (al>=0.75) {
+				
+			}else if (al>=0.5 && al < 0.75) {
+				
+			}else if (al >=0.25 && al <0.5) {
+				
+			}else {
+				
+			}
 		}
 	}
 	
