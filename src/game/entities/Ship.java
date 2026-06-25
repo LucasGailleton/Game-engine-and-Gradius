@@ -111,7 +111,6 @@ public class Ship extends Entity implements Shooter, Damageable {
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
->>>>>>>>> Temporary merge branch 2
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
