@@ -79,7 +79,6 @@ public class Ship extends Entity implements Shooter {
 		pickUpPowerUps();
 		
 	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-	    
 	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 	    
 	    int shift1 = view.shiftPX;
@@ -99,7 +98,7 @@ public class Ship extends Entity implements Shooter {
 	    }
 		
 		// Annulation du scrolling
-		if (shift)
+		if (shift && !hit)
 			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
@@ -166,8 +165,10 @@ public class Ship extends Entity implements Shooter {
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
 			this.mort.play(1);
+			hit = true;
 			gameOver = true;
 			setlSpeed(0, 0);
+			View.viewSpeed = 0;
 			((ShipAvatar) avatar).exploser();
 			task.post(() -> {
 				this.die();
@@ -200,10 +201,6 @@ public class Ship extends Entity implements Shooter {
 		case PowerUp.Slave: this.addSlave(); break;
 		default: break;
 		}
-	}
-
-	public double walkSpeed() {
-		return 15.0 + this.speedBoost * 5.0;
 	}
 
 	private void addSlave() {
