@@ -4,6 +4,7 @@ import java.util.List;
 
 import engine.Entity;
 import engine.Grid.Cell;
+import engine.ISU.Vector;
 import game.Model;
 import game.entities.Avatar;
 
@@ -21,10 +22,19 @@ public abstract class Stunt {
 		forbiddenDirection = -1;
 		direction = Avatar.West;
 	}
+
+	public void set(int orientation) {
+		this.entity.turn(orientation - this.entity.orientation());
+	}
+
+	public void set(Cell c) {
+		this.entity.setPosition(c.position);	
+	}
+
+	public void set(double x, double y) {
+		this.entity.translate(this.entity.isu.new Vector(x, y));
+	}
 	
-	public abstract void set(int orientation);
-	public abstract void set(Cell c);
-	public abstract void set(double x,double y);
 	public abstract void collision(Entity e);
 	public abstract void collision(List<Entity> e);
 

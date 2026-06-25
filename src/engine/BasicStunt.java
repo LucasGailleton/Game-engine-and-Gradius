@@ -18,21 +18,6 @@ public class BasicStunt extends Stunt {
 	public BasicStunt(Model model, Entity entity) {
 		super(model, entity);
 	}
-	
-	@Override
-	public void set(int orientation) {
-		this.entity.turn(orientation - this.entity.orientation());
-	}
-
-	@Override
-	public void set(Cell c) {
-		this.entity.setPosition(c.position);	
-	}
-
-	@Override
-	public void set(double x, double y) {
-		this.entity.translate(this.entity.isu.new Vector(x, y));
-	}
 
 	@Override
 	public void collision(Entity e) {
@@ -44,7 +29,9 @@ public class BasicStunt extends Stunt {
             	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
                 ((Damageable) this.entity).gotHit();
             }
-            e.die(); 
+            if (!(e instanceof LaserShot)) {
+                e.die(); 
+            }
         }
 	}
 
@@ -69,6 +56,12 @@ public class BasicStunt extends Stunt {
 	
 	public void shoot(int degree) {
 		
+		
+	}
+
+	@Override
+	public void shootOnce() {
+		// TODO Auto-generated method stub
 		
 	}
 

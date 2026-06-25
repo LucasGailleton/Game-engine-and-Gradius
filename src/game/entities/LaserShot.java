@@ -22,18 +22,17 @@ public class LaserShot extends MissilePlayer {
 	@Override
 	public void collision(List<Entity> le) {
 
+		boolean touche = false;
 		for (Entity e : le) {
-
-			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer) {
-				continue; 
-			}
-
-			if (e instanceof Enemy) {
-				System.out.println("On a touché : " + e.name);
-
-				e.die(); 
-			}
-		}
+			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer || e instanceof Borders)
+				continue;
+			
+			touche = true;
+			System.out.println("Le missile a percuté : " + e.name);
+	        
+	       
+	        e.collision(this);
+		 }
 	}
 
 	public class LaserAvatar extends Avatar {

@@ -77,7 +77,7 @@ public class Model {
 	}
 
 	public void tick(long elapsed) {
-		if (Main.debug) p.start();
+	    if (Main.debug) p.start();
 	    if (elapsed > 100) elapsed = 10;
 
 	    boolean shift = v.shift();
@@ -90,63 +90,88 @@ public class Model {
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
-	    	
-	    	boolean isShip = entity instanceof Ship;
-	    	boolean isLaser = entity instanceof LaserShot;
-	    	boolean isMissile = entity instanceof MissilePlayer;
-	    	entity.trueCollisions = new ArrayList<Entity>();
-	    	 
+	        
+	        boolean isShip = entity instanceof Ship;
+	        boolean isLaser = entity instanceof LaserShot;
+	        boolean isMissile = entity instanceof MissilePlayer;
+	        entity.trueCollisions = new ArrayList<Entity>();
+	         
 	        if (entity.haslSpeed()) {
 	            
 	            ISU.Vector speedVector = entity.lSpeed();
-				
-				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
-				double moveX = speedVector.targetX_cm * seconds;
-				double moveY = speedVector.targetY_cm * seconds;
-				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
-				
-				entity.translate(moveVec);
-				
-				if (!boxCollisions.isEmpty()) {
+	            double moveX = speedVector.targetX_cm * seconds;
+	            double moveY = speedVector.targetY_cm * seconds;
+	            
+	            if (isMissile || isLaser) {
 
-					for (Entity e : boxCollisions) {
-	                    if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave)) {
-	                        continue;
+	                int steps = 20; 
+	                double stepX = moveX / steps;
+	                double stepY = moveY / steps;
+	                ISU.Vector stepVec = entity.isu.new Vector(stepX, stepY);
+	                
+	                for (int i = 0; i < steps; i++) {
+	                    entity.translate(stepVec);
+
+	                    for (Entity e : copyEntities) {
+	                        if (e == entity) continue;
+	                        if (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof game.entities.Borders) {
+	                            continue;
+	                        }
+
+	                        if (entity.bounding().intersects(e.bounding())) {
+	                            if (!entity.trueCollisions.contains(e)) {
+	                                entity.trueCollisions.add(e);
+	                            }
+	                        }
 	                    }
-						if ((isMissile || isLaser) && !(e instanceof PowerUp))
-							entity.trueCollisions.add(e);
-						else if (entity.bounding().intersects(e.bounding()))
-							entity.trueCollisions.add(e);
-					}
-					
-					if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
-						boolean isInvincible = false;
-						
-						if(isShip)
-							isInvincible = ((Ship)entity).getHit();
-						
-					    if (!isInvincible) {
-					    	if(!isLaser) {
-								entity.translate(entity.isu.new Vector(-moveX, -moveY));
-								entity.setlSpeed(0, 0); 
-					    	}
-							if (entity.stunt() instanceof ShipStunt) {
-								ShipStunt bs = ((ShipStunt) entity.stunt());
-								bs.forbiddenDirection = bs.direction;
-								switch (bs.direction) {
-								case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-								default: bs.set(0, -0.05*Main.windowScale); break;
-								}
-							}
-							entity.collision(entity.trueCollisions);
-					    }
-					}
-				}
-				
-			}
+	                    if (!entity.trueCollisions.isEmpty() && !isLaser) {
+	                        break; 
+	                    }
+	                }
+	            } else {
+	                List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
+	                ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
+	                entity.translate(moveVec);
+	                
+	                for (Entity e : boxCollisions) {
+	                    if (e == entity) continue;
+	                    if (entity.bounding().intersects(e.bounding())) {
+	                        entity.trueCollisions.add(e);
+	                    }
+	                }
+	            }
+	            if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
+	                boolean isInvincible = false;
+	                
+	                if(isShip)
+	                    isInvincible = ((Ship)entity).getHit();
+	                
+	                if (!isInvincible) {
+	                    if(!isLaser && !isMissile) {
+	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
+	                    }
+	                    
+	                    if(!isLaser) {
+	                        entity.setlSpeed(0, 0); 
+	                    }
+	                    
+	                    if (entity.stunt() instanceof ShipStunt) {
+	                        ShipStunt bs = ((ShipStunt) entity.stunt());
+	                        bs.forbiddenDirection = bs.direction;
+	                        switch (bs.direction) {
+	                        case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+	                        case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+	                        case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+	                        default: bs.set(0, -0.05*Main.windowScale); break;
+	                        }
+	                    }
+	                    entity.collision(entity.trueCollisions);
+	                }
+	            }
+	        }
+	        
 	        entity.tick(elapsed, shift);
+	       
 		}
 		if (Main.debug)
 			p.end();
