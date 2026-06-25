@@ -91,8 +91,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed/1000;
 		
-		if (shift)
-			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
+//		if (shift)
+//			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 		
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;

@@ -73,7 +73,10 @@ public class Model {
 
 	    boolean shift = v.shift();
 	    this.seconds = elapsed / 1000.0;
+	    
 	    Main.mb.genAleatoire(seconds);
+	    if (Main.Timer > 0)
+	    	Main.Timer--;
 	    
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
@@ -134,9 +137,7 @@ public class Model {
 				}
 				
 			}
-	        
 	        entity.tick(elapsed, shift);
-	       
 		}
 		if (Main.debug)
 			p.end();
