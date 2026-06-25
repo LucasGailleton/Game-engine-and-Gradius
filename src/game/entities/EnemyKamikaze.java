@@ -6,6 +6,9 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.ISU.Coord;
+import engine.ISU.Dimension;
+import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -15,6 +18,8 @@ public class EnemyKamikaze extends Entity implements Enemy{
 	public static final int spriteNeutral = 0;
     public static final int spriteUp = 1;
     public static final int spriteDown = 2;
+    
+    
    
 	public EnemyKamikaze(String name) {
 		super(name);
@@ -26,8 +31,25 @@ public class EnemyKamikaze extends Entity implements Enemy{
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
 		
+		
+	}
+	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm*2, y_cm*2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
 	private class KamikazeAvatar extends Avatar {
@@ -79,7 +101,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
 	            
 	            
 	            
-	             g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+	            g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 	            if (indChg == 0)
 	 		    	index++;
 	 		    if (index > 5)

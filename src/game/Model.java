@@ -33,6 +33,7 @@ public class Model {
 	private double seconds;
 	private Profiler p;
 	private View v;
+	private Ship player;
 
 	
 	public Model(View v) {
@@ -52,6 +53,14 @@ public class Model {
 
 	public void remove(Entity e) {
 		this.entities.remove(e);
+	}
+	
+	public void setPlayer(Ship ship) {
+	    this.player = ship;
+	}
+	
+	public Ship getPlayer() {
+	    return this.player;
 	}
 	
 	public View getView() { // Méthode temporaire, structurellement pas ouf

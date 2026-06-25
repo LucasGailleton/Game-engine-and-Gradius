@@ -68,7 +68,7 @@ public class BasicStunt extends Stunt {
 	}
 	
 	public void shoot(int degree) {
-		//((EnemyChicken)this.entity).shoot();
+		
 		
 	}
 

@@ -28,12 +28,15 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	private int missileSpeed = 15;
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
+	
+	private Ship target ;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
 	
-	private boolean isAlive;
+	
 	private boolean hit = false;
 	protected int hp = 10;
+	private boolean isAlive;
 	
 	private Task task;
 	
@@ -47,18 +50,20 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
 		
+		
 	}
 	
 	public void createGuns(Model model, View view) {
 		ISU is = Game.game().isu;
+		this.target = model.getPlayer();
 		double x = this.center().x_cm;
 		double y = this.center().y_cm;
-		this.bgb = new BossGunBottom("bgb",this);
+		this.bgb = new BossGunBottom("bgb",this,target);
 		this.bgb.setCoord(is.new Coord(x+10,y+60));
 		this.bgb.setBounding();
 		model.add(bgb);
 		view.add(this.bgb.getAvatar());
-		this.bgt = new BossGunTop("bgt",this);
+		this.bgt = new BossGunTop("bgt",this,target);
 		this.bgt.setCoord(is.new Coord(x+10,y-60));
 		this.bgt.setBounding();
 		model.add(bgt);
