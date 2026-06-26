@@ -332,7 +332,7 @@ public class Ship extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
 			this.sprites = new BufferedImage[4][3];
 
 			sprites[East][spriteNeutral] = imgSprites.getSubimage(262, 4, spriteSizeX, spriteSizeY);
@@ -345,7 +345,7 @@ public class Ship extends Entity {
 			this.death.add(imgSprites.getSubimage(298, 21, 24, 12));
 			this.death.add(imgSprites.getSubimage(330, 27, 24, 12));
 
-			BufferedImage imgLife = g.load("obstacles.png");
+			BufferedImage imgLife = g.load("sprites/obstacles.png");
 			this.life.add(imgLife.getSubimage(53, 223, 244, 49));
 			this.life.add(imgLife.getSubimage(53, 285, 244, 49));
 			this.life.add(imgLife.getSubimage(54, 346, 244, 49));

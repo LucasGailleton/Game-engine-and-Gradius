@@ -24,7 +24,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	private boolean hit = false;
 	private int gravite; //entre 0 et 1;
 
-	public EnemyWalking(View view,String name, int gravite) {
+	public EnemyWalking(View view,String name, int orientation) {
 		super(name);
 		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
@@ -101,7 +101,6 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 
 		
 	private class WalkingAvatar extends Avatar{
-		
 		public static final int TopLeft = 0;
 		public static final int TopRight = 1;
 	    public static final int DownLeft = 2;

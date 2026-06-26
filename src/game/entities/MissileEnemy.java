@@ -101,7 +101,7 @@ public class MissileEnemy extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("enemies_clearbg.png");
+			BufferedImage imgSprites = g.load("sprites/enemies_clearbg.png");
             this.sprites = new BufferedImage[2][2];
             
             this.sprites[0][0] = imgSprites.getSubimage(292, 31, spriteSizeX, spriteSizeY);

@@ -67,7 +67,7 @@ public class Borders extends Entity{
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("obstacles.png");
+			BufferedImage imgSprites = g.load("sprites/obstacles.png");
 			this.sprites = new BufferedImage[5][2];
 
 			// Sprite de commencement de la grotte

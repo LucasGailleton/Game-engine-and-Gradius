@@ -66,7 +66,7 @@ public class LaserShot extends MissilePlayer {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[1][1];
             
             this.sprites[0][0] = imgSprites.getSubimage(315, 802, spriteSizeX, spriteSizeY);

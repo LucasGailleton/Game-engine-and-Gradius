@@ -222,7 +222,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("Boss_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/Boss_Sprites.png");
 			this.sprites = new BufferedImage[4][3];
 			
 			//FULL HP

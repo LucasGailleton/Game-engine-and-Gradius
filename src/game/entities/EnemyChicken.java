@@ -172,7 +172,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[2][1];
             
             this.sprites[Top][spriteNeutral] = imgSprites.getSubimage(218, 245, 36, 28);

@@ -38,7 +38,7 @@ public class Background extends Entity {
 		@Override
 		public void getSprites(Graphics g) {
 			this.sprites = new BufferedImage[1][1];
-			this.sprites[0][0] = g.load("background.png");
+			this.sprites[0][0] = g.load("sprites/background.png");
 		}
 
 		@Override
