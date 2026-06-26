@@ -104,8 +104,6 @@ public class Controller {
 		
 	}
 
-	
-
 	public void shoot() {
 		player.stunt().shootOnce();
 	}

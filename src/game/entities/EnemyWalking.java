@@ -21,15 +21,16 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	private int hp = 1;
     private boolean isAlive;
 	private boolean hit = false;
-	
+	private int orientation; //entre 0 et 1;
 
-	public EnemyWalking(View view,String name) {
+	public EnemyWalking(View view,String name, int orientation) {
 		super(name);
 		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
 		this.isAlive=true;
+		this.orientation = orientation;
 	}
 	
 	
@@ -198,7 +199,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[DownLeft][index], posX+shiftPX, posY, 
+            g.drawImage(sprites[orientation][index], posX+shiftPX, posY, 
             		(int) (spriteSizeX*Main.windowScale), 
             		(int) (spriteSizeY*Main.windowScale));
             
