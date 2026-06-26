@@ -32,13 +32,7 @@ public class Borders extends Entity{
 	public void setBounding() {
 		ISU.Coord center = this.center();
 		ISU.Coord centerBorder;
-		double factor;
-		switch (chosenSprite) {
-		case 0: factor = (chosenPos == BorderAvatar.Top) ? -1.4 : 1.7; break;
-		case 1: factor = (chosenPos == BorderAvatar.Top) ? -1.5 : 1.8; break;
-		case 2, 3: factor = (chosenPos == BorderAvatar.Top) ? -1.0 : 1.3; break;
-		default: factor = (chosenPos == BorderAvatar.Top) ? -1.3 : 1.6; break;		// Case 4
-		}
+		double factor = (chosenPos == BorderAvatar.Top) ? -1.4 : 1.7;
 		centerBorder = Game.game().isu.new Coord(center.x_cm, center.y_cm + factor * Game.cmPerCell * Main.windowScale);
 		this.bounding().add(new Rect(centerBorder, this.size, this.orientation()));
 	}
@@ -49,7 +43,7 @@ public class Borders extends Entity{
 
 		// On calcule la position logique du bord GAUCHE de la caméra dans le monde.
 		// (J'utilise votre facteur 0.5 exactement comme dans votre missile)
-		double leftScreenEdge = -(view.shiftPX * 0.5);
+		double leftScreenEdge = -(View.shiftPX * 0.5);
 
 		// On vérifie si la bordure est passée à gauche de cette ligne
 		// (On soustrait aussi la moitié de sa taille pour qu'elle disparaisse sans

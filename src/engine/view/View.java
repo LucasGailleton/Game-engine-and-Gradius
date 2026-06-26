@@ -124,17 +124,19 @@ public class View {
             
 			if (Main.debug) {
 	            model = entity.getModel();
-	            if(entity.bot() != null) {
-	            	String state = entity.bot().state().toString();
-	            	Coord centre = entity.center();
-	            	g.drawString(state, (int) Math.round(centre.x_cm), (int) Math.round(centre.y_cm - 10));
-	            }
+
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);
 		            ISU.Coord centre = entity.center();
 		            
 		            double w = entity.size.x_cm/2.0;
 		            double h = entity.size.y_cm/2.0;
+		            
+		            if(entity.bot() != null) {
+		            	String state = entity.bot().state().toString();
+
+		            	g.drawString(state, ((int)(centre.x_cm-w)*Game.pixelPerCm)+shift - 70, (int)(centre.y_cm-h)*Game.pixelPerCm + 50);
+		            }
 		            
 			        g.drawOval((int)(centre.x_cm*Game.pixelPerCm)-2+shift, (int)(centre.y_cm*Game.pixelPerCm)-2, 4, 4);
 			        g.drawRect(((int)(centre.x_cm-w)*Game.pixelPerCm)+shift, (int)(centre.y_cm-h)*Game.pixelPerCm, (int)w*2*Game.pixelPerCm, (int)h*2*Game.pixelPerCm);

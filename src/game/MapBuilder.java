@@ -53,16 +53,10 @@ public class MapBuilder {
 		this.model = model;
 		this.view = view;
 		this.isu = Game.game().isu;
-		phase = 0;
+		phase = phase_init;
 	}
 	
 	public void placeObjects() {
-
-		EnemyKamikaze kz = new EnemyKamikaze("kz1");
-		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
-		placeEntity(kz);
-		
-		
 	    
 	}
 	
@@ -81,7 +75,7 @@ public class MapBuilder {
 		placeEntity(firstBottomBorder);
 
 		int spriteType;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 15; i++) {
 			spriteType = (int) (Math.random() * 4) + 1;
 
 			// --- PLACEMENT EN HAUT ---
@@ -104,11 +98,11 @@ public class MapBuilder {
 		if (Main.GAMEOVER)
 			return;
 		if (Main.Timer <= 0 && phase < phase_boss) {
-			Main.Timer = Main.TimerOrig;
+			Main.Timer = Main.TimerPhase;
 			phase++;
 			System.out.println("Changement de phase : " + phase);
 			if (phase == phase_cave) {
-				borderStartX = (int) (Main.windowWidth*Game.pixelPerCm)-(View.shiftPX*0.5) + 100;
+				borderStartX = (int) (Main.windowWidth*Game.pixelPerCm)-(View.shiftPX*0.5) + 8.0 * Game.cmPerCell * Main.windowScale;
 				placeBorder();
 				placeMontFendu(borderStartX);
 			}

@@ -17,12 +17,15 @@ import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
 import engine.view.View;
+import game.Main;
 import game.Model;
 import game.entities.Avatar;
+import game.entities.Enemy;
 import game.entities.EnemyChicken;
 import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
+import game.entities.PowerUp;
 import game.entities.Ship;
 
 public abstract class Entity {
@@ -404,4 +407,16 @@ public abstract class Entity {
     }
 	
 	public abstract void tick(double elapsed,boolean shift);
+	
+	public void spawnPowerUpWithProba() {
+		if (Main.powerUpSpawnCooldown == 0 && Main.spawnedPowerUp < Main.maxPowerUps && (Math.random() * 100) < Main.powerUpSpawnChance) {
+            PowerUp bonus = new PowerUp("powerup");
+            bonus.setCoord(this.center());
+            bonus.setBounding();
+            model.add(bonus);
+            model.getView().add(bonus.getAvatar());
+            Main.spawnedPowerUp++;
+            Main.powerUpSpawnCooldown = Main.powerUpSpawnCooldownOrig;
+        }		
+	}
 }
