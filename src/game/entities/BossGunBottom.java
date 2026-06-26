@@ -99,12 +99,18 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	
 	@Override
 	public void gotHit() {
-		hp--;
+		if(!hit)
+			hp--;
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead=true;
 			((BossGunBottomAvatar)this.avatar).exploser();
 		}
+		this.hit = true;
+		task.post(() -> {
+			this.hit = false;
+		}, 100);
+
 	}
 	
 	private class BossGunBottomAvatar extends Avatar{

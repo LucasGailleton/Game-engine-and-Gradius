@@ -55,44 +55,25 @@ public class ShipStunt extends Stunt {
 	
 	@Override
 	public void shootOnce() {
-	    if (this.ship.canShoot()) {
-	        ISU.Coord center = this.ship.center();
+		if (this.ship.canShoot()) {
+			engine.Grid.Position pos = this.ship.position();
 
-	        MissilePlayer msp = new MissilePlayer(this.ship.getView(), "missile simple");
+			MissilePlayer msp = new MissilePlayer(this.ship.getView(), "missile simple");
+			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+			msp.setlSpeed(Ship.missileSpeed, 0);
+			Main.mb.placeEntity(msp);
 
-	        msp.setCoord(Game.game().isu.new Coord(center.x_cm + 40, center.y_cm)); //Ajuster ici si collision ship
-	        msp.setlSpeed(Ship.missileSpeed, 0);
-	        Main.mb.placeEntity(msp);
+			if (Ship.double_tir) {
+				MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
+				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+				msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
+				Main.mb.placeEntity(msp2);
+			}
 
-	        if (Ship.double_tir) {
-	            MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
-	            msp2.setCoord(Game.game().isu.new Coord(center.x_cm + 30, center.y_cm+30)); //Ajuster ici si besoin
-	            msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
-	            Main.mb.placeEntity(msp2);
-	        }
-
-	        this.ship.triggerSlaves();
-	        this.ship.playSound();
-	        this.ship.resetCooldown();
-	    }
-	}
-
-	@Override
-	public void set(int orientation) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void set(Cell c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void set(double x, double y) {
-		// TODO Auto-generated method stub
-		
+			this.ship.triggerSlaves();
+			this.ship.playSound();
+			this.ship.resetCooldown();
+		}
 	}
 	
 

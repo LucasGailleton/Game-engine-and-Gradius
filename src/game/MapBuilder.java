@@ -1,6 +1,5 @@
 package game;
 
-import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -93,6 +92,8 @@ public class MapBuilder {
 
 		int spriteType;
 		for (int i = 0; i < 10; i++) {
+			spriteType = (int) (Math.random() * 4) + 1;
+
 			// --- PLACEMENT EN HAUT ---
 			spriteType = (int) (Math.random() * 4) + 1;
 			Borders topBorder = new Borders("top_" + i, spriteType, BorderAvatar.Top, view);

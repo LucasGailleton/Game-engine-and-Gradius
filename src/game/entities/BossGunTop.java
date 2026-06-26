@@ -40,6 +40,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 		this.master = master;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
+		this.target=target;
 		
 	}
 	
@@ -82,7 +83,6 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 			this.shoot();
 			this.shootCooldown = SHOOT_DELAY;
 		}
-		
 	}
 
 	@Override
