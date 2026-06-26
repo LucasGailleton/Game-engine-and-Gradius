@@ -26,15 +26,7 @@ import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
 import game.entities.Background;
-import game.entities.Boss;
-import game.entities.BossGunBottom;
-import game.entities.BossGunTop;
-import game.entities.EnemyChicken;
-import game.entities.EnemyHoming;
-import game.entities.EnemyKamikaze;
-import game.entities.EnemyWalking;
-import game.entities.MontFendu;
-import game.entities.PowerUp;
+
 import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
