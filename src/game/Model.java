@@ -144,7 +144,6 @@ public class Model {
 	                List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
 	                ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
 	                entity.translate(moveVec);
-	                entity.consumeMoveDistance(Math.hypot(moveX, moveY)); // stoppe l'entité après la distance fixée par move()
 	                
 	                for (Entity e : boxCollisions) {
 	                    if (e == entity || e instanceof MissilePlayer || e instanceof LaserShot) continue;
