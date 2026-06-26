@@ -69,8 +69,6 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			die();
 		}
 		
-		if (shift)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
 			tryToShoot();

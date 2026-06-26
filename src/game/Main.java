@@ -121,18 +121,14 @@ public class Main implements Runnable {
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
 		
+		mb = new MapBuilder(model, view);
+		mb.placeObjects();		
+
 		Ship ship = new Ship(view);
 		model.setPlayer(ship);
 		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
-		
-
-		Main.mb = new MapBuilder(model, view);
-		mb.placeObjects();
-
-		Ship ship = new Ship(this.view);
-		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
 		mb.placeEntity(ship);
-
+		
 		AutomatonLoader al=new AutomatonLoader(3);
 		try {
 //		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");

@@ -75,13 +75,16 @@ public class MissileSpecial extends Entity {
 			double pullY = (dy / distance) * pullForce * seconds;
 			
 			ISU.Vector v = target.isu.new Vector(pullX, pullY);
-			VectAvatar va= view.getVA();
-			va.attract(v);
-			target.translate(v);
 			
-			Main.task.post(() -> {
-				va.attract(target.isu.new Vector(0, 0));
-			}, 300);
+			if (Main.debug) {
+				VectAvatar va = view.getVA();
+				va.attract(v);
+				Main.task.post(() -> {
+					va.attract(target.isu.new Vector(0, 0));
+				}, 300);
+			}
+			
+			target.translate(v);
 		}
 
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
