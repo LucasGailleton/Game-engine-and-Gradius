@@ -75,7 +75,7 @@ public class Ship extends Entity {
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 
-		shapeSize = isu.new Dimension(x_cm / 1.4, y_cm / 2);
+		shapeSize = isu.new Dimension(x_cm / 2, y_cm / 3.0);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}

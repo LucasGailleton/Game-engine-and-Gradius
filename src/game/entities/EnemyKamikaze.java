@@ -31,7 +31,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	public EnemyKamikaze(String name) {
 		super(name);
 		
-		this.setSize(this.isu.new Dimension(18*Main.windowScale, 18*Main.windowScale));
+		this.setSize(this.isu.new Dimension(14*Main.windowScale, 14*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.isAlive=true;	
