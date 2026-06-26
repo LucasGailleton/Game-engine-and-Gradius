@@ -1,6 +1,7 @@
 package engine.GAL;
 
 import engine.Entity;
+import game.entities.EnemyChicken;
 
 public class Egg extends GALAction{
 	Entity child;
@@ -8,15 +9,14 @@ public class Egg extends GALAction{
 	public Egg() {
 		
 	}
-	public Egg(Category cat) {
-		
-	}
-	public void set(Entity e) {
-		this.child=e;
-	}
+
 	@Override
 	public boolean exec(Entity e) {
 		// TODO Auto-generated method stub
+		if(e instanceof EnemyChicken chick) {
+			chick.egg();
+			return true;
+		}
 		return false;
 	}
 }

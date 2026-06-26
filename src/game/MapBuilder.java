@@ -5,6 +5,7 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.ISU.Coord;
+import engine.GAL.Automaton;
 import engine.GAL.GALBot;
 import engine.view.View;
 import game.entities.Borders;
@@ -32,6 +33,13 @@ public class MapBuilder {
 	public static final int phase_void = 1;
 	public static final int phase_cave = 2;
 	public static final int phase_boss = 3;
+	
+	public static final Automaton walker_aut = Main.auts.get(3);
+	public static final Automaton homming_aut = Main.auts.get(1);
+	public static final Automaton chicken_aut = Main.auts.get(0);
+	public static final Automaton boss_aut1 = Main.auts.get(4);
+	public static final Automaton boss_aut2 = Main.auts.get(5);
+	public static final Automaton kamikaze_aut = Main.auts.get(2);
 
 	private Model model;
 	private View view;
@@ -171,7 +179,7 @@ public class MapBuilder {
 		EnemyStunt bs =new EnemyStunt(model,wlk);
 		wlk.setStunt(bs);
 		GALBot gb = new GALBot(wlk);
-		gb.set(Main.auts.getFirst());
+		gb.set(walker_aut);
 		gb.setthinkspeed(50);
 	}
 
@@ -180,6 +188,12 @@ public class MapBuilder {
 	    double randomY = 80 + (Math.random() * 250);
 	    hom.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(hom);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,hom);
+		hom.setStunt(bs);
+		GALBot gb = new GALBot(hom);
+		gb.set(homming_aut);
+		gb.setthinkspeed(50);
 	}
 
 	private void spawnChicken(double x) {
@@ -195,6 +209,12 @@ public class MapBuilder {
 	    }  
 	    chk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(chk);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,chk);
+		chk.setStunt(bs);
+		GALBot gb = new GALBot(chk);
+		gb.set(chicken_aut);
+		gb.setthinkspeed(150);
 	}
 
 	private void spawnKamikaze(double x) {
@@ -202,6 +222,13 @@ public class MapBuilder {
 	    double randomY = 50 + (Math.random() * 300);
 	    kmkz.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(kmkz);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,kmkz);
+		kmkz.setStunt(bs);
+		GALBot gb = new GALBot(kmkz);
+		gb.set(kamikaze_aut);
+		gb.setthinkspeed(50);
+	    
 	}
 	
 	private void spawnBoss(double x) {
@@ -209,6 +236,12 @@ public class MapBuilder {
 	    boss.setCoord(isu.new Coord(x,15* mult));
 	    placeEntity(boss);
 	    boss.createGuns(model, view);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,boss);
+		boss.setStunt(bs);
+		GALBot gb = new GALBot(boss);
+		gb.set(boss_aut1);
+		gb.setthinkspeed(50);
 	}
 
 	public void placeEntity(Entity e) {

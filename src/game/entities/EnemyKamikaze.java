@@ -33,6 +33,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		this.avatar = new KamikazeAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.isAlive=true;	
+		this.setorient(180);
 	}
 	
 	@Override

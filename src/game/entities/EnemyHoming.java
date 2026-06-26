@@ -33,6 +33,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
         this.avatar = new HomingAvatar(this);
         this.setCategory(engine.GAL.Category.Adversary);
         this.view=view;
+        this.setorient(180);
 	this.isAlive=true;
     }
     

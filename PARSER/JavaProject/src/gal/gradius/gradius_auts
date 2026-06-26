@@ -1,3 +1,11 @@
+Chicken (Chicken){
+
+// single line comment are allowed
+
+ * (Chicken):
+ | True        ? Egg()  :(Chicken)
+ 
+}
 
 HOMMING (Homming){
 
@@ -13,14 +21,13 @@ KAMIKAZE (Wander){
 // single line comment are allowed
 
 * (Wander):
-    | Closest(@)  ? Move(F)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
-    | True        ? Move(F)   : (Wander)
-
-  * (Track):
-    | Closest(F, @)    ? Move(F)   : (Track)   // Si le joueur est droit devant, on avance
-    | Closest(R, @)    ? Turn(R)   : (Track)   // S'il est à droite, on tourne à droite
-    | Closest(L, @)    ? Turn(L)   : (Track)   // S'il est à gauche, on tourne à gauche
-    | Closest(B, @)    ? Turn(B)   : (Track)   // S'il est derrière, on fait demi-tour
+    | Step(W,@)  ? Turn(W)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | True        ? Move(S,3)   : (Wander2)
+* (Wander2):
+    | Step(W,@)  ? Turn(W)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | True        ? Move(N,6)   : (Wander)
+* (Track):
+    | True        ? Move(F)   : (Track)
  
 }
 
@@ -29,13 +36,41 @@ WALKING (Walking){
 // single line comment are allowed
 
 * (Walking):
-    | Closest(@,5)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
-    | Step(F,O)     ? Move(F)  : (Walking) 
-    | True          ? Turn(B)  : (Walking)
+//    | Closest(@,100)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(F,1,O)     ? Turn(B)  : (Walking) 
+    | True          ? Move(F)  : (Walking)
 
   * (Shooting):
-    | Closest(@,5)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
-    | Step(F,O)     ? Move(F)  : (Walking) 
-    | True          ? Turn(B)  : (Walking)
+//    | Closest(@,100)  ? Hit($)    : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(F,1,O)     ? Turn(B)  : (Walking) 
+    | True          ? Move(F)  : (Walking)
+ 
+}
+
+BOSS1 (Walking){
+
+// single line comment are allowed
+
+* (Walking):
+    | Closest(@)  ? Hit(W)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | True          ? Move(S,3)  : (Walking)
+
+  * (Shooting):
+    | Closest(@,5)  ? Hit(W)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | True          ? Move(N,6)  : (Walking)
+ 
+}
+
+BOSS2 (Walking){
+
+// single line comment are allowed
+
+* (Walking):
+    | Closest(@)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | True          ? Move(S,3)  : (Walking)
+
+  * (Shooting):
+    | Closest(@)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | True          ? Move(N,6)  : (Walking)
  
 }

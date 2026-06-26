@@ -19,21 +19,20 @@ import oop.tasks.Task;
 //Entité qui spawn de base ET avec EnemyChicken
 //Ne se déplace pas 
 public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
-	
 	private int hp = 1;
     private boolean isAlive;
 	private boolean hit = false;
-	private int topOrBottom; //0 pour haut, 2 pour bas (faut pas chercher)
-	private final double SPAWN_CHANCE = 0.1;
+	private int gravite; //entre 0 et 1;
 
-	public EnemyWalking(View view,String name, int topOrBottom) {
+	public EnemyWalking(View view,String name, int gravite) {
 		super(name);
 		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
 		this.isAlive=true;
-		this.topOrBottom = topOrBottom;
+		this.gravite = gravite;
+		this.setorient(180);
 	}
 	
 	
@@ -201,7 +200,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 						(int) (spriteSizeY * Main.windowScale));
             } 
             else if (this.visible) {
-                g.drawImage(sprites[topOrBottom][index], posX + shiftPX, posY, 
+                g.drawImage(sprites[gravite][index], posX + shiftPX, posY, 
                 		(int) (spriteSizeX * Main.windowScale), 
                 		(int) (spriteSizeY * Main.windowScale));
                 
