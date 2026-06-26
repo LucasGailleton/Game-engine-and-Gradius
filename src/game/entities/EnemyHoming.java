@@ -142,7 +142,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 		private void avancerExplosion() {
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
-				this.visible = false;
+				//this.visible = false;
 		
 				return;
 			}
@@ -163,10 +163,6 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
            
             sprites[0][0] = imgSprites.getSubimage(178, 96, 15, 15);
             sprites[0][1] = imgSprites.getSubimage(198, 98, 15, 15); //13
-            
-            
-            
-            
             
             this.death.clear();
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));

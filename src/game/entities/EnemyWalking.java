@@ -197,20 +197,27 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 			ISU.Coord center = EnemyWalking.this.center(); 
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-            
-            //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[orientation][index], posX+shiftPX, posY, 
-            		(int) (spriteSizeX*Main.windowScale), 
-            		(int) (spriteSizeY*Main.windowScale));
-            
-            if (indChg == 0)
- 		    	index++;
- 		    if (index > 2)
- 		    	index = 1;
- 		    indChg++;
- 		    if (indChg % 50 == 0) {
- 		    	indChg = 0;
- 		    }
+
+            if (this.exploding) {
+				int i = Math.min(this.deathIndex, this.death.size() - 1);
+				g.drawImage(this.death.get(i), posX + shiftPX, posY, 
+						(int) (spriteSizeX * Main.windowScale), 
+						(int) (spriteSizeY * Main.windowScale));
+            } 
+            else if (this.visible) {
+                g.drawImage(sprites[orientation][index], posX + shiftPX, posY, 
+                		(int) (spriteSizeX * Main.windowScale), 
+                		(int) (spriteSizeY * Main.windowScale));
+                
+                if (indChg == 0)
+     		    	index++;
+     		    if (index > 2)
+     		    	index = 1;
+     		    indChg++;
+     		    if (indChg % 50 == 0) {
+     		    	indChg = 0;
+     		    }
+            }
 			
 		}	
 	}
