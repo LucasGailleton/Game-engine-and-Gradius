@@ -75,8 +75,10 @@ public class Controller {
 
 		dir = angle;
 		stopped = false;
-		player.stunt().forbiddenDirection = -1;
-		
+		if (player.stunt()!=null) {
+			player.stunt().forbiddenDirection = -1;
+		}
+				
 		double speed = 0;
 		
 		if(dx != 0 && dy != 0) {
@@ -113,49 +115,3 @@ public class Controller {
 		}
 	}
 }
-	
-	
-//	public void right() {
-//	if (player.forbiddenDirection != Avatar.East) {
-//		if (player.forbiddenDirection != -1)
-//			player.set(0.3, 0);
-//		player.forbiddenDirection = -1;
-//		player.direction = Avatar.East;
-//		player.walk(0);
-//		stopped = false;
-//	}
-//}
-//
-//public void up() {
-//	if (player.forbiddenDirection != Avatar.North) {
-//		if (player.forbiddenDirection != -1)
-//			player.set(0, -0.3);
-//		player.forbiddenDirection = -1;
-//		player.direction = Avatar.North;
-//		player.walk(270);
-//		stopped = false;
-//	}
-//}
-//
-//public void down() {
-//	if (player.forbiddenDirection != Avatar.South) {
-//		if (player.forbiddenDirection != -1)
-//			player.set(0, 0.3);
-//		player.forbiddenDirection = -1;
-//		player.direction = Avatar.South;
-//		player.walk(90);
-//		stopped = false;
-//	}
-//}
-	
-//	public void left() {
-//		if (player.forbiddenDirection != Avatar.West) {
-//			if (player.forbiddenDirection != -1)
-//				player.set(-0.3, 0);
-//			player.forbiddenDirection = -1;
-//			player.direction = Avatar.West;
-//			player.walk(180);
-//			stopped = false;
-//		}
-//	}
-//}
