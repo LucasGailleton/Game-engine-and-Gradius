@@ -159,8 +159,17 @@ public class MapBuilder {
 	}
 	
 	private void spawnWalking(double x) {
-	    EnemyWalking wlk = new EnemyWalking(view,"walker");
-	    double randomY = 100 + (Math.random() * 200); 
+	    EnemyWalking wlk ;
+	    boolean hautOuBas = Math.random()<0.5;
+	    double randomY = 0;
+	    if (hautOuBas) {
+	    	wlk = new EnemyWalking(view,"walking",2);
+	    	randomY = 410;
+	    }else {
+	    	randomY = 20;
+	    	wlk = new EnemyWalking(view,"walking",0);
+	    }
+	    
 	    wlk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(wlk);
 	  
@@ -180,8 +189,16 @@ public class MapBuilder {
 	}
 
 	private void spawnChicken(double x) {
-	    EnemyChicken chk = new EnemyChicken(view, "chicken");
-	    double randomY = 120 + (Math.random() * 180);
+		EnemyChicken chk;
+		boolean hautOuBas = Math.random()<0.5;
+	    double randomY = 0;
+	    if (hautOuBas) {
+	    	chk = new EnemyChicken(view,"chicken",1);
+	    	randomY=410;
+	    }else {
+	    	chk = new EnemyChicken(view,"chicken",0);
+	    	randomY=20;
+	    }  
 	    chk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(chk);
 	}

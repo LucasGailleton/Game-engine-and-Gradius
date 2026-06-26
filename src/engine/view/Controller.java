@@ -104,8 +104,6 @@ public class Controller {
 		
 	}
 
-	
-
 	public void shoot() {
 		Stunt playerStunt = player.stunt();
 		if (playerStunt != null)

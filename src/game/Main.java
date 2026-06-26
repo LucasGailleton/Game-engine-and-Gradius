@@ -142,15 +142,6 @@ public class Main implements Runnable {
 		    e.printStackTrace(); // Regardez votre console !
 		}
 		
-//		EnemyWalking walk1 = new EnemyWalking(view,"walk1");
-//		walk1.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 15 * Game.cmPerCell * windowScale));
-//		walk1.setBounding();
-//		model.add(walk1);
-//		EnemyStunt bs=new EnemyStunt(model,walk1);
-//		walk1.setStunt(bs);
-//		view.add(walk1.getAvatar());
-//		GALBot gb=new GALBot(walk1);
-//		gb.set(auts.getFirst());
 		
 
 		ShipStunt shipStunt = new ShipStunt(this.model, ship);

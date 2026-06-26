@@ -28,10 +28,10 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
     private boolean hit = false;
 	protected int hp = 3;
 	private boolean isAlive;
-	
+	private int orientation;
 	private Task task;
 	
-	public EnemyChicken(View view, String name) {
+	public EnemyChicken(View view, String name, int orientation) {
 		super(name);
 		this.view = view;
 		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
@@ -40,6 +40,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.task = Runtime.task();
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
+		this.orientation = orientation;
 	}
 	
 	@Override
@@ -189,7 +190,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
             }else if (this.visible){
-            	g.drawImage(sprites[Top][spriteNeutral], posX+shiftPX, posY,
+            	g.drawImage(sprites[orientation][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 
                 		(int) (28*Main.windowScale));
             }
