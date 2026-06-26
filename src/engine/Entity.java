@@ -28,6 +28,8 @@ import game.entities.EnemyWalking;
 import game.entities.PowerUp;
 import game.entities.Ship;
 
+//Classe abstraite qui va servir à définir toutes les qctions
+//qu'une entité peut faire et tous ses atttributs
 public abstract class Entity {
 
 	// FIELDS
@@ -53,9 +55,9 @@ public abstract class Entity {
 
 	protected Stunt stunt;
 	protected Model model;
-	private Vector lSpeed;
-	private double aSpeed;
-	Category category;
+	private Vector lSpeed; //normal speed
+	private double aSpeed; //angular speed
+	Category category; //pour les automates
 	
 	protected View view;
 	

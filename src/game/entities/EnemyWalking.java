@@ -16,21 +16,22 @@ import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
 
+//Entité qui spawn de base ET avec EnemyChicken
+//Ne se déplace pas 
 public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
-	//Entité qui spawn avec chicken
 	private int hp = 1;
     private boolean isAlive;
 	private boolean hit = false;
-	private int gravité; //entre 0 et 1;
- 	private final double SPAWN_CHANCE = 0.1;
-	public EnemyWalking(View view,String name, int gravité) {
+	private int gravite; //entre 0 et 1;
+
+	public EnemyWalking(View view,String name, int orientation) {
 		super(name);
 		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
 		this.isAlive=true;
-		this.gravité = gravité;
+		this.gravite = gravite;
 		this.setorient(180);
 	}
 	
@@ -143,7 +144,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		
 				return;
 			}
-			Main.task.post(new Runnable() {
+			Main.task.post(new Runnable() { //Poster pour faire l'animation de mort moins rapidement 
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -154,8 +155,8 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 
 
 		@Override
-		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+		public void getSprites(Graphics g) { //Plus de sprites que nécessaire finalement
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[4][3];
             
             sprites[TopLeft][Neutral] = imgSprites.getSubimage(170, 297, 18, 18);
@@ -184,11 +185,11 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		@Override
 		public void paint(Graphics g, int shiftPX) {
 
-			if(this.sprites == null)
+			if(this.sprites == null) //Pour éviter qu'on recharge les sprites à chaque tick (gros gain de perf)
 				this.getSprites(g);
 			
 			ISU.Coord center = EnemyWalking.this.center(); 
-			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2); //calcul pour récupérer position
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 
             if (this.exploding) {
@@ -198,7 +199,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 						(int) (spriteSizeY * Main.windowScale));
             } 
             else if (this.visible) {
-                g.drawImage(sprites[gravité][index], posX + shiftPX, posY, 
+                g.drawImage(sprites[gravite][index], posX + shiftPX, posY, 
                 		(int) (spriteSizeX * Main.windowScale), 
                 		(int) (spriteSizeY * Main.windowScale));
                 

@@ -14,14 +14,16 @@ import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
+import game.MapBuilder;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
 
+//Ennemi qui crée des nouveaux ennemis (assez gros, ne se déplace pas, fixé au sol ou au plafond)
+//Nommé pour sa fameuse méthode egg() 
 public class EnemyChicken extends Entity implements Enemy, Damageable{
-	//enemie qui crée des nouveaux ennemies (assez gros)
 	public static final int spriteNeutral = 0;
 	
 	public static final int Top = 0;
@@ -30,19 +32,17 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
     private boolean hit = false;
 	protected int hp = 3;
 	private boolean isAlive;
-	private int gravité;
-	private Task task;
+	private int gravite;
 	
-	public EnemyChicken(View view, String name, int gravité) {
+	public EnemyChicken(View view, String name, int gravite) {
 		super(name);
 		this.view = view;
 		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
 		this.avatar = new ChickenAvatar(this);
 		this.isAlive=true;
-		this.task = Runtime.task();
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
-		this.gravité = gravité;
+		this.gravite = gravite;
 	}
 	
 	@Override
@@ -67,7 +67,8 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
-	
+
+	//Nécessaire pour shootOnce
 	public View view() {
 		return this.view;
 	}
@@ -79,7 +80,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	//Spawn des Enemy Kamikaze  
     public void egg() {
         EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
-        if (gravité == 0) {
+        if (gravite == 0) {
             kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm+50));
         }else {
             kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm-50));
@@ -92,7 +93,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		EnemyStunt bs =new EnemyStunt(model,kamegg);
 		kamegg.setStunt(bs);
 		GALBot gb = new GALBot(kamegg);
-		gb.set(Main.mb.kamikaze_aut);
+		gb.set(MapBuilder.kamikaze_aut);
 		gb.setthinkspeed(50);
     }
 	
@@ -160,7 +161,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -171,7 +172,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[2][1];
             
             this.sprites[Top][spriteNeutral] = imgSprites.getSubimage(218, 245, 36, 28);
@@ -196,7 +197,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX+shiftPX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
             }else if (this.visible){
-            	g.drawImage(sprites[gravité][spriteNeutral], posX+shiftPX, posY,
+            	g.drawImage(sprites[gravite][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 
                 		(int) (28*Main.windowScale));
             }

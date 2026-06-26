@@ -44,7 +44,7 @@ public class PowerUp extends Entity{
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// elle fait rien je crois
+		// elle fait rien
 	}
 
 	public class PowerUpAvatar extends Avatar{
@@ -61,7 +61,7 @@ public class PowerUp extends Entity{
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[1][3];
             this.sprites[0][0] = imgSprites.getSubimage(302, 731, 18, 16);
             this.sprites[0][1] = imgSprites.getSubimage(262, 731, 18, 16);
