@@ -22,7 +22,6 @@ public class MissileSpecial extends Entity {
 	private double explosionRadius = 10.0; // Distance pour exploser
 	private double attractionRadius = 50.0; // Zone d'effet de l'attraction
 	private double pullForce = 100.0; // Force d'attraction
-	private Task task;
 
 	public MissileSpecial(String name, View view, Entity  target) {
 		super(name);
@@ -30,7 +29,6 @@ public class MissileSpecial extends Entity {
 		this.avatar = new MissileSpecialAvatar(this);
 		this.view = view;
 		this.target = target;
-		this.task = Runtime.task();
 		this.setCategory(engine.GAL.Category.Missile);
 	}
 
@@ -81,7 +79,7 @@ public class MissileSpecial extends Entity {
 			va.attract(v);
 			target.translate(v);
 			
-			task.post(() -> {
+			Main.task.post(() -> {
 				va.attract(target.isu.new Vector(0, 0));
 			}, 300);
 		}
@@ -89,7 +87,7 @@ public class MissileSpecial extends Entity {
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
 		int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 
-		int shift1 = view.shiftPX;
+		int shift1 = View.shiftPX;
 		int screenX = entityX + shift1;
 		int w = view.canvas().getWidth();
 
