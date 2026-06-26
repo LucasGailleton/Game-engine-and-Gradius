@@ -150,6 +150,7 @@ public class Ship extends Entity {
 		if (hit || Main.GAMEOVER)
 			return;
 		hp--;
+		model.score.subtractHit();
 
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
@@ -179,6 +180,7 @@ public class Ship extends Entity {
 	}
 
 	public void upgradePowerUp() {
+		model.score.addPowerUp();
 		if (this.powerUp <= 4)
 			this.powerUp++;
 		System.out.println("Augumenation de powerUp : " + this.powerUp);

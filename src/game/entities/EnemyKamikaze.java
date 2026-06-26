@@ -78,6 +78,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	public void die() {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
+        this.model.score.addEnemyKill();
         
         this.spawnPowerUpWithProba();
         

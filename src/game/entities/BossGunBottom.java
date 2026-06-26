@@ -104,6 +104,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead=true;
+			model.score.addSubBossKill();
 			((BossGunBottomAvatar)this.avatar).exploser();
 		}
 		this.hit = true;

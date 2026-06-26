@@ -116,6 +116,7 @@ public class Main implements Runnable {
 
 		this.view = new View(canvas);
 		this.model = new Model(this.view);
+		view.setScore(model.score);
 		Task tick = Runtime.newTask("tick");
 		this.ticker = new Ticker(this.model, tick, 10);
 
