@@ -8,6 +8,7 @@ import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Borders;
+import game.entities.EnemyKamikaze;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PowerUp;
@@ -22,15 +23,17 @@ public class LaserStunt extends Stunt {
 	}
 
 	@Override
-	public void collision(Entity e) {
-		// pour pas que le vaisseau perde de la  vie avec ses propres tirs
-		if (e instanceof MissilePlayer || e instanceof PowerUp)
-			return;
-		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-		if(entity instanceof Ship ship && !(e instanceof Borders)) {
-			ship.gotHit();
-		}
-	}
+    public void collision(Entity e) {
+        // pour pas que le vaisseau perde de la  vie avec ses propres tirs
+        if (e instanceof MissilePlayer || e instanceof PowerUp || e instanceof LaserShot)
+            return;
+        System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
+        if(entity instanceof Ship ship && !(e instanceof Borders)) {
+            if(e instanceof EnemyKamikaze)
+                e.die();
+            ship.gotHit();
+        }
+    }
 
 	@Override
 	public void collision(List<Entity> e) {
