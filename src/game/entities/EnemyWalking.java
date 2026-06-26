@@ -12,10 +12,15 @@ import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
+import oop.tasks.Runnable;
+import oop.tasks.Runtime;
+import oop.tasks.Task;
 
-public class EnemyWalking extends Entity implements Enemy, Shooter {
+public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	//Entité qui spawn avec chicken
-	
+	private int hp = 1;
+    private boolean isAlive;
+	private boolean hit = false;
 	
 
 	public EnemyWalking(View view,String name) {
@@ -24,6 +29,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		this.avatar =new WalkingAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
+		this.isAlive=true;
 	}
 	
 	
@@ -62,6 +68,41 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
+	
+	@Override
+	public void gotHit() {
+		hp--;
+		System.out.println("HP : " + hp);
+		
+		if (hp <= 0) {
+			isAlive = false;
+			
+			((WalkingAvatar)this.avatar).exploser();
+			Main.task.post(() -> {
+				this.die();
+			}, 1000);
+			return;
+		
+		}
+		
+	}
+	
+	@Override
+	public void die() {
+		System.out.println("entité despawn : " + name);
+        this.alive = false;
+        
+        if (Math.random() <= 0.2) {
+            PowerUp bonus = new PowerUp("powerup");
+            bonus.setCoord(this.center()); 
+            bonus.setBounding();
+            model.add(bonus);
+            model.getView().add(bonus.getAvatar());
+        }
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+	}
 
 		
 	private class WalkingAvatar extends Avatar{
@@ -82,12 +123,41 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		private int index;
 		private int indChg;
 		
+		private int deathIndex = 0;
+        private boolean exploding = false;
+		private boolean visible = true;
+		
 		public WalkingAvatar(Entity e) {
 			super(e);
 			this.death = new ArrayList<>();
 			this.index =0;
 			this.indChg=0;			
 		}
+		
+		
+		public void exploser() {
+			this.exploding = true;
+			this.visible = true;
+			this.deathIndex = 0;
+			avancerExplosion();
+		}
+
+		private void avancerExplosion() {
+			if (this.deathIndex >= this.death.size()) {
+				this.exploding = false;
+				this.visible = false;
+		
+				return;
+			}
+			Main.task.post(new Runnable() {
+				@Override
+				public void run() throws Exception {
+					deathIndex++;
+					avancerExplosion();
+				}
+			}, 120);
+		}
+
 
 		@Override
 		public void getSprites(Graphics g) {

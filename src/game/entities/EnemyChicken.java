@@ -98,6 +98,24 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 
 	}
 	
+	@Override
+	public void die() {
+		System.out.println("entité despawn : " + name);
+        this.alive = false;
+        
+        if (Math.random() <= 0.3) {
+            PowerUp bonus = new PowerUp("powerup");
+            bonus.setCoord(this.center()); 
+            bonus.setBounding();
+            model.add(bonus);
+            model.getView().add(bonus.getAvatar());
+        }
+        
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+	}
+	
 	private class ChickenAvatar extends Avatar{
 		
 		private List<BufferedImage> death;

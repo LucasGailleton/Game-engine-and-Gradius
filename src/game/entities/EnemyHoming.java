@@ -17,9 +17,12 @@ import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
 
-public class EnemyHoming extends Entity implements Enemy, Shooter {
+public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
     
-    private Task task;
+	private int hp = 1;
+    	private boolean isAlive;
+	private boolean hit = false;
+	
     private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
 	private int missileSpeed = 15;
@@ -28,9 +31,9 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
         super(name);
         this.setSize(this.isu.new Dimension(16*Main.windowScale, 16*Main.windowScale));
         this.avatar = new HomingAvatar(this);
-        this.task = Runtime.task();
         this.setCategory(engine.GAL.Category.Adversary);
         this.view=view;
+	this.isAlive=true;
     }
     
     @Override
@@ -72,6 +75,40 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
+	
+	@Override
+	public void gotHit() {
+		hp--;
+		System.out.println("HP : " + hp);
+		
+		if (hp <= 0) {
+			isAlive = false;
+			
+			((HomingAvatar)this.avatar).exploser();
+			Main.task.post(() -> {
+				this.die();
+			}, 1000);
+			return;
+		
+		}
+	}
+	
+	@Override
+	public void die() {
+		System.out.println("entité despawn : " + name);
+        this.alive = false;
+        
+        if (Math.random() <= 0.2) {
+            PowerUp bonus = new PowerUp("powerup");
+            bonus.setCoord(this.center()); 
+            bonus.setBounding();
+            model.add(bonus);
+            model.getView().add(bonus.getAvatar());
+        }
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+	}
 
     
     private class HomingAvatar extends Avatar {
@@ -109,7 +146,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;

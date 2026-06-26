@@ -3,6 +3,7 @@ package engine;
 import java.util.List;
 
 import engine.Grid.Cell;
+import engine.ISU.Coord;
 import game.Main;
 import game.Model;
 import game.entities.Avatar;
@@ -11,6 +12,7 @@ import game.entities.EnemyChicken;
 import game.entities.LaserShot;
 import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
+import game.entities.PowerUp;
 
 public class BasicStunt extends Stunt {
 	
@@ -75,6 +77,7 @@ public class BasicStunt extends Stunt {
 	
 	@Override
 	public void shootOnce() {
+		// TODO Auto-generated method stub
 		
 	}
 

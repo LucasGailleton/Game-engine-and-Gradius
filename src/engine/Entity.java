@@ -19,6 +19,10 @@ import engine.shapes.iShape;
 import engine.view.View;
 import game.Model;
 import game.entities.Avatar;
+import game.entities.EnemyChicken;
+import game.entities.EnemyHoming;
+import game.entities.EnemyKamikaze;
+import game.entities.EnemyWalking;
 import game.entities.Ship;
 
 public abstract class Entity {

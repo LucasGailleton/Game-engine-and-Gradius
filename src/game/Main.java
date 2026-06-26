@@ -127,6 +127,7 @@ public class Main implements Runnable {
 		Ship ship = new Ship(view);
 		model.setPlayer(ship);
 		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
+		ship.setView(view);
 		mb.placeEntity(ship);
 		
 		AutomatonLoader al=new AutomatonLoader(3);

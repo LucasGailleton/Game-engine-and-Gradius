@@ -15,7 +15,6 @@ import oop.graphics.Graphics;
 public class MissilePlayer extends Entity {
 	
 	private View view;
-	private int age = 0;
 
 	public MissilePlayer(View view, String name) {
 		super(name);

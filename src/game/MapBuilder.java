@@ -52,22 +52,7 @@ public class MapBuilder {
 		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
 		placeEntity(kz);
 		
-		// Exemple de placement de powerUps
-		PowerUp puDouble = new PowerUp("double");
-		puDouble.setCoord(isu.new Coord(18 * mult, 10 * mult));
-		placeEntity(puDouble);
-
-		PowerUp puSpeed = new PowerUp("speed");
-		puSpeed.setCoord(isu.new Coord(22 * mult, 10 * mult));
-		placeEntity(puSpeed);
-
-		PowerUp puSlave = new PowerUp("slave");
-		puSlave.setCoord(isu.new Coord(26 * mult, 10 * mult));
-		placeEntity(puSlave);
-
-		PowerUp puLaser = new PowerUp("laser");
-		puLaser.setCoord(isu.new Coord(30 * mult, 10 * mult));
-		placeEntity(puLaser);
+		
 	    
 	    placeBorder();
 	    
