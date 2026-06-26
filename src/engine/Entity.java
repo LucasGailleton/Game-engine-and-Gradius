@@ -51,7 +51,6 @@ public abstract class Entity {
 	protected Stunt stunt;
 	protected Model model;
 	private Vector lSpeed;
-	private Double moveDistanceLeft = null; // null = infini
 	private double aSpeed;
 	Category category;
 	
@@ -314,28 +313,6 @@ public abstract class Entity {
 	public void moveWest(double length_cm) {
 		ISU.Vector v = this.isu.new Vector(-length_cm, 0.0);
 		this.translate(v);
-	}
-
-	public void move(double vitesse, double angle, Double distance) {
-		double rad = Math.toRadians(angle);
-		this.setlSpeed(vitesse * Math.cos(rad), vitesse * Math.sin(rad));
-		this.moveDistanceLeft = distance;
-	}
-
-	// avance a l'infini dans la direction donnée
-	public void move(double vitesse, double angle) {
-		this.move(vitesse, angle, null);
-	}
-
-	// retire la distance parcourue et stoppe l'entité quand move() est fini
-	public void consumeMoveDistance(double parcouru_cm) {
-		if (this.moveDistanceLeft == null)
-			return;
-		this.moveDistanceLeft -= parcouru_cm;
-		if (this.moveDistanceLeft <= 0) {
-			this.setlSpeed(0, 0);
-			this.moveDistanceLeft = null;
-		}
 	}
 
 	// INTERSECTS
