@@ -16,7 +16,7 @@ public class MissileEnemy extends Entity{
 
 	public MissileEnemy(String name, View view) {
 		super(name);
-		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
+		this.setSize(this.isu.new Dimension(5*Main.windowScale, 5*Main.windowScale));
 		this.avatar =new MissileEnemyAvatar(this);
 		this.view=view;
 		
