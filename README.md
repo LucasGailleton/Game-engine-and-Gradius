@@ -7,7 +7,7 @@ Dario NONIS
 
 ## Lancement du jeu
 
-Pour lancer le jeu, il suffit de lancer **Main.java** dans le package *game*. 
+Pour lancer le jeu, se placer dans le répertoire gradius, source du projet, utiliser les commandes make compile (ou make) puis make run. 
 S'il y a une erreur au niveau du parser, il faut mettre le dossier *PARSER* en dossier source. 
 
 Une fois le Main.java lancé, une fenêtre s'ouvre. Il est conseillé de ne pas l'agrandir pour éviter des bugs d'affichages.
