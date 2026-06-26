@@ -61,7 +61,9 @@ class Move  extends GALAction{
 
 	// EXEC
 	 public boolean exec(Entity e){ 
-		 Stunt s=e.stunt();
+		 GALStunt s=(GALStunt)e.stunt();
+		 s.setMaxLinearSpeed(intensity);
+		 s.setStepLength(length_cm);
 		 s.walk(0);
 		 return true;
 	 }

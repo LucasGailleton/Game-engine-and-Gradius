@@ -1,6 +1,7 @@
 package engine.GAL;
 
 import engine.BasicStunt;
+import engine.EnemyStunt;
 import engine.Entity;
 import engine.Game;
 import engine.Stunt;
@@ -54,7 +55,7 @@ public class Shoot  extends GALAction{
 
 	// EXEC
 	 public boolean exec(Entity e){ 
-		 BasicStunt s=(BasicStunt)e.stunt();
+		 EnemyStunt s=(EnemyStunt)e.stunt();
 		 if(this.target.content!=null) {
 			 if(target.content instanceof Entity ent) {
 				s.shootOnce(ent);

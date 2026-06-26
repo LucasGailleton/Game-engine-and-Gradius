@@ -7,6 +7,7 @@ import java.util.List;
 import debugmode.VectAvatar;
 import engine.ShipStunt;
 import engine.BasicStunt;
+import engine.EnemyStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU.Coord;
@@ -15,6 +16,7 @@ import engine.Ticker;
 import engine.GAL.Automaton;
 import engine.GAL.AutomatonLoader;
 import engine.GAL.GALBot;
+import engine.GAL.GALStunt;
 import engine.GAL.Mode;
 
 import engine.view.Controller;
@@ -119,7 +121,7 @@ public class Main implements Runnable {
 		walk1.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 15 * Game.cmPerCell * windowScale));
 		walk1.setBounding();
 		model.add(walk1);
-		BasicStunt bs=new BasicStunt(model,walk1);
+		EnemyStunt bs=new EnemyStunt(model,walk1);
 		walk1.setStunt(bs);
 		view.add(walk1.getAvatar());
 		GALBot gb=new GALBot(walk1);
