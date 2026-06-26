@@ -158,7 +158,7 @@ public class Model {
 	                    isInvincible = ((Ship)entity).getHit();
 	                
 	                if (!isInvincible) {
-	                    if(!isLaser && !isMissile) {
+	                    if(!isLaser) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
 	                        entity.setlSpeed(0, 0); 
 	                    }
