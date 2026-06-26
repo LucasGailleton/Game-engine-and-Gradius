@@ -26,8 +26,8 @@ public class LaserStunt extends Stunt {
 		if (e instanceof MissilePlayer || e instanceof PowerUp)
 			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-		if(entity instanceof Ship) {
-			((Ship) entity).gotHit();
+		if(entity instanceof Ship ship) {
+			ship.gotHit();
 		}
 	}
 

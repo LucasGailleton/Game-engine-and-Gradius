@@ -110,7 +110,7 @@ public class Model {
 	            double moveX = speedVector.targetX_cm * seconds;
 	            double moveY = speedVector.targetY_cm * seconds;
 	            
-	            if (isMissile || isLaser || isEnemyMissile) {
+	            if (isMissile || isLaser || isEnemyMissile || isMissileSpecial) {
 
 	                int steps = 10; 
 	                double stepX = moveX / steps;
@@ -122,7 +122,7 @@ public class Model {
 
 	                    for (Entity e : copyEntities) {
 	                        if (e == entity) continue;
-	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot)) {
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp)) {
 	                            continue;
 	                        }
 	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy)) {
@@ -160,9 +160,6 @@ public class Model {
 	                if (!isInvincible) {
 	                    if(!isLaser && !isMissile) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
-	                    }
-	                    
-	                    if(!isLaser) {
 	                        entity.setlSpeed(0, 0); 
 	                    }
 	                    
