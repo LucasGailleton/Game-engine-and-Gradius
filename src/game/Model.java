@@ -17,8 +17,11 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.Enemy;
 import game.entities.LaserShot;
+import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
+import game.entities.MissileSpecial;
 import game.entities.PowerUp;
 import game.entities.Ship;
 import game.entities.Slave;
@@ -94,17 +97,22 @@ public class Model {
 	        boolean isShip = entity instanceof Ship;
 	        boolean isLaser = entity instanceof LaserShot;
 	        boolean isMissile = entity instanceof MissilePlayer;
+	        boolean isEnemyMissile = entity instanceof MissileEnemy;
+	        boolean isMissileSpecial = entity instanceof MissileSpecial;
 	        entity.trueCollisions = new ArrayList<Entity>();
 	         
+	        if(entity.bot()!=null) {
+	        	entity.bot().tick();
+	        }
 	        if (entity.haslSpeed()) {
 	            
 	            ISU.Vector speedVector = entity.lSpeed();
 	            double moveX = speedVector.targetX_cm * seconds;
 	            double moveY = speedVector.targetY_cm * seconds;
 	            
-	            if (isMissile || isLaser) {
+	            if (isMissile || isLaser || isEnemyMissile || isMissileSpecial) {
 
-	                int steps = 20; 
+	                int steps = 10; 
 	                double stepX = moveX / steps;
 	                double stepY = moveY / steps;
 	                ISU.Vector stepVec = entity.isu.new Vector(stepX, stepY);
@@ -114,7 +122,10 @@ public class Model {
 
 	                    for (Entity e : copyEntities) {
 	                        if (e == entity) continue;
-	                        if (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof game.entities.Borders) {
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp)) {
+	                            continue;
+	                        }
+	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy)) {
 	                            continue;
 	                        }
 
@@ -149,9 +160,6 @@ public class Model {
 	                if (!isInvincible) {
 	                    if(!isLaser && !isMissile) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
-	                    }
-	                    
-	                    if(!isLaser) {
 	                        entity.setlSpeed(0, 0); 
 	                    }
 	                    

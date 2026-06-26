@@ -13,8 +13,8 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
-import oop.tasks.Runtime;
 import oop.tasks.Task;
+import oop.tasks.Runtime;
 
 public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	
@@ -22,7 +22,6 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
     public static final int spriteUp = 1;
     public static final int spriteDown = 2;
     
-    private Task task;
     private int hp = 1;
     private boolean isAlive;
 	private boolean hit = false;
@@ -34,9 +33,8 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		
 		this.setSize(this.isu.new Dimension(18*Main.windowScale, 18*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
-		this.isAlive=true;
-		 this.task = Runtime.task();
-		
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.isAlive=true;	
 	}
 	
 	@Override
@@ -71,7 +69,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 			isAlive = false;
 			
 			((KamikazeAvatar)this.avatar).exploser();
-			task.post(() -> {
+			Main.task.post(() -> {
 				this.die();
 			}, 1000);
 			return;
@@ -133,7 +131,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -194,8 +192,6 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 				
 			}	
 	    }
-
-	
 
 
 	

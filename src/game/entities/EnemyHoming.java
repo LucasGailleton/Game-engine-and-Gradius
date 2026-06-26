@@ -9,6 +9,7 @@ import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -19,20 +20,20 @@ import oop.tasks.Task;
 public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
     
 	private int hp = 1;
-    private boolean isAlive;
+    	private boolean isAlive;
 	private boolean hit = false;
-	private Task task;
 	
     private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
 	private int missileSpeed = 15;
 
-    public EnemyHoming(String name) {
+    public EnemyHoming(View view,String name) {
         super(name);
         this.setSize(this.isu.new Dimension(16*Main.windowScale, 16*Main.windowScale));
         this.avatar = new HomingAvatar(this);
-        this.task = Runtime.task();
-        this.isAlive=true;
+        this.setCategory(engine.GAL.Category.Adversary);
+        this.view=view;
+	this.isAlive=true;
     }
     
     @Override
@@ -84,7 +85,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 			isAlive = false;
 			
 			((HomingAvatar)this.avatar).exploser();
-			task.post(() -> {
+			Main.task.post(() -> {
 				this.die();
 			}, 1000);
 			return;
@@ -145,7 +146,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -200,9 +201,6 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
             //Change de position en fonction de la position du joueur
 		}
     }
-
-
-	
 
 
 	

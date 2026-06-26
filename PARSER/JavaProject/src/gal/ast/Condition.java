@@ -25,7 +25,7 @@ public class Condition extends Node {
 
   // FIELD
 
-  Expression expression;
+  public Expression expression;
 
   // REQUIRED BY INTERFACE Visitable
 

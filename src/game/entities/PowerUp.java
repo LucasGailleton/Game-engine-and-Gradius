@@ -23,6 +23,7 @@ public class PowerUp extends Entity{
 		super(name);
 		this.setSize(this.isu.new Dimension(PowerUpAvatar.spriteSizeX*Main.windowScale, PowerUpAvatar.spriteSizeY*Main.windowScale));
         this.avatar = new PowerUpAvatar(this);
+        //this.setCategory(engine.GAL.Category.Util);
 	}
 
 	public void setBounding() {

@@ -1,5 +1,7 @@
 package game.entities;
 
+import java.util.List;
+
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -10,17 +12,16 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class MissileEnemy extends Entity{
+public class MissileEnemy extends Entity {
 	
 	private View view;
-	private int shift;
 
 	public MissileEnemy(String name, View view) {
 		super(name);
-		this.setSize(this.isu.new Dimension(5*Main.windowScale, 5*Main.windowScale));
-		this.avatar =new MissileEnemyAvatar(this);
-		this.view=view;
-		
+		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
+		this.avatar = new MissileEnemyAvatar(this);
+		this.view = view;
+		this.setCategory(engine.GAL.Category.Missile);
 	}
 	
 	@Override
@@ -41,7 +42,7 @@ public class MissileEnemy extends Entity{
 	    
 	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 	    
-	    int shift1 = view.shiftPX;
+	    int shift1 = View.shiftPX;
 	    int screenX = entityX + shift1;
 	    int w = view.canvas().getWidth();
 
@@ -58,6 +59,27 @@ public class MissileEnemy extends Entity{
 	        this.die();
 	    }
 		
+	}
+	
+	@Override
+	public void collision(List<Entity> le) {
+		boolean touche = false;
+		for (Entity e : le) {
+
+			if (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp) {
+				continue;
+			}
+			
+			touche = true;
+
+			if (e instanceof Ship ship) {
+				ship.gotHit();
+			}
+		}
+
+		if (touche) {
+			this.die();
+		}
 	}
 	
 	private class MissileEnemyAvatar extends Avatar{

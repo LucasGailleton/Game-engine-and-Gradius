@@ -8,6 +8,7 @@ import engine.ISU;
 import engine.Grid.Dimension;
 import engine.ISU.Coord;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -20,14 +21,14 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	private int hp = 1;
     private boolean isAlive;
 	private boolean hit = false;
-	private Task task;
 	
 
-	public EnemyWalking(String name) {
+	public EnemyWalking(View view,String name) {
 		super(name);
 		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
-		 this.task = Runtime.task();
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 		this.isAlive=true;
 	}
 	
@@ -77,7 +78,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 			isAlive = false;
 			
 			((WalkingAvatar)this.avatar).exploser();
-			task.post(() -> {
+			Main.task.post(() -> {
 				this.die();
 			}, 1000);
 			return;
@@ -148,7 +149,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -212,7 +213,4 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 			
 		}	
 	}
-
-
-	
 }

@@ -41,7 +41,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	
 
 	// CONSTRUCTOR
-	public Boss() {
+	public Boss(View view) {
 		super("Boss");
 		this.setSize(this.isu.new Dimension(29.0*Main.windowScale,32.0*Main.windowScale));
 		this.avatar = new BossAvatar(this);
@@ -49,7 +49,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.task = Runtime.task();
 
 		setStunt(new BasicStunt(model, this));
-		
+		this.setCategory(engine.GAL.Category.Boss);
+		this.view=view;
 	}
 	
 	public void createGuns(Model model, View view) {
@@ -57,12 +58,12 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.target = model.getPlayer();
 		double x = this.center().x_cm;
 		double y = this.center().y_cm;
-		this.bgb = new BossGunBottom("bgb",this,target);
+		this.bgb = new BossGunBottom(this.view,"bgb",this,target);
 		this.bgb.setCoord(is.new Coord(x+10,y+60));
 		this.bgb.setBounding();
 		model.add(bgb);
 		view.add(this.bgb.getAvatar());
-		this.bgt = new BossGunTop("bgt",this,target);
+		this.bgt = new BossGunTop(this.view,"bgt",this,target);
 		this.bgt.setCoord(is.new Coord(x+10,y-60));
 		this.bgt.setBounding();
 		model.add(bgt);
@@ -253,6 +254,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
                  		(int) (spriteSizeY*Main.windowScale));
             }
            
+            
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -261,6 +263,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
  		    if (indChg % 40 == 0) {
  		    	indChg = 0;
  		    }
+			
 		}
 		
 	}

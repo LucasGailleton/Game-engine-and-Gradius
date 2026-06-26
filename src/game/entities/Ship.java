@@ -58,6 +58,7 @@ public class Ship extends Entity {
 		this.task = Runtime.task();
 		this.view = view;
 		this.powerUp = 0;
+		this.setCategory(engine.GAL.Category.Joueur);
 
 		try {
 			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
@@ -125,7 +126,7 @@ public class Ship extends Entity {
 	    
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -134,6 +135,18 @@ public class Ship extends Entity {
 
 	public boolean getHit() {
 		return hit;
+	}
+
+	public static boolean isGameOver() {
+		return Main.GAMEOVER;
+	}
+
+	// reset le vaisseau pour une nouvelle partie
+	public static void reset() {
+		hp = 3;
+		hit = false;
+		Main.GAMEOVER = false;
+		double_tir = false;
 	}
 
 	public void gotHit() {
@@ -363,6 +376,10 @@ public class Ship extends Entity {
 			}else if (shipLife==1) {
 				g.drawImage(this.life.get(2), Main.windowWidth*2, placeY, 244, 49);
 			}
+			if (Main.debug)
+				g.drawString(vies, 10, 140);
+			else
+				g.drawString(vies, 10, 23);
 
 			if (this.exploding) {
 				int i = Math.min(this.deathIndex, this.death.size() - 1);

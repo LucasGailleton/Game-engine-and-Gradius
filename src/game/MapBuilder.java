@@ -134,7 +134,7 @@ public class MapBuilder {
 	        	spawnInterval = -10.0;	// Désactivation du cooldown et donc du spawn des entités enemies
 	        	Main.task.post(()->{
 	        		View.viewSpeed = 0;	// Arret du scrolling pour le boss
-	        	}, 3000);
+	        	}, 5000);
 	        	break;
 	        }
 		    
@@ -151,14 +151,14 @@ public class MapBuilder {
 	}
 	
 	private void spawnWalking(double x) {
-	    EnemyWalking wlk = new EnemyWalking("walker");
+	    EnemyWalking wlk = new EnemyWalking(view,"walker");
 	    double randomY = 100 + (Math.random() * 200); 
 	    wlk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(wlk);
 	}
 
 	private void spawnHoming(double x) {
-	    EnemyHoming hom = new EnemyHoming("homing");
+	    EnemyHoming hom = new EnemyHoming(view,"homing");
 	    double randomY = 80 + (Math.random() * 250);
 	    hom.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(hom);
@@ -179,7 +179,7 @@ public class MapBuilder {
 	}
 	
 	private void spawnBoss(double x) {
-	    Boss boss= new Boss();
+	    Boss boss= new Boss(view);
 	    boss.setCoord(isu.new Coord(x,15* mult));
 	    placeEntity(boss);
 	    boss.createGuns(model, view);

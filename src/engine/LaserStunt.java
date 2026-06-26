@@ -26,8 +26,8 @@ public class LaserStunt extends Stunt {
 		if (e instanceof MissilePlayer || e instanceof PowerUp)
 			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-		if(entity instanceof Ship) {
-			((Ship) entity).gotHit();
+		if(entity instanceof Ship ship) {
+			ship.gotHit();
 		}
 	}
 
@@ -57,14 +57,14 @@ public class LaserStunt extends Stunt {
 
 	        ISU.Coord center = this.ship.center();
 
-	        LaserShot laser = new LaserShot(this.ship.getView(), "laser");
+	        LaserShot laser = new LaserShot(this.ship.view(), "laser");
 
 	        laser.setCoord(Game.game().isu.new Coord(center.x_cm + 50, center.y_cm)); //AJouster ici si collision Ship
 	        laser.setlSpeed(Ship.missileSpeed * 2, 0);
 	        Main.mb.placeEntity(laser);
 	        
 	        if (Ship.double_tir) {
-	            MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
+	            MissilePlayer msp2 = new MissilePlayer(this.ship.view(), "missile double");
 	            msp2.setCoord(Game.game().isu.new Coord(center.x_cm + 30, center.y_cm+30)); //Ajuster ici aussi si besoin
 	            msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
 	            Main.mb.placeEntity(msp2);

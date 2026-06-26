@@ -2,12 +2,14 @@ package engine.GAL;
 
 import engine.BasicStunt;
 import engine.Entity;
+import engine.Game;
 import engine.Stunt;
-
-class Shoot  extends GALAction{
+public class Shoot  extends GALAction{
 
 
 	Direction direction;
+	int angle;
+	Variable target;
 	double duration_ms;
 	double length_cm;
 
@@ -25,38 +27,48 @@ class Shoot  extends GALAction{
 	 * @param n         : number of ticks? or number of steps? Choose your
 	 *                  interpretation.
 	 */
-	 Shoot(Direction dir, double intensity, int n){ 
-		super();
-		this.direction=dir;
-		this.intensity=intensity;
-		this.length_cm=n;
-	 }
-
-	 Shoot(Direction dir, double intensity){ 
-		 super();
-		 this.direction=dir;
-		 this.intensity=intensity;
-	 }
-
-	 Shoot(Direction dir, int n){
-		 super();
-		 this.direction=dir;
-	 }
 	 
-	 Shoot(Direction dir){
+	public Shoot(Direction dir){
 		 super();
 		 this.direction=dir;
 	 }
+	
+	public Shoot(int dir){
+		 super();
+		 this.angle=dir;
+	 }
+	
+	public Shoot(Variable e){
+		 super();
+		 this.target=e;
+	 }
+	
+	public Shoot(Entity e){
+		 super();
+		 this.target.content=e;
+	 }
 
-	 Shoot(){ 
+	public Shoot(){ 
 		 
 	 }
 
 	// EXEC
 	 public boolean exec(Entity e){ 
 		 BasicStunt s=(BasicStunt)e.stunt();
-		 s.shoot(0);
-		 System.out.println("shoot");
+		 if(this.target.content!=null) {
+			 if(target.content instanceof Entity ent) {
+				s.shootOnce(ent);
+			 }
+		 }
+		 else if(this.direction!=null) {
+			 s.shoot(this.direction.toAngle());
+		 }
+		 else if(this.angle!=0) {
+			 s.shoot(this.angle);
+		 }
+		 else {
+			 s.shoot(e.orientation());
+		 }
 		 return true;
 	 }
 

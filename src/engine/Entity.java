@@ -16,6 +16,7 @@ import engine.GAL.Category;
 import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
+import engine.view.View;
 import game.Model;
 import game.entities.Avatar;
 import game.entities.EnemyChicken;
@@ -53,6 +54,8 @@ public abstract class Entity {
 	private double aSpeed;
 	Category category;
 	
+	protected View view;
+	
 	protected boolean alive = true;
 
 	// CONSTRUCTOR
@@ -70,6 +73,10 @@ public abstract class Entity {
 	}
 
 	// SETTER
+	public void setView(View view) {
+		this.view=view;
+	}
+	
 	public void setPosition(Grid.Position position) {
 		this.position = position;
 		this.center = position.toISUCoordCentered();
@@ -125,6 +132,9 @@ public abstract class Entity {
 	}
 
 	// GETTER
+	public View view() {
+		return this.view;
+	}
 	public ISU.Coord center() {
 		return this.center;
 	}
@@ -382,7 +392,9 @@ public abstract class Entity {
         this.retract();
         model.remove(this);
         model.getView().remove(avatar);
-        
+        this.avatar=null;
+        this.bot=null;
+        this.stunt=null;
     }
 	
 	public abstract void tick(double elapsed,boolean shift);

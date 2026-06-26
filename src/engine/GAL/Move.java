@@ -10,6 +10,7 @@ class Move  extends GALAction{
 
 
 	Direction direction;
+	int angle;
 	double duration_ms;
 	double length_cm;
 
@@ -50,6 +51,10 @@ class Move  extends GALAction{
 		 this.direction=dir;
 	 }
 
+	 Move(int dir){
+		 super();
+		 this.angle=dir;
+	 }
 	 Move(){ 
 		 
 	 }
@@ -58,7 +63,6 @@ class Move  extends GALAction{
 	 public boolean exec(Entity e){ 
 		 Stunt s=e.stunt();
 		 s.walk(0);
-		 System.out.println("move");
 		 return true;
 	 }
 

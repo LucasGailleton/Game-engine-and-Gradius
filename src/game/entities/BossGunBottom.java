@@ -33,7 +33,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	private Entity target;
 	private boolean hit;
 
-	public BossGunBottom(String name, Boss master, Entity target) {
+	public BossGunBottom(View view,String name, Boss master, Entity target) {
 		super(name);
 		this.setSize(this.isu.new Dimension(26.0*Main.windowScale, 15.0*Main.windowScale));
 		this.avatar = new BossGunBottomAvatar(this);
@@ -41,6 +41,8 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
 		this.target=target;
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 	}
 	
 	@Override
@@ -67,8 +69,6 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			die();
 		}
 		
-		if (shift)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
 			tryToShoot();
@@ -90,7 +90,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		View vew = this.model.getView();
 		Position pos = this.position();
 		MissileSpecial mss = new MissileSpecial("mssBot",vew,target);
-		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 30, pos.y * Game.cmPerCell));
+		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell));
 		mss.setBounding();
 		mss.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mss);
