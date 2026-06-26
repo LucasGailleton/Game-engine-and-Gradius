@@ -7,6 +7,7 @@ import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Ship;
+import game.entities.Borders;
 import game.entities.Boss;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
@@ -27,7 +28,7 @@ public class ShipStunt extends Stunt {
 		if (e instanceof MissilePlayer || e instanceof PowerUp || e instanceof LaserShot)
 			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-		if(entity instanceof Ship ship) {
+		if(entity instanceof Ship ship && !(e instanceof Borders)) {
 			ship.gotHit();
 		}
 		
