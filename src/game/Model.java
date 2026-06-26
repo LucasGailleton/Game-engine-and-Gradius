@@ -123,10 +123,10 @@ public class Model {
 
 	                    for (Entity e : copyEntities) {
 	                        if (e == entity) continue;
-	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp || e instanceof MontFendu)) {
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp || e instanceof MontFendu || e instanceof MissileEnemy)) {
 	                            continue;
 	                        }
-	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp || e instanceof MontFendu)) {
+	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp || e instanceof MontFendu || e instanceof MissilePlayer)) {
 	                            continue;
 	                        }
 
