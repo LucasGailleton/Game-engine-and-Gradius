@@ -49,6 +49,12 @@ public class StartScreen implements Canvas.PaintListener, Canvas.KeyListener {
 		this.page = GAMEOVER;
 		this.lance = false;     // pour pouvoir rejouer
 	}
+	
+	public void showTitleScreen() {
+		this.playing = false;
+		this.page = MENU;
+		this.lance = false;
+	}
 
 	private void texteCentre(Graphics g, Canvas canvas, String texte, int taille, int style, int y) {
 		g.setFont(g.getFont("Monospaced", style, taille));

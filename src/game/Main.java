@@ -59,7 +59,7 @@ public class Main implements Runnable {
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 1000;		// 1 phase = 10 secondes
+	public static int Timer = 100;		// 1 phase = 10 secondes
 	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {
@@ -159,13 +159,15 @@ public class Main implements Runnable {
 			@Override
 			public void run() throws Exception {
 				if (Ship.isGameOver()) {
-					// explosion du vaisseau puis menu game over
-					task.post(new Runnable() {
-						@Override
-						public void run() throws Exception {
-							ticker.stop();
-							menu.showGameOver();
-						}
+					task.post(()->{
+						ticker.stop();
+						menu.showGameOver();
+					}, 1200);
+					return;				// Pas de repost car on ne joue plus
+				} else if (Ship.win) {
+					task.post(()->{
+						ticker.stop();
+						menu.showTitleScreen();
 					}, 1200);
 					return;
 				}

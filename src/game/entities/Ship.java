@@ -32,11 +32,13 @@ import oop.tasks.Runtime;
 public class Ship extends Entity {
 
 	public static double ShipSpeed = 20 * Main.windowScale;
+	public static final double ShipSpeedOrig = ShipSpeed;
 	public static final int missileSpeed = 850;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
 	private final double SHOOT_DELAY = 0.15; // DELAI (on peut modifier)
 
+	public static boolean win = false;
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
@@ -131,8 +133,6 @@ public class Ship extends Entity {
 		}
 	}
 
-	
-
 	public boolean getHit() {
 		return hit;
 	}
@@ -147,6 +147,8 @@ public class Ship extends Entity {
 		hit = false;
 		Main.GAMEOVER = false;
 		double_tir = false;
+		ShipSpeed = ShipSpeedOrig;
+		win = false;
 	}
 
 	public void gotHit() {
