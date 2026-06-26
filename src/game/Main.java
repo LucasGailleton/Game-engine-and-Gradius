@@ -61,8 +61,9 @@ public class Main implements Runnable {
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 300;			// Phase initiale sans monstres = 3 secondes
-	public static int TimerOrig = 3000;		// Temps d'une phase = 30 secondes
+	public static int Timer = 30;			// Phase initiale sans monstres = 3 secondes
+	public static int TimerPhase = 3000;	// Temps d'une phase = 30 secondes
+	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {
 
