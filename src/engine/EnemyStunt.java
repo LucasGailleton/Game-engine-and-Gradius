@@ -27,7 +27,6 @@ public class EnemyStunt extends GALStunt {
             
 			
             if (this.entity instanceof Damageable) {
-            	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
                 ((Damageable) this.entity).gotHit();
             }
             if (!(e instanceof LaserShot)) {
@@ -57,7 +56,7 @@ public class EnemyStunt extends GALStunt {
 
 	public void shootOnce(Entity target) {
         engine.Grid.Position pos = this.entity.position();
-        MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view()); 
+        MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view(),1); 
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
         viser(msp,target.center(),BasicSpeed);
         Main.mb.placeEntity(msp);
@@ -75,7 +74,7 @@ public class EnemyStunt extends GALStunt {
 	
 	@Override
 	public void shootOnce() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

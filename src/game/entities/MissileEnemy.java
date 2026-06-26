@@ -15,14 +15,18 @@ import oop.graphics.Graphics;
 public class MissileEnemy extends Entity {
 	
 	private View view;
-	private int chosen; 
+	private int chosen;
+	
+	public static final int RedMissile = 0;
+	public static final int BlueMissile = 1;
+	
 	public MissileEnemy(String name, View view, int chosen) {
 		super(name);
 		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
 		this.avatar = new MissileEnemyAvatar(this);
 		this.view = view;
 		this.setCategory(engine.GAL.Category.Missile);
-		this.chosen =chosen;
+		this.chosen = chosen;
 	}
 	
 	@Override
@@ -119,7 +123,7 @@ public class MissileEnemy extends Entity {
             ISU.Coord center = MissileEnemy.this.center();
             int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-            
+            //Rappel : 0 pour les rouges, 1 pour les bleus
             g.drawImage(sprites[chosen][index], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 			
             
