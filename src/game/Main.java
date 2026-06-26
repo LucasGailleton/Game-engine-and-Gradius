@@ -37,9 +37,7 @@ import engine.ISU.*;
 
 public class Main implements Runnable {
 	
-	Canvas canvas;
 	public static Task task;
-	List<Entity> entities;
 	public static List<Automaton> auts;
 	public static MapBuilder mb;
 	public static final double windowScale = 4;
@@ -48,13 +46,22 @@ public class Main implements Runnable {
 	public static final int headerSize = 61;
 	public static boolean debug = true;
 	public static boolean GAMEOVER = false;
+	public static final int powerUpSpawnChance = 8;	// 8% de chance d'avoir un powerUp lorsque l'on touche un ennemi
+	public static final int maxPowerUps = 4;
+	public static int spawnedPowerUp = 0;
+	public static int powerUpSpawnCooldown = 1000;	// Un powerUp toutes les 10 secondes au mieux
+	public static final int powerUpSpawnCooldownOrig = powerUpSpawnCooldown;
+	
+	private Canvas canvas;
+	private List<Entity> entities;
 	private Ticker ticker;
 	private Model model;
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 300;			// Phase initiale sans monstres = 3 secondes
-	public static int TimerOrig = 3000;		// Temps d'une phase = 30 secondes
+	public static int Timer = 30;			// Phase initiale sans monstres = 3 secondes
+	public static int TimerPhase = 3000;	// Temps d'une phase = 30 secondes
+	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {
 
@@ -96,6 +103,14 @@ public class Main implements Runnable {
 	}
 
 	public void startGame() {
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
+//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
 		View.shiftPX = 0;
 		View.viewSpeed = (int)(View.speed*Main.windowScale);
 		Ship.reset();
@@ -112,15 +127,6 @@ public class Main implements Runnable {
 		view.setScore(model.score);
 		Task tick = Runtime.newTask("tick");
 		this.ticker = new Ticker(this.model, tick, 10);
-
-		AutomatonLoader al=new AutomatonLoader(3);
-		try {
-//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
-			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
-		} catch (Exception e) {
-		    e.printStackTrace(); // Regardez votre console !
-		}
 		
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());

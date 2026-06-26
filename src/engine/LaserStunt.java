@@ -7,6 +7,7 @@ import engine.ISU.Coord;
 import engine.ISU.Vector;
 import game.Main;
 import game.Model;
+import game.entities.Borders;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PowerUp;
@@ -26,7 +27,7 @@ public class LaserStunt extends Stunt {
 		if (e instanceof MissilePlayer || e instanceof PowerUp)
 			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-		if(entity instanceof Ship ship) {
+		if(entity instanceof Ship ship && !(e instanceof Borders)) {
 			ship.gotHit();
 		}
 	}

@@ -77,34 +77,25 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("HP : " + hp);
 		
 		if (hp <= 0) {
-			isAlive = false;
-			
-			((WalkingAvatar)this.avatar).exploser();
-			Main.task.post(() -> {
-				this.die();
-			}, 1000);
-			return;
-		
+			this.die();
 		}
 		
 	}
 	
 	@Override
 	public void die() {
+		model.remove(this);
+		((WalkingAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         this.model.score.addEnemyKill();
         
-        if (Math.random() <= SPAWN_CHANCE) { //POURCENTAGE DE FAIRE SPAWN UN POWERUP
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
-        this.retract();
-        model.remove(this);
-        model.getView().remove(avatar);
+        this.spawnPowerUpWithProba();
+        
+        Main.task.post(() -> {
+        	this.retract();
+            model.getView().remove(avatar);
+		}, 1000);
 	}
 
 		
@@ -199,20 +190,27 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 			ISU.Coord center = EnemyWalking.this.center(); 
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-            
-            //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[gravité][index], posX+shiftPX, posY, 
-            		(int) (spriteSizeX*Main.windowScale), 
-            		(int) (spriteSizeY*Main.windowScale));
-            
-            if (indChg == 0)
- 		    	index++;
- 		    if (index > 2)
- 		    	index = 1;
- 		    indChg++;
- 		    if (indChg % 50 == 0) {
- 		    	indChg = 0;
- 		    }
+
+            if (this.exploding) {
+				int i = Math.min(this.deathIndex, this.death.size() - 1);
+				g.drawImage(this.death.get(i), posX + shiftPX, posY, 
+						(int) (spriteSizeX * Main.windowScale), 
+						(int) (spriteSizeY * Main.windowScale));
+            } 
+            else if (this.visible) {
+                g.drawImage(sprites[gravité][index], posX + shiftPX, posY, 
+                		(int) (spriteSizeX * Main.windowScale), 
+                		(int) (spriteSizeY * Main.windowScale));
+                
+                if (indChg == 0)
+     		    	index++;
+     		    if (index > 2)
+     		    	index = 1;
+     		    indChg++;
+     		    if (indChg % 50 == 0) {
+     		    	indChg = 0;
+     		    }
+            }
 			
 		}	
 	}

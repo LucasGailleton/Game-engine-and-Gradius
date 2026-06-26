@@ -26,8 +26,6 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
     private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
 	private int missileSpeed = 15;
-	private final double SPAWN_CHANCE = 0.1;
-
 
     public EnemyHoming(View view,String name) {
         super(name);
@@ -58,8 +56,6 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 
 	@Override
 	public void shoot() {
-		
-		
 	}
 	
 	@Override
@@ -85,33 +81,24 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("HP : " + hp);
 		
 		if (hp <= 0) {
-			isAlive = false;
-			
-			((HomingAvatar)this.avatar).exploser();
-			Main.task.post(() -> {
-				this.die();
-			}, 1000);
-			return;
-		
+			this.die();
 		}
 	}
 	
 	@Override
 	public void die() {
+		model.remove(this);
+		((HomingAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         this.model.score.addEnemyKill();
         
-        if (Math.random() <= SPAWN_CHANCE) {
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
-        this.retract();
-        model.remove(this);
-        model.getView().remove(avatar);
+        this.spawnPowerUpWithProba();
+        
+        Main.task.post(() -> {
+        	this.retract();
+            model.getView().remove(avatar);
+		}, 1000);
 	}
 
     
@@ -167,10 +154,6 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
            
             sprites[0][0] = imgSprites.getSubimage(178, 96, 15, 15);
             sprites[0][1] = imgSprites.getSubimage(198, 98, 15, 15); //13
-            
-            
-            
-            
             
             this.death.clear();
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));

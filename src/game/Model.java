@@ -18,6 +18,7 @@ import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.Enemy;
+import game.entities.EnemyWalking;
 import game.entities.LaserShot;
 import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
@@ -93,6 +94,9 @@ public class Model {
 	    if (Main.Timer > 0)
 	    	Main.Timer--;
 	    
+	    if (Main.powerUpSpawnCooldown > 0)
+	    	Main.powerUpSpawnCooldown--;
+	    
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
@@ -125,10 +129,10 @@ public class Model {
 
 	                    for (Entity e : copyEntities) {
 	                        if (e == entity) continue;
-	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp || e instanceof MontFendu)) {
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp || e instanceof MontFendu || e instanceof MissileEnemy)) {
 	                            continue;
 	                        }
-	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp || e instanceof MontFendu)) {
+	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp || e instanceof MontFendu || e instanceof MissilePlayer)) {
 	                            continue;
 	                        }
 
@@ -161,7 +165,7 @@ public class Model {
 	                    isInvincible = ((Ship)entity).getHit();
 	                
 	                if (!isInvincible) {
-	                    if(!isLaser) {
+	                    if(!isLaser || !(entity instanceof EnemyWalking)) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
 	                        entity.setlSpeed(0, 0); 
 	                    }
