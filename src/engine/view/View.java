@@ -49,10 +49,9 @@ public class View {
 	
 	public void add(Avatar a) {
 		this.avatars.add(a);
-	}
-	
-	public void setVA(VectAvatar v) {
-		this.va = v;
+		if(a instanceof VectAvatar) {
+			this.va = (VectAvatar) a;
+		}
 	}
 	
 	public VectAvatar getVA() {

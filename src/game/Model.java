@@ -119,7 +119,7 @@ public class Model {
 
 	                    for (Entity e : copyEntities) {
 	                        if (e == entity) continue;
-	                        if (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof game.entities.Borders) {
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot)) {
 	                            continue;
 	                        }
 	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy)) {

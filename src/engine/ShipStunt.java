@@ -59,7 +59,7 @@ public class ShipStunt extends Stunt {
 			engine.Grid.Position pos = this.ship.position();
 
 			MissilePlayer msp = new MissilePlayer(this.ship.getView(), "missile simple");
-			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 35, pos.y * Game.cmPerCell));
+			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 40, pos.y * Game.cmPerCell));
 			msp.setlSpeed(Ship.missileSpeed, 0);
 			Main.mb.placeEntity(msp);
 
