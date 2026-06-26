@@ -196,42 +196,39 @@ public class FSMbuilder implements iVisitor{
 	public Object build(Automaton automaton, Object initial_state, List<Object> modes) {
         engine.GAL.State initial = new engine.GAL.State(initial_state.toString(),0);
         
-        // Création de VOTRE instance d'Automaton avec son constructeur : Automaton(String name, State initial)
+        // Création d'Automaton
         this.currentAutomaton = new engine.GAL.Automaton(automaton.name, initial);
         
         for(Mode m:(List<Mode>) (Object) modes) {
             for(Transition t:m.behaviour.transitions) {
-            	engine.GAL.iGALCondition cond=transformcond(t.condition.expression);
-            	engine.GAL.Variable var=cond.variable();
-            	//HashMap<Variable,Object> var_map=new HashMap<Variable,Object>();    //tableau des variables de la transition
+            	engine.GAL.iGALCondition cond=transformcond(t.condition.expression); //condition de la transition
+            	engine.GAL.Variable var=cond.variable();    //variable de la transition
+
             	engine.GAL.State targ=new engine.GAL.State(t.target.toString(),0); 
             	engine.GAL.State source=new engine.GAL.State(m.state.toString(),0);
             	////////////////////////////
-            	// On crée une liste pour stocker toutes les actions de la transition
-                List<engine.GAL.GALAction> executionActions = new ArrayList<>();
+            	// On crée une liste pour stocker toutes les actions de la transition 
+                List<engine.GAL.GALAction> executionActions = new ArrayList<>();  //<- non utilisé 
                 
-                // t.action est un GAL.ast.Actions, on boucle sur sa LinkedList<FunCall>
+                // t.action est un GAL.ast.Actions, on boucle sur sa List<FunCall>
                 if (t.action != null && t.action.actions != null) {
                     for (FunCall call : t.action.actions) {
-                    	executionActions.add(transformfuncall(call,var));
+                    	executionActions.add(transformfuncall(call,var)); //Actions de la transition
                     }
                 }
-            	//engine.GAL.GALAction act=new engine.GAL.Move(t.action.);
-                engine.GAL.GALAction act=executionActions.get(0);
+                engine.GAL.GALAction act=executionActions.get(0); // On ne peut avoir qu'une action par transition dans notre implémentation
             	
-                //True tru=engine.GAL.GALCondition.TRUE;
-            	engine.GAL.Transition tran=new engine.GAL.Transition(source,cond,act,targ);
-            	this.currentAutomaton.add(tran);
+            	engine.GAL.Transition tran=new engine.GAL.Transition(source,cond,act,targ); //construction de la transition
+            	this.currentAutomaton.add(tran); //ajout des transitions dans l'automate
             }
         }
-        // Les transitions ont été ajoutées au fur et à mesure lors du parcours des 'Mode' en Bottom-Up.
+        // Les transitions ont été ajoutées au fur et à mesure lors du parcours des 'Mode'
         // On retourne l'automate complet et prêt à l'emploi.
         return this.currentAutomaton;
-        //return null;
 	}
 	
-	//transform
-////////Action
+	
+////////Construction des Actions
 	public engine.GAL.GALAction transformfuncall(FunCall f,engine.GAL.Variable var){
 		int paramSize = f.parameters.size();
         String actionName = f.name;
@@ -257,8 +254,7 @@ public class FSMbuilder implements iVisitor{
     	    	case"Turn":
     	    		return new engine.GAL.Turn(id.value);
     	    	default:
-    	            // Par défaut ou pour les autres actions
-    	            //executionActions.add(new engine.GAL.GALAction(call.name));
+
     	        	return null;
     	    	}
     		}
@@ -269,7 +265,7 @@ public class FSMbuilder implements iVisitor{
     	    		return new engine.GAL.Move(id.value);
     	    	default:
     	            // Par défaut ou pour les autres actions
-    	            //executionActions.add(new engine.GAL.GALAction(call.name));
+
     	        	return null;
     	    	}
     		}
@@ -294,11 +290,9 @@ public class FSMbuilder implements iVisitor{
     	    	switch(actionName) {
     	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
     	    	case"Hit":
-    	    		//return new engine.GAL.Move(var_map.get(v));
     	    		return new engine.GAL.Shoot(var);
     	    	default:
     	            // Par défaut ou pour les autres actions
-    	            //executionActions.add(new engine.GAL.GALAction(call.name));
     	        	return null;
     	    	}
     		}
@@ -379,7 +373,6 @@ public class FSMbuilder implements iVisitor{
 	    		
 	    	default:
 	            // Par défaut ou pour les autres actions
-	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
 		case 3:
@@ -403,7 +396,6 @@ public class FSMbuilder implements iVisitor{
 	    		}
 	    	default:
 	            // Par défaut ou pour les autres actions
-	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
 		case 4:
@@ -419,7 +411,6 @@ public class FSMbuilder implements iVisitor{
 	    		}
 	    	default:
 	            // Par défaut ou pour les autres actions
-	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
 	    default:
@@ -427,19 +418,19 @@ public class FSMbuilder implements iVisitor{
 		}
 	}
 //////////////////////////////////////////////////////////////////////////////////////
-	////////Condition
+	////////Construction des Conditions
 	/// /////////////////////////////////////////////////////////////////////////////////
 	public engine.GAL.iGALCondition transformcond(Expression f){
 		if(f instanceof BinaryOp bo) {
 			String op=bo.operator;
 			if(op.equals("&")) {
-				engine.GAL.Conjunction con=new engine.GAL.Conjunction();
+				engine.GAL.Conjunction con=new engine.GAL.Conjunction();   //Conjunction
 				con.add(transformcond(bo.right_operand));
 				con.add(transformcond(bo.right_operand));
 				return con;
 			}
 			if(op.equals("|")) {
-				engine.GAL.Disjunction dis=new engine.GAL.Disjunction();
+				engine.GAL.Disjunction dis=new engine.GAL.Disjunction();       //Disjunction
 				dis.add(transformcond(bo.right_operand));
 				dis.add(transformcond(bo.right_operand));
 				return dis;
@@ -447,9 +438,9 @@ public class FSMbuilder implements iVisitor{
 		}
 		
 		if(f instanceof UnaryOp uo) {
-			
+																		//non implémenté
 		}
-		else {
+		else {                                                       //appelle de fonctions
 			FunCall ff=(FunCall)f;
 			int paramSize = ff.parameters.size();
 	        String actionName = ff.name;
@@ -467,7 +458,6 @@ public class FSMbuilder implements iVisitor{
 		        	    		return new engine.GAL.Closest(engine.GAL.Category.Joueur,new engine.GAL.Variable());
 		        	    	default:
 		        	            // Par défaut ou pour les autres actions
-		        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 		        	        	return null;
 		        	    	}
 	    			case "#":
@@ -477,7 +467,6 @@ public class FSMbuilder implements iVisitor{
 		        	    		return new engine.GAL.Closest(engine.GAL.Category.Boss,new engine.GAL.Variable());
 		        	    	default:
 		        	            // Par défaut ou pour les autres actions
-		        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 		        	        	return null;
 		        	    	}
 	    			case "M":
@@ -487,7 +476,6 @@ public class FSMbuilder implements iVisitor{
 	        	    		return new engine.GAL.Closest(engine.GAL.Category.Missile,new engine.GAL.Variable());
 	        	    	default:
 	        	            // Par défaut ou pour les autres actions
-	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	        	return null;
 	        	    	}
 	    			case "O":
@@ -497,7 +485,6 @@ public class FSMbuilder implements iVisitor{
 	        	    		return new engine.GAL.Closest(engine.GAL.Category.Obstacle,new engine.GAL.Variable());
 	        	    	default:
 	        	            // Par défaut ou pour les autres actions
-	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	        	return null;
 	        	    	}
 	    			case "A":
@@ -507,7 +494,6 @@ public class FSMbuilder implements iVisitor{
 	        	    		return new engine.GAL.Closest(engine.GAL.Category.Adversary,new engine.GAL.Variable());
 	        	    	default:
 	        	            // Par défaut ou pour les autres actions
-	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	        	return null;
 	        	    	}
 	    			}
@@ -527,7 +513,6 @@ public class FSMbuilder implements iVisitor{
 	    	    		return new engine.GAL.AtStep(engine.GAL.Direction.canonical(d.toString()), engine.GAL.Category.canonical(cat.toString()),new engine.GAL.Variable());
 	    	    	default:
 	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	    	        	return null;
 	    	    	}
 	    		}
@@ -538,7 +523,6 @@ public class FSMbuilder implements iVisitor{
 	    	    		return new engine.GAL.Closest(engine.GAL.Category.canonical(cat.toString()),iv.value,new engine.GAL.Variable());
 	    	    	default:
 	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	    	        	return null;
 	    	    	}
 	    		}
@@ -558,7 +542,6 @@ public class FSMbuilder implements iVisitor{
 	    	    		return new engine.GAL.AtStep(engine.GAL.Direction.canonical(d.toString()), engine.GAL.Category.canonical(cat.toString()),iv.value,new engine.GAL.Variable());
 	    	    	default:
 	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	    	        	return null;
 	    	    	}
 	    		}
