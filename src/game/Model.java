@@ -125,7 +125,7 @@ public class Model {
 	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp)) {
 	                            continue;
 	                        }
-	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy)) {
+	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp)) {
 	                            continue;
 	                        }
 
@@ -158,7 +158,7 @@ public class Model {
 	                    isInvincible = ((Ship)entity).getHit();
 	                
 	                if (!isInvincible) {
-	                    if(!isLaser && !isMissile) {
+	                    if(!isLaser) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
 	                        entity.setlSpeed(0, 0); 
 	                    }
