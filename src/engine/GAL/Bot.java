@@ -45,7 +45,7 @@ public abstract class Bot {
 	/**
 	 * @apiNote 0 &le; health &le; 100
 	 */
-	 protected int healthPercent;
+	// protected int healthPercent;
 
 	// TICK & COLLISION & COMPLETED
 
@@ -75,5 +75,6 @@ public abstract class Bot {
 	 
 	 abstract void think(double elapsed_ms);
 	 abstract void think();
+	 
 
 }

@@ -10,6 +10,7 @@ import engine.Game;
 import engine.Grid.Position;
 import engine.ISU;
 import engine.ISU.Coord;
+import engine.ISU.Dimension;
 import engine.ISU.Vector;
 import engine.LaserStunt;
 import engine.ShipStunt;
@@ -28,10 +29,10 @@ import oop.utils.SoundPlayer;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 
-public class Ship extends Entity implements Shooter, Damageable {
+public class Ship extends Entity {
 
 	public static double ShipSpeed = 20 * Main.windowScale;
-	public static final int missileSpeed = 1500;
+	public static final int missileSpeed = 850;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
 	private final double SHOOT_DELAY = 0.15; // DELAI (on peut modifier)
@@ -40,7 +41,6 @@ public class Ship extends Entity implements Shooter, Damageable {
 	private static int hp = 3;
 	private Task task;
 	
-	private View view;
 
 	private SoundPlayer tir1, tir2, degat, mort;
 	private int indexAudio;
@@ -48,20 +48,16 @@ public class Ship extends Entity implements Shooter, Damageable {
 	private int powerUp;
 	public boolean isShooting;
 	public static boolean double_tir = false;
-	public static final int WEAPON_SIMPLE = 0;
-	public static final int WEAPON_LASER = 1;
-	private int weapon = WEAPON_SIMPLE;
-	private int speedBoost = 0;
-	private final List<Slave> slaves = new ArrayList<>();
-	
+	public final List<Slave> slaves = new ArrayList<>();
 
 	public Ship(View view) {
 		super("Ship");
-		this.setSize(game.isu.new Dimension(2.0*Game.cmPerCell*Main.windowScale, 1.0*Game.cmPerCell*Main.windowScale));
+		this.setSize(game.isu.new Dimension(16.0*Main.windowScale, 12.0*Main.windowScale));
 		this.avatar = new ShipAvatar();
 		this.task = Runtime.task();
 		this.view = view;
 		this.powerUp = 0;
+		this.setCategory(engine.GAL.Category.Joueur);
 
 		try {
 			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
@@ -71,14 +67,35 @@ public class Ship extends Entity implements Shooter, Damageable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		if (ship != null)
+			throw new IllegalStateException();
+		ship = this;
 
 	}
-	
-	//Getter
+		//Getter
 	private static Ship ship;
 	public static Ship ship() {
 		return ship;
 	}
+
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/1.4, y_cm/2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+	}
+	
 
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed /1000;
@@ -117,7 +134,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 	    
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -141,7 +158,7 @@ public class Ship extends Entity implements Shooter, Damageable {
 			Main.GAMEOVER = true;
 			setlSpeed(0, 0);
 			View.viewSpeed = 0;
-			((ShipAvatar) avatar).exploser();
+			((ShipAvatar) avatar).explode();
 			task.post(() -> {
 				this.die();
 			}, 200);
@@ -270,7 +287,15 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 		}
 
-		public void exploser() {
+		public void explode() {
+			List<Slave> slaves = Ship.this.slaves; 
+			if (!slaves.isEmpty()) {
+				for (Slave s : slaves) {
+					Main.task.post(()->{
+						s.explode = true;
+					}, 100);
+				}
+			}
 			this.exploding = true;
 			this.visible = true;
 			this.deathIndex = 0;
@@ -348,19 +373,4 @@ public class Ship extends Entity implements Shooter, Damageable {
 
 	}
 
-	public View getView() {
-		return this.view;
-	}
-
-	@Override
-	public void tryToShoot() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void shoot() {
-		// TODO Auto-generated method stub
-		
-	}
 }

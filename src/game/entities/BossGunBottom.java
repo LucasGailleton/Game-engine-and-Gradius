@@ -31,16 +31,36 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	private Task task;
 	private boolean isDead =false;
 	private Ship target;
+	private boolean hit;
 
-	public BossGunBottom(String name, Boss master, Ship target) {
+	public BossGunBottom(View view,String name, Boss master, Ship target) {
 		super(name);
-		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
+		this.setSize(this.isu.new Dimension(26.0*Main.windowScale, 15.0*Main.windowScale));
 		this.avatar = new BossGunBottomAvatar(this);
 		this.master= master;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
 		this.target=target;
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 	}
+	
+	@Override
+    public void setBounding() {
+    	double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
+		shapeCenter = isu.new Coord(x, y+5);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+    }
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
@@ -81,12 +101,18 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	
 	@Override
 	public void gotHit() {
-		hp--;
+		if(!hit)
+			hp--;
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead=true;
 			((BossGunBottomAvatar)this.avatar).exploser();
 		}
+		this.hit = true;
+		task.post(() -> {
+			this.hit = false;
+		}, 100);
+
 	}
 	
 	private class BossGunBottomAvatar extends Avatar{
@@ -99,7 +125,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		
 		
 		private static final int spriteSizeX = 26; 
-		private static final int spriteSizeY = 8;
+		private static final int spriteSizeY = 15;
 
 		public BossGunBottomAvatar(Entity e) {
 			super(e);
@@ -137,11 +163,11 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			BufferedImage imgSprites = g.load("Boss_Sprites.png");
             this.sprites = new BufferedImage[1][2];
             
-            sprites[0][0] = imgSprites.getSubimage(280, 82, 26, 8);
-            sprites[0][1] = imgSprites.getSubimage(280, 99, 26, 8);
+            sprites[0][0] = imgSprites.getSubimage(279, 75, 25, 15);
+            sprites[0][1] = imgSprites.getSubimage(279, 99, 25, 15);
             
-            this.death.add(imgSprites.getSubimage(281, 127, 26, 8));
-            this.death.add(imgSprites.getSubimage(281, 146, 26, 8));
+            this.death.add(imgSprites.getSubimage(281, 120, 26, 15));
+            this.death.add(imgSprites.getSubimage(281, 139, 26, 15));
 			
 		}
 

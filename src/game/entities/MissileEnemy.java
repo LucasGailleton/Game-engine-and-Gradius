@@ -17,18 +17,16 @@ public class MissileEnemy extends Entity{
 
 	public MissileEnemy(String name, View view) {
 		super(name);
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
+		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
 		this.avatar =new MissileEnemyAvatar(this);
 		this.view=view;
-		
+		this.setCategory(engine.GAL.Category.Missile);
 	}
 	
 	@Override
 	public void setBounding() {
-		this.bounding().add(new Circle(this.center(),2.5));
-		//this.bounding().add(new Rect(this.center(), this.size, 0));
+		this.bounding().add(new Circle(this.center(),this.size.x_cm/2));
 	}
-	
 	
 	//A modif je pense
 	@Override
@@ -89,8 +87,8 @@ public class MissileEnemy extends Entity{
 			
             
             ISU.Coord center = MissileEnemy.this.center();
-            int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
-            int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 			

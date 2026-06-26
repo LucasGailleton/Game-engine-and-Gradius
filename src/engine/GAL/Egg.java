@@ -8,6 +8,9 @@ public class Egg extends GALAction{
 	public Egg() {
 		
 	}
+	public Egg(Category cat) {
+		
+	}
 	public void set(Entity e) {
 		this.child=e;
 	}

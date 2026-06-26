@@ -3,6 +3,8 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.ISU.Coord;
+import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -19,17 +21,30 @@ public class PowerUp extends Entity{
 
 	public PowerUp(String name) {
 		super(name);
-		this.setSize(this.isu.new Dimension((PowerUpAvatar.spriteSizeX/Game.cmPerCell)*Main.windowScale, (PowerUpAvatar.spriteSizeY/Game.cmPerCell)*Main.windowScale));
+		this.setSize(this.isu.new Dimension(PowerUpAvatar.spriteSizeX*Main.windowScale, PowerUpAvatar.spriteSizeY*Main.windowScale));
         this.avatar = new PowerUpAvatar(this);
+        //this.setCategory(engine.GAL.Category.Util);
 	}
 
 	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, this.orientation()));
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		//wallah elle fait rien je crois
+		// elle fait rien je crois
 	}
 
 	public class PowerUpAvatar extends Avatar{

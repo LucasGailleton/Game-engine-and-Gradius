@@ -20,20 +20,6 @@ public class ShipStunt extends Stunt {
 		super(model, ship);
 		this.ship = ship;
 	}
-	@Override
-	public void set(int orientation) {
-		this.entity.turn(orientation - this.entity.orientation());
-	}
-
-	@Override
-	public void set(Cell c) {
-		this.entity.setPosition(c.position);	
-	}
-
-	@Override
-	public void set(double x, double y) {
-		this.entity.translate(this.entity.isu.new Vector(x, y));
-	}
 
 	@Override
 	public void collision(Entity e) {
@@ -50,12 +36,7 @@ public class ShipStunt extends Stunt {
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
-			if (entity instanceof MissilePlayer || entity instanceof PowerUp || e instanceof LaserShot)
-				continue;
-			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
-			if(this.entity instanceof Ship) {
-				((Ship) this.entity).gotHit();
-			}
+			collision(entity);
 		}
 	}
 	
@@ -77,14 +58,14 @@ public class ShipStunt extends Stunt {
 		if (this.ship.canShoot()) {
 			engine.Grid.Position pos = this.ship.position();
 
-			MissilePlayer msp = new MissilePlayer(this.ship.getView(), "missile simple");
-			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+			MissilePlayer msp = new MissilePlayer(this.ship.view(), "missile simple");
+			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 35, pos.y * Game.cmPerCell));
 			msp.setlSpeed(Ship.missileSpeed, 0);
 			Main.mb.placeEntity(msp);
 
 			if (Ship.double_tir) {
-				MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
-				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+				MissilePlayer msp2 = new MissilePlayer(this.ship.view(), "missile double");
+				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 35, pos.y * Game.cmPerCell));
 				msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
 				Main.mb.placeEntity(msp2);
 			}

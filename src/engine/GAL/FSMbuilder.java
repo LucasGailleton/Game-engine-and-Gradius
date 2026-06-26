@@ -238,8 +238,10 @@ public class FSMbuilder implements iVisitor{
 		switch(paramSize) {
 		case 0:
 			switch(actionName) {
-			case "Hit":
-				return new engine.GAL.Shoot();
+				case "Hit":
+					return new engine.GAL.Shoot();
+				default:
+					return null;
 			}
 		case 1:
 			Object param = f.parameters.get(0);
@@ -278,7 +280,7 @@ public class FSMbuilder implements iVisitor{
     	    	case"Move":
     	    		return new engine.GAL.Move(d);
     	    	case"Turn":
-    	    		return new engine.GAL.Move(id.value);
+    	    		return new engine.GAL.Move(d);
     			case "Egg":
     				return new engine.GAL.Egg();
     	    	default:
@@ -386,9 +388,6 @@ public class FSMbuilder implements iVisitor{
 	    		else if(param1 instanceof IntPercent p && param2 instanceof IntValue val) {
 	    			
 	    		}
-	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
-	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
-	    		return new engine.GAL.Move(d3,j2);
 	    		
 	    	default:
 	            // Par défaut ou pour les autres actions

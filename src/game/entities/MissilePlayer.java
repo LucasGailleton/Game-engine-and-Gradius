@@ -19,9 +19,10 @@ public class MissilePlayer extends Entity {
 
 	public MissilePlayer(View view, String name) {
 		super(name);
-		this.setSize(this.isu.new Dimension((Game.cmPerCell*1)/Main.windowScale, (Game.cmPerCell*3)/Main.windowScale));
+		this.setSize(this.isu.new Dimension(4*Main.windowScale, 3*Main.windowScale));
         this.avatar = new MissilePlayerAvatar(this);
         this.view = view;
+        this.setCategory(engine.GAL.Category.Missile);
 	}
 	
 	@Override
@@ -33,9 +34,8 @@ public class MissilePlayer extends Entity {
 		double x = center.x_cm;
 		double y = center.y_cm;
 		
-		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm-(32*Main.windowScale));
-		ISU.Coord shapeCenter = isu.new Coord(x, y+(15*Main.windowScale));
-		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm/2);
+		this.bounding().add(new Rect(this.center(), shapeSize, 0));
 	}
 	
 	public void tick(double seconds, boolean shift) {

@@ -1,18 +1,10 @@
-CHICKEN (Chicken){
-
-// single line comment are allowed
-
- * (Chicken):
- | Closest(@,5)        ? Egg()  :(Chicken)
- 
-}
 
 HOMMING (Homming){
 
 // single line comment are allowed
 
  * (Homming):
- | Closest(@,5)        ? Hit($)  :(Chicken)
+ | Closest(@,5)        ? Hit($)  :(Homming)
  
 }
 

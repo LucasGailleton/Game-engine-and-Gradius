@@ -42,7 +42,7 @@ import engine.ISU.*;
 public class Main implements Runnable {
 	
 	Canvas canvas;
-	Task task;
+	public static Task task;
 	List<Entity> entities;
 	List<Automaton> auts;
 	public static MapBuilder mb;
@@ -52,7 +52,9 @@ public class Main implements Runnable {
 	public static final int headerSize = 61;
 	public static final boolean debug = true;
 	public static boolean GAMEOVER = false;
-	public static int Timer = 10000;
+	
+	public static int Timer = 1000;		// 1 phase = 10 secondes
+	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {
 
@@ -77,22 +79,13 @@ public class Main implements Runnable {
 	@Override
 	public void run() throws Exception {
 		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
-		this.task = Runtime.task();
-		this.canvas = (Canvas) this.task.find("canvas");
+		task = Runtime.task();
+		this.canvas = (Canvas) task.find("canvas");
 		View view = new View(canvas);
 		canvas.set(new PaintListener(view));
 		Model model = new Model(view);
 		Task tick = Runtime.newTask("tick");
 		Ticker ticker = new Ticker(model, tick, 10);
-		
-		AutomatonLoader al=new AutomatonLoader(3);
-		try {
-//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
-//		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
-		} catch (Exception e) {
-		    e.printStackTrace(); // Regardez votre console !
-		}
 			
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
@@ -106,13 +99,25 @@ public class Main implements Runnable {
 		mb.placeObjects();
 		
 		mb.placeEntity(ship);
+
 		ShipStunt shipStunt = new ShipStunt(model, ship);
 		ship.setStunt(shipStunt);
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
 
-		EnemyWalking walk1 = new EnemyWalking("walk1");
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
+//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
+//		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
+		
+		EnemyWalking walk1 = new EnemyWalking(view,"walk1");
 		walk1.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 15 * Game.cmPerCell * windowScale));
+		walk1.setBounding();
 		model.add(walk1);
 		BasicStunt bs=new BasicStunt(model,walk1);
 		walk1.setStunt(bs);
@@ -120,10 +125,8 @@ public class Main implements Runnable {
 		GALBot gb=new GALBot(walk1);
 		gb.set(auts.getFirst());
 		
-		
-		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
 
-		this.task.post(new Runnable() {
+		task.post(new Runnable() {
 			@Override
 			public void run() throws Exception {
 				canvas.repaint();

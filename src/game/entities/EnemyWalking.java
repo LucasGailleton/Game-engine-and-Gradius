@@ -6,7 +6,9 @@ import java.util.List;
 import engine.Entity;
 import engine.ISU;
 import engine.Grid.Dimension;
+import engine.ISU.Coord;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -16,10 +18,12 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 	
 	
 
-	public EnemyWalking(String name) {
+	public EnemyWalking(View view,String name) {
 		super(name);
-		this.setSize(this.game.grid.new Dimension((int)(16/Main.windowScale),(int)(16/Main.windowScale)));
+		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 	}
 	
 	
@@ -41,11 +45,25 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public Avatar getAvatar() {
-		return this.avatar;
-	}
 	
+	@Override
+	public void setBounding() {
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+	}
+
+		
 	private class WalkingAvatar extends Avatar{
 		public static final int TopLeft = 0;
 		public static final int TopRight = 1;

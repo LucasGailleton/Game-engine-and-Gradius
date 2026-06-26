@@ -31,19 +31,39 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	private Task task;
 	private boolean isDead =false;
 	private Ship target;
+	private boolean hit;
 	
-	public BossGunTop(String name, Boss master,Ship target) {
+	public BossGunTop(View view,String name, Boss master,Ship target) {
 		super(name);
-		this.setSize(this.isu.new Dimension(Game.cmPerCell*15.0, Game.cmPerCell*5.0));
+		this.setSize(this.isu.new Dimension(26.0*Main.windowScale,15.0*Main.windowScale));
 		this.avatar = new BossGunTopAvatar(this);
 		this.master = master;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
 		this.target=target;
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 		
 	}
 	
-    
+    @Override
+    public void setBounding() {
+    	double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
+		shapeCenter = isu.new Coord(x, y-5);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
+    }
+	
+	
     @Override
 	public void tick(double elapsed, boolean shift) {
     	double seconds=elapsed/1000;
@@ -65,7 +85,6 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 			this.shoot();
 			this.shootCooldown = SHOOT_DELAY;
 		}
-		
 	}
 
 	@Override
@@ -83,13 +102,19 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 	
 	@Override
 	public void gotHit() {
-		hp--;
+		if(!hit)
+			hp--;
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead= true;
 			((BossGunTopAvatar)this.avatar).exploser();
 			
 		}
+		this.hit = true;
+		task.post(() -> {
+			this.hit = false;
+		}, 100);
+
 		
 	}
 	
@@ -103,7 +128,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 		
 		
 		private static final int spriteSizeX = 26; 
-		private static final int spriteSizeY = 8;
+		private static final int spriteSizeY = 15;
 		
 		public BossGunTopAvatar(Entity e) {
 			super(e);
@@ -140,11 +165,11 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 			BufferedImage imgSprites = g.load("Boss_Sprites.png");
             this.sprites = new BufferedImage[1][2];
             
-            sprites[0][0] = imgSprites.getSubimage(243, 81, 26, 8);
-            sprites[0][1] = imgSprites.getSubimage(243, 98, 26, 8);
+            sprites[0][0] = imgSprites.getSubimage(242, 81, 25, 14);
+            sprites[0][1] = imgSprites.getSubimage(242, 105, 25, 14);
             
-            this.death.add(imgSprites.getSubimage(244, 125, 26, 8));
-            this.death.add(imgSprites.getSubimage(245, 144, 26, 8));
+            this.death.add(imgSprites.getSubimage(244, 125, 26, 15));
+            this.death.add(imgSprites.getSubimage(245, 144, 26, 15));
 			
 		}
 

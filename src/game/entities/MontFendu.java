@@ -15,6 +15,13 @@ public class MontFendu extends Entity {
 		super("MontFendu");
 		this.setSize(this.game.grid.new Dimension((int)(3.6*Game.cmPerCell*Main.windowScale),(int)(2.8*Game.cmPerCell*Main.windowScale)));
 		this.avatar = new MontFenduAvatar(this);
+		this.setCategory(engine.GAL.Category.Obstacle);
+	}
+	
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
@@ -59,11 +66,7 @@ public class MontFendu extends Entity {
 		shapeCenter = isu.new Coord(x+0.5*Main.windowScale, y-(16.5*Main.windowScale));
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
-	
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		//rien
-	}
+
 	
 	public class MontFenduAvatar extends Avatar {
 		 public static final int spriteSizeX = 96; 
@@ -95,9 +98,5 @@ public class MontFendu extends Entity {
 		}	
 	}
 
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

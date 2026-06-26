@@ -31,7 +31,8 @@ public class Category {
 		Void = new Category("Void",3);
 		Boss = new Category("#",4);
 		Missile = new Category("Missile",5);
-		Category.ind=6;
+		Joueur = new Category("@",6);
+		Category.ind=7;
 	}
 
 	// FACTORY

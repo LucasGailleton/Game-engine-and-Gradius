@@ -24,6 +24,12 @@ public class MapBuilder {
 	public static final double mult = Game.cmPerCell * Main.windowScale;
 	public static final double borderStartX = 40 * mult;
 	public static final int maxBottomCell = 28;
+	
+	public static int phase;
+	public static final int phase_init = 0;
+	public static final int phase_void = 1;
+	public static final int phase_cave = 2;
+	public static final int phase_boss = 3;
 
 	private Model model;
 	private View view;
@@ -31,19 +37,20 @@ public class MapBuilder {
 
 	public static int nbEnemies = 0;
 	private double spawnCooldown = 0.0;
-	private final double SPAWN_INTERVAL = 2.0; // Temps en secondes entre deux vagues	
+	private static double spawnInterval; // Temps en secondes entre deux vagues	
 
 	public MapBuilder(Model model, View view) {
 		this.model = model;
 		this.view = view;
 		this.isu = Game.game().isu;
+		phase = 0;
 	}
 	
 	public void placeObjects() {
 
-//		EnemyKamikaze kz = new EnemyKamikaze("kz1");
-//		kz.setCoord(isu.new Coord(20.0 * mult, 1.8 * mult + 100));
-//		placeEntity(kz);
+		EnemyKamikaze kz = new EnemyKamikaze("kz1");
+		kz.setCoord(Game.game().isu.new Coord(20.0 * mult, 1.8 * mult + 100));
+		placeEntity(kz);
 		
 		// Exemple de placement de powerUps
 		PowerUp puDouble = new PowerUp("double");
@@ -61,12 +68,6 @@ public class MapBuilder {
 		PowerUp puLaser = new PowerUp("laser");
 		puLaser.setCoord(isu.new Coord(30 * mult, 10 * mult));
 		placeEntity(puLaser);
-		
-	    Boss boss= new Boss();
-	    boss.setCoord(isu.new Coord(30*mult,15* mult));
-	    placeEntity(boss);
-	    boss.createGuns(model, view);
-		
 	    
 	    placeBorder();
 	    
@@ -89,15 +90,18 @@ public class MapBuilder {
 		firstBottomBorder.setCoord(isu.new Coord(currentX, bottomY));
 		placeEntity(firstBottomBorder);
 
+		int spriteType;
 		for (int i = 0; i < 10; i++) {
-			int spriteType = (int) (Math.random() * 4) + 1;
+			spriteType = (int) (Math.random() * 4) + 1;
 
 			// --- PLACEMENT EN HAUT ---
+			spriteType = (int) (Math.random() * 4) + 1;
 			Borders topBorder = new Borders("top_" + i, spriteType, BorderAvatar.Top, view);
 			topBorder.setCoord(isu.new Coord(currentX+topBorder.size.x_cm, topY));
 			placeEntity(topBorder);
 
 			// --- PLACEMENT EN BAS ---
+			spriteType = (int) (Math.random() * 4) + 1;
 			Borders botBorder = new Borders("bot_" + i, spriteType, BorderAvatar.Bottom, view);
 			botBorder.setCoord(isu.new Coord(currentX+botBorder.size.x_cm, bottomY));
 			placeEntity(botBorder);
@@ -107,44 +111,69 @@ public class MapBuilder {
 	}
 	
 	public void genAleatoire(double seconds) {
-		if (Main.Timer <= 0 || nbEnemies >= 10) {
-	        return;
-	    }
-		if (spawnCooldown > 0) {
-	        spawnCooldown -= seconds;
-	        return; // On attend que le cooldown tombe à 0 pour faire spawner
+		if (Main.GAMEOVER)
+			return;
+		if (Main.Timer <= 0 && phase < phase_boss) {
+			Main.Timer = Main.TimerOrig;
+			phase++;
+			System.out.println("Changement de phase : " + phase);
+			return;
 	    }
 		
-		double leftScreenEdge = -(view.shiftPX * 0.5); 
-	    // Largeur de la fenêtre en centimètres
-	    double screenWidthCm = view.canvas().getWidth() / (Game.pixelPerCm * Main.windowScale);
-	    double spawnX = leftScreenEdge + screenWidthCm + 50.0;
-	    
-	    double al = Math.random();
-	    if (al >= 0.75) {
-	        spawnKamikaze(spawnX);
-	    } else if (al >= 0.5) {
-	        spawnChicken(spawnX);
-	    } else if (al >= 0.25) {
-	        spawnHoming(spawnX);
-	    } else {
-	        spawnWalking(spawnX);
+		if (spawnCooldown == 0.0) {
+	        double spawnX = (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5) + 50;
+		    
+	        int choixMonstre = (int) (Math.random() * 10);
+	        
+	        switch (phase) {
+	        case phase_init: return;
+	        case phase_void:
+			    switch (choixMonstre) {
+			    case 0, 1, 2, 3, 4: spawnKamikaze(spawnX); break;
+			    case 5, 6, 7: spawnWalking(spawnX); break;
+			    default : spawnHoming(spawnX); break; 
+			    }
+			    spawnInterval = 0.5 + Math.random();	// Intervalle de spawn entre 0.5 et 1.5 secondes pour la première partie
+			    break;
+	        case phase_cave:
+			    switch (choixMonstre) {
+			    case 0, 1, 2, 3: spawnKamikaze(spawnX); break;
+			    case 4, 5, 6: spawnWalking(spawnX); break;
+			    case 7, 8: spawnHoming(spawnX); break;
+			    default : spawnChicken(spawnX); break;
+			    }
+			    spawnInterval = 0.2 + (Math.random() * 0.8);	// Intervalle de spawn entre 0.2 et 1.0 secondes pour la seconde partie
+			    break;
+	        case phase_boss:
+	        	spawnBoss(spawnX);
+	        	spawnInterval = -10.0;	// Désactivation du cooldown et donc du spawn des entités enemies
+	        	Main.task.post(()->{
+	        		View.viewSpeed = 0;	// Arret du scrolling pour le boss
+	        	}, 3000);
+	        	break;
+	        }
+		    
+		    // On comptabilise le monstre et on enclenche le cooldown
+		    nbEnemies++;
+		    spawnCooldown = spawnInterval;
+	    } else if (!(spawnCooldown == -10.0)) { 
+	        spawnCooldown -= seconds;
+	        if (spawnCooldown < 0)
+	        	spawnCooldown = 0;
+	        
 	    }
-
-	    // 4. On comptabilise le monstre et on réenclenche le chronomètre
-	    nbEnemies++;
-	    spawnCooldown = SPAWN_INTERVAL;
+	    
 	}
 	
 	private void spawnWalking(double x) {
-	    EnemyWalking wlk = new EnemyWalking("walker");
+	    EnemyWalking wlk = new EnemyWalking(view,"walker");
 	    double randomY = 100 + (Math.random() * 200); 
 	    wlk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(wlk);
 	}
 
 	private void spawnHoming(double x) {
-	    EnemyHoming hom = new EnemyHoming("homing");
+	    EnemyHoming hom = new EnemyHoming(view,"homing");
 	    double randomY = 80 + (Math.random() * 250);
 	    hom.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(hom);
@@ -162,6 +191,13 @@ public class MapBuilder {
 	    double randomY = 50 + (Math.random() * 300);
 	    kmkz.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(kmkz);
+	}
+	
+	private void spawnBoss(double x) {
+	    Boss boss= new Boss(view);
+	    boss.setCoord(isu.new Coord(x,15* mult));
+	    placeEntity(boss);
+	    boss.createGuns(model, view);
 	}
 
 	public void placeEntity(Entity e) {

@@ -19,21 +19,6 @@ public class BasicStunt extends Stunt {
 	public BasicStunt(Model model, Entity entity) {
 		super(model, entity);
 	}
-	
-	@Override
-	public void set(int orientation) {
-		this.entity.turn(orientation - this.entity.orientation());
-	}
-
-	@Override
-	public void set(Cell c) {
-		this.entity.setPosition(c.position);	
-	}
-
-	@Override
-	public void set(double x, double y) {
-		this.entity.translate(this.entity.isu.new Vector(x, y));
-	}
 
 	@Override
 	public void collision(Entity e) {
@@ -45,7 +30,9 @@ public class BasicStunt extends Stunt {
             	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
                 ((Damageable) this.entity).gotHit();
             }
-            e.die(); 
+            if (!(e instanceof LaserShot)) {
+                e.die(); 
+            }
         }
 	}
 
@@ -61,7 +48,7 @@ public class BasicStunt extends Stunt {
 		this.set(degree);
 		double vx = Math.cos(rad);
 		double vy = Math.sin(rad);
-		this.entity.setlSpeed(vx, vy);
+		this.entity.setlSpeed(vx*30, vy*30);
 	}
 
 	public void stop() {
@@ -69,13 +56,13 @@ public class BasicStunt extends Stunt {
 	}
 	
 	public void shoot(int degree) {
-		//((EnemyChicken)this.entity).shoot();
+		
 		
 	}
 
 	public void shootOnce(Entity target) {
         engine.Grid.Position pos = this.entity.position();
-        MissileEnemy msp = new MissileEnemy("missile simple",((EnemyChicken)this.entity).view()); 
+        MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view()); 
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
         viser(msp,target.center(),1000);
         Main.mb.placeEntity(msp);
@@ -96,4 +83,5 @@ public class BasicStunt extends Stunt {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

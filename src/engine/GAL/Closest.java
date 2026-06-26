@@ -37,6 +37,7 @@ public class Closest  extends GALCondition{
 	 }
 	public Closest(Entity cat,Variable v){ 
 		 super(null,null);
+		 this.e=cat;
 		 this.var=v;
 	 }
 	// EVAL
