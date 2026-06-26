@@ -79,18 +79,6 @@ public class MissileSpecial extends Entity{
 			}
 		}
 		
-		if (distance <= explosionRadius) {
-			target.gotHit();
-			this.die();
-			return;
-		} else if (distance <= attractionRadius) {
-
-			double pullX = (dx / distance) * pullForce * seconds;
-			double pullY = (dy / distance) * pullForce * seconds;
-
-			target.translate(target.isu.new Vector(pullX, pullY));
-
-		}
 		
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
 		int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
