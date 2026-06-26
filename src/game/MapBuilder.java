@@ -5,6 +5,7 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.ISU.Coord;
+import engine.GAL.Automaton;
 import engine.GAL.GALBot;
 import engine.view.View;
 import game.entities.Borders;
@@ -32,6 +33,12 @@ public class MapBuilder {
 	public static final int phase_void = 1;
 	public static final int phase_cave = 2;
 	public static final int phase_boss = 3;
+	
+	public static final Automaton walker_aut = Main.auts.get(2);
+	public static final Automaton homming_aut = Main.auts.get(2);
+	public static final Automaton chicken_aut = Main.auts.get(2);
+	public static final Automaton boss_aut = Main.auts.get(2);
+	public static final Automaton kamikaze_aut = Main.auts.get(2);
 
 	private Model model;
 	private View view;
@@ -177,7 +184,7 @@ public class MapBuilder {
 		EnemyStunt bs =new EnemyStunt(model,wlk);
 		wlk.setStunt(bs);
 		GALBot gb = new GALBot(wlk);
-		gb.set(Main.auts.getFirst());
+		gb.set(walker_aut);
 		gb.setthinkspeed(50);
 	}
 

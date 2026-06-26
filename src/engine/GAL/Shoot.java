@@ -59,18 +59,22 @@ public class Shoot  extends GALAction{
 		 if(this.target.content!=null) {
 			 if(target.content instanceof Entity ent) {
 				s.shootOnce(ent);
+				return true;
 			 }
 		 }
 		 else if(this.direction!=null) {
 			 s.shoot(this.direction.toAngle());
+			 return true;
 		 }
 		 else if(this.angle!=0) {
 			 s.shoot(this.angle);
+			 return true;
 		 }
 		 else {
 			 s.shoot(e.orientation());
+			 return true;
 		 }
-		 return true;
+		 return false;
 	 }
 
 

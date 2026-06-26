@@ -1,4 +1,3 @@
-
 HOMMING (Homming){
 
 // single line comment are allowed
@@ -13,14 +12,11 @@ KAMIKAZE (Wander){
 // single line comment are allowed
 
 * (Wander):
-    | Closest(@)  ? Move(F)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(W,@)  ? Turn(W)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
     | True        ? Move(F)   : (Wander)
 
   * (Track):
-    | Closest(F, @)    ? Move(F)   : (Track)   // Si le joueur est droit devant, on avance
-    | Closest(R, @)    ? Turn(R)   : (Track)   // S'il est à droite, on tourne à droite
-    | Closest(L, @)    ? Turn(L)   : (Track)   // S'il est à gauche, on tourne à gauche
-    | Closest(B, @)    ? Turn(B)   : (Track)   // S'il est derrière, on fait demi-tour
+    | True        ? Move(F)   : (Wander)
  
 }
 
@@ -29,7 +25,39 @@ WALKING (Walking){
 // single line comment are allowed
 
 * (Walking):
+    | Closest(@,100)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(F,1,O)     ? Turn(B)  : (Walking) 
+    | True          ? Move(F)  : (Walking)
+
+  * (Shooting):
+    | Closest(@,100)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(F,1,O)     ? Turn(B)  : (Walking) 
+    | True          ? Move(F)  : (Walking)
+ 
+}
+
+BOSS1 (Walking){
+
+// single line comment are allowed
+
+* (Walking):
+    | Closest(@)  ? Hit(W)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(F,O)     ? Move(F)  : (Walking) 
+    | True          ? Turn(B)  : (Walking)
+
+  * (Shooting):
     | Closest(@,5)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(F,O)     ? Move(F)  : (Walking) 
+    | True          ? Turn(B)  : (Walking)
+ 
+}
+
+BOSS (Walking){
+
+// single line comment are allowed
+
+* (Walking):
+    | Closest(@)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
     | Step(F,O)     ? Move(F)  : (Walking) 
     | True          ? Turn(B)  : (Walking)
 

@@ -16,10 +16,12 @@ class AtStep  extends GALCondition{
 	 AtStep(Direction dir, Category cat, int nbStep,Variable v){ 
 		 super(dir,cat);
 		 this.nbStep=nbStep;
+		 this.var=v;
 	 }
 	 
 	 AtStep(Direction dir, Category cat,Variable v){ 
 		 super(dir,cat);
+		 this.var=v;
 	 }
 
 	// EVAL
@@ -185,7 +187,6 @@ class AtStep  extends GALCondition{
 							return true;
 						}
 					}
-				}
 				if(this.direction==Direction.E) {
 					int new_x=currentX+this.nbStep;
 					if(new_x>=Game.game().width_ncell) {
@@ -228,12 +229,12 @@ class AtStep  extends GALCondition{
 							return true;
 						}
 					}
+			}
 				return false;
 				
 		}
 	 
 		List<Entity> parcourscell(Cell c,Entity source){
-			c.show(System.out);
 			List<Entity> l=new LinkedList<Entity>();
 			for(Entity e:c.entities) {
 				if(e.Category()==this.category && e!=source) {

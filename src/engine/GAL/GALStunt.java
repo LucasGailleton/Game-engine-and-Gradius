@@ -86,11 +86,11 @@ public class GALStunt  extends Stunt {
 
 	// MOVE
 
-	public boolean startMoving(Direction direction, double intensity, double duration_ms){ 
+	/*public boolean startMoving(Direction direction, double intensity, double duration_ms){ 
 		 new Move(direction,intensity);
 		 return true;
 		 
-	 }
+	 }*/
 
 	// TURN
 

@@ -60,4 +60,10 @@ public class EnemyShot extends Entity {
 			g.fillOval(posX, posY, s, s);
 		}
 	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
 }
