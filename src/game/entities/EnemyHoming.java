@@ -166,7 +166,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 			if(this.sprites == null)
 				this.getSprites(g);
             
-            ISU.Coord center = EnemyHoming.this.center(); //para el Gruber
+            ISU.Coord center = EnemyHoming.this.center();
             int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
