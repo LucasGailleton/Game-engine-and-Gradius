@@ -4,7 +4,7 @@ HOMMING (Homming){
 // single line comment are allowed
 
  * (Homming):
- | Closest(@,5)        ? Hit($)  :(Homming)
+ | Closest(@)        ? Hit($)  :(Homming)
  
 }
 

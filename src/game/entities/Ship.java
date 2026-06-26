@@ -68,15 +68,7 @@ public class Ship extends Entity {
 			e.printStackTrace();
 		}
 		
-		if (ship != null)
-			throw new IllegalStateException();
-		ship = this;
 
-	}
-		//Getter
-	private static Ship ship;
-	public static Ship ship() {
-		return ship;
 	}
 
 	@Override
