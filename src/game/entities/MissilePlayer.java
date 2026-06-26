@@ -29,10 +29,6 @@ public class MissilePlayer extends Entity {
 		double x_cm = this.size.x_cm;
 		double y_cm = this.size.y_cm;
 		
-		ISU.Coord center = this.center();
-		double x = center.x_cm;
-		double y = center.y_cm;
-		
 		ISU.Dimension shapeSize = isu.new Dimension(x_cm, y_cm/2);
 		this.bounding().add(new Rect(this.center(), shapeSize, 0));
 	}
@@ -46,7 +42,7 @@ public class MissilePlayer extends Entity {
 	    
 	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 	    
-	    int shift1 = view.shiftPX;
+	    int shift1 = View.shiftPX;
 	    int screenX = entityX + shift1;
 	    int w = view.canvas().getWidth();
 

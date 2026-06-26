@@ -7,20 +7,11 @@ import java.util.List;
 
 import engine.Entity;
 import engine.Game;
-import engine.Grid.Position;
 import engine.ISU;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
-import engine.ISU.Vector;
 import engine.LaserStunt;
-import engine.ShipStunt;
-import engine.shapes.Circle;
 import engine.shapes.Rect;
-import engine.view.Controller;
 import engine.view.View;
 import game.Main;
-import game.MapBuilder;
-import game.Model;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
@@ -31,16 +22,18 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 30 * Main.windowScale;
-	public static final int missileSpeed = 150;
+	public static double ShipSpeed = 20 * Main.windowScale;
+	public static final double ShipSpeedOrig = ShipSpeed;
+	public static final int missileSpeed = 850;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
 	private final double SHOOT_DELAY = 0.15; // DELAI (on peut modifier)
 
+	public static boolean win = false;
 	private static boolean hit = false;
 	private static int hp = 3;
 	private Task task;
-	
+
 	private View view;
 
 	private SoundPlayer tir1, tir2, degat, mort;
@@ -53,7 +46,7 @@ public class Ship extends Entity {
 
 	public Ship(View view) {
 		super("Ship");
-		this.setSize(game.isu.new Dimension(16.0*Main.windowScale, 12.0*Main.windowScale));
+		this.setSize(game.isu.new Dimension(16.0 * Main.windowScale, 12.0 * Main.windowScale));
 		this.avatar = new ShipAvatar();
 		this.task = Runtime.task();
 		this.view = view;
@@ -68,62 +61,60 @@ public class Ship extends Entity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-	
+
 	@Override
 	public void setBounding() {
 		double x_cm = this.size.x_cm;
 		double y_cm = this.size.y_cm;
-		
+
 		ISU.Coord center = this.center();
 		double x = center.x_cm;
 		double y = center.y_cm;
-		
+
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
-		
-		shapeSize = isu.new Dimension(x_cm/1.4, y_cm/2);
+
+		shapeSize = isu.new Dimension(x_cm / 1.4, y_cm / 2);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
-	
 
 	public void tick(double elapsed, boolean shift) {
-		double seconds = elapsed /1000;
+		double seconds = elapsed / 1000;
 		pickUpPowerUps();
-		
-	    int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-	    ISU.Coord center = this.center();
-	    int entityX = (int) (center.x_cm * Game.pixelPerCm);
-	    int entityY = (int) (center.y_cm * Game.pixelPerCm);
-	    
-	    int shift1 = view.shiftPX;
-	    int screenX = entityX + shift1;
-	    int w = view.canvas().getWidth();
 
-	    if (screenX < -300) {
-	        shift1 += taille_map;
-	    } else if (screenX > w + 300) {
-	        shift1 -= taille_map;
-	    }
+		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
+		ISU.Coord center = this.center();
+		int entityX = (int) (center.x_cm * Game.pixelPerCm);
+		int entityY = (int) (center.y_cm * Game.pixelPerCm);
 
-	    int bordX = entityX + shift1;
+		int shift1 = View.shiftPX;
+		int screenX = entityX + shift1;
+		int w = view.canvas().getWidth();
 
-	    // Limites bord gauche et droit
-	    if (bordX < 0) {
-	    	this.translate(isu.new Vector(ShipSpeed*seconds, 0.0));
-	    } else if (bordX > w) {
-	    	this.translate(isu.new Vector(-ShipSpeed*seconds, 0.0));
-	    }
-		
-	    // Limites haut et bas
-	    if (entityY < 0) {
-	    	this.translate(isu.new Vector(0.0, ShipSpeed*seconds));
-	    } else if (entityY > 210 * Main.windowScale) {
-	    	this.translate(isu.new Vector(0.0, -ShipSpeed*seconds));
-	    }
-	    
+		if (screenX < -300) {
+			shift1 += taille_map;
+		} else if (screenX > w + 300) {
+			shift1 -= taille_map;
+		}
+
+		int bordX = entityX + shift1;
+
+		// Limites bord gauche et droit
+		if (bordX < 0) {
+			this.translate(isu.new Vector(ShipSpeed * seconds, 0.0));
+		} else if (bordX > w) {
+			this.translate(isu.new Vector(-ShipSpeed * seconds, 0.0));
+		}
+
+		// Limites haut et bas
+		if (entityY < 0) {
+			this.translate(isu.new Vector(0.0, ShipSpeed * seconds));
+		} else if (entityY > 210 * Main.windowScale) {
+			this.translate(isu.new Vector(0.0, -ShipSpeed * seconds));
+		}
+
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
 			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
@@ -147,6 +138,8 @@ public class Ship extends Entity {
 		hit = false;
 		Main.GAMEOVER = false;
 		double_tir = false;
+		ShipSpeed = ShipSpeedOrig;
+		win = false;
 	}
 
 	public void gotHit() {
@@ -180,24 +173,31 @@ public class Ship extends Entity {
 			hit = false;
 		}, 1500);
 	}
-	
+
 	public void upgradePowerUp() {
 		if (this.powerUp <= 4)
 			this.powerUp++;
 		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
-		case PowerUp.Speed: Ship.ShipSpeed *= 1.5; break;
-		case PowerUp.Double: Ship.double_tir = true; break;
+		case PowerUp.Speed:
+			Ship.ShipSpeed *= 1.5;
+			break;
+		case PowerUp.Double:
+			Ship.double_tir = true;
+			break;
 		case PowerUp.Laser:
 			LaserStunt ls = new LaserStunt(this.model, this);
 			ls.direction = this.stunt().direction;
-			this.setStunt(ls); 
+			this.setStunt(ls);
 			break;
-		case PowerUp.Slave: this.addSlave(); break;
-		default: break;
+		case PowerUp.Slave:
+			this.addSlave();
+			break;
+		default:
+			break;
 		}
 	}
-	
+
 	public boolean canShoot() {
 		return this.shootCooldown <= 0.0;
 	}
@@ -207,13 +207,15 @@ public class Ship extends Entity {
 	}
 
 	public void playSound() {
-		if (indexAudio % 2 == 0) tir1.play(1);
-		else tir2.play(1);
+		if (indexAudio % 2 == 0)
+			tir1.play(1);
+		else
+			tir2.play(1);
 		indexAudio++;
 	}
 
 	public void triggerSlaves() {
-		for (int i=0; i<this.slaves.size(); i++) {
+		for (int i = 0; i < this.slaves.size(); i++) {
 			ISU.Coord oc = slaveCoord(i);
 			MissilePlayer m = new MissilePlayer(view, "slave shot");
 			m.setCoord(this.isu.new Coord(oc.x_cm + 20, oc.y_cm));
@@ -292,10 +294,10 @@ public class Ship extends Entity {
 		}
 
 		public void explode() {
-			List<Slave> slaves = Ship.this.slaves; 
+			List<Slave> slaves = Ship.this.slaves;
 			if (!slaves.isEmpty()) {
 				for (Slave s : slaves) {
-					Main.task.post(()->{
+					Main.task.post(() -> {
 						s.explode = true;
 					}, 100);
 				}
@@ -310,7 +312,7 @@ public class Ship extends Entity {
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
-		
+
 				return;
 			}
 			task.post(new Runnable() {
@@ -336,12 +338,12 @@ public class Ship extends Entity {
 			this.death.add(imgSprites.getSubimage(267, 25, 24, 12));
 			this.death.add(imgSprites.getSubimage(298, 21, 24, 12));
 			this.death.add(imgSprites.getSubimage(330, 27, 24, 12));
-			
+
 			BufferedImage imgLife = g.load("obstacles.png");
-			this.life.add(imgLife.getSubimage(53, 223,244 ,49 ));
-			this.life.add(imgLife.getSubimage(53, 285,244 ,49 ));
-			this.life.add(imgLife.getSubimage(54, 346,244 ,49 ));
-			this.life.add(imgLife.getSubimage(54, 413,244 ,49 ));
+			this.life.add(imgLife.getSubimage(53, 223, 244, 49));
+			this.life.add(imgLife.getSubimage(53, 285, 244, 49));
+			this.life.add(imgLife.getSubimage(54, 346, 244, 49));
+			this.life.add(imgLife.getSubimage(54, 413, 244, 49));
 		}
 
 		@Override
@@ -352,7 +354,7 @@ public class Ship extends Entity {
 			ISU.Coord center = Ship.this.center();
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-			
+
 			int index;
 			ISU.Vector lSpeed = Ship.this.lSpeed();
 			if (lSpeed.targetY_cm == 0)
@@ -361,7 +363,7 @@ public class Ship extends Entity {
 				index = spriteDown;
 			else
 				index = spriteUp;
-			
+
 			int shipLife = Ship.hp;
 			String vies = "Player HP: " + shipLife;
 			g.setColor(Colors.green);
@@ -370,24 +372,25 @@ public class Ship extends Entity {
 				g.drawString(vies, 10, 140);
 			else
 				g.drawString(vies, 10, 23);
-			
-			
-			int placeY = Main.windowHeight*3+150;
+
+			int placeY = Main.windowHeight * 3 + 150;
 			if (shipLife == 3) {
-				g.drawImage(this.life.get(0), Main.windowWidth*2, placeY, 244, 49);
-			}else if (shipLife ==2) {
-				g.drawImage(this.life.get(1), Main.windowWidth*2, placeY, 244, 49);
-			}else if (shipLife==1) {
-				g.drawImage(this.life.get(2), Main.windowWidth*2, placeY, 244, 49);
-			}else {
-				g.drawImage(this.life.get(3), Main.windowWidth*2, placeY, 244, 49);
+				g.drawImage(this.life.get(0), Main.windowWidth * 2, placeY, 244, 49);
+			} else if (shipLife == 2) {
+				g.drawImage(this.life.get(1), Main.windowWidth * 2, placeY, 244, 49);
+			} else if (shipLife == 1) {
+				g.drawImage(this.life.get(2), Main.windowWidth * 2, placeY, 244, 49);
+			} else {
+				g.drawImage(this.life.get(3), Main.windowWidth * 2, placeY, 244, 49);
 			}
-			
+
 			if (this.exploding) {
 				int i = Math.min(this.deathIndex, this.death.size() - 1);
-				g.drawImage(this.death.get(i), posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
+				g.drawImage(this.death.get(i), posX - 3 + shiftPX, posY - 3, (int) (spriteSizeX * Main.windowScale),
+						(int) (spriteSizeY * Main.windowScale));
 			} else if (this.visible) {
-				g.drawImage(sprites[direction][index], posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
+				g.drawImage(sprites[direction][index], posX - 3 + shiftPX, posY - 3,
+						(int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
 			}
 
 			if (Main.GAMEOVER) {

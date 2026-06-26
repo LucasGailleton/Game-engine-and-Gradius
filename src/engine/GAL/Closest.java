@@ -71,18 +71,7 @@ public class Closest  extends GALCondition{
 						return true;
 					}
 				}
-				if(this.direction==Direction.F) {
-					this.direction=Direction.toDir(player.orientation());
-				}
-				if(this.direction==Direction.B) {
-					this.direction=Direction.toDir(player.orientation()+180);
-				}
-				if(this.direction==Direction.R) {
-					this.direction=Direction.toDir(player.orientation()+270);
-				}
-				if(this.direction==Direction.L) {
-					this.direction=Direction.toDir(player.orientation()+90);
-				}
+				this.direction=Direction.to_abs(this.direction, player);
 			}
 				Entity min=player;
 					if(this.direction==Direction.S) {

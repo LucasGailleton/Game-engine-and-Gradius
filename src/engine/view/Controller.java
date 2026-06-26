@@ -105,7 +105,9 @@ public class Controller {
 	}
 
 	public void shoot() {
-		player.stunt().shootOnce();
+		Stunt playerStunt = player.stunt();
+		if (playerStunt != null)
+			playerStunt.shootOnce();
 	}
 
 	public void stop() {
