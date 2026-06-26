@@ -76,7 +76,7 @@ public class MissileSpecial extends Entity {
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
 		int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 
-		int shift1 = view.shiftPX;
+		int shift1 = View.shiftPX;
 		int screenX = entityX + shift1;
 		int w = view.canvas().getWidth();
 
