@@ -154,6 +154,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		//Dead
 		if (hp <= 0) {
 			isAlive = false;
+			model.score.addBossKill();
 			// game over : explosion + le boss disparait
 //			this.mort.play(1);
 //			Main.GAMEOVER = true;

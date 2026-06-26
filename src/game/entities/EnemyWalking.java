@@ -93,6 +93,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	public void die() {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
+        this.model.score.addEnemyKill();
         
         if (Math.random() <= SPAWN_CHANCE) { //POURCENTAGE DE FAIRE SPAWN UN POWERUP
             PowerUp bonus = new PowerUp("powerup");
