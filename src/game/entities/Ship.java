@@ -238,6 +238,7 @@ public class Ship extends Entity {
 	public class ShipAvatar extends Avatar {
 
 		private List<BufferedImage> death;
+		private List<BufferedImage> life;
 
 		public static final int spriteSizeX = 32;
 		public static final int spriteSizeY = 16;
@@ -255,6 +256,7 @@ public class Ship extends Entity {
 			Ship.this.avatar = this;
 			this.direction = East;
 			this.death = new ArrayList<>();
+			this.life = new ArrayList<>();
 		}
 
 		public void clignoter() {
@@ -321,6 +323,11 @@ public class Ship extends Entity {
 			this.death.add(imgSprites.getSubimage(267, 25, 24, 12));
 			this.death.add(imgSprites.getSubimage(298, 21, 24, 12));
 			this.death.add(imgSprites.getSubimage(330, 27, 24, 12));
+			
+			BufferedImage imgLife = g.load("obstacles.png");
+			this.life.add(imgLife.getSubimage(53, 223,244 ,49 ));
+			this.life.add(imgLife.getSubimage(53, 285,244 ,49 ));
+			this.life.add(imgLife.getSubimage(54, 346,244 ,49 ));
 		}
 
 		@Override
@@ -340,11 +347,22 @@ public class Ship extends Entity {
 				index = spriteDown;
 			else
 				index = spriteUp;
-
-			String vies = "Player HP: " + Ship.hp;
+			
+			int shipLife = Ship.hp;
+			String vies = "Player HP: " + shipLife;
 			g.setColor(Colors.green);
 			g.setFont(g.getFont("Monospaced", 0, 16));
 			g.drawString(vies, 10, 120);
+			
+			
+			int placeY = Main.windowHeight*3+120;
+			if (shipLife == 3) {
+				g.drawImage(this.life.get(0), Main.windowWidth*2, placeY, 244, 49);
+			}else if (shipLife ==2) {
+				g.drawImage(this.life.get(1), Main.windowWidth*2, placeY, 244, 49);
+			}else if (shipLife==1) {
+				g.drawImage(this.life.get(2), Main.windowWidth*2, placeY, 244, 49);
+			}
 
 			if (this.exploding) {
 				int i = Math.min(this.deathIndex, this.death.size() - 1);
