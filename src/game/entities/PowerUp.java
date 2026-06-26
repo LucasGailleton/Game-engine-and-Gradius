@@ -44,7 +44,7 @@ public class PowerUp extends Entity{
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		// elle fait rien je crois
+		// elle fait rien
 	}
 
 	public class PowerUpAvatar extends Avatar{

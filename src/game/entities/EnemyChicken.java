@@ -18,8 +18,9 @@ import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
 
+//Enemie qui crée des nouveaux ennemies (assez gros, ne se déplace pas, fixé au sol ou au plafond)
 public class EnemyChicken extends Entity implements Enemy, Damageable{
-	//enemie qui crée des nouveaux ennemies (assez gros)
+	
 	public static final int spriteNeutral = 0;
 	
 	public static final int Top = 0;
@@ -29,8 +30,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	protected int hp = 3;
 	private boolean isAlive;
 	private int orientation;
-	private Task task;
-	private final double SPAWN_CHANCE = 0.05;
+	private final double SPAWN_CHANCE = 0.05; //pour les powerups
 	
 	public EnemyChicken(View view, String name, int orientation) {
 		super(name);
@@ -38,7 +38,6 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
 		this.avatar = new ChickenAvatar(this);
 		this.isAlive=true;
-		this.task = Runtime.task();
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
 		this.orientation = orientation;
@@ -66,19 +65,15 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
-	
+	//Nécessaire pour shootOnce
 	public View view() {
 		return this.view;
 	}
-
-	public void shoot() {
-		//il tire pas lui il fait spawn des EnemyWalking
-	}
 	
-	//Spawn des Enemy walking  
+	//Spawn des Enemy Kamikaze  
 	public void egg() {
 		EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
-		kamegg.setCoord(isu.new Coord(this.center().x_cm-100,this.center().y_cm));
+		kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm+50));
 		kamegg.setBounding();
 		model.add(kamegg);
 		view.add(kamegg.getAvatar());
@@ -95,7 +90,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 			isAlive =false;
 			//this.mort.play(1);
 			((ChickenAvatar)this.avatar).exploser();
-			task.post(() -> {
+			Main.task.post(() -> {
 				this.die();
 			}, 2000);
 			return;
@@ -153,7 +148,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;

@@ -8,43 +8,43 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.Grid.Position;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
-import engine.ISU.Vector;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
-import oop.tasks.Runtime;
-import oop.tasks.Task;
 
+
+
+//Classe Pour l'entité slave BOTTOM du BOSS
+//Tire des missiles spéciaux (Voir MissileSpecial)
 public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	
-	private int missileSpeed = 150;
+	private int missileSpeed = 150; //vitese des missiles
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
-	private double SHOOT_DELAY = 1.0;
+	private double SHOOT_DELAY = 1.0; //Délai d'une seconde entre les tirs
 	protected int hp = 5;
 	
 	private Boss master;
-	private Task task;
+	
 	private boolean isDead =false;
-	private Entity target;
+	private Entity target; //Nécessaire pour savoir qui attirer pour les missiles
 	private boolean hit;
 
 	public BossGunBottom(View view,String name, Boss master, Entity target) {
 		super(name);
 		this.setSize(this.isu.new Dimension(26.0*Main.windowScale, 15.0*Main.windowScale));
 		this.avatar = new BossGunBottomAvatar(this);
-		this.master= master;
-		this.task = Runtime.task();
+		this.master= master; //le boss
+		
 		setStunt(new BasicStunt(model, this));
 		this.target=target;
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
 	}
 	
+	//BoundingBox personalisé
 	@Override
     public void setBounding() {
     	double x_cm = this.size.x_cm;
@@ -65,17 +65,18 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	@Override
 	public void tick(double elapsed, boolean shift) {
 		double seconds=elapsed/1000;
-		if (!master.isAlive()) {
+		if (!master.isAlive()) { //Si le boss meurt, disparait
 			die();
 		}
 		
-		if (this.shootCooldown > 0) {
+		if (this.shootCooldown > 0) { 
 			this.shootCooldown -= seconds;
 			tryToShoot();
 		}
 		
 	}
-
+	
+	//Respecte le délai entre les tirs
 	@Override
 	public void tryToShoot() {
 		if (this.shootCooldown <= 0.0 && !isDead) {
@@ -84,7 +85,8 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		}
 		
 	}
-
+	
+	//Tir des missiles spéciaux
 	@Override
 	public void shoot() {
 		View vew = this.model.getView();
@@ -92,7 +94,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		MissileSpecial mss = new MissileSpecial("mssBot",vew,target);
 		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell));
 		mss.setBounding();
-		mss.setlSpeed(-missileSpeed * 2, 0);
+		mss.setlSpeed(-missileSpeed * 2, 0); //Sur l'axe x vers le joueur
 		this.model.add(mss);
 		vew.add(mss.getAvatar());
 	}
@@ -104,16 +106,16 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		System.out.println("HP : " + hp);
 		if (hp <= 0) {
 			isDead=true;
-			model.score.addSubBossKill();
-			((BossGunBottomAvatar)this.avatar).exploser();
+			model.score.addSubBossKill(); //incrémente le score
+			((BossGunBottomAvatar)this.avatar).exploser(); //lance l'animation de mort (mais ne die pas)
 		}
 		this.hit = true;
-		task.post(() -> {
+		Main.task.post(() -> {
 			this.hit = false;
 		}, 100);
 
 	}
-	
+	//Récupère les sprites et les affiche
 	private class BossGunBottomAvatar extends Avatar{
 		
 		private List<BufferedImage> death;
@@ -148,7 +150,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -183,7 +185,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
             }else {
             	g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
             }
-            
+            //incrémente tout les 10 ticks pour changer de sprite
             if (indChg == 0)
  		    	index++;
  		    if (index > 1)
@@ -192,7 +194,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
  		    if (indChg % 10 == 0) {
  		    	indChg = 0;
  		    }
-			//A IMPLEMENTER : DEATH
+			
 			
 		}
 		
