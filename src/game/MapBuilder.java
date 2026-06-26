@@ -45,7 +45,7 @@ public class MapBuilder {
 		this.model = model;
 		this.view = view;
 		this.isu = Game.game().isu;
-		phase = 0;
+		phase = phase_init;
 	}
 	
 	public void placeObjects() {
@@ -94,7 +94,7 @@ public class MapBuilder {
 			phase++;
 			System.out.println("Changement de phase : " + phase);
 			if (phase == phase_cave) {
-				borderStartX = (int) (Main.windowWidth*Game.pixelPerCm)-(View.shiftPX*0.5) + 2.5 * Game.cmPerCell * Main.windowScale;
+				borderStartX = (int) (Main.windowWidth*Game.pixelPerCm)-(View.shiftPX*0.5) + 3 * Game.cmPerCell * Main.windowScale;
 				placeBorder();
 				placeMontFendu(borderStartX);
 			}

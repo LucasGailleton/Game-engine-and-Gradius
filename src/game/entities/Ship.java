@@ -12,6 +12,7 @@ import engine.LaserStunt;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
+import game.MapBuilder;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
@@ -141,6 +142,8 @@ public class Ship extends Entity {
 		ShipSpeed = ShipSpeedOrig;
 		win = false;
 		Main.spawnedPowerUp = 0;
+		MapBuilder.phase = MapBuilder.phase_init;
+		Main.Timer = Main.TimerOrig;
 	}
 
 	public void gotHit() {
