@@ -1,5 +1,7 @@
 package game.entities;
 
+import java.util.List;
+
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -57,6 +59,27 @@ public class MissileEnemy extends Entity {
 	        this.die();
 	    }
 		
+	}
+	
+	@Override
+	public void collision(List<Entity> le) {
+		boolean touche = false;
+		for (Entity e : le) {
+
+			if (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp) {
+				continue;
+			}
+			
+			touche = true;
+
+			if (e instanceof Ship ship) {
+				ship.gotHit();
+			}
+		}
+
+		if (touche) {
+			this.die();
+		}
 	}
 	
 	private class MissileEnemyAvatar extends Avatar{
