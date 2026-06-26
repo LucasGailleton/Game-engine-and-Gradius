@@ -50,6 +50,8 @@ public class Closest  extends GALCondition{
 	 * @implNote There is plenty room for optimization here in collaboration with
 	 *           the Model and the Bot.
 	 */
+	
+	/*Parcours toute les entité du modéle, ce qui est loin d'etre optimisé*/
 	public boolean eval(Entity player) {
 		if(this.e!=null) {
 			this.var.content=e;
@@ -147,6 +149,7 @@ public class Closest  extends GALCondition{
 		return false;
 	}
 	
+	//vérifie la condition de catégorie
 	boolean catcond(Entity e) {
 		if(this.category!=null) {
 			return e.Category()==this.category;
@@ -154,6 +157,7 @@ public class Closest  extends GALCondition{
 		return true;
 	}
 	
+	//vérifie la condition de distance
 	boolean lcond(double e) {
 		if(this.nbStep>0) {
 			return e<=this.nbStep*Game.game().cmPerCell;
@@ -161,6 +165,27 @@ public class Closest  extends GALCondition{
 		return true;
 	}
 	
+	 //Renvoie les entité de la cellule c ayant la bonne catégorie 
+	//sans ranvoyer l'entité source 
+	List<Entity> parcourscell(Cell c,Entity source){
+		List<Entity> l=new LinkedList<Entity>();
+		for(Entity e:c.entities) {
+			if(e.Category()==this.category && e!=source) {
+				l.add(e);
+			}
+		}
+		return l;
+	}
+
+	@Override
+	public Variable variable() {
+		// TODO Auto-generated method stub
+		return this.var;
+	}
+	
+	/////////////////////////////////////////////////
+	/// Tentative d'optimisation'
+	/// //////////////////////////////////////
 		/*public boolean eval(Entity player) {
 			if(this.direction!=null) {
 				if(this.direction.isAbsolute()) {
@@ -288,22 +313,6 @@ public class Closest  extends GALCondition{
 			}
 			return null;
 		}*/
-		
-		List<Entity> parcourscell(Cell c,Entity source){
-			List<Entity> l=new LinkedList<Entity>();
-			for(Entity e:c.entities) {
-				if(e.Category()==this.category && e!=source) {
-					l.add(e);
-				}
-			}
-			return l;
-		}
-
-		@Override
-		public Variable variable() {
-			// TODO Auto-generated method stub
-			return this.var;
-		}
 		
 }
 

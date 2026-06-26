@@ -43,7 +43,7 @@ class AtStep  extends GALCondition{
 				if(this.direction==Direction.H) {
 					for(Entity h_ent:e.grid.cellAt(e.position()).entities){
 						if(catcond(h_ent)) {
-							if(h_ent!=e) {
+							if(h_ent!=e) {                                      //cas simple ou on cherche dans la meme cellule
 								this.var.content=h_ent;
 								return true;
 							}
@@ -51,7 +51,7 @@ class AtStep  extends GALCondition{
 					}
 				}
 				if(this.direction==Direction.F) {
-					this.direction=Direction.toDir(e.orientation());
+					this.direction=Direction.toDir(e.orientation());           //conversion des directions relative en direction absolue
 				}
 				if(this.direction==Direction.B) {
 					this.direction=Direction.toDir(e.orientation()+180);
@@ -65,8 +65,8 @@ class AtStep  extends GALCondition{
 			}
 			int currentX=e.position().x;
 			int currentY=e.position().y;
-			if (this.nbStep <= 0) {
-				if(this.direction==Direction.N) {
+			if (this.nbStep <= 0) {                                //si aucun nstep n'ai donnée on parcours toutes les cellules dans la direction donnée
+				if(this.direction==Direction.N) {   //parcours nord
 					for(int i=currentY-1;i>=0;i--) {
 						Cell c=e.grid.cellAt(currentX,i);
 						List<Entity> l=parcourscell(c,e);
@@ -85,7 +85,7 @@ class AtStep  extends GALCondition{
 						}
 					}
 				}
-				if(this.direction==Direction.S) {
+				if(this.direction==Direction.S) {   //parcours sud
 					for(int i=currentY+1;i<Game.game().height_ncell;i++) {
 						Cell c=e.grid.cellAt(currentX,i);
 						List<Entity> l=parcourscell(c,e);
@@ -104,7 +104,7 @@ class AtStep  extends GALCondition{
 						}
 					}
 				}
-				if(this.direction==Direction.E) {
+				if(this.direction==Direction.E) { //parcours Est
 					for(int i=currentX+1;i<Game.game().width_ncell;i++) {
 						
 						Cell c=e.grid.cellAt(i,currentY);
@@ -124,7 +124,7 @@ class AtStep  extends GALCondition{
 						}
 					}
 				}
-				if(this.direction==Direction.W) {
+				if(this.direction==Direction.W) { //parcours West
 					for(int i=currentX-1;i>=0;i--) {
 						if(currentY<0) {
 							currentY=0;
@@ -148,7 +148,7 @@ class AtStep  extends GALCondition{
 				}
 				
 			}
-			else {
+			else {                                     //nstep n'ai donnée on parcours la cellule à nstep de distance dans la direction donnée
 				if(this.direction==Direction.N) {
 					int new_y=currentY-this.nbStep;
 					if(new_y<0) {
@@ -238,7 +238,9 @@ class AtStep  extends GALCondition{
 				
 		}
 	 
-		List<Entity> parcourscell(Cell c,Entity source){
+		 //Renvoie les entité de la cellule c ayant la bonne catégorie 
+		//sans ranvoyer l'entité source 
+		List<Entity> parcourscell(Cell c,Entity source){  
 			List<Entity> l=new LinkedList<Entity>();
 			for(Entity e:c.entities) {
 				if(e.Category()==this.category && e!=source) {
@@ -247,12 +249,15 @@ class AtStep  extends GALCondition{
 			}
 			return l;
 		}
+		//Vérifie que l'entité à la bonne catégorie 
 		boolean catcond(Entity e) {
 			if(this.category!=null) {
 				return e.Category()==this.category;
 			}
 			return true;
 		}
+		
+		//getter
 	 @Override
 	 public Variable variable() {
 		// TODO Auto-generated method stub
