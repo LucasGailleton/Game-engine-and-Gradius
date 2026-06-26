@@ -59,7 +59,7 @@ public class Main implements Runnable {
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 100d0;		// 1 phase = 10 secondes
+	public static int Timer = 1000;		// 1 phase = 10 secondes
 	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {
