@@ -346,6 +346,7 @@ public class Ship extends Entity {
 			this.life.add(imgLife.getSubimage(53, 223,244 ,49 ));
 			this.life.add(imgLife.getSubimage(53, 285,244 ,49 ));
 			this.life.add(imgLife.getSubimage(54, 346,244 ,49 ));
+			this.life.add(imgLife.getSubimage(54, 413,244 ,49 ));
 		}
 
 		@Override
@@ -370,22 +371,23 @@ public class Ship extends Entity {
 			String vies = "Player HP: " + shipLife;
 			g.setColor(Colors.green);
 			g.setFont(g.getFont("Monospaced", 0, 16));
-			g.drawString(vies, 10, 120);
+			if (Main.debug)
+				g.drawString(vies, 10, 140);
+			else
+				g.drawString(vies, 10, 23);
 			
 			
-			int placeY = Main.windowHeight*3+120;
+			int placeY = Main.windowHeight*3+150;
 			if (shipLife == 3) {
 				g.drawImage(this.life.get(0), Main.windowWidth*2, placeY, 244, 49);
 			}else if (shipLife ==2) {
 				g.drawImage(this.life.get(1), Main.windowWidth*2, placeY, 244, 49);
 			}else if (shipLife==1) {
 				g.drawImage(this.life.get(2), Main.windowWidth*2, placeY, 244, 49);
+			}else {
+				g.drawImage(this.life.get(3), Main.windowWidth*2, placeY, 244, 49);
 			}
-			if (Main.debug)
-				g.drawString(vies, 10, 140);
-			else
-				g.drawString(vies, 10, 23);
-
+			
 			if (this.exploding) {
 				int i = Math.min(this.deathIndex, this.death.size() - 1);
 				g.drawImage(this.death.get(i), posX-3+shiftPX, posY-3, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
