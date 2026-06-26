@@ -28,7 +28,7 @@ public class View {
 	int currentFPS = 0;
 	
 	private int shiftChg;
-	public int shiftPX;
+	public static int shiftPX;
 	
 	public static final int viewSpeedChg = 3;
 	public static final int speed = -1;
@@ -44,7 +44,7 @@ public class View {
 		this.showStats = true;
 		
 		this.shiftChg = 0;
-		this.shiftPX = 0;
+		shiftPX = 0;
 	}
 	
 	public void add(Avatar a) {
@@ -63,18 +63,18 @@ public class View {
 	}
 
 	public int shiftPX() {
-		return this.shiftPX;
+		return shiftPX;
 	}
 	
 	public boolean shift() {
 		if (viewSpeed == 0)
 			return false;
 		if (this.shiftChg == viewSpeedChg) {
-			this.shiftPX += viewSpeed;
+			shiftPX += viewSpeed;
 			int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
 			
-			if (this.shiftPX <= -taille_map) {
-				this.shiftPX += taille_map;
+			if (shiftPX <= -taille_map) {
+				shiftPX += taille_map;
 			}
 			this.shiftChg = 0;
 			return true;
@@ -143,7 +143,7 @@ public class View {
 		
 		if (ProfilingManager.PROFILING)
 			vp.end();
-		if (ProfilingManager.PROFILING && showStats) {
+		if (Main.debug && showStats) {
 			g.setColor(Colors.green);
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString("FPS: " + currentFPS, 10, 20);

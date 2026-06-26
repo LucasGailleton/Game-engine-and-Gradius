@@ -32,7 +32,7 @@ import oop.tasks.Runtime;
 public class Ship extends Entity {
 
 	public static double ShipSpeed = 20 * Main.windowScale;
-	public static final int missileSpeed = 1500;
+	public static final int missileSpeed = 850;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
 	private final double SHOOT_DELAY = 0.15; // DELAI (on peut modifier)
@@ -97,7 +97,7 @@ public class Ship extends Entity {
 	    int entityX = (int) (center.x_cm * Game.pixelPerCm);
 	    int entityY = (int) (center.y_cm * Game.pixelPerCm);
 	    
-	    int shift1 = view.shiftPX;
+	    int shift1 = View.shiftPX;
 	    int screenX = entityX + shift1;
 	    int w = view.canvas().getWidth();
 
@@ -125,7 +125,7 @@ public class Ship extends Entity {
 	    
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -134,6 +134,18 @@ public class Ship extends Entity {
 
 	public boolean getHit() {
 		return hit;
+	}
+
+	public static boolean isGameOver() {
+		return Main.GAMEOVER;
+	}
+
+	// reset le vaisseau pour une nouvelle partie
+	public static void reset() {
+		hp = 3;
+		hit = false;
+		Main.GAMEOVER = false;
+		double_tir = false;
 	}
 
 	public void gotHit() {
@@ -344,7 +356,10 @@ public class Ship extends Entity {
 			String vies = "Player HP: " + Ship.hp;
 			g.setColor(Colors.green);
 			g.setFont(g.getFont("Monospaced", 0, 16));
-			g.drawString(vies, 10, 140);
+			if (Main.debug)
+				g.drawString(vies, 10, 140);
+			else
+				g.drawString(vies, 10, 23);
 
 			if (this.exploding) {
 				int i = Math.min(this.deathIndex, this.death.size() - 1);

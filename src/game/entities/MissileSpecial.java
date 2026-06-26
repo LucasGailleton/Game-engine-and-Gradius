@@ -17,14 +17,14 @@ import oop.tasks.Task;
 public class MissileSpecial extends Entity {
 
 	private View view;
-	private Ship target;
+	private Entity target;
 
 	private double explosionRadius = 10.0; // Distance pour exploser
 	private double attractionRadius = 50.0; // Zone d'effet de l'attraction
 	private double pullForce = 100.0; // Force d'attraction
 	private Task task;
 
-	public MissileSpecial(String name, View view, Ship target) {
+	public MissileSpecial(String name, View view, Entity  target) {
 		super(name);
 		this.setSize(this.isu.new Dimension(9 * Main.windowScale, 5 * Main.windowScale));
 		this.avatar = new MissileSpecialAvatar(this);
@@ -66,7 +66,8 @@ public class MissileSpecial extends Entity {
 		double distance = Math.sqrt(dx * dx + dy * dy);
 
 		if (distance <= explosionRadius) {
-			target.gotHit();
+			if (target instanceof Ship)
+				((Ship)target).gotHit();
 			this.die();
 			return;
 		} else if (distance <= attractionRadius) {

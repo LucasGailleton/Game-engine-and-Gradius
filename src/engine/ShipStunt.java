@@ -65,7 +65,7 @@ public class ShipStunt extends Stunt {
 
 			if (Ship.double_tir) {
 				MissilePlayer msp2 = new MissilePlayer(this.ship.getView(), "missile double");
-				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 35, pos.y * Game.cmPerCell));
 				msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
 				Main.mb.placeEntity(msp2);
 			}
