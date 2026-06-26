@@ -53,15 +53,9 @@ public class BasicStunt extends Stunt {
 	public void stop() {
 		this.entity.setlSpeed(0, 0);
 	}
-	
-	public void shoot(int degree) {
-		
-		
-	}
 
 	@Override
 	public void shootOnce() {
-		// TODO Auto-generated method stub
 		
 	}
 

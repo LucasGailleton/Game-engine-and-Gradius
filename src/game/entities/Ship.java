@@ -31,7 +31,7 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 20 * Main.windowScale;
+	public static double ShipSpeed = 30 * Main.windowScale;
 	public static final int missileSpeed = 1500;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
@@ -82,7 +82,7 @@ public class Ship extends Entity {
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 		
-		shapeSize = isu.new Dimension(x_cm/1.4, y_cm/2);
+		shapeSize = isu.new Dimension(x_cm/2.0, y_cm/5);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}

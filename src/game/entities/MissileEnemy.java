@@ -10,7 +10,7 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 
-public class MissileEnemy extends Entity{
+public class MissileEnemy extends Entity {
 	
 	private View view;
 	private int shift;
@@ -18,15 +18,14 @@ public class MissileEnemy extends Entity{
 	public MissileEnemy(String name, View view) {
 		super(name);
 		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
-		this.avatar =new MissileEnemyAvatar(this);
-		this.view=view;
+		this.avatar = new MissileEnemyAvatar(this);
+		this.view = view;
 		
 	}
 	
 	@Override
 	public void setBounding() {
 		this.bounding().add(new Circle(this.center(),this.size.x_cm/2));
-		
 	}
 	
 	
