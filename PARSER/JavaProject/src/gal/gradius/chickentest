@@ -5,6 +5,6 @@ CHICKEN (Chicken){
  * (Chicken):
  | True        ? Move(E)  :(Shooting)
  * (Shooting):
- | Closest(N,A)        ? Hit($)  :(Chicken)
+ | Closest(N,@)        ? Hit($)  :(Chicken)
  
 }

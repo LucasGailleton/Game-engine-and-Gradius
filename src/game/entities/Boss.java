@@ -49,7 +49,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.isAlive=true;
 		this.task = Runtime.task();
 		setStunt(new BasicStunt(model, this));
-		
+		this.setCategory(engine.GAL.Category.Enemy);
 		
 	}
 	

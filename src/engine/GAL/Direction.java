@@ -12,6 +12,8 @@ public class Direction {
 	public static Direction B; // B, Backward, Back
 	public static Direction F; // F, Forward, Front
 	public static Direction H; // H, Here
+	public static Direction R; // R, Right
+	public static Direction L; // L, Left
 	public static Direction N; // N, North
 	public static Direction S; // S, South
 	public static Direction W; // W, West
@@ -49,6 +51,10 @@ public class Direction {
 		 directions.put("F", Direction.F);
 		 Direction.H=new Direction("H");
 		 directions.put("H", Direction.H);
+		 Direction.R=new Direction("R");
+		 directions.put("R", Direction.R);
+		 Direction.L=new Direction("L");
+		 directions.put("L", Direction.L);
 		 Direction.N=new Direction("N");
 		 directions.put("N", Direction.N);
 		 Direction.S=new Direction("S");

@@ -7,7 +7,7 @@ public class Category {
 
 	// CONSTANTS
 
-	public static Category Adversary, Obstacle, Team, Void,Joueur;
+	public static Category Adversary, Obstacle, Team, Void,Joueur,Boss,Missile;
 	// ...
 
 	// STATIC
@@ -29,7 +29,9 @@ public class Category {
 		Obstacle = new Category("Obstacle",1);
 		Team = new Category("Team",2);
 		Void = new Category("Void",3);
-		Category.ind=4;
+		Boss = new Category("#",4);
+		Missile = new Category("Missile",5);
+		Category.ind=6;
 	}
 
 	// FACTORY

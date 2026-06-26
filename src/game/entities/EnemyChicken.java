@@ -37,6 +37,9 @@ public class EnemyChicken extends Entity implements Enemy{
 		
 	}
 	
+	public View view() {
+		return this.view;
+	}
 
 	public void shoot() {
 		//il tire pas lui il fait spawn des EnemyWalking

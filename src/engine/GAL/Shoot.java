@@ -4,8 +4,6 @@ import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.Stunt;
-import game.Tir;
-
 public class Shoot  extends GALAction{
 
 
@@ -29,23 +27,6 @@ public class Shoot  extends GALAction{
 	 * @param n         : number of ticks? or number of steps? Choose your
 	 *                  interpretation.
 	 */
-	public Shoot(Direction dir, double intensity, int n){ 
-		super();
-		this.direction=dir;
-		this.intensity=intensity;
-		this.length_cm=n;
-	 }
-
-	public Shoot(Direction dir, double intensity){ 
-		 super();
-		 this.direction=dir;
-		 this.intensity=intensity;
-	 }
-
-	public Shoot(Direction dir, int n){
-		 super();
-		 this.direction=dir;
-	 }
 	 
 	public Shoot(Direction dir){
 		 super();
@@ -61,6 +42,11 @@ public class Shoot  extends GALAction{
 		 super();
 		 this.target=e;
 	 }
+	
+	public Shoot(Entity e){
+		 super();
+		 this.target.content=e;
+	 }
 
 	public Shoot(){ 
 		 
@@ -69,7 +55,7 @@ public class Shoot  extends GALAction{
 	// EXEC
 	 public boolean exec(Entity e){ 
 		 BasicStunt s=(BasicStunt)e.stunt();
-		 if(this.target!=null) {
+		 if(this.target.content!=null) {
 			 if(target.content instanceof Entity ent) {
 				s.shootOnce(ent);
 			 }

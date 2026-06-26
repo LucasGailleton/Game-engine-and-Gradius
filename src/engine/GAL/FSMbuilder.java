@@ -236,6 +236,11 @@ public class FSMbuilder implements iVisitor{
 		int paramSize = f.parameters.size();
         String actionName = f.name;
 		switch(paramSize) {
+		case 0:
+			switch(actionName) {
+			case "Hit":
+				return new engine.GAL.Shoot();
+			}
 		case 1:
 			Object param = f.parameters.get(0);
     		if(param instanceof IntDegree id) {
@@ -243,6 +248,19 @@ public class FSMbuilder implements iVisitor{
     	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
     	    	case"Hit":
     	    		return new engine.GAL.Shoot(id.value);
+    	    	case"Move":
+    	    		return new engine.GAL.Move(id.value);
+    	    	case"Turn":
+    	    		return new engine.GAL.Move(id.value);
+    	    	default:
+    	            // Par défaut ou pour les autres actions
+    	            //executionActions.add(new engine.GAL.GALAction(call.name));
+    	        	return null;
+    	    	}
+    		}
+    		else if(param instanceof IntPercent id) {
+    	    	switch(actionName) {
+    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
     	    	case"Move":
     	    		return new engine.GAL.Move(id.value);
     	    	default:
@@ -257,10 +275,12 @@ public class FSMbuilder implements iVisitor{
     	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
     	    	case"Hit":
     	    		return new engine.GAL.Move(d);
-    	    	case"Push":
-    	    		return new engine.GAL.Shoot(d);
     	    	case"Move":
     	    		return new engine.GAL.Move(d);
+    	    	case"Turn":
+    	    		return new engine.GAL.Move(id.value);
+    			case "Egg":
+    				return new engine.GAL.Egg();
     	    	default:
     	            // Par défaut ou pour les autres actions
     	            //executionActions.add(new engine.GAL.GALAction(call.name));
@@ -273,8 +293,6 @@ public class FSMbuilder implements iVisitor{
     	    	case"Hit":
     	    		//return new engine.GAL.Move(var_map.get(v));
     	    		return new engine.GAL.Shoot(var);
-    	    	case"Push":
-    	    		return new engine.GAL.Shoot();
     	    	case"Move":
     	    		//return new engine.GAL.Move(var_map.get(v));
     	    	default:
@@ -284,41 +302,118 @@ public class FSMbuilder implements iVisitor{
     	    	}
     		}
     		else if(param instanceof Category c) {
-    			if(c.terminal.content.equals("@")) {
-    				Ship s=Ship.ship();
+    			switch(c.terminal.content){
+    			case "@":
+	    				Ship s=Ship.ship();
+	        	    	switch(actionName) {
+	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+	        	    	case"Hit":
+	        	    		return new engine.GAL.Shoot(s);
+	        	    	default:
+	        	            // Par défaut ou pour les autres actions
+	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+	        	        	return null;
+	        	    	}
+    			case "#":
+	        	    	switch(actionName) {
+	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+	        	    	case"Egg":
+	        	    		return new engine.GAL.Egg(engine.GAL.Category.Boss);
+	        	    	default:
+	        	            // Par défaut ou pour les autres actions
+	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+	        	        	return null;
+	        	    	}
+    			case "M":
         	    	switch(actionName) {
         	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-        	    	case"Hit":
-        	    		//return new engine.GAL.Move(s);
-        	    	case"Push":
-        	    		//return new engine.GAL.Shoot(s);
-        	    	case"Move":
-        	    		//return new engine.GAL.Move(s);
+        	    	case"Egg":
+        	    		return new engine.GAL.Egg(engine.GAL.Category.Missile);
         	    	default:
         	            // Par défaut ou pour les autres actions
         	            //executionActions.add(new engine.GAL.GALAction(call.name));
         	        	return null;
         	    	}
-    			}
-    			else {
-    				throw new IllegalArgumentException("Type de category inconnue");
+    			case "O":
+        	    	switch(actionName) {
+        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+        	    	case"Egg":
+        	    		return new engine.GAL.Egg(engine.GAL.Category.Obstacle);
+        	    	default:
+        	            // Par défaut ou pour les autres actions
+        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+        	        	return null;
+        	    	}
+    			case "A":
+        	    	switch(actionName) {
+        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+        	    	case"Egg":
+        	    		return new engine.GAL.Egg(engine.GAL.Category.Adversary);
+        	    	default:
+        	            // Par défaut ou pour les autres actions
+        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+        	        	return null;
+        	    	}
+	    			
+	    			default:
+	    				throw new IllegalArgumentException("Type de category inconnue");
     			}
     		}
     		else {
     			throw new IllegalArgumentException("Type de paramètre inconnue");
     		}
 		case 2:
+			Object param1 = f.parameters.get(0);
+			Object param2 = f.parameters.get(1);
 	    	switch(f.name) {
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	    	case"Hit":
-	    		engine.GAL.Direction dt=engine.GAL.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
-	    		double j=(double)((IntValue)(f.parameters.get(1))).value;
-	    		return new engine.GAL.Move(dt,j);
-	    	case"Push":
-	    		engine.GAL.Direction d2=engine.GAL.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
-	    		double j3=(double)((IntValue)(f.parameters.get(1))).value;
-	    		return new engine.GAL.Move(d2,j3);
 	    	case"Move":
+	    		if(param1 instanceof Direction d && param2 instanceof Variable v) {
+	    			
+	    		}
+	    		else if(param1 instanceof Direction d && param2 instanceof IntPercent p) {
+	    			
+	    		}
+	    		else if(param1 instanceof Direction d && param2 instanceof IntValue val) {
+	    			
+	    		}
+	    		else if(param1 instanceof IntDegree id && param2 instanceof IntPercent p) {
+	    			
+	    		}
+	    		else if(param1 instanceof IntDegree id && param2 instanceof IntValue val) {
+	    			
+	    		}
+	    		else if(param1 instanceof IntPercent p && param2 instanceof IntValue val) {
+	    			
+	    		}
+	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
+	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
+	    		return new engine.GAL.Move(d3,j2);
+	    		
+	    	default:
+	            // Par défaut ou pour les autres actions
+	            //executionActions.add(new engine.GAL.GALAction(call.name));
+	        	return null;
+	    	}
+		case 3:
+			Object param1_in_3 = f.parameters.get(0);
+			Object param2_in_3 = f.parameters.get(1);
+			Object param3_in_3 = f.parameters.get(2);
+	    	switch(f.name) {
+	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+	    	case"Move":
+	    		if(param1_in_3 instanceof Direction d && param2_in_3 instanceof Variable v && param3_in_3 instanceof IntPercent p ) {
+	    			
+	    		}
+	    		else if(param1_in_3 instanceof Direction d && param2_in_3 instanceof Variable v && param3_in_3 instanceof IntValue val ) {
+	    			
+	    		}
+	    		else if(param1_in_3 instanceof Direction d && param2_in_3 instanceof IntPercent p && param3_in_3 instanceof IntValue val ) {
+	    			
+	    		}
+	    		else if(param1_in_3 instanceof IntDegree id && param2_in_3 instanceof IntPercent p && param3_in_3 instanceof IntValue val ) {
+	    			
+	    		}
 	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
 	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
 	    		return new engine.GAL.Move(d3,j2);
@@ -327,17 +422,17 @@ public class FSMbuilder implements iVisitor{
 	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	return null;
 	    	}
-		case 3:
+		case 4:
+			Object param1_in_4 = f.parameters.get(0);
+			Object param2_in_4 = f.parameters.get(1);
+			Object param3_in_4 = f.parameters.get(2);
+			Object param4_in_4 = f.parameters.get(3);
 	    	switch(f.name) {
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	    	case"Hit":
-	    		engine.GAL.Direction dt=engine.GAL.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
-	    		double j=(double)((IntValue)(f.parameters.get(1))).value;
-	    		return new engine.GAL.Move(dt,j);
-	    	case"Push":
-	    		engine.GAL.Direction d2=engine.GAL.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
-	    		return new engine.GAL.Move(d2,0);
 	    	case"Move":
+	    		if(param1_in_4 instanceof Direction d && param2_in_4 instanceof Variable v && param3_in_4 instanceof IntPercent p && param4_in_4 instanceof IntValue val ) {
+	    			
+	    		}
 	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
 	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
 	    		return new engine.GAL.Move(d3,j2);
@@ -382,83 +477,59 @@ public class FSMbuilder implements iVisitor{
 				return engine.GAL.GALCondition.TRUE;
 			case 1:
 				Object param = ff.parameters.get(0);
-	    		if(param instanceof IntDegree id) {
-	    	    	switch(actionName) {
-	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	    	    	case"Hit":
-	    	    		//return new engine.GAL.Move(id.value);
-	    	    	case"Push":
-	    	    		//return new engine.GAL.Shoot(id.value);
-	    	    	case"Move":
-	    	    		//return new engine.GAL.Move(id.value);
-	    	    	default:
-	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
-	    	        	return null;
-	    	    	}
-	    		}
-	    		else if(param instanceof Direction dir) {
-	    			engine.GAL.Direction d=engine.GAL.Direction.canonical(dir.toString());
-	    	    	switch(actionName) {
-	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	    	    	case"Closest":
-	    	    		//return new engine.GAL.Closest(d);
-	    	    	default:
-	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
-	    	        	return null;
-	    	    	}
-	    		}
-	    		else if(param instanceof Variable v) {
-	    	    	switch(actionName) {
-	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	    	    	case"Hit":
-	    	    		///return new engine.GAL.Move(var_map.get(v));
-	    	    	case"Push":
-	    	    		//return new engine.GAL.Shoot(var_map.get(v));
-	    	    	case"Move":
-	    	    		//return new engine.GAL.Move(var_map.get(v));
-	    	    	default:
-	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
-	    	        	return null;
-	    	    	}
-	    		}
-	    		else if(param instanceof Category c) {
-	    			if(c.terminal.content.equals("@")) {
-	    				Ship s=Ship.ship();
+	    		if(param instanceof Category c) {
+	    			switch(c.terminal.content){
+	    			case "@":
+		    				Ship s=Ship.ship();
+		        	    	switch(actionName) {
+		        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+		        	    	case"Closest":
+		        	    		return new engine.GAL.Closest(s,new engine.GAL.Variable());
+		        	    	default:
+		        	            // Par défaut ou pour les autres actions
+		        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+		        	        	return null;
+		        	    	}
+	    			case "#":
+		        	    	switch(actionName) {
+		        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+		        	    	case"Closest":
+		        	    		return new engine.GAL.Closest(engine.GAL.Category.Boss,new engine.GAL.Variable());
+		        	    	default:
+		        	            // Par défaut ou pour les autres actions
+		        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+		        	        	return null;
+		        	    	}
+	    			case "M":
 	        	    	switch(actionName) {
 	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	        	    	case"Closest":
-	        	    		//return new engine.GAL.Closest(s);
-	        	    	case"Push":
-	        	    		//return new engine.GAL.Shoot(s);
-	        	    	case"Move":
-	        	    		//return new engine.GAL.Move(s);
+	        	    		return new engine.GAL.Closest(engine.GAL.Category.Missile,new engine.GAL.Variable());
 	        	    	default:
 	        	            // Par défaut ou pour les autres actions
 	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	        	return null;
 	        	    	}
-	    			}
-	    			if(c.terminal.content.equals("A")) {
-	    				Ship s=Ship.ship();
+	    			case "O":
 	        	    	switch(actionName) {
 	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	        	    	case"Closest":
-	        	    		//return new engine.GAL.Closest(s);
-	        	    	case"Push":
-	        	    		//return new engine.GAL.Shoot(s);
-	        	    	case"Move":
-	        	    		//return new engine.GAL.Move(s);
+	        	    		return new engine.GAL.Closest(engine.GAL.Category.Obstacle,new engine.GAL.Variable());
 	        	    	default:
 	        	            // Par défaut ou pour les autres actions
 	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	        	return null;
 	        	    	}
-	    			}
-	    			else {
-	    				throw new IllegalArgumentException("Type de category inconnue");
+	    			case "A":
+	        	    	switch(actionName) {
+	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+	        	    	case"Closest":
+	        	    		return new engine.GAL.Closest(engine.GAL.Category.Adversary,new engine.GAL.Variable());
+	        	    	default:
+	        	            // Par défaut ou pour les autres actions
+	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
+	        	        	return null;
+	        	    	}
 	    			}
 	    		}
 	    		else {
@@ -472,89 +543,48 @@ public class FSMbuilder implements iVisitor{
 	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	    	case"Closest":
 	    	    		return new engine.GAL.Closest(engine.GAL.Direction.canonical(d.toString()), engine.GAL.Category.canonical(cat.toString()),new engine.GAL.Variable());
-	    	    	case"Push":
-	    	    		//return new engine.GAL.Shoot(id.value);
-	    	    	case"Move":
-	    	    		//return new engine.GAL.Move(id.value);
+	    	    	case"Step":
+	    	    		return new engine.GAL.AtStep(engine.GAL.Direction.canonical(d.toString()), engine.GAL.Category.canonical(cat.toString()),new engine.GAL.Variable());
 	    	    	default:
 	    	            // Par défaut ou pour les autres actions
 	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	    	        	return null;
 	    	    	}
 	    		}
-	    		else if(param1 instanceof Direction dir) {
-	    			engine.GAL.Direction d=engine.GAL.Direction.canonical(dir.toString());
+	    		else if(param1 instanceof Category cat && param2 instanceof IntValue iv) {
 	    	    	switch(actionName) {
 	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	    	case"Closest":
-	    	    		//return new engine.GAL.Closest(d);
+	    	    		return new engine.GAL.Closest(engine.GAL.Category.canonical(cat.toString()),iv.value,new engine.GAL.Variable());
 	    	    	default:
 	    	            // Par défaut ou pour les autres actions
 	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	    	        	return null;
 	    	    	}
-	    		}
-	    		else if(param1 instanceof Variable v) {
-	    	    	switch(actionName) {
-	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	    	    	case"Hit":
-	    	    		//return new engine.GAL.Move(var_map.get(v));
-	    	    	case"Push":
-	    	    		//return new engine.GAL.Shoot(var_map.get(v));
-	    	    	case"Move":
-	    	    		//return new engine.GAL.Move(var_map.get(v));
-	    	    	default:
-	    	            // Par défaut ou pour les autres actions
-	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
-	    	        	return null;
-	    	    	}
-	    		}
-	    		else if(param1 instanceof Category c) {
-	    			if(c.terminal.content.equals("@")) {
-	    				Ship s=Ship.ship();
-	        	    	switch(actionName) {
-	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	        	    	case"Closest":
-	        	    		//return new engine.GAL.Closest(s);
-	        	    	case"Push":
-	        	    		//return new engine.GAL.Shoot(s);
-	        	    	case"Move":
-	        	    		//return new engine.GAL.Move(s);
-	        	    	default:
-	        	            // Par défaut ou pour les autres actions
-	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
-	        	        	return null;
-	        	    	}
-	    			}
-	    			else {
-	    				throw new IllegalArgumentException("Type de category inconnue");
-	    			}
 	    		}
 	    		else {
 	    			throw new IllegalArgumentException("Type de paramètre inconnue");
 	    		}
-			/*case 3:
-		    	switch(f.name) {
-		        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-		    	case"Hit":
-		    		engine.GAL.Direction dt=engine.GAL.Direction.toDir(((IntValue)f.parameters.getFirst()).value);
-		    		double j=(double)((IntValue)(f.parameters.get(1))).value;
-		    		return new engine.GAL.Move(dt,j);
-		    	case"Push":
-		    		engine.GAL.Direction d2=engine.GAL.Direction.canonical(((Direction)(f.parameters.getFirst())).toString());
-		    		return new engine.GAL.Move(d2,0);
-		    	case"Move":
-		    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
-		    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
-		    		return new engine.GAL.Move(d3,j2);
-		    	default:
-		            // Par défaut ou pour les autres actions
-		            //executionActions.add(new engine.GAL.GALAction(call.name));
-		        	return null;
-		    	}
-		    default:
-		    	return null;
-			}*/
+			case 3:
+				Object param1_in_3 = ff.parameters.get(0);
+				Object param2_in_3 = ff.parameters.get(1);
+				Object param3_in_3 = ff.parameters.get(2);
+	    		if(param1_in_3 instanceof Direction d && param2_in_3 instanceof IntValue iv && param3_in_3 instanceof Category cat) {
+	    	    	switch(actionName) {
+	    	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
+	    	    	case"Closest":
+	    	    		return new engine.GAL.Closest(engine.GAL.Direction.canonical(d.toString()), engine.GAL.Category.canonical(cat.toString()),iv.value,new engine.GAL.Variable());
+	    	    	case"Step":
+	    	    		return new engine.GAL.AtStep(engine.GAL.Direction.canonical(d.toString()), engine.GAL.Category.canonical(cat.toString()),iv.value,new engine.GAL.Variable());
+	    	    	default:
+	    	            // Par défaut ou pour les autres actions
+	    	            //executionActions.add(new engine.GAL.GALAction(call.name));
+	    	        	return null;
+	    	    	}
+	    		}
+	    		else {
+	    			throw new IllegalArgumentException("Type de paramètre inconnue");
+	    		}
 		}
 		}
 		return null;
