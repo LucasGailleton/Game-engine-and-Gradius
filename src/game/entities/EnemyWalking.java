@@ -76,20 +76,14 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("HP : " + hp);
 		
 		if (hp <= 0) {
-			isAlive = false;
-			
-			((WalkingAvatar)this.avatar).exploser();
-			Main.task.post(() -> {
-				this.die();
-			}, 1000);
-			return;
-		
+			this.die();
 		}
-		
 	}
 	
 	@Override
 	public void die() {
+		model.remove(this);
+		((WalkingAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
@@ -100,9 +94,10 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
             model.add(bonus);
             model.getView().add(bonus.getAvatar());
         }
-        this.retract();
-        model.remove(this);
-        model.getView().remove(avatar);
+        Main.task.post(() -> {
+        	this.retract();
+            model.getView().remove(avatar);
+		}, 1000);
 	}
 
 		

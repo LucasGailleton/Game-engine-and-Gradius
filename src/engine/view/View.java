@@ -120,7 +120,7 @@ public class View {
 	            if(entity.bot() != null) {
 	            	String state = entity.bot().state().toString();
 	            	Coord centre = entity.center();
-	            	g.drawString(state, (int) Math.round(centre.x_cm), (int) Math.round(centre.y_cm - 10));
+	            	g.drawString(state, (int)centre.x_cm, (int) centre.y_cm - 10);
 	            }
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);

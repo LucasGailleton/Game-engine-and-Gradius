@@ -66,32 +66,28 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		System.out.println("HP : " + hp);
 		
 		if (hp <= 0) {
-			isAlive = false;
-			
-			((KamikazeAvatar)this.avatar).exploser();
-			Main.task.post(() -> {
-				this.die();
-			}, 1000);
-			return;
-		
+			this.die();
 		}
 	}
 	
 	@Override
 	public void die() {
+		model.remove(this);
+		((KamikazeAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= 0.20) {
+        if (Math.random() <= 0.2) {
             PowerUp bonus = new PowerUp("powerup");
             bonus.setCoord(this.center()); 
             bonus.setBounding();
             model.add(bonus);
             model.getView().add(bonus.getAvatar());
         }
-        this.retract();
-        model.remove(this);
-        model.getView().remove(avatar);
+        Main.task.post(() -> {
+        	this.retract();
+            model.getView().remove(avatar);
+		}, 1000);
 	}
 	
 	

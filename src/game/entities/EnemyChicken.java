@@ -76,45 +76,32 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	
 	@Override
 	public void gotHit() {
-		if (hit || Main.GAMEOVER)
-			return;
 		hp--;
-		System.out.println("HP of Chicken: " + hp);
-
+		System.out.println("HP of chicken : " + hp);
+		
 		if (hp <= 0) {
-			isAlive =false;
-			// game over : explosion + le boss disparait
-			//this.mort.play(1);
-//			Main.GAMEOVER = true;
-			
-			((ChickenAvatar)this.avatar).exploser();
-			task.post(() -> {
-				this.die();
-			}, 2000);
-			return;
+			this.die();
 		}
-
-		//this.degat.play(1);
-		//pas de hit = true, le vaisseau n'a pas d'invicibilité
-
 	}
 	
 	@Override
 	public void die() {
+		model.remove(this);
+		((ChickenAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= 0.3) {
+        if (Math.random() <= 0.2) {
             PowerUp bonus = new PowerUp("powerup");
             bonus.setCoord(this.center()); 
             bonus.setBounding();
             model.add(bonus);
             model.getView().add(bonus.getAvatar());
         }
-        
-        this.retract();
-        model.remove(this);
-        model.getView().remove(avatar);
+        Main.task.post(() -> {
+        	this.retract();
+            model.getView().remove(avatar);
+		}, 1000);
 	}
 	
 	private class ChickenAvatar extends Avatar{
@@ -188,7 +175,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             if (this.exploding) {
-            	g.drawImage(this.death.get(index), posX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
+            	g.drawImage(this.death.get(index), posX+shiftPX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
             }else if (this.visible){
             	g.drawImage(sprites[orientation][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 
