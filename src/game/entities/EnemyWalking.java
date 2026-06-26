@@ -156,7 +156,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 
 		@Override
 		public void getSprites(Graphics g) { //Plus de sprites que nécessaire finalement
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[4][3];
             
             sprites[TopLeft][Neutral] = imgSprites.getSubimage(170, 297, 18, 18);
