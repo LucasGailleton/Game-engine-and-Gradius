@@ -48,7 +48,7 @@ public class Main implements Runnable {
 	Canvas canvas;
 	public static Task task;
 	List<Entity> entities;
-	List<Automaton> auts;
+	public static List<Automaton> auts;
 	public static MapBuilder mb;
 	public static final double windowScale = 4;
 	public static final int windowWidth = 256;
@@ -61,8 +61,8 @@ public class Main implements Runnable {
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 1000;		// 1 phase = 10 secondes
-	public static int TimerOrig = Timer;
+	public static int Timer = 300;			// Phase initiale sans monstres = 3 secondes
+	public static int TimerOrig = 3000;		// Temps d'une phase = 30 secondes
 
 	public static void main(String[] args) {
 
@@ -86,7 +86,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
+		Game game = new Game((int) (5000 * windowScale), (int) (35 * windowScale));
 		task = Runtime.task();
 		this.canvas = (Canvas) task.find("canvas");
 
@@ -132,7 +132,7 @@ public class Main implements Runnable {
 		ship.setView(view);
 		mb.placeEntity(ship);
 		
-		AutomatonLoader al=new AutomatonLoader(3);
+		AutomatonLoader al =new AutomatonLoader(3);
 		try {
 //		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
 			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
@@ -142,15 +142,15 @@ public class Main implements Runnable {
 		    e.printStackTrace(); // Regardez votre console !
 		}
 		
-		EnemyWalking walk1 = new EnemyWalking(view,"walk1");
-		walk1.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 15 * Game.cmPerCell * windowScale));
-		walk1.setBounding();
-		model.add(walk1);
-		EnemyStunt bs=new EnemyStunt(model,walk1);
-		walk1.setStunt(bs);
-		view.add(walk1.getAvatar());
-		GALBot gb=new GALBot(walk1);
-		gb.set(auts.getFirst());
+//		EnemyWalking walk1 = new EnemyWalking(view,"walk1");
+//		walk1.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 15 * Game.cmPerCell * windowScale));
+//		walk1.setBounding();
+//		model.add(walk1);
+//		EnemyStunt bs=new EnemyStunt(model,walk1);
+//		walk1.setStunt(bs);
+//		view.add(walk1.getAvatar());
+//		GALBot gb=new GALBot(walk1);
+//		gb.set(auts.getFirst());
 		
 
 		ShipStunt shipStunt = new ShipStunt(this.model, ship);
@@ -161,8 +161,6 @@ public class Main implements Runnable {
 		}
 
 		Controller ct = new Controller(ship);
-//		KeyListener kl = new KeyListener(ct);
-//		canvas.set(kl);
 		this.menu.playGame(this.view, ct);
 
 		surveillerGameOver();

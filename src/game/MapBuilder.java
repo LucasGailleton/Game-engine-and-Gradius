@@ -1,9 +1,11 @@
 package game;
 
+import engine.EnemyStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.ISU.Coord;
+import engine.GAL.GALBot;
 import engine.view.View;
 import game.entities.Borders;
 import game.entities.Borders.BorderAvatar;
@@ -22,7 +24,7 @@ import oop.graphics.Canvas;
 public class MapBuilder {
 
 	public static final double mult = Game.cmPerCell * Main.windowScale;
-	public static final double borderStartX = 40 * mult;
+	public static double borderStartX = 40 * mult;
 	public static final int maxBottomCell = 28;
 	
 	public static int phase;
@@ -54,11 +56,6 @@ public class MapBuilder {
 		
 		
 	    
-	    placeBorder();
-	    
-//		MontFendu mf = new MontFendu();
-//		mf.setCoord(isu.new Coord(10 * mult, 25 * mult));
-//		placeEntity(mf);
 	}
 	
 	private void placeBorder() {
@@ -102,11 +99,16 @@ public class MapBuilder {
 			Main.Timer = Main.TimerOrig;
 			phase++;
 			System.out.println("Changement de phase : " + phase);
+			if (phase == phase_cave) {
+				borderStartX = (int) (Main.windowWidth*Game.pixelPerCm)-(View.shiftPX*0.5) + 100;
+				placeBorder();
+				placeMontFendu(borderStartX);
+			}
 			return;
 	    }
 		
 		if (spawnCooldown == 0.0) {
-	        double spawnX = (Main.windowWidth*Game.pixelPerCm)-(view.shiftPX*0.5) + 50;
+	        double spawnX = (Main.windowWidth*Game.pixelPerCm)-(View.shiftPX*0.5) + 50;
 		    
 	        int choixMonstre = (int) (Math.random() * 10);
 	        
@@ -150,11 +152,23 @@ public class MapBuilder {
 	    
 	}
 	
+	private void placeMontFendu(double x) {
+		MontFendu mf = new MontFendu();
+		mf.setCoord(isu.new Coord(x + 25 * mult, 25 * mult));
+		placeEntity(mf);
+	}
+	
 	private void spawnWalking(double x) {
 	    EnemyWalking wlk = new EnemyWalking(view,"walker");
 	    double randomY = 100 + (Math.random() * 200); 
 	    wlk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(wlk);
+	  
+	    // Partie Bot
+//		EnemyStunt bs =new EnemyStunt(model,wlk);
+//		wlk.setStunt(bs);
+//		GALBot gb = new GALBot(wlk);
+//		gb.set(Main.auts.getFirst());
 	}
 
 	private void spawnHoming(double x) {

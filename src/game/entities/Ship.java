@@ -22,7 +22,7 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 20 * Main.windowScale;
+	public static double ShipSpeed = 30 * Main.windowScale;
 	public static final double ShipSpeedOrig = ShipSpeed;
 	public static final int missileSpeed = 850;
 
@@ -180,7 +180,7 @@ public class Ship extends Entity {
 		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
 		case PowerUp.Speed:
-			Ship.ShipSpeed *= 1.5;
+			Ship.ShipSpeed *= 2;
 			break;
 		case PowerUp.Double:
 			Ship.double_tir = true;
