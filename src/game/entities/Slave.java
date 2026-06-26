@@ -54,7 +54,7 @@ public class Slave extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage img = g.load("all_Sprites.png");
+			BufferedImage img = g.load("sprites/all_Sprites.png");
 			this.sprites = new BufferedImage[2][4];
 			this.sprites[normal][0] = img.getSubimage(262, 4, 32, 16);
 			

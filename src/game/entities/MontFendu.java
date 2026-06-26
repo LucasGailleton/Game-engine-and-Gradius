@@ -78,7 +78,7 @@ public class MontFendu extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage img = g.load("obstacles.png");
+			BufferedImage img = g.load("sprites/obstacles.png");
 			this.sprites = new BufferedImage[1][1];
 			
 			this.sprites[0][0] = img.getSubimage(237, 54, 96, 76);

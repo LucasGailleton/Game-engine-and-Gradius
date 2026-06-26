@@ -94,7 +94,7 @@ public class StartScreen implements Canvas.PaintListener, Canvas.KeyListener {
 		}
 
 		if (this.ship == null)
-			this.ship = g.load("all_Sprites.png").getSubimage(262, 4, 32, 16);
+			this.ship = g.load("sprites/all_Sprites.png").getSubimage(262, 4, 32, 16);
 		g.drawImage(this.ship, (canvas.getWidth() - 160) / 2, cy - 100, 160, 80);
 
 		if ((this.frame / 30) % 2 == 0) {

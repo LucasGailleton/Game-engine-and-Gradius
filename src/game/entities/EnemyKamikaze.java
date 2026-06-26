@@ -131,7 +131,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("all_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
 		    this.sprites = new BufferedImage[1][6];
 		    
 		   
