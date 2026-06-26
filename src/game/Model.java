@@ -18,6 +18,7 @@ import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
 import game.entities.Enemy;
+import game.entities.EnemyWalking;
 import game.entities.LaserShot;
 import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
@@ -164,7 +165,7 @@ public class Model {
 	                    isInvincible = ((Ship)entity).getHit();
 	                
 	                if (!isInvincible) {
-	                    if(!isLaser) {
+	                    if(!isLaser || !(entity instanceof EnemyWalking)) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
 	                        entity.setlSpeed(0, 0); 
 	                    }

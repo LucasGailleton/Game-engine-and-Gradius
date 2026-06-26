@@ -30,7 +30,6 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	private boolean isAlive;
 	private int orientation;
 	private Task task;
-	private final double SPAWN_CHANCE = 0.05;
 	
 	public EnemyChicken(View view, String name, int orientation) {
 		super(name);
@@ -86,34 +85,29 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	
 	@Override
 	public void gotHit() {
-		if (hit || Main.GAMEOVER)
-			return;
 		hp--;
-		System.out.println("HP of Chicken: " + hp);
-
+		System.out.println("HP of chicken : " + hp);
+		
 		if (hp <= 0) {
 			isAlive =false;
-			//this.mort.play(1);
-			((ChickenAvatar)this.avatar).exploser();
-			task.post(() -> {
-				this.die();
-			}, 2000);
-			return;
+			this.die();
 		}
-		//this.degat.play(1);
 	}
 	
 	@Override
 	public void die() {
+		model.remove(this);
+		((ChickenAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         this.model.score.addEnemyKill();
         
         this.spawnPowerUpWithProba();
         
-        this.retract();
-        model.remove(this);
-        model.getView().remove(avatar);
+	Main.task.post(() -> {
+        	this.retract();
+            model.getView().remove(avatar);
+		}, 1000);
 	}
 	
 	private class ChickenAvatar extends Avatar{
@@ -187,7 +181,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             if (this.exploding) {
-            	g.drawImage(this.death.get(index), posX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
+            	g.drawImage(this.death.get(index), posX+shiftPX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
             }else if (this.visible){
             	g.drawImage(sprites[orientation][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 

@@ -371,13 +371,13 @@ public class Ship extends Entity {
 				index = spriteUp;
 
 			int shipLife = Ship.hp;
-			String vies = "Player HP: " + shipLife;
-			g.setColor(Colors.green);
-			g.setFont(g.getFont("Monospaced", 0, 16));
-			if (Main.debug)
+			
+			if (Main.debug) {
+				String vies = "Player HP: " + shipLife;
+				g.setColor(Colors.green);
+				g.setFont(g.getFont("Monospaced", 0, 16));
 				g.drawString(vies, 10, 140);
-			else
-				g.drawString(vies, 10, 23);
+			}
 
 			int placeY = Main.windowHeight * 3 + 150;
 			if (shipLife == 3) {
