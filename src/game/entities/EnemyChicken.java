@@ -30,7 +30,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	private boolean isAlive;
 	private int orientation;
 	private Task task;
-	private final double SPAWN_CHANCE = 0.2;
+	private final double SPAWN_CHANCE = 0.05;
 	
 	public EnemyChicken(View view, String name, int orientation) {
 		super(name);
@@ -93,20 +93,14 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 
 		if (hp <= 0) {
 			isAlive =false;
-			// game over : explosion + le boss disparait
 			//this.mort.play(1);
-//			Main.GAMEOVER = true;
-			
 			((ChickenAvatar)this.avatar).exploser();
 			task.post(() -> {
 				this.die();
 			}, 2000);
 			return;
 		}
-
 		//this.degat.play(1);
-		//pas de hit = true, le vaisseau n'a pas d'invicibilité
-
 	}
 	
 	@Override
@@ -114,13 +108,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= SPAWN_CHANCE) {
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
+        this.spawnPowerUpWithProba();
         
         this.retract();
         model.remove(this);

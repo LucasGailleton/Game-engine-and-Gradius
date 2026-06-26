@@ -94,13 +94,8 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= SPAWN_CHANCE) { //POURCENTAGE DE FAIRE SPAWN UN POWERUP
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
+        this.spawnPowerUpWithProba();
+        
         this.retract();
         model.remove(this);
         model.getView().remove(avatar);
@@ -108,6 +103,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 
 		
 	private class WalkingAvatar extends Avatar{
+		
 		public static final int TopLeft = 0;
 		public static final int TopRight = 1;
 	    public static final int DownLeft = 2;

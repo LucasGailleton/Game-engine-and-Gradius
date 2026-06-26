@@ -100,13 +100,8 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= SPAWN_CHANCE) {
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
+        this.spawnPowerUpWithProba();
+        
         this.retract();
         model.remove(this);
         model.getView().remove(avatar);

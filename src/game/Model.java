@@ -91,6 +91,9 @@ public class Model {
 	    if (Main.Timer > 0)
 	    	Main.Timer--;
 	    
+	    if (Main.powerUpSpawnCooldown > 0)
+	    	Main.powerUpSpawnCooldown--;
+	    
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {

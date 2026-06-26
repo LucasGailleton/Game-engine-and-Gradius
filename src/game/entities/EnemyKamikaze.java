@@ -24,10 +24,7 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
     
     private int hp = 1;
     private boolean isAlive;
-	private boolean hit = false;
-	private final double SPAWN_CHANCE = 0.05;
-
-    
+	private boolean hit = false;    
    
 	public EnemyKamikaze(String name) {
 		super(name);
@@ -40,7 +37,6 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		
 		
 	}
 	
@@ -83,13 +79,8 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <=SPAWN_CHANCE) {
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
+        this.spawnPowerUpWithProba();
+        
         this.retract();
         model.remove(this);
         model.getView().remove(avatar);

@@ -140,6 +140,7 @@ public class Ship extends Entity {
 		double_tir = false;
 		ShipSpeed = ShipSpeedOrig;
 		win = false;
+		Main.spawnedPowerUp = 0;
 	}
 
 	public void gotHit() {
