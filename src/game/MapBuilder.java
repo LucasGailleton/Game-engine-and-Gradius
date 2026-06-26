@@ -1,6 +1,5 @@
 package game;
 
-import engine.BasicStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -93,6 +92,8 @@ public class MapBuilder {
 
 		int spriteType;
 		for (int i = 0; i < 10; i++) {
+			spriteType = (int) (Math.random() * 4) + 1;
+
 			// --- PLACEMENT EN HAUT ---
 			spriteType = (int) (Math.random() * 4) + 1;
 			Borders topBorder = new Borders("top_" + i, spriteType, BorderAvatar.Top, view);
@@ -110,6 +111,8 @@ public class MapBuilder {
 	}
 	
 	public void genAleatoire(double seconds) {
+		if (Main.GAMEOVER)
+			return;
 		if (Main.Timer <= 0 && phase < phase_boss) {
 			Main.Timer = Main.TimerOrig;
 			phase++;
@@ -144,6 +147,9 @@ public class MapBuilder {
 	        case phase_boss:
 	        	spawnBoss(spawnX);
 	        	spawnInterval = -10.0;	// Désactivation du cooldown et donc du spawn des entités enemies
+	        	Main.task.post(()->{
+	        		View.viewSpeed = 0;	// Arret du scrolling pour le boss
+	        	}, 3000);
 	        	break;
 	        }
 		    

@@ -79,28 +79,39 @@ public class MissileSpecial extends Entity{
 			}
 		}
 		
+		if (distance <= explosionRadius) {
+			target.gotHit();
+			this.die();
+			return;
+		} else if (distance <= attractionRadius) {
+
+			double pullX = (dx / distance) * pullForce * seconds;
+			double pullY = (dy / distance) * pullForce * seconds;
+
+			target.translate(target.isu.new Vector(pullX, pullY));
+
+		}
 		
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-	    
-	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
-	    
-	    int shift1 = view.shiftPX;
-	    int screenX = entityX + shift1;
-	    int w = view.canvas().getWidth();
+		int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 
-	    if (screenX < -300) {
-	        shift1 += taille_map;
-	    } else if (screenX > w + 300) {
-	        shift1 -= taille_map;
-	    }
+		int shift1 = view.shiftPX;
+		int screenX = entityX + shift1;
+		int w = view.canvas().getWidth();
 
-	    int bordX = entityX + shift1;
+		if (screenX < -300) {
+			shift1 += taille_map;
+		} else if (screenX > w + 300) {
+			shift1 -= taille_map;
+		}
 
-	    int marge = 50; 
-	    if (bordX < -marge || bordX > (w + marge)) {
-	        this.die();
-	    }
-		
+		int bordX = entityX + shift1;
+
+		int marge = 50;
+		if (bordX < -marge || bordX > (w + marge)) {
+			this.die();
+		}
+
 	}
 	
 	private class MissileSpecialAvatar extends Avatar{
@@ -123,19 +134,16 @@ public class MissileSpecial extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-			shift = shiftPX;
-			if (this.sprites==null) {
+			if (this.sprites == null) {
 				this.getSprites(g);
 			}
-			
-            
-            ISU.Coord center = MissileSpecial.this.center();
-            int posX = this.toPixel(center.x_cm)-((int)(spriteSizeX*Main.windowScale)/2);
-            int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
-            
-            
-            g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-			//g.drawOval(topX+shiftPX, topY, 100, 100);
+
+			ISU.Coord center = MissileSpecial.this.center();
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
+
+			g.drawImage(sprites[0][0], posX + shiftPX, posY, (int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
+			// g.drawOval(topX+shiftPX, topY, 100, 100);
 		}
 		
 	}

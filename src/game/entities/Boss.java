@@ -47,6 +47,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.avatar = new BossAvatar(this);
 		this.isAlive=true;
 		this.task = Runtime.task();
+
 		setStunt(new BasicStunt(model, this));
 		
 	}

@@ -26,9 +26,7 @@ public class MissileEnemy extends Entity{
 	@Override
 	public void setBounding() {
 		this.bounding().add(new Circle(this.center(),this.size.x_cm/2));
-		
 	}
-	
 	
 	//A modif je pense
 	@Override
