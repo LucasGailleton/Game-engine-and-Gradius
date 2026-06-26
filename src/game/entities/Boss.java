@@ -29,7 +29,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
 	
-	private Ship target;
+	private Entity target;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
 	

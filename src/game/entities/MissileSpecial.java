@@ -15,13 +15,13 @@ public class MissileSpecial extends Entity{
 	
 	private View view;
 	private int shift;
-	private Ship target;
+	private Entity target;
 	
 	private double explosionRadius = 10.0; // Distance pour exploser
 	private double attractionRadius = 50.0; // Zone d'effet de l'attraction
 	private double pullForce = 100.0; // Force d'attraction
 
-	public MissileSpecial(String name, View view, Ship target) {
+	public MissileSpecial(String name, View view, Entity target) {
 		super(name);
 		this.setSize(this.isu.new Dimension(9*Main.windowScale,5*Main.windowScale));
 		this.avatar =new MissileSpecialAvatar(this);
@@ -63,20 +63,22 @@ public class MissileSpecial extends Entity{
 		double dx = this.center().x_cm - target.center().x_cm;
 		double dy = this.center().y_cm - target.center().y_cm;
 		double distance = Math.sqrt(dx * dx + dy * dy);
+		if (target instanceof Ship) {
+			if (distance <= explosionRadius) {
+				((Ship)target).gotHit(); 
+				this.die();
+				return;
+			}
+			else if (distance <= attractionRadius) {
+				
+				double pullX = (dx / distance) * pullForce * seconds;
+				double pullY = (dy / distance) * pullForce * seconds;
+				
+				target.translate(target.isu.new Vector(pullX, pullY));
+				
+			}
+		}
 		
-		if (distance <= explosionRadius) {
-			target.gotHit(); 
-			this.die();
-			return;
-		}
-		else if (distance <= attractionRadius) {
-			
-			double pullX = (dx / distance) * pullForce * seconds;
-			double pullY = (dy / distance) * pullForce * seconds;
-			
-			target.translate(target.isu.new Vector(pullX, pullY));
-			
-		}
 		
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
 	    
