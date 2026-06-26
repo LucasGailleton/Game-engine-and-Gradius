@@ -53,7 +53,7 @@ public class Main implements Runnable {
 	public static final boolean debug = true;
 	public static boolean GAMEOVER = false;
 	
-	public static int Timer = 1000;
+	public static int Timer = 1000;		// 1 phase = 10 secondes
 	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {

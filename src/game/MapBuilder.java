@@ -144,6 +144,9 @@ public class MapBuilder {
 	        case phase_boss:
 	        	spawnBoss(spawnX);
 	        	spawnInterval = -10.0;	// Désactivation du cooldown et donc du spawn des entités enemies
+	        	Main.task.post(()->{
+	        		View.viewSpeed = 0;	// Arret du scrolling pour le boss
+	        	}, 3000);
 	        	break;
 	        }
 		    
