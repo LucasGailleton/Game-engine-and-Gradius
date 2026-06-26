@@ -11,9 +11,12 @@ import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
 
 public class VectAvatar extends Avatar {
+	
+	private ISU.Vector attract;
 
 	public VectAvatar(Ship ship) {
 		super(ship);
+		attract = ship.isu.new Vector(0, 0);
 	}
 
 	@Override
@@ -23,6 +26,10 @@ public class VectAvatar extends Avatar {
 
 	public void paint(Graphics g) {
 
+	}
+	
+	public void attract(ISU.Vector v) {
+		this.attract = v;
 	}
 
 	@Override
@@ -38,12 +45,15 @@ public class VectAvatar extends Avatar {
 	    if (Main.debug) {
 		    String scrolling = "Vect scrolling: (" + Ship.ShipSpeed + ", 0.0)";
 		    String boost = "Vect boost: (" + v.targetX_cm + ", " + v.targetY_cm + ')';
-		    String somme = "Sum: (" + (Ship.ShipSpeed + v.targetX_cm) + ", " + v.targetY_cm + ')';
+		    String attraction = "Attraction: (" + this.attract.targetX_cm + ", " + this.attract.targetY_cm + ')';
+		    String somme = "Sum: (" + (Ship.ShipSpeed + v.targetX_cm + attract.targetX_cm) + ", " + (v.targetY_cm + attract.targetY_cm) + ')';
+		    
 		    
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString(scrolling, 10, 60);
 		    g.drawString(boost, 10, 80);
-		    g.drawString(somme, 10, 100);
+		    g.drawString(attraction, 10, 100);
+		    g.drawString(somme, 10, 120);
 	    }
 
 

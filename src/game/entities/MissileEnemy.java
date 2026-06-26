@@ -28,7 +28,6 @@ public class MissileEnemy extends Entity {
 		this.bounding().add(new Circle(this.center(),this.size.x_cm/2));
 	}
 	
-	
 	//A modif je pense
 	@Override
 	public void tick(double elapsed, boolean shift) {

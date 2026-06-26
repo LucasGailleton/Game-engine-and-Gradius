@@ -5,6 +5,7 @@ import java.util.List;
 
 import debugmode.Profiler;
 import debugmode.ProfilingManager;
+import debugmode.VectAvatar;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -33,6 +34,8 @@ public class View {
 	public static final int speed = -1;
 	public static int viewSpeed = (int)(speed*Main.windowScale);
 	
+	private VectAvatar va;
+	
 	public View(Canvas canvas) {
 		this.mp = ProfilingManager.getProfiler("model");
 		this.vp = ProfilingManager.getProfiler("view");
@@ -48,6 +51,14 @@ public class View {
 		this.avatars.add(a);
 	}
 	
+	public void setVA(VectAvatar v) {
+		this.va = v;
+	}
+	
+	public VectAvatar getVA() {
+		return this.va;
+	}
+	
 	public void remove(Avatar a) {
 		this.avatars.remove(a);
 	}
@@ -57,6 +68,8 @@ public class View {
 	}
 	
 	public boolean shift() {
+		if (viewSpeed == 0)
+			return false;
 		if (this.shiftChg == viewSpeedChg) {
 			this.shiftPX += viewSpeed;
 			int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);

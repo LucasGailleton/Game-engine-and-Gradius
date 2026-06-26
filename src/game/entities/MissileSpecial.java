@@ -1,5 +1,6 @@
 package game.entities;
 
+import debugmode.VectAvatar;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
@@ -10,6 +11,8 @@ import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
+import oop.tasks.Runtime;
+import oop.tasks.Task;
 
 public class MissileSpecial extends Entity {
 
@@ -19,6 +22,7 @@ public class MissileSpecial extends Entity {
 	private double explosionRadius = 10.0; // Distance pour exploser
 	private double attractionRadius = 50.0; // Zone d'effet de l'attraction
 	private double pullForce = 100.0; // Force d'attraction
+	private Task task;
 
 	public MissileSpecial(String name, View view, Ship target) {
 		super(name);
@@ -26,6 +30,7 @@ public class MissileSpecial extends Entity {
 		this.avatar = new MissileSpecialAvatar(this);
 		this.view = view;
 		this.target = target;
+		this.task = Runtime.task();
 	}
 
 	@Override
@@ -68,9 +73,15 @@ public class MissileSpecial extends Entity {
 
 			double pullX = (dx / distance) * pullForce * seconds;
 			double pullY = (dy / distance) * pullForce * seconds;
-
-			target.translate(target.isu.new Vector(pullX, pullY));
-
+			
+			ISU.Vector v = target.isu.new Vector(pullX, pullY);
+			VectAvatar va= view.getVA();
+			va.attract(v);
+			target.translate(v);
+			
+			task.post(() -> {
+				va.attract(target.isu.new Vector(0, 0));
+			}, 300);
 		}
 
 		int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);

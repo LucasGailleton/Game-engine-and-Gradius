@@ -112,6 +112,8 @@ public class Main implements Runnable {
 		ship.setStunt(shipStunt);
 		VectAvatar va = new VectAvatar(ship);
 		view.add(va);
+		//maintenant le View prend un VectAvatar pour pouvoir affichier le vecteur d'attraction du missile spécial
+		view.setVA(va);
 
 		task.post(new Runnable() {
 			@Override

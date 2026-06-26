@@ -90,7 +90,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		View vew = this.model.getView();
 		Position pos = this.position();
 		MissileSpecial mss = new MissileSpecial("mssBot",vew,target);
-		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 30, pos.y * Game.cmPerCell));
+		mss.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell));
 		mss.setBounding();
 		mss.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mss);

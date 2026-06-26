@@ -111,6 +111,8 @@ public class MapBuilder {
 	}
 	
 	public void genAleatoire(double seconds) {
+		if (Main.GAMEOVER)
+			return;
 		if (Main.Timer <= 0 && phase < phase_boss) {
 			Main.Timer = Main.TimerOrig;
 			phase++;
