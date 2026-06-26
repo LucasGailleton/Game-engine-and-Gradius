@@ -86,7 +86,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
-		Game game = new Game((int) (5000 * windowScale), (int) (35 * windowScale));
+		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
 		task = Runtime.task();
 		this.canvas = (Canvas) task.find("canvas");
 
@@ -132,7 +132,7 @@ public class Main implements Runnable {
 		ship.setView(view);
 		mb.placeEntity(ship);
 		
-		AutomatonLoader al =new AutomatonLoader(3);
+		AutomatonLoader al=new AutomatonLoader(3);
 		try {
 //		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
 			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");

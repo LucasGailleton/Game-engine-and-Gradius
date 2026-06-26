@@ -17,8 +17,8 @@ public class EnemyStunt extends GALStunt {
 		super(m, e);
 	}
 
-	public static final double BasicSpeed = 5.0*Main.windowScale;
-
+	public static final double BasicSpeed = 20.0*Main.windowScale;
+	
 
 	@Override
 	public void collision(Entity e) {
@@ -59,7 +59,7 @@ public class EnemyStunt extends GALStunt {
         engine.Grid.Position pos = this.entity.position();
         MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view()); 
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
-        viser(msp,target.center(),1000);
+        viser(msp,target.center(),BasicSpeed);
         Main.mb.placeEntity(msp);
 
 	}
