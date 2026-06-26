@@ -40,7 +40,8 @@ public class Model {
 	private Profiler p;
 	private View v;
 	private Ship player;
-
+	
+	public Score score;
 	
 	public Model(View v) {
 		if (ProfilingManager.PROFILING)
@@ -49,6 +50,7 @@ public class Model {
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
 		this.ps = new Physic(this);
+		this.score = new Score();
 	}
 	
 	// ADD, REMOVE Entity
@@ -69,7 +71,7 @@ public class Model {
 	    return this.player;
 	}
 	
-	public View getView() { // Méthode temporaire, structurellement pas ouf
+	public View getView() {
 		return this.v;
 	}
 	
@@ -92,6 +94,9 @@ public class Model {
 	    Main.mb.genAleatoire(seconds);
 	    if (Main.Timer > 0)
 	    	Main.Timer--;
+	    
+	    if (Main.powerUpSpawnCooldown > 0)
+	    	Main.powerUpSpawnCooldown--;
 	    
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    

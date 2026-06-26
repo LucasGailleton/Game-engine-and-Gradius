@@ -26,15 +26,7 @@ import engine.view.KeyListener;
 import engine.view.PaintListener;
 import engine.view.View;
 import game.entities.Background;
-import game.entities.Boss;
-import game.entities.BossGunBottom;
-import game.entities.BossGunTop;
-import game.entities.EnemyChicken;
-import game.entities.EnemyHoming;
-import game.entities.EnemyKamikaze;
-import game.entities.EnemyWalking;
-import game.entities.MontFendu;
-import game.entities.PowerUp;
+
 import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
@@ -45,9 +37,7 @@ import engine.ISU.*;
 
 public class Main implements Runnable {
 	
-	Canvas canvas;
 	public static Task task;
-	List<Entity> entities;
 	public static List<Automaton> auts;
 	public static MapBuilder mb;
 	public static final double windowScale = 4;
@@ -56,13 +46,22 @@ public class Main implements Runnable {
 	public static final int headerSize = 61;
 	public static boolean debug = true;
 	public static boolean GAMEOVER = false;
+	public static final int powerUpSpawnChance = 8;	// 8% de chance d'avoir un powerUp lorsque l'on touche un ennemi
+	public static final int maxPowerUps = 4;
+	public static int spawnedPowerUp = 0;
+	public static int powerUpSpawnCooldown = 1000;	// Un powerUp toutes les 10 secondes au mieux
+	public static final int powerUpSpawnCooldownOrig = powerUpSpawnCooldown;
+	
+	private Canvas canvas;
+	private List<Entity> entities;
 	private Ticker ticker;
 	private Model model;
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 300;			// Phase initiale sans monstres = 3 secondes
-	public static int TimerOrig = 3000;		// Temps d'une phase = 30 secondes
+	public static int Timer = 30;			// Phase initiale sans monstres = 3 secondes
+	public static int TimerPhase = 3000;	// Temps d'une phase = 30 secondes
+	public static int TimerOrig = Timer;
 
 	public static void main(String[] args) {
 
@@ -117,6 +116,7 @@ public class Main implements Runnable {
 
 		this.view = new View(canvas);
 		this.model = new Model(this.view);
+		view.setScore(model.score);
 		Task tick = Runtime.newTask("tick");
 		this.ticker = new Ticker(this.model, tick, 10);
 

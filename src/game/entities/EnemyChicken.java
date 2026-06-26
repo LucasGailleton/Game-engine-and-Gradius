@@ -74,12 +74,22 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		//il tire pas lui il fait spawn des EnemyWalking
 	}
 	
+	//Spawn des Enemy walking  
+	public void egg() {
+		EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
+		kamegg.setCoord(isu.new Coord(this.center().x_cm-100,this.center().y_cm));
+		kamegg.setBounding();
+		model.add(kamegg);
+		view.add(kamegg.getAvatar());
+	}
+	
 	@Override
 	public void gotHit() {
 		hp--;
 		System.out.println("HP of chicken : " + hp);
 		
 		if (hp <= 0) {
+			isAlive =false;
 			this.die();
 		}
 	}
@@ -90,15 +100,11 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		((ChickenAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
+        this.model.score.addEnemyKill();
         
-        if (Math.random() <= 0.2) {
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
-        Main.task.post(() -> {
+        this.spawnPowerUpWithProba();
+        
+	Main.task.post(() -> {
         	this.retract();
             model.getView().remove(avatar);
 		}, 1000);

@@ -24,14 +24,12 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
     
     private int hp = 1;
     private boolean isAlive;
-	private boolean hit = false;
-
-    
+	private boolean hit = false;    
    
 	public EnemyKamikaze(String name) {
 		super(name);
 		
-		this.setSize(this.isu.new Dimension(18*Main.windowScale, 18*Main.windowScale));
+		this.setSize(this.isu.new Dimension(14*Main.windowScale, 14*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.isAlive=true;	
@@ -39,7 +37,6 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	
 	@Override
 	public void tick(double elapsed, boolean shift) {
-		
 		
 	}
 	
@@ -76,14 +73,10 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		((KamikazeAvatar)this.avatar).exploser();
 		System.out.println("entité despawn : " + name);
         this.alive = false;
+        this.model.score.addEnemyKill();
         
-        if (Math.random() <= 0.2) {
-            PowerUp bonus = new PowerUp("powerup");
-            bonus.setCoord(this.center()); 
-            bonus.setBounding();
-            model.add(bonus);
-            model.getView().add(bonus.getAvatar());
-        }
+        this.spawnPowerUpWithProba();
+        
         Main.task.post(() -> {
         	this.retract();
             model.getView().remove(avatar);

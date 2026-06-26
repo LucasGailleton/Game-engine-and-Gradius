@@ -59,7 +59,7 @@ public class BasicStunt extends Stunt {
 
 	public void shootOnce(Entity target) {
         engine.Grid.Position pos = this.entity.position();
-        MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view()); 
+        MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view(),1); 
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
         viser(msp,target.center(),1000);
         Main.mb.placeEntity(msp);

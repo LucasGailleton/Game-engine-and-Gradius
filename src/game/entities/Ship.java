@@ -12,6 +12,7 @@ import engine.LaserStunt;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
+import game.MapBuilder;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
@@ -22,7 +23,7 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 30 * Main.windowScale;
+	public static double ShipSpeed = 40 * Main.windowScale;
 	public static final double ShipSpeedOrig = ShipSpeed;
 	public static final int missileSpeed = 850;
 
@@ -75,7 +76,7 @@ public class Ship extends Entity {
 		ISU.Dimension shapeSize;
 		ISU.Coord shapeCenter;
 
-		shapeSize = isu.new Dimension(x_cm / 1.4, y_cm / 2);
+		shapeSize = isu.new Dimension(x_cm / 2, y_cm / 3.0);
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
@@ -140,12 +141,16 @@ public class Ship extends Entity {
 		double_tir = false;
 		ShipSpeed = ShipSpeedOrig;
 		win = false;
+		Main.spawnedPowerUp = 0;
+		MapBuilder.phase = MapBuilder.phase_init;
+		Main.Timer = Main.TimerOrig;
 	}
 
 	public void gotHit() {
 		if (hit || Main.GAMEOVER)
 			return;
 		hp--;
+		model.score.subtractHit();
 
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
@@ -175,12 +180,13 @@ public class Ship extends Entity {
 	}
 
 	public void upgradePowerUp() {
+		model.score.addPowerUp();
 		if (this.powerUp <= 4)
 			this.powerUp++;
 		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
 		case PowerUp.Speed:
-			Ship.ShipSpeed *= 2;
+			Ship.ShipSpeed *= 1.5;
 			break;
 		case PowerUp.Double:
 			Ship.double_tir = true;
@@ -365,13 +371,13 @@ public class Ship extends Entity {
 				index = spriteUp;
 
 			int shipLife = Ship.hp;
-			String vies = "Player HP: " + shipLife;
-			g.setColor(Colors.green);
-			g.setFont(g.getFont("Monospaced", 0, 16));
-			if (Main.debug)
+			
+			if (Main.debug) {
+				String vies = "Player HP: " + shipLife;
+				g.setColor(Colors.green);
+				g.setFont(g.getFont("Monospaced", 0, 16));
 				g.drawString(vies, 10, 140);
-			else
-				g.drawString(vies, 10, 23);
+			}
 
 			int placeY = Main.windowHeight * 3 + 150;
 			if (shipLife == 3) {
