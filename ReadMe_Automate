@@ -1,0 +1,88 @@
+Ce document sert de guide pour la rédaction des fichiers d'automates (`.gal`). Il détaille les types de données, les actions et les conditions que l'interpréteur est actuellement capable de traduire en objets exécutables dans le moteur de jeu.
+
+Les Automates doivent etre écrits dans PARSER/JavaProject/src/gal/gradius/gradius_auts.
+---
+
+## 1. Les Actions (Après le caractère `?`)
+
+Les actions sont lues par la méthode `transformfuncall`. Ton implémentation impose une restriction majeure : **une seule action est gérée par transition** (`executionActions.get(0)`).
+
+### Actions à 0 paramètre
+* **`Hit`** : Déclenche un tir standard sans argument.
+    * *Exemple :* `True ? Hit : (Etat)` $\rightarrow$ Instancie `Shoot()`
+* **`Egg`** : Déclenche une action de ponte / génération d'entité par défaut.
+    * *Exemple :* `True ? Egg : (Etat)` $\rightarrow$ Instancie `Egg()`
+
+### Actions à 1 paramètre
+Selon le type de l'argument fourni entre parenthèses, le comportement s'adapte :
+
+* **Avec un degré (`IntDegree`)** :
+    * `Hit(45%)` : Oriente ou applique un tir avec un angle. $\rightarrow$ `Shoot(value)`
+    * `Move(90%)` : Déplacement selon un angle. $\rightarrow$ `Move(value)`
+    * `Turn(180%)` : Rotation d'un angle précis. $\rightarrow$ `Turn(value)`
+* **Avec un pourcentage (`IntPercent`)** :
+    * `Move(50%)` : Déplacement d'un pourcentage de vitesse ou de distance. $\rightarrow$ `Move(value)`
+* **Avec une direction absolue/relative (`Direction`)** :
+    * `Hit(N)`, `Hit(F)` : Tire dans une direction. $\rightarrow$ `Shoot(dir)`
+    * `Move(S)`, `Move(L)` : Se déplace dans une direction. $\rightarrow$ `Move(dir)`
+    * `Turn(E)`, `Turn(R)` : Se tourne vers une direction. $\rightarrow$ `Turn(dir)`
+* **Avec une variable stockée (`Variable`)** :
+    * `Hit(target)` : Vise et tire sur la variable capturée par la condition précédente. $\rightarrow$ `Shoot(var)`
+
+### Actions à 2 paramètres
+Gérées exclusivement pour la commande de mouvement **`Move`** :
+* `Move(Direction, Variable)` $\rightarrow$ Se déplace vers la variable dans une direction spécifique.
+* `Move(Direction, IntPercent)` $\rightarrow$ Se déplace dans une direction avec un pourcentage de force.
+* `Move(Direction, IntValue)` $\rightarrow$ Se déplace dans une direction d'un nombre de cases fixe.
+* `Move(IntDegree, IntPercent)` $\rightarrow$ Se déplace selon un angle et un pourcentage.
+* `Move(IntDegree, IntValue)` $\rightarrow$ Se déplace selon un angle et un nombre de cases fixe.
+* `Move(IntPercent, IntValue)` $\rightarrow$ Combinaison pourcentage / valeur fixe.
+
+### Actions à 3 paramètres
+Gérées exclusivement pour la commande **`Move`** :
+* `Move(Direction, Variable, IntPercent)`
+* `Move(Direction, Variable, IntValue)`
+* `Move(Direction, IntPercent, IntValue)`
+* `Move(IntDegree, IntPercent, IntValue)`
+
+### Actions à 4 paramètres
+Cas maximal pour la commande **`Move`** :
+* `Move(Direction, Variable, IntPercent, IntValue)`
+
+---
+
+## 2. Les Conditions (Entre le `|` et le `?`)
+
+Les conditions décident du franchissement de la transition. Elles supportent les opérateurs logiques.
+
+### Opérateurs Logiques (Compositions)
+* **`&` (ET)** : lie deux conditions. *Attention : ton code comporte un bug de copier-coller ici (`bo.right_operand` est lu deux fois au lieu de `left` et `right`), mais syntaxiquement c'est l'opérateur autorisé.*
+* **`|` (OU)** : lie deux expressions.
+
+### Conditions de base (0 paramètre)
+* **`True`** ou une fonction vide : Transition automatique toujours valide. $\rightarrow$ Renvoie `GALCondition.TRUE`.
+
+### Recherche de l'entité la plus proche : `Closest`
+La fonction `Closest` est extrêmement modulable et s'adapte au nombre de paramètres fournis :
+
+* **À 1 paramètre (Catégorie unique sous forme de symbole/lettre) :**
+    * `Closest(@)` $\rightarrow$ Cherche le Joueur le plus proche.
+    * `Closest(#)` $\rightarrow$ Cherche le Boss le plus proche.
+    * `Closest(M)` $\rightarrow$ Cherche le Missile le plus proche.
+    * `Closest(O)` $\rightarrow$ Cherche l'Obstacle le plus proche.
+    * `Closest(A)` $\rightarrow$ Cherche l'Adversaire le plus proche.
+* **À 2 paramètres :**
+    * `Closest(Direction, Category)` : Cherche l'entité de cette catégorie dans une direction donnée (ex: `Closest(N, A)`).
+    * `Closest(Category, IntValue)` : Cherche l'entité de cette catégorie dans un rayon limité par une valeur fixe de pas (ex: `Closest(A, 5)`).
+* **À 3 paramètres :**
+    * `Closest(Direction, IntValue, Category)` : Cherche dans une direction, à une distance max (`IntValue`), une catégorie spécifique. (ex: `Closest(F, 3, O)`).
+
+### Vérification à une distance fixe : `Step`
+La fonction `Step` (qui instancie un objet `AtStep` dans ton moteur) permet d'analyser une case précise de la grille :
+
+* **À 2 paramètres :**
+    * `Step(Direction, Category)` : Vérifie si la catégorie est présente à exactement 1 case dans cette direction (ex: `Step(F, O)`).
+* **À 3 paramètres :**
+    * `Step(Direction, IntValue, Category)` : Vérifie si la catégorie est présente à exactement `X` cases de distance dans cette direction (ex: `Step(L, 2, A)`).
+
+---
