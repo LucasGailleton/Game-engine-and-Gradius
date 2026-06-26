@@ -158,9 +158,9 @@ public class MapBuilder {
 	    double randomY = 0;
 	    if (hautOuBas) {
 	    	wlk = new EnemyWalking(view,"walking",2);
-	    	randomY = 410;
+	    	randomY = 102*Main.windowScale;
 	    }else {
-	    	randomY = 20;
+	    	randomY = 5*Main.windowScale;
 	    	wlk = new EnemyWalking(view,"walking",0);
 	    }
 	    
@@ -188,10 +188,10 @@ public class MapBuilder {
 	    double randomY = 0;
 	    if (hautOuBas) {
 	    	chk = new EnemyChicken(view,"chicken",1);
-	    	randomY=410;
+	    	randomY=102*Main.windowScale;
 	    }else {
 	    	chk = new EnemyChicken(view,"chicken",0);
-	    	randomY=20;
+	    	randomY=5*Main.windowScale;
 	    }  
 	    chk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(chk);

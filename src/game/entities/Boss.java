@@ -35,7 +35,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	
 	private boolean isAlive;
 	private boolean hit = false;
-	protected int hp = 10;
+	protected int hp = 50;
+	private int HP_MAX;
 	
 	private Task task;
 	
@@ -51,6 +52,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		setStunt(new BasicStunt(model, this));
 		this.setCategory(engine.GAL.Category.Boss);
 		this.view=view;
+		this.HP_MAX = this.hp;
 	}
 	
 	public void createGuns(Model model, View view) {
@@ -144,7 +146,12 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 			return;
 		hp--;
 		System.out.println("HP : " + hp);
-
+		
+		//Midlife
+		if (hp <= HP_MAX/2) {
+			
+		}
+		//Dead
 		if (hp <= 0) {
 			isAlive = false;
 			// game over : explosion + le boss disparait

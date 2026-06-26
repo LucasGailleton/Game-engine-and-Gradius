@@ -30,6 +30,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	private boolean isAlive;
 	private int orientation;
 	private Task task;
+	private final double SPAWN_CHANCE = 0.2;
 	
 	public EnemyChicken(View view, String name, int orientation) {
 		super(name);
@@ -74,6 +75,15 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		//il tire pas lui il fait spawn des EnemyWalking
 	}
 	
+	//Spawn des Enemy walking  
+	public void egg() {
+		EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
+		kamegg.setCoord(isu.new Coord(this.center().x_cm-100,this.center().y_cm));
+		kamegg.setBounding();
+		model.add(kamegg);
+		view.add(kamegg.getAvatar());
+	}
+	
 	@Override
 	public void gotHit() {
 		if (hit || Main.GAMEOVER)
@@ -104,7 +114,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= 0.3) {
+        if (Math.random() <= SPAWN_CHANCE) {
             PowerUp bonus = new PowerUp("powerup");
             bonus.setCoord(this.center()); 
             bonus.setBounding();
