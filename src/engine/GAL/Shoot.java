@@ -56,10 +56,12 @@ public class Shoot  extends GALAction{
 	// EXEC
 	 public boolean exec(Entity e){ 
 		 EnemyStunt s=(EnemyStunt)e.stunt();
-		 if(this.target.content!=null) {
-			 if(target.content instanceof Entity ent) {
-				s.shootOnce(ent);
-				return true;
+		 if(this.target!=null) {
+			 if(this.target.content!=null) {
+				 if(target.content instanceof Entity ent) {
+					s.shootOnce(ent);
+					return true;
+				 }
 			 }
 		 }
 		 else if(this.direction!=null) {
