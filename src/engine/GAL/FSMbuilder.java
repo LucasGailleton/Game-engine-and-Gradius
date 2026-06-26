@@ -479,11 +479,10 @@ public class FSMbuilder implements iVisitor{
 	    		if(param instanceof Category c) {
 	    			switch(c.terminal.content){
 	    			case "@":
-		    				Ship s=Ship.ship();
 		        	    	switch(actionName) {
 		        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 		        	    	case"Closest":
-		        	    		return new engine.GAL.Closest(s,new engine.GAL.Variable());
+		        	    		return new engine.GAL.Closest(engine.GAL.Category.Joueur,new engine.GAL.Variable());
 		        	    	default:
 		        	            // Par défaut ou pour les autres actions
 		        	            //executionActions.add(new engine.GAL.GALAction(call.name));

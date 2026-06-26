@@ -49,7 +49,9 @@ public class Controller {
 
 		if (dx == 0 && dy == 0) {
 			if (!stopped) {
-//				player.stunt().stop();
+				Stunt playerStunt = player.stunt();
+				if (playerStunt != null)
+					playerStunt.stop();
 				stopped = true;
 				dir = -1;
 			}
