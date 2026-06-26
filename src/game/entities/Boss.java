@@ -123,14 +123,14 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	public void shoot() {
 		View view = this.model.getView();
 		Position pos = this.position();
-		MissileEnemy mse = new MissileEnemy("mse1",view);
+		MissileEnemy mse = new MissileEnemy("mse1",view,0);
 		mse.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell+20));
 		mse.setBounding();
 		mse.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mse);
 		view.add(mse.getAvatar());
 		
-		MissileEnemy mse2 = new MissileEnemy("mse2",view);
+		MissileEnemy mse2 = new MissileEnemy("mse2",view,0);
 		mse2.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell-20));
 		mse2.setBounding();
 		mse2.setlSpeed(-missileSpeed * 2, 0);

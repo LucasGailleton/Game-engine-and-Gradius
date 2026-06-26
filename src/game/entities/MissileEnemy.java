@@ -15,13 +15,14 @@ import oop.graphics.Graphics;
 public class MissileEnemy extends Entity {
 	
 	private View view;
-
-	public MissileEnemy(String name, View view) {
+	private int chosen; 
+	public MissileEnemy(String name, View view, int chosen) {
 		super(name);
 		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
 		this.avatar = new MissileEnemyAvatar(this);
 		this.view = view;
 		this.setCategory(engine.GAL.Category.Missile);
+		this.chosen =chosen;
 	}
 	
 	@Override
@@ -85,18 +86,25 @@ public class MissileEnemy extends Entity {
 	private class MissileEnemyAvatar extends Avatar{
 		public static final int spriteSizeX = 5;
 	    public static final int spriteSizeY = 5;
+	    
+	    private int index;
+		private int indChg;
 		public MissileEnemyAvatar(Entity e) {
 			super(e);
-			
+			this.index =0;
+			this.indChg = 0;
 		}
 
 		@Override
 		public void getSprites(Graphics g) {
 			BufferedImage imgSprites = g.load("enemies_clearbg.png");
-            this.sprites = new BufferedImage[1][2];
+            this.sprites = new BufferedImage[2][2];
             
             this.sprites[0][0] = imgSprites.getSubimage(292, 31, spriteSizeX, spriteSizeY);
             this.sprites[0][1] = imgSprites.getSubimage(301, 31, spriteSizeX, spriteSizeY);
+            
+            this.sprites[1][0] = imgSprites.getSubimage(310, 31, spriteSizeX, spriteSizeY);
+            this.sprites[1][1] = imgSprites.getSubimage(319, 31, spriteSizeX, spriteSizeY);
 			
 		}
 
@@ -112,8 +120,17 @@ public class MissileEnemy extends Entity {
             int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
-            g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+            g.drawImage(sprites[chosen][index], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
 			
+            
+            if (indChg == 0)
+ 		    	index++;
+ 		    if (index > 1)
+ 		    	index = 0;
+ 		    indChg++;
+ 		    if (indChg % 40 == 0) {
+ 		    	indChg = 0;
+ 		    }
 		}
 		
 	}

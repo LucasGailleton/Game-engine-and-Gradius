@@ -1,5 +1,7 @@
 package game;
 
+import oop.graphics.Graphics;
+
 public class Score {
 	
 	private int value;
@@ -31,5 +33,10 @@ public class Score {
 
     public void reset() {
         this.value = 0;
+    }
+    
+    
+    public void paint(Graphics g) {
+    	g.drawString("Score : "+ this.value, (int) (20*Main.windowScale), (int) (30*Main.windowScale));
     }
 }
