@@ -32,11 +32,11 @@ public abstract class Bot {
 	 *          </UL>
 	 * @return the state of mind of the Bot
 	 */
-	 State state(){ 
+	 public State state(){ 
 		 return this.state;
 	 }
 
-	 void state(State state){ 
+	void state(State state){ 
 		 this.state=state;
 	 }
 
