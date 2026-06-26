@@ -40,7 +40,7 @@ public class Main implements Runnable {
 	Canvas canvas;
 	public static Task task;
 	List<Entity> entities;
-	List<Automaton> auts;
+	public static List<Automaton> auts;
 	public static MapBuilder mb;
 	public static final double windowScale = 4;
 	public static final int windowWidth = 256;
@@ -53,8 +53,8 @@ public class Main implements Runnable {
 	private View view;
 	private StartScreen menu;
 	
-	public static int Timer = 1000;		// 1 phase = 10 secondes
-	public static int TimerOrig = Timer;
+	public static int Timer = 300;			// Phase initiale sans monstres = 3 secondes
+	public static int TimerOrig = 3000;		// Temps d'une phase = 30 secondes
 
 	public static void main(String[] args) {
 
@@ -144,8 +144,6 @@ public class Main implements Runnable {
 		}
 
 		Controller ct = new Controller(ship);
-//		KeyListener kl = new KeyListener(ct);
-//		canvas.set(kl);
 		this.menu.playGame(this.view, ct);
 
 		surveillerGameOver();

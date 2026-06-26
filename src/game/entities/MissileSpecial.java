@@ -20,7 +20,7 @@ public class MissileSpecial extends Entity {
 	private Entity target;
 
 	private double explosionRadius = 10.0; // Distance pour exploser
-	private double attractionRadius = 100.0; // Zone d'effet de l'attraction
+	private double attractionRadius = 150.0; // Zone d'effet de l'attraction
 	private double pullForce = 80.0; // Force d'attraction
 
 	public MissileSpecial(String name, View view, Entity  target) {

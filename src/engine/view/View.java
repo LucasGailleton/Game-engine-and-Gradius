@@ -9,7 +9,7 @@ import debugmode.VectAvatar;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-
+import engine.ISU.Coord;
 import game.Main;
 import game.Model;
 import game.entities.Avatar;
@@ -117,6 +117,11 @@ public class View {
             
 			if (Main.debug) {
 	            model = entity.getModel();
+	            if(entity.bot() != null) {
+	            	String state = entity.bot().state().toString();
+	            	Coord centre = entity.center();
+	            	g.drawString(state, (int) Math.round(centre.x_cm), (int) Math.round(centre.y_cm - 10));
+	            }
 	            if (!(entity instanceof Background)) {
 		            g.setColor(Colors.red);
 		            ISU.Coord centre = entity.center();
