@@ -36,12 +36,12 @@ WALKING (Walking){
 // single line comment are allowed
 
 * (Walking):
-    | Closest(@,100)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+ //   | Closest(@,100)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
     | Step(F,1,O)     ? Turn(B)  : (Walking) 
     | True          ? Move(F)  : (Walking)
 
   * (Shooting):
-    | Closest(@,100)  ? Hit($)    : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+//    | Closest(@,100)  ? Hit($)    : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
     | Step(F,1,O)     ? Turn(B)  : (Walking) 
     | True          ? Move(F)  : (Walking)
  
