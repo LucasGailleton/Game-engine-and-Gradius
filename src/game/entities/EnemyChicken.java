@@ -172,7 +172,6 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             
             this.sprites[Top][spriteNeutral] = imgSprites.getSubimage(218, 245, 36, 28);
             this.sprites[Down][spriteNeutral] = imgSprites.getSubimage(218, 214, 36, 28);
-			//Animation à ajouter peut etre ?
             
 			this.death.clear();
 		    this.death.add(imgSprites.getSubimage(278, 753, 32, 32));
