@@ -87,18 +87,20 @@ public class Controller {
 		else {
 			speed = 0.3;
 		}
-
-		if (dx == -1)
-			player.stunt().direction = Avatar.West;
-		else if (dx == 1)
-			player.stunt().direction = Avatar.East;
-		else if (dy == -1)
-			player.stunt().direction = Avatar.North;
-		else if (dy == 1)
-			player.stunt().direction = Avatar.South;
+		if (player.stunt()!=null) {
+			if (dx == -1)
+				player.stunt().direction = Avatar.West;
+			else if (dx == 1)
+				player.stunt().direction = Avatar.East;
+			else if (dy == -1)
+				player.stunt().direction = Avatar.North;
+			else if (dy == 1)
+				player.stunt().direction = Avatar.South;
+			
+			player.stunt().set(dx * speed, dy * speed);
+			player.stunt().walk(angle);
+		}
 		
-		player.stunt().set(dx * speed, dy * speed);
-		player.stunt().walk(angle);
 		
 	}
 
