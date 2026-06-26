@@ -124,19 +124,38 @@ public class Direction {
 	}
 	
 	static public Direction toDir(int i) {
-		if (i == 90 || i==-270) {
+		int j = ((i % 360) + 360) % 360;
+		if ((j <= 135 && j>45 )) {
 			return N;
 		}
-		if (i == 0 || i==-180) {
+		if ((j <= 45 && j>315 )) {
 			return E;
 		}
-		if (i == 270|| i==-90) {
+		if ((j <= 315 && j>225)) {
 			return S;
 		}
-		if (i == 180) {
+		if (j <= 225 && j>135) {
 			return W;
 		}
-		throw new IllegalStateException("Cannot convert relative direction '");
+		return null;
+	}
+	
+	static public Direction to_abs(Direction dir,Entity e) {
+		if(dir==Direction.F) {
+			return Direction.toDir(e.orientation());
+		}
+		if(dir==Direction.B) {
+			return Direction.toDir(e.orientation()+180);
+		}
+		if(dir==Direction.R) {
+			return Direction.toDir(e.orientation()+270);
+		}
+		if(dir==Direction.L) {
+			return Direction.toDir(e.orientation()+90);
+		}
+		else {
+			return null;
+		}
 	}
 
 }

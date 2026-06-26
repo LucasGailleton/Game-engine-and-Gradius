@@ -23,6 +23,30 @@ public class Turn  extends GALAction{
 	 }
 
 	// EXEC
-	 boolean exec(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `exec`"); }
+	 public boolean exec(Entity e){ 
+		 GALStunt gs=(GALStunt)e.stunt();
+		 if(this.dir!=null) {
+			 if(this.dir.isRelative()){
+				 if(this.dir==Direction.R) {
+					 gs.startTurning(e.orientation()+90, angle_deg);
+				 }
+				 else if(this.dir==Direction.L) {
+					 gs.startTurning(e.orientation()+270, angle_deg);
+				 }
+				 else if(this.dir==Direction.B) {
+					 gs.startTurning(e.orientation()+180, angle_deg);
+				 }
+				 return true;
+			 }
+			 else {
+				 gs.startTurning(this.dir.toAngle(), angle_deg);
+				 return true;
+			 }
+		 }
+		 else {
+			 gs.startTurning(angle_deg, angle_deg);
+			 return true;
+		 }
+	 }
 
 }

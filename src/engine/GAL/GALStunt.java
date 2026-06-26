@@ -1,34 +1,46 @@
 
 package engine.GAL;
 
+import java.util.List;
+
 import engine.Entity;
+import engine.Game;
+import engine.ISU;
+import engine.Stunt;
+import engine.ISU.Coord;
+import game.Main;
+import game.Model;
+import game.entities.Damageable;
+import game.entities.LaserShot;
+import game.entities.MissileEnemy;
+import game.entities.MissilePlayer;
 
 // = Stunt =
 
 
 import engine.Entity;
 
-class GALStunt  {
+public class GALStunt  extends Stunt {
 
 	// FIELDS
 
-	Entity entity;
+	//Entity entity;
 
 	// CONSTRUCTOR
 
-	 GALStunt(Entity e){ 
-		 this.entity=e;
+	 public GALStunt(Model m,Entity e){ 
+		 super(m,e);
 	 }
 
 	// STEP
 
 	 double step_cm;
 
-	void setStepLength(double cm){ 
+	 public void setStepLength(double cm){ 
 		this.step_cm=cm;
 	}
 
-	 double stepLength(){ 
+	 public double stepLength(){ 
 		 return this.step_cm;
 	 }
 
@@ -36,13 +48,13 @@ class GALStunt  {
 
 	 double max_cmPer_ms;
 
-	void setMaxLinearSpeed(double cmPer_ms){ 
+	 public void setMaxLinearSpeed(double cmPer_ms){ 
 		this.max_cmPer_ms=cmPer_ms;
 	}
 
 	 double max_degPer_ms;
 
-	void setMaxAngularSpeed(double degPer_ms){ 
+	 public void setMaxAngularSpeed(double degPer_ms){ 
 		this.max_degPer_ms=degPer_ms;
 	}
 
@@ -53,7 +65,7 @@ class GALStunt  {
 	 */
 	double action_ms;
 
-	 double actionDuration(){ 
+	public double actionDuration(){ 
 		 return this.action_ms;
 	 }
 
@@ -74,17 +86,50 @@ class GALStunt  {
 
 	// MOVE
 
-	 boolean startMoving(Direction direction, double intensity, double duration_ms){ 
+	public boolean startMoving(Direction direction, double intensity, double duration_ms){ 
 		 new Move(direction,intensity);
-		 return false;
+		 return true;
 		 
 	 }
 
 	// TURN
 
-	 boolean startTurning(int angle_deg, double intensity){ 
-		 new Turn(angle_deg,intensity);
-		 return false;
+	public boolean startTurning(int angle_deg, double intensity){ 
+		if(this.entity.orientation()>=angle_deg-5 && this.entity.orientation()<=angle_deg+5) {
+			this.entity.setaSpeed(0);
+		}
+		else {
+			this.entity.setaSpeed(intensity);
+		}
+		return true;
 	 }
 
+	public void collision(Entity e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void collision(List<Entity> e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void walk(int degree) {
+		double rad = Math.toRadians(degree);
+		this.set(degree);
+		double vx = Math.cos(rad);
+		double vy = Math.sin(rad);
+		this.entity.setlSpeed(vx*max_cmPer_ms, vy*max_cmPer_ms);
+	}
+
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void shootOnce() {
+		// TODO Auto-generated method stub
+		
+	}
 }
