@@ -13,15 +13,20 @@ import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
+import oop.tasks.Runtime;
 import oop.tasks.Task;
 
-public class EnemyKamikaze extends Entity implements Enemy{
+public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	
 	public static final int spriteNeutral = 0;
     public static final int spriteUp = 1;
     public static final int spriteDown = 2;
     
     private Task task;
+    private int hp = 1;
+    private boolean isAlive;
+	private boolean hit = false;
+
     
    
 	public EnemyKamikaze(String name) {
@@ -29,6 +34,8 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		
 		this.setSize(this.isu.new Dimension(18*Main.windowScale, 18*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
+		this.isAlive=true;
+		 this.task = Runtime.task();
 		
 	}
 	
@@ -54,6 +61,42 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		shapeCenter = isu.new Coord(x, y);
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
+	
+	@Override
+	public void gotHit() {
+		hp--;
+		System.out.println("HP : " + hp);
+		
+		if (hp <= 0) {
+			isAlive = false;
+			
+			((KamikazeAvatar)this.avatar).exploser();
+			task.post(() -> {
+				this.die();
+			}, 1000);
+			return;
+		
+		}
+	}
+	
+	@Override
+	public void die() {
+		System.out.println("entité despawn : " + name);
+        this.alive = false;
+        
+        if (Math.random() <= 0.20) {
+            PowerUp bonus = new PowerUp("powerup");
+            bonus.setCoord(this.center()); 
+            bonus.setBounding();
+            model.add(bonus);
+            model.getView().add(bonus.getAvatar());
+        }
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+	}
+	
+	
 	
 	private class KamikazeAvatar extends Avatar {
 		
@@ -151,6 +194,8 @@ public class EnemyKamikaze extends Entity implements Enemy{
 				
 			}	
 	    }
+
+	
 
 
 	
