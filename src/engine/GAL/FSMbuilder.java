@@ -305,17 +305,17 @@ public class FSMbuilder implements iVisitor{
     		}
     		else if(param instanceof Category c) {
     			switch(c.terminal.content){
-    			case "@":
+    			/*case "@":
 	    				Ship s=Ship.ship();
 	        	    	switch(actionName) {
 	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	        	    	case"Hit":
-	        	    		return new engine.GAL.Shoot(s);
+	        	    		return new engine.GAL.Shoot(engine);
 	        	    	default:
 	        	            // Par défaut ou pour les autres actions
 	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
 	        	        	return null;
-	        	    	}
+	        	    	}*/
     			case "#":
 	        	    	switch(actionName) {
 	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type

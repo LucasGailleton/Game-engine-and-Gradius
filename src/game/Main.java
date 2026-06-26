@@ -132,8 +132,8 @@ public class Main implements Runnable {
 		AutomatonLoader al=new AutomatonLoader(3);
 		try {
 //		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
-			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
+			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
 //		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
 		} catch (Exception e) {
 		    e.printStackTrace(); // Regardez votre console !
