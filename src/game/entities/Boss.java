@@ -11,6 +11,7 @@ import engine.Grid.Position;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
+import engine.GAL.GALBot;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -35,7 +36,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	
 	private boolean isAlive;
 	private boolean hit = false;
-	protected int hp = 10;
+	protected int hp = 50;
+	private int HP_MAX;
 	
 	private Task task;
 	
@@ -51,6 +53,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		setStunt(new BasicStunt(model, this));
 		this.setCategory(engine.GAL.Category.Boss);
 		this.view=view;
+		this.HP_MAX = this.hp;
+		this.setorient(180);
 	}
 	
 	public void createGuns(Model model, View view) {
@@ -121,14 +125,14 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	public void shoot() {
 		View view = this.model.getView();
 		Position pos = this.position();
-		MissileEnemy mse = new MissileEnemy("mse1",view);
+		MissileEnemy mse = new MissileEnemy("mse1",view,0);
 		mse.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell+20));
 		mse.setBounding();
 		mse.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mse);
 		view.add(mse.getAvatar());
 		
-		MissileEnemy mse2 = new MissileEnemy("mse2",view);
+		MissileEnemy mse2 = new MissileEnemy("mse2",view,0);
 		mse2.setCoord(isu.new Coord(pos.x * Game.cmPerCell - 50, pos.y * Game.cmPerCell-20));
 		mse2.setBounding();
 		mse2.setlSpeed(-missileSpeed * 2, 0);
@@ -144,9 +148,16 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 			return;
 		hp--;
 		System.out.println("HP : " + hp);
-
+		
+		//Midlife
+		if (hp <= HP_MAX/2) {
+			GALBot gb=(GALBot)(this.bot());
+			gb.set(Main.mb.boss_aut2);
+		}
+		//Dead
 		if (hp <= 0) {
 			isAlive = false;
+			model.score.addBossKill();
 			// game over : explosion + le boss disparait
 //			this.mort.play(1);
 //			Main.GAMEOVER = true;

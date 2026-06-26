@@ -12,6 +12,7 @@ import engine.ISU;
 import engine.ISU.Coord;
 import game.Main;
 import game.Model;
+import game.Score;
 import game.entities.Avatar;
 import game.entities.Background;
 import oop.graphics.Canvas;
@@ -33,6 +34,8 @@ public class View {
 	public static final int viewSpeedChg = 3;
 	public static final int speed = -1;
 	public static int viewSpeed = (int)(speed*Main.windowScale);
+	
+	private Score score;
 	
 	private VectAvatar va;
 	
@@ -87,6 +90,10 @@ public class View {
 		return this.canvas;
 	}
 	
+	public void setScore(Score s) {
+	    this.score = s;
+	}
+	
 	public void paint(Graphics g) {
 		
 		Model model = null;
@@ -138,6 +145,10 @@ public class View {
 			
 		}
 		frames++;		
+		
+		if (this.score != null) {
+		    this.score.paint(g);
+		}
 		
 		long now = System.currentTimeMillis();
 	    if (now - lastTime >= 1000) {

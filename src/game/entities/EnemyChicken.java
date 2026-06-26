@@ -3,9 +3,11 @@ package game.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import engine.EnemyStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
+import engine.GAL.GALBot;
 import engine.Grid.Position;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
@@ -28,10 +30,11 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
     private boolean hit = false;
 	protected int hp = 3;
 	private boolean isAlive;
-	private int orientation;
+	private int gravité;
 	private Task task;
+	private final double SPAWN_CHANCE = 0.2;
 	
-	public EnemyChicken(View view, String name, int orientation) {
+	public EnemyChicken(View view, String name, int gravité) {
 		super(name);
 		this.view = view;
 		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
@@ -40,7 +43,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.task = Runtime.task();
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
-		this.orientation = orientation;
+		this.gravité = gravité;
 	}
 	
 	@Override
@@ -74,6 +77,26 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		//il tire pas lui il fait spawn des EnemyWalking
 	}
 	
+	//Spawn des Enemy Kamikaze  
+    public void egg() {
+        EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
+        if (gravité == 0) {
+            kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm+50));
+        }else {
+            kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm-50));
+        }
+        
+        kamegg.setBounding();
+        model.add(kamegg);
+        view.add(kamegg.getAvatar());
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,kamegg);
+		kamegg.setStunt(bs);
+		GALBot gb = new GALBot(kamegg);
+		gb.set(Main.mb.kamikaze_aut);
+		gb.setthinkspeed(50);
+    }
+	
 	@Override
 	public void gotHit() {
 		if (hit || Main.GAMEOVER)
@@ -103,8 +126,9 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	public void die() {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
+        this.model.score.addEnemyKill();
         
-        if (Math.random() <= 0.3) {
+        if (Math.random() <= SPAWN_CHANCE) {
             PowerUp bonus = new PowerUp("powerup");
             bonus.setCoord(this.center()); 
             bonus.setBounding();
@@ -190,7 +214,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
             }else if (this.visible){
-            	g.drawImage(sprites[orientation][spriteNeutral], posX+shiftPX, posY,
+            	g.drawImage(sprites[gravité][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 
                 		(int) (28*Main.windowScale));
             }

@@ -22,7 +22,7 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 30 * Main.windowScale;
+	public static double ShipSpeed = 40 * Main.windowScale;
 	public static final double ShipSpeedOrig = ShipSpeed;
 	public static final int missileSpeed = 850;
 
@@ -146,6 +146,7 @@ public class Ship extends Entity {
 		if (hit || Main.GAMEOVER)
 			return;
 		hp--;
+		model.score.subtractHit();
 
 		if (hp <= 0) {
 			// game over : explosion + le vaisseau disparait
@@ -175,12 +176,13 @@ public class Ship extends Entity {
 	}
 
 	public void upgradePowerUp() {
+		model.score.addPowerUp();
 		if (this.powerUp <= 4)
 			this.powerUp++;
 		System.out.println("Augumenation de powerUp : " + this.powerUp);
 		switch (this.powerUp) {
 		case PowerUp.Speed:
-			Ship.ShipSpeed *= 2;
+			Ship.ShipSpeed *= 1.5;
 			break;
 		case PowerUp.Double:
 			Ship.double_tir = true;

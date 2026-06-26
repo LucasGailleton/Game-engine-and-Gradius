@@ -106,6 +106,7 @@ class AtStep  extends GALCondition{
 				}
 				if(this.direction==Direction.E) {
 					for(int i=currentX+1;i<Game.game().width_ncell;i++) {
+						
 						Cell c=e.grid.cellAt(i,currentY);
 						List<Entity> l=parcourscell(c,e);
 						if(!l.isEmpty()) {
@@ -125,6 +126,9 @@ class AtStep  extends GALCondition{
 				}
 				if(this.direction==Direction.W) {
 					for(int i=currentX-1;i>=0;i--) {
+						if(currentY<0) {
+							currentY=0;
+						}
 						Cell c=e.grid.cellAt(i,currentY);
 						List<Entity> l=parcourscell(c,e);
 						if(!l.isEmpty()) {

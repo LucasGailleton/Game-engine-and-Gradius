@@ -240,6 +240,8 @@ public class FSMbuilder implements iVisitor{
 			switch(actionName) {
 				case "Hit":
 					return new engine.GAL.Shoot();
+				case "Egg":
+					return new engine.GAL.Egg();
 				default:
 					return null;
 			}
@@ -281,11 +283,10 @@ public class FSMbuilder implements iVisitor{
     	    		return new engine.GAL.Move(d);
     	    	case"Turn":
     	    		return new engine.GAL.Turn(d);
-    			case "Egg":
-    				return new engine.GAL.Egg();
+    			/*case "Egg":
+    				return new engine.GAL.Egg();*/
     	    	default:
     	            // Par défaut ou pour les autres actions
-    	            //executionActions.add(new engine.GAL.GALAction(call.name));
     	        	return null;
     	    	}
     		}
@@ -303,7 +304,7 @@ public class FSMbuilder implements iVisitor{
     		}
     		else if(param instanceof Category c) {
     			switch(c.terminal.content){
-    			case "#":
+    			/*case "#":
 	        	    	switch(actionName) {
 	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	        	    	case"Egg":
@@ -342,7 +343,7 @@ public class FSMbuilder implements iVisitor{
         	            // Par défaut ou pour les autres actions
         	            //executionActions.add(new engine.GAL.GALAction(call.name));
         	        	return null;
-        	    	}
+        	    	}*/
 	    			
 	    			default:
 	    				throw new IllegalArgumentException("Type de category inconnue");

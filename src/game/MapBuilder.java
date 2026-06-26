@@ -34,10 +34,11 @@ public class MapBuilder {
 	public static final int phase_cave = 2;
 	public static final int phase_boss = 3;
 	
-	public static final Automaton walker_aut = Main.auts.get(2);
-	public static final Automaton homming_aut = Main.auts.get(2);
-	public static final Automaton chicken_aut = Main.auts.get(2);
-	public static final Automaton boss_aut = Main.auts.get(2);
+	public static final Automaton walker_aut = Main.auts.get(3);
+	public static final Automaton homming_aut = Main.auts.get(1);
+	public static final Automaton chicken_aut = Main.auts.get(0);
+	public static final Automaton boss_aut1 = Main.auts.get(4);
+	public static final Automaton boss_aut2 = Main.auts.get(5);
 	public static final Automaton kamikaze_aut = Main.auts.get(2);
 
 	private Model model;
@@ -171,9 +172,9 @@ public class MapBuilder {
 	    double randomY = 0;
 	    if (hautOuBas) {
 	    	wlk = new EnemyWalking(view,"walking",2);
-	    	randomY = 410;
+	    	randomY = 102*Main.windowScale;
 	    }else {
-	    	randomY = 20;
+	    	randomY = 5*Main.windowScale;
 	    	wlk = new EnemyWalking(view,"walking",0);
 	    }
 	    
@@ -193,6 +194,12 @@ public class MapBuilder {
 	    double randomY = 80 + (Math.random() * 250);
 	    hom.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(hom);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,hom);
+		hom.setStunt(bs);
+		GALBot gb = new GALBot(hom);
+		gb.set(homming_aut);
+		gb.setthinkspeed(50);
 	}
 
 	private void spawnChicken(double x) {
@@ -201,13 +208,19 @@ public class MapBuilder {
 	    double randomY = 0;
 	    if (hautOuBas) {
 	    	chk = new EnemyChicken(view,"chicken",1);
-	    	randomY=410;
+	    	randomY=102*Main.windowScale;
 	    }else {
 	    	chk = new EnemyChicken(view,"chicken",0);
-	    	randomY=20;
+	    	randomY=5*Main.windowScale;
 	    }  
 	    chk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(chk);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,chk);
+		chk.setStunt(bs);
+		GALBot gb = new GALBot(chk);
+		gb.set(chicken_aut);
+		gb.setthinkspeed(150);
 	}
 
 	private void spawnKamikaze(double x) {
@@ -215,6 +228,13 @@ public class MapBuilder {
 	    double randomY = 50 + (Math.random() * 300);
 	    kmkz.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(kmkz);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,kmkz);
+		kmkz.setStunt(bs);
+		GALBot gb = new GALBot(kmkz);
+		gb.set(kamikaze_aut);
+		gb.setthinkspeed(50);
+	    
 	}
 	
 	private void spawnBoss(double x) {
@@ -222,6 +242,12 @@ public class MapBuilder {
 	    boss.setCoord(isu.new Coord(x,15* mult));
 	    placeEntity(boss);
 	    boss.createGuns(model, view);
+	    // Partie Bot
+		EnemyStunt bs =new EnemyStunt(model,boss);
+		boss.setStunt(bs);
+		GALBot gb = new GALBot(boss);
+		gb.set(boss_aut1);
+		gb.setthinkspeed(50);
 	}
 
 	public void placeEntity(Entity e) {
