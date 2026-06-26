@@ -16,8 +16,10 @@ import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
 
+//Entité qui spawn de base ET avec EnemyChicken
+//Ne se déplace pas 
 public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
-	//Entité qui spawn avec chicken
+	
 	private int hp = 1;
     private boolean isAlive;
 	private boolean hit = false;
@@ -148,7 +150,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		
 				return;
 			}
-			Main.task.post(new Runnable() {
+			Main.task.post(new Runnable() { //Poster pour faire l'animation de mort moins rapidement 
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -159,7 +161,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 
 
 		@Override
-		public void getSprites(Graphics g) {
+		public void getSprites(Graphics g) { //Plus de sprites que nécessaire finalement
 			BufferedImage imgSprites = g.load("all_Sprites.png");
             this.sprites = new BufferedImage[4][3];
             
@@ -189,15 +191,14 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		@Override
 		public void paint(Graphics g, int shiftPX) {
 
-			if(this.sprites == null)
+			if(this.sprites == null) //Pour éviter qu'on recharge les sprites à chaque tick (gros gain de perf)
 				this.getSprites(g);
 			
 			ISU.Coord center = EnemyWalking.this.center(); 
-			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2); //calcul pour récupérer position
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
-            //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[topOrBottom][index], posX+shiftPX, posY, 
+            g.drawImage(sprites[topOrBottom][index], posX+shiftPX, posY, //+shiftPX pour suivre le scolling
             		(int) (spriteSizeX*Main.windowScale), 
             		(int) (spriteSizeY*Main.windowScale));
             

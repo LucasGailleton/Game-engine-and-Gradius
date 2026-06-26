@@ -19,6 +19,7 @@ import oop.tasks.Runtime;
 import oop.tasks.Task;
 
 //Enemie qui crée des nouveaux ennemies (assez gros, ne se déplace pas, fixé au sol ou au plafond)
+//Nommé pour sa fameuse méthode egg() 
 public class EnemyChicken extends Entity implements Enemy, Damageable{
 	
 	public static final int spriteNeutral = 0;
