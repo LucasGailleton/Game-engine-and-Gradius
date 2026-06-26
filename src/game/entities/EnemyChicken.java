@@ -30,10 +30,10 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
     private boolean hit = false;
 	protected int hp = 3;
 	private boolean isAlive;
-	private int orientation;
+	private int topOrBottom; //0 ou 1
 	private final double SPAWN_CHANCE = 0.05; //pour les powerups
 	
-	public EnemyChicken(View view, String name, int orientation) {
+	public EnemyChicken(View view, String name, int topOrBottom) {
 		super(name);
 		this.view = view;
 		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
@@ -41,7 +41,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.isAlive=true;
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
-		this.orientation = orientation;
+		this.topOrBottom = topOrBottom;
 	}
 	
 	@Override
@@ -74,7 +74,12 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	//Spawn des Enemy Kamikaze  
 	public void egg() {
 		EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
-		kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm+50));
+		if (topOrBottom == 0) {
+			kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm+50));
+		}else {
+			kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm-50));
+		}
+		
 		kamegg.setBounding();
 		model.add(kamegg);
 		view.add(kamegg.getAvatar());
@@ -185,7 +190,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
             }else if (this.visible){
-            	g.drawImage(sprites[orientation][spriteNeutral], posX+shiftPX, posY,
+            	g.drawImage(sprites[topOrBottom][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 
                 		(int) (28*Main.windowScale));
             }
