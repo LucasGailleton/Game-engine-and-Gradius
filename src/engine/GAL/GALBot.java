@@ -3,7 +3,7 @@ package engine.GAL;
 import engine.Entity;
 
 public class GALBot  extends Bot{
-	int speed=10;
+	int speed;
 	int tick=0;
 	
 	// CONSTRUCTOR
@@ -13,6 +13,9 @@ public class GALBot  extends Bot{
 		 e.setBot(this);
 	 }
 
+	 public void setthinkspeed(int i){
+		 this.speed=i;
+	 }
 	// ENTITY SELECTED BY CONDITON
 
 	 Entity selectedEndity;
@@ -76,9 +79,10 @@ public class GALBot  extends Bot{
 
 	@Override
 	public void think() {
-        if(this.automaton!=null) {
-        	boolean transitionFranchie = this.automaton.step(this.entity);
-        }
+		if(this.automaton!=null && this.tick==0) {
+			boolean transitionFranchie = this.automaton.step(this.entity);
+		}
+		this.tick=(tick+1)%speed;
 		
 	}
 

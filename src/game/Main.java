@@ -150,6 +150,7 @@ public class Main implements Runnable {
 		walk1.setStunt(bs);
 		view.add(walk1.getAvatar());
 		GALBot gb=new GALBot(walk1);
+		gb.setthinkspeed(50);
 		gb.set(auts.getFirst());
 		
 

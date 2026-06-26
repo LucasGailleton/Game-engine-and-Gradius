@@ -17,7 +17,7 @@ public class EnemyStunt extends GALStunt {
 		super(m, e);
 	}
 
-	public static final double BasicSpeed = 5.0*Main.windowScale;
+	public static final double BasicSpeed = 20.0*Main.windowScale;
 	
 
 	@Override
