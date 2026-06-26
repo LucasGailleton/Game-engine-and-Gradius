@@ -22,6 +22,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
     private boolean isAlive;
 	private boolean hit = false;
 	private int orientation; //entre 0 et 1;
+	private final double SPAWN_CHANCE = 0.1;
 
 	public EnemyWalking(View view,String name, int orientation) {
 		super(name);
@@ -93,7 +94,7 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= 0.2) {
+        if (Math.random() <= SPAWN_CHANCE) { //POURCENTAGE DE FAIRE SPAWN UN POWERUP
             PowerUp bonus = new PowerUp("powerup");
             bonus.setCoord(this.center()); 
             bonus.setBounding();

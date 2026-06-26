@@ -26,6 +26,8 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
     private double shootCooldown = 0.5; // Temps d'attente restant en secondes
 	private double SHOOT_DELAY = 1.5;
 	private int missileSpeed = 15;
+	private final double SPAWN_CHANCE = 0.1;
+
 
     public EnemyHoming(View view,String name) {
         super(name);
@@ -98,7 +100,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 		System.out.println("entité despawn : " + name);
         this.alive = false;
         
-        if (Math.random() <= 0.2) {
+        if (Math.random() <= SPAWN_CHANCE) {
             PowerUp bonus = new PowerUp("powerup");
             bonus.setCoord(this.center()); 
             bonus.setBounding();
