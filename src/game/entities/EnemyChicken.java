@@ -24,7 +24,6 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	
 	public static final int Top = 0;
     public static final int Down = 1;
-    private View view;
     
     private boolean hit = false;
 	protected int hp = 3;
@@ -39,7 +38,8 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.avatar = new ChickenAvatar(this);
 		this.isAlive=true;
 		this.task = Runtime.task();
-		
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 	}
 	
 	@Override
@@ -65,6 +65,9 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
+	public View view() {
+		return this.view;
+	}
 
 	public void shoot() {
 		//il tire pas lui il fait spawn des EnemyWalking

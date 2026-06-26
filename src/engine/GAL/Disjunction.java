@@ -32,4 +32,10 @@ public class Disjunction implements iGALCondition{
 		 }
 		 return false;
 	 }
+
+	 @Override
+	 public Variable variable() {
+		// TODO Auto-generated method stub
+		return null;
+	 }
 }

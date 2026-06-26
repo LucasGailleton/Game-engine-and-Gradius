@@ -119,14 +119,29 @@ public class Main implements Runnable {
 		this.ticker = new Ticker(this.model, tick, 10);
 
 		Background bg = new Background();
-		this.view.add(bg.new BackgroundAvatar());
+		view.add(bg.new BackgroundAvatar());
+		
+		Ship ship = new Ship(view);
+		model.setPlayer(ship);
+		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
+		
 
-		Main.mb = new MapBuilder(this.model, this.view);
+		Main.mb = new MapBuilder(model, view);
 		mb.placeObjects();
 
 		Ship ship = new Ship(this.view);
 		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
 		mb.placeEntity(ship);
+
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
+//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
+//		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
 
 		ShipStunt shipStunt = new ShipStunt(this.model, ship);
 		ship.setStunt(shipStunt);
@@ -162,9 +177,6 @@ public class Main implements Runnable {
 			}
 		}, 17);
 		
-//		Controller ct = new Controller(ship);
-//		KeyListener kl = new KeyListener(ct);
-//		canvas.set(kl);
 	}
 }
 

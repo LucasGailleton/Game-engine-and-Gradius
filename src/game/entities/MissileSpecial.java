@@ -31,6 +31,7 @@ public class MissileSpecial extends Entity {
 		this.view = view;
 		this.target = target;
 		this.task = Runtime.task();
+		this.setCategory(engine.GAL.Category.Missile);
 	}
 
 	@Override

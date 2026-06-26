@@ -101,6 +101,9 @@ public class Model {
 	        boolean isMissileSpecial = entity instanceof MissileSpecial;
 	        entity.trueCollisions = new ArrayList<Entity>();
 	         
+	        if(entity.bot()!=null) {
+	        	entity.bot().tick();
+	        }
 	        if (entity.haslSpeed()) {
 	            
 	            ISU.Vector speedVector = entity.lSpeed();

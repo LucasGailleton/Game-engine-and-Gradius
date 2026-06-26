@@ -3,7 +3,8 @@ package engine.GAL;
 import engine.Entity;
 
 public class GALBot  extends Bot{
-	int speed=5;
+	int speed=10;
+	int tick=0;
 	
 	// CONSTRUCTOR
 
@@ -67,10 +68,10 @@ public class GALBot  extends Bot{
 
 	@Override
 	public void think(double elapsed_ms) {
-		if(this.automaton!=null && elapsed_ms%this.speed==0) {
+		if(this.automaton!=null && this.tick==0) {
 			boolean transitionFranchie = this.automaton.step(this.entity);
 		}
-		
+		this.tick=(tick+1)%speed;
 	}
 
 	@Override

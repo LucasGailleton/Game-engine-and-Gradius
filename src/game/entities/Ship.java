@@ -41,7 +41,6 @@ public class Ship extends Entity {
 	private static int hp = 3;
 	private Task task;
 	
-	private View view;
 
 	private SoundPlayer tir1, tir2, degat, mort;
 	private int indexAudio;
@@ -58,6 +57,7 @@ public class Ship extends Entity {
 		this.task = Runtime.task();
 		this.view = view;
 		this.powerUp = 0;
+		this.setCategory(engine.GAL.Category.Joueur);
 
 		try {
 			this.tir1 = new SoundPlayer(new File("Audio/Piou1.wav"));
@@ -67,9 +67,18 @@ public class Ship extends Entity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		if (ship != null)
+			throw new IllegalStateException();
+		ship = this;
 
 	}
-	
+		//Getter
+	private static Ship ship;
+	public static Ship ship() {
+		return ship;
+	}
+
 	@Override
 	public void setBounding() {
 		double x_cm = this.size.x_cm;
@@ -131,6 +140,8 @@ public class Ship extends Entity {
 			this.shootCooldown -= seconds;
 		}
 	}
+
+	
 
 	public boolean getHit() {
 		return hit;
@@ -377,7 +388,4 @@ public class Ship extends Entity {
 
 	}
 
-	public View getView() {
-		return this.view;
-	}
 }

@@ -9,6 +9,7 @@ import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -29,7 +30,7 @@ public class EnemyKamikaze extends Entity implements Enemy{
 		
 		this.setSize(this.isu.new Dimension(18*Main.windowScale, 18*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
-		
+		this.setCategory(engine.GAL.Category.Adversary);
 	}
 	
 	@Override

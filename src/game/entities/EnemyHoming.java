@@ -9,6 +9,7 @@ import engine.ISU;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -23,11 +24,13 @@ public class EnemyHoming extends Entity implements Enemy, Shooter {
 	private double SHOOT_DELAY = 1.5;
 	private int missileSpeed = 15;
 
-    public EnemyHoming(String name) {
+    public EnemyHoming(View view,String name) {
         super(name);
         this.setSize(this.isu.new Dimension(16*Main.windowScale, 16*Main.windowScale));
         this.avatar = new HomingAvatar(this);
         this.task = Runtime.task();
+        this.setCategory(engine.GAL.Category.Adversary);
+        this.view=view;
     }
     
     @Override

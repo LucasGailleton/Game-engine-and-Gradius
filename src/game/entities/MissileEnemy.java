@@ -19,7 +19,7 @@ public class MissileEnemy extends Entity {
 		this.setSize(this.isu.new Dimension(1*Main.windowScale, 3*Main.windowScale));
 		this.avatar = new MissileEnemyAvatar(this);
 		this.view = view;
-		
+		this.setCategory(engine.GAL.Category.Missile);
 	}
 	
 	@Override

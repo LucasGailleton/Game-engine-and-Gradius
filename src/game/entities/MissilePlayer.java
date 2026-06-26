@@ -22,6 +22,7 @@ public class MissilePlayer extends Entity {
 		this.setSize(this.isu.new Dimension(4*Main.windowScale, 3*Main.windowScale));
         this.avatar = new MissilePlayerAvatar(this);
         this.view = view;
+        this.setCategory(engine.GAL.Category.Missile);
 	}
 	
 	@Override

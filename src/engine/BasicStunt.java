@@ -9,6 +9,7 @@ import game.entities.Avatar;
 import game.entities.Damageable;
 import game.entities.EnemyChicken;
 import game.entities.LaserShot;
+import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
 
 public class BasicStunt extends Stunt {
@@ -47,13 +48,31 @@ public class BasicStunt extends Stunt {
 		this.set(degree);
 		double vx = Math.cos(rad);
 		double vy = Math.sin(rad);
-		this.entity.setlSpeed(vx, vy);
+		this.entity.setlSpeed(vx*30, vy*30);
 	}
 
 	public void stop() {
 		this.entity.setlSpeed(0, 0);
 	}
 
+	public void shootOnce(Entity target) {
+        engine.Grid.Position pos = this.entity.position();
+        MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view()); 
+        msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
+        viser(msp,target.center(),1000);
+        Main.mb.placeEntity(msp);
+
+	}
+	
+	public void viser(Entity projectile, ISU.Coord cible, double vitesse) {
+	    ISU.Coord from = projectile.center();
+	    double dx = cible.x_cm - from.x_cm;
+	    double dy = cible.y_cm - from.y_cm;
+	    double dist = from.distanceTo(cible);
+	    if (dist == 0) dist = 1;
+	    projectile.setlSpeed(vitesse * dx / dist, vitesse * dy / dist);
+	}
+	
 	@Override
 	public void shootOnce() {
 		

@@ -8,6 +8,7 @@ import engine.ISU;
 import engine.Grid.Dimension;
 import engine.ISU.Coord;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
@@ -17,10 +18,12 @@ public class EnemyWalking extends Entity implements Enemy, Shooter {
 	
 	
 
-	public EnemyWalking(String name) {
+	public EnemyWalking(View view,String name) {
 		super(name);
 		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
 	}
 	
 	

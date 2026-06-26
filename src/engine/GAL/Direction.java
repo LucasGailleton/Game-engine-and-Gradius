@@ -12,6 +12,8 @@ public class Direction {
 	public static Direction B; // B, Backward, Back
 	public static Direction F; // F, Forward, Front
 	public static Direction H; // H, Here
+	public static Direction R; // R, Right
+	public static Direction L; // L, Left
 	public static Direction N; // N, North
 	public static Direction S; // S, South
 	public static Direction W; // W, West
@@ -20,7 +22,6 @@ public class Direction {
 	// ...
 
 	// STATIC
-
 	/**
 	 * @apiNote {@code directions} associates a Direction to a name in order to
 	 *          ensure uniqueness (thus sharing) of the instance associated to that
@@ -37,6 +38,34 @@ public class Direction {
 	 */
 	static Map<String, Direction> directions = new HashMap<>();
 	//Direction directions; // <-- FIXME
+	// STATIC INITIALIZATION
+
+	/**
+	 * @apiNote the global variables must be initialized in that section,
+	 * @implNote which is executed at the class loading
+	 */
+	static {
+		 Direction.B=new Direction("B");
+		 directions.put("B", Direction.B);
+		 Direction.F=new Direction("F");
+		 directions.put("F", Direction.F);
+		 Direction.H=new Direction("H");
+		 directions.put("H", Direction.H);
+		 Direction.R=new Direction("R");
+		 directions.put("R", Direction.R);
+		 Direction.L=new Direction("L");
+		 directions.put("L", Direction.L);
+		 Direction.N=new Direction("N");
+		 directions.put("N", Direction.N);
+		 Direction.S=new Direction("S");
+		 directions.put("S", Direction.S);
+		 Direction.W=new Direction("W");
+		 directions.put("W", Direction.W);
+		 Direction.E=new Direction("E");
+		 directions.put("E", Direction.E);
+		
+	}
+
 
 	// FACTORY
 
@@ -54,22 +83,6 @@ public class Direction {
 		return newDir;
 	}
 
-	// STATIC INITIALIZATION
-
-	/**
-	 * @apiNote the global variables must be initialized in that section,
-	 * @implNote which is executed at the class loading
-	 */
-	static {
-		 Direction.B=new Direction("B");
-		 Direction.F=new Direction("F");
-		 Direction.H=new Direction("H");
-		 Direction.N=new Direction("N");
-		 Direction.S=new Direction("S");
-		 Direction.W=new Direction("W");
-		 Direction.E=new Direction("E");
-		
-	}
 
 	// CONSTRUCTOR
 
@@ -126,22 +139,4 @@ public class Direction {
 		throw new IllegalStateException("Cannot convert relative direction '");
 	}
 
-	int relativedir(Entity e) {
-		if (!isAbsolute()) {
-			throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
-		}
-		if (this == N) {
-			return 90;
-		}
-		if (this == E) {
-			return 0;
-		}
-		if (this == S) {
-			return 270;
-		}
-		if (this == W) {
-			return 180;
-		}
-		throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
-	}
 }
