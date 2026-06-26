@@ -9,7 +9,7 @@ Chicken (Chicken){
 
 HOMMING (Homming){
 
-// single line comment are allowed
+
 
  * (Homming):
  | Closest(@)        ? Hit($)  :(Homming)
@@ -18,13 +18,13 @@ HOMMING (Homming){
 
 KAMIKAZE (Wander){
 
-// single line comment are allowed
+
 
 * (Wander):
-    | Step(W,@)  ? Turn(W)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(W,@)  ? Turn(W)   : (Track) 
     | True        ? Move(S,3)   : (Wander2)
 * (Wander2):
-    | Step(W,@)  ? Turn(W)   : (Track)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Step(W,@)  ? Turn(W)   : (Track)  
     | True        ? Move(N,6)   : (Wander)
 * (Track):
     | True        ? Move(F)   : (Track)
@@ -33,15 +33,15 @@ KAMIKAZE (Wander){
 
 WALKING (Walking){
 
-// single line comment are allowed
+
 
 * (Walking):
-    | Closest(@,100)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Closest(@,100)  ? Hit($)   : (Shooting)  
     | Step(F,1,O)     ? Turn(B)  : (Walking) 
     | True          ? Move(F)  : (Walking)
 
   * (Shooting):
-    | Closest(@,100)  ? Hit($)    : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Closest(@,100)  ? Hit($)    : (Shooting)  
     | Step(F,1,O)     ? Turn(B)  : (Walking) 
     | True          ? Move(F)  : (Walking)
  
@@ -49,7 +49,7 @@ WALKING (Walking){
 
 BOSS1 (Walking){
 
-// single line comment are allowed
+
 
 * (Walking):
     | True          ? Move(S,25)  : (Shooting)
@@ -64,9 +64,9 @@ BOSS1 (Walking){
 
 BOSS2 (Shooting){
 
-// single line comment are allowed
+
 
 * (Shooting):
-    | Closest(@)  ? Hit($)   : (Shooting)  // Si le joueur (P) est détecté n'importe où, on fonce vers lui
+    | Closest(@)  ? Hit($)   : (Shooting)  
  
 }

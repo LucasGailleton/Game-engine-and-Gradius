@@ -4,7 +4,6 @@ import engine.Entity;
 import game.entities.EnemyChicken;
 
 public class Egg extends GALAction{
-	Entity child;
 	
 	public Egg() {
 		
