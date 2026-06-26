@@ -1,6 +1,6 @@
 package engine.GAL;
 
-public interface iAllGALActions {
+interface iAllGALActions {
 
 	// TODO: à compléter avec les autres actions GAL
 

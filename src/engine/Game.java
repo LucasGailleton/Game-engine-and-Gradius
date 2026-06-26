@@ -14,8 +14,8 @@ public class Game {
 	// FIELDS
 	public int width_ncell; // largeur du monde en nombre de cellules
 	public int height_ncell; // hauteur du monde en nombre de celluls
-	double width_cm; // largeur du monde en cm
-	double height_cm; // hauteur du monde en cm
+	public double width_cm; // largeur du monde en cm
+	public double height_cm; // hauteur du monde en cm
 	public Grid grid; // permet la création de coordonnées en unités ncell
 	public ISU isu; // permet la création de coordonnées en unités cm
 	// protected Picture pict; // permet la création de coordonnées en unités pixel, ne sera utilisé qu'à

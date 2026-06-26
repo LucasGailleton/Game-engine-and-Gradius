@@ -7,46 +7,54 @@ public class Category {
 
 	// CONSTANTS
 
-	static Category Adversary, Obstacle, Team, Void;
-	static Map<String, Category> categories;
-	static boolean interaction[][];
-	static int indMax;
+	public static Category Adversary, Obstacle, Team, Void,Joueur,Boss,Missile;
+	// ...
 
+	// STATIC
+	public	static Map<String, Category> categories = new HashMap<>();
+	//Object categories; // <-- FIXME
+
+	public static boolean interaction[][];
+	public static int ind;
 	// STATIC INITIALIZATION
 
 	static {
-		categories = new HashMap<String, Category>();
-		Adversary = new Category("Adversary", 0);
-		Obstacle = new Category("Obstacle", 1);
-		Team = new Category("Team", 2);
-		Void = new Category("Void", 3);
-		indMax = 4;
-		int size = 20;
-		interaction = new boolean[size][size];
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++)
-				interaction[i][j] = false;
+		Category.interaction=new boolean[20][20];
+		for(int i=0;i<20;i++) {
+			for(int j=0;j<20;j++) {
+				Category.interaction[i][j]=false;
+			}
 		}
+		Adversary = new Category("A",0);
+		Obstacle = new Category("Obstacle",1);
+		Team = new Category("Team",2);
+		Void = new Category("Void",3);
+		Boss = new Category("#",4);
+		Missile = new Category("Missile",5);
+		Joueur = new Category("@",6);
+		Category.ind=7;
 	}
 
 	// FACTORY
 
-	Category canonical(String name) {
-		if (this.categories.containsKey(name))
-			return this.categories.get(name);
-		Category cat = new Category(name, indMax);
-		indMax++;
-		this.categories.put(name, cat);
-		return cat;
-	}
+	 public static Category canonical(String name){ 
+			if(categories.containsKey(name)) {
+				return categories.get(name);
+			}
+			Category newCat = new Category(name,Category.ind);
+			Category.ind++;
+			return newCat;
+	 }
 
 	// CONSTRUCTOR
-	int index;
 
-	Category(String name, int index) {
-		this.index = index;
-		this.categories.put(name, this);
-	}
+	 private int index;
+	 private String name;
+	 public Category(String name, int index){ 
+		 this.index=index;
+		 categories.put(name, this);
+		 this.name=name;
+	 }
 
 	// SETTER
 
@@ -57,9 +65,9 @@ public class Category {
 	 * @param c2
 	 * @param bool
 	 */
-	void setInteraction(Category c1, Category c2, boolean bool) {
-		interaction[c1.index][c2.index] = bool;
-	}
+	 public void setInteraction(Category c1, Category c2, boolean bool){ 
+		Category.interaction[c1.index][c2.index]=bool; 
+	 }
 
 	// PREDICATE
 
@@ -68,8 +76,8 @@ public class Category {
 	 *          {@code this} and the {@code c} category.
 	 * @param c
 	 */
-	boolean interactsWith(Category c) {
-		return interaction[this.index][c.index];
-	}
+	 public boolean interactsWith(Category c){ 
+		 return Category.interaction[this.index][c.index];
+	 }
 
 }

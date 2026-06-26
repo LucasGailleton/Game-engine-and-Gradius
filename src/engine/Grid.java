@@ -49,6 +49,11 @@ public class Grid {
 		return this.grid[p.x][p.y];
 	}
 
+	//la responsabilité de ne pas mettre d'argument out of bound revient à l'utilisateur de la méthode
+	public Grid.Cell cellAt(int x,int y) {
+		return this.grid[x][y];
+	}
+	
 	// SHOW
 	public void show(PrintStream ps) {
 		ps.printf("Grid: %dx%d cells\n", this.width_ncell, this.height_ncell);

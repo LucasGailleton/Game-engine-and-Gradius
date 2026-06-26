@@ -7,6 +7,8 @@ import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Ship;
+import game.entities.Boss;
+import game.entities.LaserShot;
 import game.entities.MissilePlayer;
 import game.entities.PowerUp;
 
@@ -18,62 +20,60 @@ public class ShipStunt extends Stunt {
 		super(model, ship);
 		this.ship = ship;
 	}
-	@Override
-	public void set(int orientation) {
-		this.entity.turn(orientation - this.entity.orientation());
-	}
-
-	@Override
-	public void set(Cell c) {
-		this.entity.setPosition(c.position);	
-	}
-
-	@Override
-	public void set(double x, double y) {
-		this.entity.translate(this.entity.isu.new Vector(x, y));
-	}
 
 	@Override
 	public void collision(Entity e) {
 		// pour pas que le vaisseau perde de la  vie avec ses propres tirs
-		if (e instanceof MissilePlayer || e instanceof PowerUp)
+		if (e instanceof MissilePlayer || e instanceof PowerUp || e instanceof LaserShot)
 			return;
 		System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, e.name);
-
-		if(entity instanceof Ship) {
-			((Ship) entity).gotHit();
+		if(entity instanceof Ship ship) {
+			ship.gotHit();
 		}
+		
 	}
 
 	@Override
 	public void collision(List<Entity> e) {
 		for (Entity entity : e) {
-			if (entity instanceof MissilePlayer || entity instanceof PowerUp)
-				continue;
-			System.out.printf("%s s'est crashé avec %s.\n", this.entity.name, entity.name);
-			if(this.entity instanceof Ship) {
-				((Ship) this.entity).gotHit();
-			}
+			collision(entity);
 		}
 	}
 	
 	public void walk(int degree) {
 		double rad = Math.toRadians(degree);
 		this.set(degree);
-		double speed = this.ship.walkSpeed();
 		
-		double vx = Math.round(Math.cos(rad))*speed*Main.windowScale;
-		double vy = Math.round(Math.sin(rad))*speed*Main.windowScale;
-		this.entity.setlSpeed(vx, vy);
+		double vx = Math.cos(rad);
+		double vy = Math.sin(rad);
+		this.entity.setlSpeed(vx*Ship.ShipSpeed, vy*Ship.ShipSpeed);
 	}
 
 	public void stop() {
 		this.entity.setlSpeed(0, 0);
 	}
 	
+	@Override
 	public void shootOnce() {
-		this.ship.tryToShoot();
-		System.out.println("shot once ! ");
+		if (this.ship.canShoot()) {
+			engine.Grid.Position pos = this.ship.position();
+
+			MissilePlayer msp = new MissilePlayer(this.ship.view(), "missile simple");
+			msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 35, pos.y * Game.cmPerCell));
+			msp.setlSpeed(Ship.missileSpeed, 0);
+			Main.mb.placeEntity(msp);
+
+			if (Ship.double_tir) {
+				MissilePlayer msp2 = new MissilePlayer(this.ship.view(), "missile double");
+				msp2.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 35, pos.y * Game.cmPerCell));
+				msp2.setlSpeed(Ship.missileSpeed, Ship.missileSpeed);
+				Main.mb.placeEntity(msp2);
+			}
+
+			this.ship.triggerSlaves();
+			this.ship.playSound();
+			this.ship.resetCooldown();
+		}
 	}
 	
 

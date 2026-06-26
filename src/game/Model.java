@@ -17,9 +17,14 @@ import engine.shapes.Rect;
 import engine.view.View;
 import game.entities.Avatar;
 import game.entities.Background;
+import game.entities.Enemy;
+import game.entities.LaserShot;
+import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
-import game.entities.PacMan.PacManAvatar;
+import game.entities.MissileSpecial;
+import game.entities.PowerUp;
 import game.entities.Ship;
+import game.entities.Slave;
 import engine.Physic;
 import engine.ShipStunt;
 
@@ -31,6 +36,7 @@ public class Model {
 	private double seconds;
 	private Profiler p;
 	private View v;
+	private Ship player;
 
 	
 	public Model(View v) {
@@ -39,6 +45,7 @@ public class Model {
 		this.grid = Game.game().grid;
 		this.entities = new ArrayList<Entity>();
 		this.v = v;
+		this.ps = new Physic(this);
 	}
 	
 	// ADD, REMOVE Entity
@@ -51,7 +58,15 @@ public class Model {
 		this.entities.remove(e);
 	}
 	
-	public View getView() { //Méthode temporaire, structurellement pas ouf
+	public void setPlayer(Ship ship) {
+	    this.player = ship;
+	}
+	
+	public Ship getPlayer() {
+	    return this.player;
+	}
+	
+	public View getView() { // Méthode temporaire, structurellement pas ouf
 		return this.v;
 	}
 	
@@ -63,70 +78,109 @@ public class Model {
 	public Grid grid() {
 		return this.grid;
 	}
-	
+
 	public void tick(long elapsed) {
-		if (Main.debug) p.start();
+	    if (Main.debug) p.start();
 	    if (elapsed > 100) elapsed = 10;
 
 	    boolean shift = v.shift();
 	    this.seconds = elapsed / 1000.0;
 	    
-	    // Instancier Physic une seule fois dans le constructeur de Model serait mieux !
-	    this.ps = new Physic(this); 
+	    Main.mb.genAleatoire(seconds);
+	    if (Main.Timer > 0)
+	    	Main.Timer--;
+	    
 	    List<Entity> copyEntities = new ArrayList<>(this.entities);
 	    
 	    for (Entity entity : copyEntities) {
 	        
-	    	boolean isShip = entity instanceof Ship;
-	        
-	        if (isShip) {
-	            ((Ship) entity).tick(seconds, shift);
-	        } else if (entity instanceof MissilePlayer) {
-	            ((MissilePlayer) entity).tick();
+	        boolean isShip = entity instanceof Ship;
+	        boolean isLaser = entity instanceof LaserShot;
+	        boolean isMissile = entity instanceof MissilePlayer;
+	        boolean isEnemyMissile = entity instanceof MissileEnemy;
+	        boolean isMissileSpecial = entity instanceof MissileSpecial;
+	        entity.trueCollisions = new ArrayList<Entity>();
+	         
+	        if(entity.bot()!=null) {
+	        	entity.bot().tick();
 	        }
-	        
-	        
 	        if (entity.haslSpeed()) {
 	            
-	            
 	            ISU.Vector speedVector = entity.lSpeed();
-				
-				List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
-				double moveX = speedVector.targetX_cm * seconds;
-				double moveY = speedVector.targetY_cm * seconds;
-				ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
-				
-				if (boxCollisions.isEmpty()) {
-					entity.translate(moveVec);
-				} 
-				else {
-					entity.translate(moveVec);
-					
-					List<Entity> trueCollisions = new ArrayList<>();
-					
-					for(Entity e : boxCollisions) {
-						if(entity.bounding().intersects(e.bounding())) {
-							trueCollisions.add(e);
-						}
-					}
-					if(!trueCollisions.isEmpty()) {
-						//boolean isInvincible = (isShip) ? ((Ship)entity).getHit() : false;
-						entity.translate(entity.isu.new Vector(-moveX, -moveY));
-						entity.setlSpeed(0, 0); 
-						if (entity.stunt() instanceof ShipStunt) {
-								ShipStunt bs = ((ShipStunt) entity.stunt());
-								bs.forbiddenDirection = bs.direction;
-								switch (bs.direction) {
-								case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
-								case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
-								case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
-								default: bs.set(0, -0.05*Main.windowScale); break;
-							}
-							entity.collision(trueCollisions);
-						}
-					}
-				}
-			}
+	            double moveX = speedVector.targetX_cm * seconds;
+	            double moveY = speedVector.targetY_cm * seconds;
+	            
+	            if (isMissile || isLaser || isEnemyMissile || isMissileSpecial) {
+
+	                int steps = 10; 
+	                double stepX = moveX / steps;
+	                double stepY = moveY / steps;
+	                ISU.Vector stepVec = entity.isu.new Vector(stepX, stepY);
+	                
+	                for (int i = 0; i < steps; i++) {
+	                    entity.translate(stepVec);
+
+	                    for (Entity e : copyEntities) {
+	                        if (e == entity) continue;
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp)) {
+	                            continue;
+	                        }
+	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp)) {
+	                            continue;
+	                        }
+
+	                        if (entity.bounding().intersects(e.bounding())) {
+	                            if (!entity.trueCollisions.contains(e)) {
+	                                entity.trueCollisions.add(e);
+	                            }
+	                        }
+	                    }
+	                    if (!entity.trueCollisions.isEmpty() && !isLaser) {
+	                        break; 
+	                    }
+	                }
+	            } else {
+	                List<Entity> boxCollisions = this.ps.getCollisionsForMovement(entity, seconds);
+	                ISU.Vector moveVec = entity.isu.new Vector(moveX, moveY);
+	                entity.translate(moveVec);
+	                entity.consumeMoveDistance(Math.hypot(moveX, moveY)); // stoppe l'entité après la distance fixée par move()
+	                
+	                for (Entity e : boxCollisions) {
+	                    if (e == entity || e instanceof MissilePlayer || e instanceof LaserShot) continue;
+	                    if (entity.bounding().intersects(e.bounding())) {
+	                        entity.trueCollisions.add(e);
+	                    }
+	                }
+	            }
+	            if(!entity.trueCollisions.isEmpty() && !(entity.trueCollisions.size() == 1 && entity.trueCollisions.get(0) instanceof PowerUp)) {
+	                boolean isInvincible = false;
+	                
+	                if(isShip)
+	                    isInvincible = ((Ship)entity).getHit();
+	                
+	                if (!isInvincible) {
+	                    if(!isLaser) {
+	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
+	                        entity.setlSpeed(0, 0); 
+	                    }
+	                    
+	                    if (entity.stunt() instanceof ShipStunt) {
+	                        ShipStunt bs = ((ShipStunt) entity.stunt());
+	                        bs.forbiddenDirection = bs.direction;
+	                        switch (bs.direction) {
+	                        case Avatar.West: bs.set(0.05*Main.windowScale, 0); break;
+	                        case Avatar.North: bs.set(0, 0.05*Main.windowScale); break;
+	                        case Avatar.East: bs.set(-0.05*Main.windowScale, 0); break;
+	                        default: bs.set(0, -0.05*Main.windowScale); break;
+	                        }
+	                    }
+	                    entity.collision(entity.trueCollisions);
+	                }
+	            }
+	        }
+	        
+	        entity.tick(elapsed, shift);
+	       
 		}
 		if (Main.debug)
 			p.end();

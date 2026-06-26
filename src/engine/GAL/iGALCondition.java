@@ -2,8 +2,10 @@ package engine.GAL;
 
 import engine.Entity;
 
-public interface iGALCondition {
+interface iGALCondition {
 
 	boolean eval(Entity e);
+	
+	Variable variable();
 
 }

@@ -1,6 +1,7 @@
 package game.entities;
 
 import engine.Entity;
+import engine.Game;
 import engine.ISU;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -24,6 +25,9 @@ public class Background extends Entity {
 		
 		Canvas canvas;
 		int xPosition;
+		private int lastShiftPX = 0;
+		private int shift_bg = 0;
+		private boolean initialized = false;
 
 		public BackgroundAvatar() {
 			super(Background.this);
@@ -41,21 +45,41 @@ public class Background extends Entity {
 		public void paint(Graphics g, int shiftPX) {
 			if (this.sprites == null)
 				this.getSprites(g);
+
+			if (!initialized) {
+				lastShiftPX = shiftPX;
+				initialized = true;
+			}
+
+			int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
 			
-			int canvasWidth = canvas.getWidth();
-			int canvasHeight = canvas.getHeight();
+			int delta = shiftPX - lastShiftPX;
 			
-			if (xPosition+shiftPX < -canvasWidth)
-				xPosition += canvasWidth;
+			if (delta > 0) {
+				delta -= taille_map;
+			}
 			
-			g.drawImage(this.sprites[0][0], xPosition+shiftPX, 0, canvasWidth, canvasHeight);
-			g.drawImage(this.sprites[0][0], canvasWidth+xPosition+shiftPX+1, 0, canvasWidth+1, canvasHeight);
+			shift_bg += delta;
+			lastShiftPX = shiftPX;
+
+			int w = canvas.getWidth();
+			int h = canvas.getHeight();
+
+			int x = shift_bg % w;
+
+			g.drawImage(this.sprites[0][0], x, 0, w, h);
+			g.drawImage(this.sprites[0][0], x + w, 0, w, h);
 		}
 	}
 
 	@Override
 	public void setBounding() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		
 		
 	}
 }

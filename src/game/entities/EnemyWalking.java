@@ -6,30 +6,105 @@ import java.util.List;
 import engine.Entity;
 import engine.ISU;
 import engine.Grid.Dimension;
+import engine.ISU.Coord;
 import engine.shapes.Rect;
+import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
+import oop.tasks.Runnable;
+import oop.tasks.Runtime;
+import oop.tasks.Task;
 
-public class EnemyWalking extends Entity{
+public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	//Entité qui spawn avec chicken
-	
+	private int hp = 1;
+    private boolean isAlive;
+	private boolean hit = false;
 	
 
-	public EnemyWalking(String name) {
+	public EnemyWalking(View view,String name) {
 		super(name);
-		this.setSize(this.game.grid.new Dimension((int)(16/Main.windowScale),(int)(16/Main.windowScale)));
+		this.setSize(this.isu.new Dimension(16.0*Main.windowScale,16.0*Main.windowScale));
 		this.avatar =new WalkingAvatar(this);
+		this.setCategory(engine.GAL.Category.Adversary);
+		this.view=view;
+		this.isAlive=true;
 	}
 	
+	
+	
+	@Override
+	public void tryToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void setBounding() {
-		this.bounding().add(new Rect(this.center(), this.size, 0));
+		double x_cm = this.size.x_cm;
+		double y_cm = this.size.y_cm;
+		
+		ISU.Coord center = this.center();
+		double x = center.x_cm;
+		double y = center.y_cm;
+		
+		ISU.Dimension shapeSize;
+		ISU.Coord shapeCenter;
+		
+		shapeSize = isu.new Dimension(x_cm/2, y_cm/2);
+		shapeCenter = isu.new Coord(x, y);
+		this.bounding().add(new Rect(shapeCenter, shapeSize, 0));
 	}
 	
-	public Avatar getAvatar() {
-		return this.avatar;
+	@Override
+	public void gotHit() {
+		hp--;
+		System.out.println("HP : " + hp);
+		
+		if (hp <= 0) {
+			isAlive = false;
+			
+			((WalkingAvatar)this.avatar).exploser();
+			Main.task.post(() -> {
+				this.die();
+			}, 1000);
+			return;
+		
+		}
+		
 	}
 	
+	@Override
+	public void die() {
+		System.out.println("entité despawn : " + name);
+        this.alive = false;
+        
+        if (Math.random() <= 0.2) {
+            PowerUp bonus = new PowerUp("powerup");
+            bonus.setCoord(this.center()); 
+            bonus.setBounding();
+            model.add(bonus);
+            model.getView().add(bonus.getAvatar());
+        }
+        this.retract();
+        model.remove(this);
+        model.getView().remove(avatar);
+	}
+
+		
 	private class WalkingAvatar extends Avatar{
 		public static final int TopLeft = 0;
 		public static final int TopRight = 1;
@@ -39,19 +114,50 @@ public class EnemyWalking extends Entity{
 	    public static final int Neutral = 0;
 	    public static final int Walk1 = 1;
 	    public static final int Walk2 = 2;
+	    
+	    private static final int spriteSizeX = 18; 
+        private static final int spriteSizeY = 18;
 
 		private List<BufferedImage> death;
 		
 		private int index;
 		private int indChg;
 		
+		private int deathIndex = 0;
+        private boolean exploding = false;
+		private boolean visible = true;
+		
 		public WalkingAvatar(Entity e) {
 			super(e);
 			this.death = new ArrayList<>();
 			this.index =0;
-			this.indChg=0;
-			
+			this.indChg=0;			
 		}
+		
+		
+		public void exploser() {
+			this.exploding = true;
+			this.visible = true;
+			this.deathIndex = 0;
+			avancerExplosion();
+		}
+
+		private void avancerExplosion() {
+			if (this.deathIndex >= this.death.size()) {
+				this.exploding = false;
+				this.visible = false;
+		
+				return;
+			}
+			Main.task.post(new Runnable() {
+				@Override
+				public void run() throws Exception {
+					deathIndex++;
+					avancerExplosion();
+				}
+			}, 120);
+		}
+
 
 		@Override
 		public void getSprites(Graphics g) {
@@ -83,16 +189,18 @@ public class EnemyWalking extends Entity{
 
 		@Override
 		public void paint(Graphics g, int shiftPX) {
-this.getSprites(g);
+
+			if(this.sprites == null)
+				this.getSprites(g);
 			
 			ISU.Coord center = EnemyWalking.this.center(); 
-            int posX = this.toPixel(center.x_cm - (EnemyWalking.this.size.x_cm / 2));
-            int posY = this.toPixel(center.y_cm - (EnemyWalking.this.size.y_cm / 2));
+			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
             //A IMPLEMENTER : AFFICHER EN BAS / EN HAUT / DROITE OU GAUCHE DU JOUEUR
-            g.drawImage(sprites[DownLeft][index], posX, posY, 
-            		(int) (16*Main.windowScale), 
-            		(int) (16*Main.windowScale));
+            g.drawImage(sprites[DownLeft][index], posX+shiftPX, posY, 
+            		(int) (spriteSizeX*Main.windowScale), 
+            		(int) (spriteSizeY*Main.windowScale));
             
             if (indChg == 0)
  		    	index++;
@@ -103,8 +211,6 @@ this.getSprites(g);
  		    	indChg = 0;
  		    }
 			
-		}
-		
+		}	
 	}
-
 }

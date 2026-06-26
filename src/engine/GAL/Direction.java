@@ -3,18 +3,25 @@ package engine.GAL;
 import java.util.HashMap;
 import java.util.Map;
 
+import engine.Entity;
+
 public class Direction {
 
 	// CONSTANTS
 
-	static Direction B; // B, Backward, Back
-	static Direction F; // F, Forward, Front
-	static Direction H; // H, Here
-	static Direction N; // N, North
-	static Direction S; // S, South
-	static Direction E; // E, East
-	static Direction W; // W, West
+	public static Direction B; // B, Backward, Back
+	public static Direction F; // F, Forward, Front
+	public static Direction H; // H, Here
+	public static Direction R; // R, Right
+	public static Direction L; // L, Left
+	public static Direction N; // N, North
+	public static Direction S; // S, South
+	public static Direction W; // W, West
+	public static Direction E; // E, East
 
+	// ...
+
+	// STATIC
 	/**
 	 * @apiNote {@code directions} associates a Direction to a name in order to
 	 *          ensure uniqueness (thus sharing) of the instance associated to that
@@ -29,7 +36,36 @@ public class Direction {
 	 *          name.</LI>
 	 *          </UL>
 	 */
-	static Map<String, Direction> directions;
+	static Map<String, Direction> directions = new HashMap<>();
+	//Direction directions; // <-- FIXME
+	// STATIC INITIALIZATION
+
+	/**
+	 * @apiNote the global variables must be initialized in that section,
+	 * @implNote which is executed at the class loading
+	 */
+	static {
+		 Direction.B=new Direction("B");
+		 directions.put("B", Direction.B);
+		 Direction.F=new Direction("F");
+		 directions.put("F", Direction.F);
+		 Direction.H=new Direction("H");
+		 directions.put("H", Direction.H);
+		 Direction.R=new Direction("R");
+		 directions.put("R", Direction.R);
+		 Direction.L=new Direction("L");
+		 directions.put("L", Direction.L);
+		 Direction.N=new Direction("N");
+		 directions.put("N", Direction.N);
+		 Direction.S=new Direction("S");
+		 directions.put("S", Direction.S);
+		 Direction.W=new Direction("W");
+		 directions.put("W", Direction.W);
+		 Direction.E=new Direction("E");
+		 directions.put("E", Direction.E);
+		
+	}
+
 
 	// FACTORY
 
@@ -38,61 +74,88 @@ public class Direction {
 	 *          parser encounters a direction.
 	 * @return the existing direction associated to a name if it already exists
 	 */
-	Direction canonical(String name) {
-		if (directions.containsKey(name))
+	public static Direction canonical(String name) {
+		if(directions.containsKey(name)) {
 			return directions.get(name);
-		Direction dir = new Direction(name);
-		directions.put(name, dir);
-		return dir;
+		}
+		Direction newDir = new Direction(name);
+		directions.put(name, newDir);
+		return newDir;
 	}
 
-	// STATIC INITIALIZATION
-
-	/**
-	 * @apiNote the global variables must be initialized in that section,
-	 * @implNote which is executed at the class loading
-	 */
-	static {
-		directions = new HashMap<String, Direction>();
-		B = new Direction("Backward");
-		F = new Direction("Forward");
-		H = new Direction("Here");
-		N = new Direction("North");
-		S = new Direction("South");
-		E = new Direction("East");
-		W = new Direction("West");
-	}
 
 	// CONSTRUCTOR
 
-	private String name;
+	String name;
 
 	Direction(String name) {
-		this.name = name;
+		this.name=name;
 	}
 
 	// PREDICATE
-	public boolean isAbsolute() {
-		return (this == N || this == S || this == E || this == W);
+
+	boolean isAbsolute() {
+		return this == N || this == S || this == E || this == W;
 	}
 
-	public boolean isRelative() {
-		return !this.isAbsolute();
+	boolean isRelative() {
+		return this == F || this == B || this == H;
 	}
 
 	// CONVERSION
 
-	public int toAngle() {
-		if (this.isRelative())
-			throw new IllegalStateException();
-		if (this == E)
-			return 0;
-		if (this == N)
+	int toAngle() {
+		if (!isAbsolute()) {
+			throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
+		}
+		if (this == N) {
 			return 90;
-		if (this == W)
-			return 180;
-		if (this == S)
+		}
+		if (this == E) {
+			return 0;
+		}
+		if (this == S) {
 			return 270;
-		return 0;
+		}
+		if (this == W) {
+			return 180;
+		}
+		throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
 	}
+	
+	static public Direction toDir(int i) {
+		int j = ((i % 360) + 360) % 360;
+		if ((j <= 135 && j>45 )) {
+			return N;
+		}
+		if ((j <= 45 && j>315 )) {
+			return E;
+		}
+		if ((j <= 315 && j>225)) {
+			return S;
+		}
+		if (j <= 225 && j>135) {
+			return W;
+		}
+		return null;
+	}
+	
+	static public Direction to_abs(Direction dir,Entity e) {
+		if(dir==Direction.F) {
+			return Direction.toDir(e.orientation());
+		}
+		if(dir==Direction.B) {
+			return Direction.toDir(e.orientation()+180);
+		}
+		if(dir==Direction.R) {
+			return Direction.toDir(e.orientation()+270);
+		}
+		if(dir==Direction.L) {
+			return Direction.toDir(e.orientation()+90);
+		}
+		else {
+			return null;
+		}
+	}
+
 }

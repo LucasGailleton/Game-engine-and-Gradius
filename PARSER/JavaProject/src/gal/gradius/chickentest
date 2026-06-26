@@ -1,0 +1,10 @@
+CHICKEN (Chicken){
+
+// single line comment are allowed
+
+ * (Chicken):
+ | True        ? Move(E)  :(Shooting)
+ * (Shooting):
+ | Closest(@)        ? Hit($)  :(Chicken)
+ 
+}

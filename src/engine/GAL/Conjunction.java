@@ -1,10 +1,14 @@
+
 package engine.GAL;
+
 
 import java.util.LinkedList;
 
 import engine.Entity;
 
-class Conjunction  {
+
+class Conjunction  implements iGALCondition{
+
 
 	// FIELDS
 
@@ -12,13 +16,31 @@ class Conjunction  {
 
 	// CONSTRUCTOR
 
-	 Conjunction(){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `Conjunction`"); }
+	 Conjunction(){ 
+		 this.conditions=new LinkedList<iGALCondition>();
+	 }
 
 	// BUILDER
 
-	 void add(iGALCondition c){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `add`"); }
+	 void add(iGALCondition c){ 
+		 this.conditions.add(c);
+	 }
 
 	// EVAL
-	 boolean eval(Entity e){ throw new UnsupportedOperationException("UNIMPLEMENTED METHOD `eval`"); }
+	 public boolean eval(Entity e){ 
+		 for(iGALCondition cond:this.conditions) {
+			 boolean b=cond.eval(e);
+			 if(!b) {
+				 return b;
+			 }
+		 }
+		 return true;
+	 }
+
+	 @Override
+	 public Variable variable() {
+		// TODO Auto-generated method stub
+		return null;
+	 }
 
 }

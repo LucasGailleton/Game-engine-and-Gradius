@@ -2,7 +2,7 @@ package engine.GAL;
 
 import engine.Entity;
 
-public interface iGALAction {
+interface iGALAction {
 
 	/**
 	 * @apiNote asks the action to start execution

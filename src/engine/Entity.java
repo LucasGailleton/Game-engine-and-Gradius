@@ -2,6 +2,7 @@
 package engine;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -11,11 +12,18 @@ import engine.Grid.Cell;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
+import engine.GAL.Category;
 import engine.shapes.Bounding;
 import engine.shapes.Rect;
 import engine.shapes.iShape;
+import engine.view.View;
 import game.Model;
 import game.entities.Avatar;
+import game.entities.EnemyChicken;
+import game.entities.EnemyHoming;
+import game.entities.EnemyKamikaze;
+import game.entities.EnemyWalking;
+import game.entities.Ship;
 
 public abstract class Entity {
 
@@ -32,17 +40,22 @@ public abstract class Entity {
 	private ISU.Coord center; // coordonnées en cm du centre de l'entité
 	private Bounding bounding;
 	private Set<Grid.Cell> occupied;
-	private engine.GAL.Bot bot;
+	protected engine.GAL.Bot bot;
 	private ISU.Coord boundingBoxTopLeft;
 	private ISU.Coord boundingBoxBottomRight;
 	private int orientation_degree; // orientation par rapport à l'axe des x
 	
 	protected Avatar avatar;
+	public List<Entity> trueCollisions;
 
-	private Stunt stunt;
+	protected Stunt stunt;
 	protected Model model;
 	private Vector lSpeed;
+	private Double moveDistanceLeft = null; // null = infini
 	private double aSpeed;
+	Category category;
+	
+	protected View view;
 	
 	protected boolean alive = true;
 
@@ -57,11 +70,14 @@ public abstract class Entity {
 		this.bounding = new Bounding();
 		this.occupied = new HashSet<Grid.Cell>();
 		this.lSpeed = this.isu.new Vector(0, 0);
-//		this.updateBoundingBox();
-		
+		this.trueCollisions = new ArrayList<Entity>();
 	}
 
 	// SETTER
+	public void setView(View view) {
+		this.view=view;
+	}
+	
 	public void setPosition(Grid.Position position) {
 		this.position = position;
 		this.center = position.toISUCoordCentered();
@@ -108,11 +124,18 @@ public abstract class Entity {
 		this.bot = bot;
 	}
 	
-	public void setModel(Model model) { //On est sûr de ça la ?
+	public void setModel(Model model) { 
 		this.model = model;
+	}
+	
+	public void setCategory(Category cat) { 
+		this.category = cat;
 	}
 
 	// GETTER
+	public View view() {
+		return this.view;
+	}
 	public ISU.Coord center() {
 		return this.center;
 	}
@@ -165,6 +188,10 @@ public abstract class Entity {
 	public boolean isAlive() {
         return this.alive;
     }
+	
+	public Category Category() {
+		return this.category;
+	}
 	
 	
 
@@ -289,6 +316,28 @@ public abstract class Entity {
 		this.translate(v);
 	}
 
+	public void move(double vitesse, double angle, Double distance) {
+		double rad = Math.toRadians(angle);
+		this.setlSpeed(vitesse * Math.cos(rad), vitesse * Math.sin(rad));
+		this.moveDistanceLeft = distance;
+	}
+
+	// avance a l'infini dans la direction donnée
+	public void move(double vitesse, double angle) {
+		this.move(vitesse, angle, null);
+	}
+
+	// retire la distance parcourue et stoppe l'entité quand move() est fini
+	public void consumeMoveDistance(double parcouru_cm) {
+		if (this.moveDistanceLeft == null)
+			return;
+		this.moveDistanceLeft -= parcouru_cm;
+		if (this.moveDistanceLeft <= 0) {
+			this.setlSpeed(0, 0);
+			this.moveDistanceLeft = null;
+		}
+	}
+
 	// INTERSECTS
 	public boolean intersects(Entity e) {
 		if (Collections.disjoint(this.occupied, e.occupied))
@@ -298,21 +347,22 @@ public abstract class Entity {
 
 	// COLLISIONS
 	public void collision(Entity e) {
-		this.stunt.collision(e);
-	}
-
-	public void collision(List<Entity> le) {
-		if (this.stunt() != null) {
-	        this.stunt().collision(le); 
+		if (this.stunt != null) {
+	        this.stunt.collision(e);
 	    } else {
-	        // Comportement par défaut si l'entité n'a pas de stunt
-	        this.setlSpeed(0, 0);
-	        die();
+	        this.die(); 
 	    }
 	}
 
+	public void collision(List<Entity> le) {
+		if(this.stunt != null)
+			this.stunt.collision(le); 
+		else
+			this.die();
+	}
+
 	public boolean haslSpeed() {
-		return this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0);
+		return this instanceof Ship || (this.lSpeed != null && (this.lSpeed.targetX_cm != 0 || this.lSpeed.targetY_cm != 0));
 	}
 
 	public void deploy() {
@@ -336,6 +386,7 @@ public abstract class Entity {
 						c.add(this);
 						this.occupied.add(c);
 					} catch (Exception e) {
+						// En dehors du tore (on s'en blc)
 					}
 				}
 			}
@@ -358,14 +409,16 @@ public abstract class Entity {
 	}
 	
 	public void die() {
-		System.out.println("entité despawn");
+		System.out.println("entité despawn : " + name);
         this.alive = false;
         
         this.retract();
         model.remove(this);
         model.getView().remove(avatar);
-        
+        this.avatar=null;
+        this.bot=null;
+        this.stunt=null;
     }
 	
-	//public abstract void tick();
+	public abstract void tick(double elapsed,boolean shift);
 }
