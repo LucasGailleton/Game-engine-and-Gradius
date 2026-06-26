@@ -165,10 +165,11 @@ public class MapBuilder {
 	    placeEntity(wlk);
 	  
 	    // Partie Bot
-//		EnemyStunt bs =new EnemyStunt(model,wlk);
-//		wlk.setStunt(bs);
-//		GALBot gb = new GALBot(wlk);
-//		gb.set(Main.auts.getFirst());
+		EnemyStunt bs =new EnemyStunt(model,wlk);
+		wlk.setStunt(bs);
+		GALBot gb = new GALBot(wlk);
+		gb.set(Main.auts.getFirst());
+		gb.setthinkspeed(50);
 	}
 
 	private void spawnHoming(double x) {
