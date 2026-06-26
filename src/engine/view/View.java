@@ -57,6 +57,8 @@ public class View {
 	}
 	
 	public boolean shift() {
+		if (viewSpeed == 0)
+			return false;
 		if (this.shiftChg == viewSpeedChg) {
 			this.shiftPX += viewSpeed;
 			int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
