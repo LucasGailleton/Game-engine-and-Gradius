@@ -22,7 +22,7 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 20 * Main.windowScale;
+	public static double ShipSpeed = 30 * Main.windowScale;
 	public static final double ShipSpeedOrig = ShipSpeed;
 	public static final int missileSpeed = 850;
 

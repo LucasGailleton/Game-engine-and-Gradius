@@ -22,6 +22,7 @@ import game.entities.LaserShot;
 import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
 import game.entities.MissileSpecial;
+import game.entities.MontFendu;
 import game.entities.PowerUp;
 import game.entities.Ship;
 import game.entities.Slave;
@@ -122,10 +123,10 @@ public class Model {
 
 	                    for (Entity e : copyEntities) {
 	                        if (e == entity) continue;
-	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp)) {
+	                        if ((isMissile || isLaser) && (e instanceof MissilePlayer || e instanceof Ship || e instanceof Slave || e instanceof LaserShot || e instanceof PowerUp || e instanceof MontFendu)) {
 	                            continue;
 	                        }
-	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp)) {
+	                        if ((isEnemyMissile || isMissileSpecial) && (e instanceof Enemy || e instanceof MissileEnemy || e instanceof PowerUp || e instanceof MontFendu)) {
 	                            continue;
 	                        }
 
