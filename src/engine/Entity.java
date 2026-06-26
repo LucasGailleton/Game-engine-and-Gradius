@@ -82,6 +82,9 @@ public abstract class Entity {
 		this.view=view;
 	}
 	
+	public void setorient(int i) {
+		this.orientation_degree=i;
+	}
 	public void setPosition(Grid.Position position) {
 		this.position = position;
 		this.center = position.toISUCoordCentered();
@@ -197,6 +200,9 @@ public abstract class Entity {
 		return this.category;
 	}
 	
+	public int orient() {
+		return this.orientation_degree;
+	}
 	
 
 	// BOUNDING BOX UPDATE

@@ -56,13 +56,16 @@ public class Closest  extends GALCondition{
 			return true;
 		}
 		if(this.direction!=null) {
-			if(this.direction.isAbsolute()) {
+			if(!this.direction.isAbsolute()) {
 				if(this.direction==Direction.H) {
 					Entity min=player;
+					double dist=-1;
 					for(Entity h_ent:player.grid.cellAt(player.position()).entities){
 						if(catcond(h_ent)) {
-							if(h_ent!=player && (min==player || h_ent.center().distanceTo(player.center())<min.center().distanceTo(player.center()))) {
+							double ndist=h_ent.center().distanceTo(player.center());
+							if(h_ent!=player && lcond(ndist) && (min==player || ndist<dist)) {
 								min=h_ent;
+								dist=ndist;
 							}
 						}
 					}
@@ -74,11 +77,14 @@ public class Closest  extends GALCondition{
 				this.direction=Direction.to_abs(this.direction, player);
 			}
 				Entity min=player;
-					if(this.direction==Direction.S) {
+				double dist=-1;
+				if(this.direction==Direction.S) {
 						for(Entity en:player.getModel().entities()) {
 							if(catcond(en) && en.center().y_cm>player.center().y_cm) {
-								if(en!=player && (min==player || en.center().distanceTo(player.center())<min.center().distanceTo(player.center()))) {
+								double ndist=en.center().distanceTo(player.center());
+								if(en!=player &&  lcond(ndist) && (min==player || ndist<dist)) {
 									min=en;
+									dist=ndist;
 								}
 							}
 						}
@@ -86,8 +92,10 @@ public class Closest  extends GALCondition{
 					else if(this.direction==Direction.N) {
 						for(Entity en:player.getModel().entities()) {
 							if(catcond(en) && en.center().y_cm<player.center().y_cm) {
-								if(en!=player && (min==player || en.center().distanceTo(player.center())<min.center().distanceTo(player.center()))) {
+								double ndist=en.center().distanceTo(player.center());
+								if(en!=player &&  lcond(ndist) && (min==player || ndist<dist)) {
 									min=en;
+									dist=ndist;
 								}
 							}
 						}
@@ -95,8 +103,10 @@ public class Closest  extends GALCondition{
 					else if(this.direction==Direction.E) {
 						for(Entity en:player.getModel().entities()) {
 							if(catcond(en) && en.center().x_cm>player.center().x_cm) {
-								if(en!=player && (min==player || en.center().distanceTo(player.center())<min.center().distanceTo(player.center()))) {
+								double ndist=en.center().distanceTo(player.center());
+								if(en!=player &&  lcond(ndist) && (min==player || ndist<dist)) {
 									min=en;
+									dist=ndist;
 								}
 							}
 						}
@@ -104,8 +114,10 @@ public class Closest  extends GALCondition{
 					else {
 						for(Entity en:player.getModel().entities()) {
 							if(catcond(en) && en.center().x_cm<player.center().x_cm) {
-								if(en!=player && (min==player || en.center().distanceTo(player.center())<min.center().distanceTo(player.center()))) {
+								double ndist=en.center().distanceTo(player.center());
+								if(en!=player &&  lcond(ndist) && (min==player || ndist<dist)) {
 									min=en;
+									dist=ndist;
 								}
 							}
 						}
@@ -117,10 +129,13 @@ public class Closest  extends GALCondition{
 			}
 		else {
 			Entity min=player;
+			double dist=-1;
 			for(Entity en:player.getModel().entities()) {
 				if(catcond(en)) {
-					if(en!=player && (min==player || en.center().distanceTo(player.center())<min.center().distanceTo(player.center()))) {
+					double ndist=en.center().distanceTo(player.center());
+					if(en!=player &&  lcond(ndist)&& (min==player || ndist<dist)) {
 						min=en;
+						dist=ndist;
 					}
 				}
 			}
@@ -135,6 +150,13 @@ public class Closest  extends GALCondition{
 	boolean catcond(Entity e) {
 		if(this.category!=null) {
 			return e.Category()==this.category;
+		}
+		return true;
+	}
+	
+	boolean lcond(double e) {
+		if(this.nbStep>0) {
+			return e<=this.nbStep*Game.game().cmPerCell;
 		}
 		return true;
 	}

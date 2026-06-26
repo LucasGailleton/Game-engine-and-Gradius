@@ -29,6 +29,7 @@ import game.entities.Ship;
 import game.entities.Slave;
 import engine.Physic;
 import engine.ShipStunt;
+import engine.GAL.Category;
 
 public class Model {
 	
@@ -106,6 +107,7 @@ public class Model {
 	        boolean isMissile = entity instanceof MissilePlayer;
 	        boolean isEnemyMissile = entity instanceof MissileEnemy;
 	        boolean isMissileSpecial = entity instanceof MissileSpecial;
+	        boolean isEnemy = entity.Category() == Category.Adversary;
 	        entity.trueCollisions = new ArrayList<Entity>();
 	         
 	        if(entity.bot()!=null) {
@@ -152,7 +154,7 @@ public class Model {
 	                entity.translate(moveVec);
 	                
 	                for (Entity e : boxCollisions) {
-	                    if (e == entity || e instanceof MissilePlayer || e instanceof LaserShot) continue;
+	                    if (e == entity || e instanceof MissilePlayer || e instanceof LaserShot || (e.Category() == Category.Adversary)) continue;
 	                    if (entity.bounding().intersects(e.bounding())) {
 	                        entity.trueCollisions.add(e);
 	                    }
@@ -165,7 +167,7 @@ public class Model {
 	                    isInvincible = ((Ship)entity).getHit();
 	                
 	                if (!isInvincible) {
-	                    if(!isLaser || !(entity instanceof EnemyWalking)) {
+	                    if(!isLaser || !isEnemy) {
 	                        entity.translate(entity.isu.new Vector(-moveX, -moveY));
 	                        entity.setlSpeed(0, 0); 
 	                    }

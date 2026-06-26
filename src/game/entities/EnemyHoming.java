@@ -33,6 +33,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
         this.avatar = new HomingAvatar(this);
         this.setCategory(engine.GAL.Category.Adversary);
         this.view=view;
+        this.setorient(180);
 	this.isAlive=true;
     }
     
@@ -147,7 +148,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 
         @Override
         public void getSprites(Graphics g) {
-        	BufferedImage imgSprites = g.load("all_Sprites.png");
+        	BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
             this.sprites = new BufferedImage[1][2];
             
            

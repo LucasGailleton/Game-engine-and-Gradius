@@ -119,7 +119,7 @@ public class MissileSpecial extends Entity {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("Boss_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/Boss_Sprites.png");
 			this.sprites = new BufferedImage[1][2];
 
 			this.sprites[0][0] = imgSprites.getSubimage(264, 165, spriteSizeX, spriteSizeY);

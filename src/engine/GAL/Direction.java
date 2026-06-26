@@ -99,7 +99,7 @@ public class Direction {
 	}
 
 	boolean isRelative() {
-		return this == F || this == B || this == H;
+		return !this.isAbsolute();
 	}
 
 	// CONVERSION
@@ -128,7 +128,7 @@ public class Direction {
 		if ((j <= 135 && j>45 )) {
 			return N;
 		}
-		if ((j <= 45 && j>315 )) {
+		if ((j <= 45 || j>315 )) {
 			return E;
 		}
 		if ((j <= 315 && j>225)) {
@@ -156,6 +156,34 @@ public class Direction {
 		else {
 			return null;
 		}
+	}
+	
+	static public Direction inverse(Direction d) {
+		if (d == N) {
+			return S;
+		}
+		if (d == E) {
+			return W;
+		}
+		if (d == S) {
+			return N;
+		}
+		if (d == W) {
+			return E;
+		}
+		if (d == B) {
+			return F;
+		}
+		if (d == F) {
+			return B;
+		}
+		if (d == L) {
+			return R;
+		}
+		if (d == R) {
+			return L;
+		}
+		throw new IllegalStateException("Cannot inverse '" );
 	}
 
 }

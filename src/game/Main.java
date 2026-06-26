@@ -103,6 +103,14 @@ public class Main implements Runnable {
 	}
 
 	public void startGame() {
+		AutomatonLoader al=new AutomatonLoader(3);
+		try {
+//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
+			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
+			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
+		} catch (Exception e) {
+		    e.printStackTrace(); // Regardez votre console !
+		}
 		View.shiftPX = 0;
 		View.viewSpeed = (int)(View.speed*Main.windowScale);
 		Ship.reset();
@@ -119,7 +127,7 @@ public class Main implements Runnable {
 		view.setScore(model.score);
 		Task tick = Runtime.newTask("tick");
 		this.ticker = new Ticker(this.model, tick, 10);
-
+		
 		Background bg = new Background();
 		view.add(bg.new BackgroundAvatar());
 		
@@ -131,16 +139,6 @@ public class Main implements Runnable {
 		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
 		ship.setView(view);
 		mb.placeEntity(ship);
-		
-		AutomatonLoader al=new AutomatonLoader(3);
-		try {
-//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
-			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
-//		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
-		} catch (Exception e) {
-		    e.printStackTrace(); // Regardez votre console !
-		}
 		
 		
 

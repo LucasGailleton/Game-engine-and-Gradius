@@ -240,6 +240,8 @@ public class FSMbuilder implements iVisitor{
 			switch(actionName) {
 				case "Hit":
 					return new engine.GAL.Shoot();
+				case "Egg":
+					return new engine.GAL.Egg();
 				default:
 					return null;
 			}
@@ -253,7 +255,7 @@ public class FSMbuilder implements iVisitor{
     	    	case"Move":
     	    		return new engine.GAL.Move(id.value);
     	    	case"Turn":
-    	    		return new engine.GAL.Move(id.value);
+    	    		return new engine.GAL.Turn(id.value);
     	    	default:
     	            // Par défaut ou pour les autres actions
     	            //executionActions.add(new engine.GAL.GALAction(call.name));
@@ -276,16 +278,15 @@ public class FSMbuilder implements iVisitor{
     	    	switch(actionName) {
     	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
     	    	case"Hit":
-    	    		return new engine.GAL.Move(d);
+    	    		return new engine.GAL.Shoot(d);
     	    	case"Move":
     	    		return new engine.GAL.Move(d);
     	    	case"Turn":
-    	    		return new engine.GAL.Move(d);
-    			case "Egg":
-    				return new engine.GAL.Egg();
+    	    		return new engine.GAL.Turn(d);
+    			/*case "Egg":
+    				return new engine.GAL.Egg();*/
     	    	default:
     	            // Par défaut ou pour les autres actions
-    	            //executionActions.add(new engine.GAL.GALAction(call.name));
     	        	return null;
     	    	}
     		}
@@ -295,8 +296,6 @@ public class FSMbuilder implements iVisitor{
     	    	case"Hit":
     	    		//return new engine.GAL.Move(var_map.get(v));
     	    		return new engine.GAL.Shoot(var);
-    	    	case"Move":
-    	    		//return new engine.GAL.Move(var_map.get(v));
     	    	default:
     	            // Par défaut ou pour les autres actions
     	            //executionActions.add(new engine.GAL.GALAction(call.name));
@@ -305,18 +304,7 @@ public class FSMbuilder implements iVisitor{
     		}
     		else if(param instanceof Category c) {
     			switch(c.terminal.content){
-    			/*case "@":
-	    				Ship s=Ship.ship();
-	        	    	switch(actionName) {
-	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
-	        	    	case"Hit":
-	        	    		return new engine.GAL.Shoot(engine);
-	        	    	default:
-	        	            // Par défaut ou pour les autres actions
-	        	            //executionActions.add(new engine.GAL.GALAction(call.name));
-	        	        	return null;
-	        	    	}*/
-    			case "#":
+    			/*case "#":
 	        	    	switch(actionName) {
 	        	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	        	    	case"Egg":
@@ -355,7 +343,7 @@ public class FSMbuilder implements iVisitor{
         	            // Par défaut ou pour les autres actions
         	            //executionActions.add(new engine.GAL.GALAction(call.name));
         	        	return null;
-        	    	}
+        	    	}*/
 	    			
 	    			default:
 	    				throw new IllegalArgumentException("Type de category inconnue");
@@ -371,22 +359,22 @@ public class FSMbuilder implements iVisitor{
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	case"Move":
 	    		if(param1 instanceof Direction d && param2 instanceof Variable v) {
-	    			
+    	    		return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),var);
 	    		}
 	    		else if(param1 instanceof Direction d && param2 instanceof IntPercent p) {
-	    			
+	    			return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),(double)p.value);
 	    		}
 	    		else if(param1 instanceof Direction d && param2 instanceof IntValue val) {
-	    			
+	    			return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),val.value);
 	    		}
 	    		else if(param1 instanceof IntDegree id && param2 instanceof IntPercent p) {
-	    			
+	    			return new engine.GAL.Move(id.value,(double)p.value);
 	    		}
 	    		else if(param1 instanceof IntDegree id && param2 instanceof IntValue val) {
-	    			
+	    			return new engine.GAL.Move(id.value,val.value);
 	    		}
 	    		else if(param1 instanceof IntPercent p && param2 instanceof IntValue val) {
-	    			
+	    			return new engine.GAL.Move((double)p.value,val.value);
 	    		}
 	    		
 	    	default:
@@ -402,20 +390,17 @@ public class FSMbuilder implements iVisitor{
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	case"Move":
 	    		if(param1_in_3 instanceof Direction d && param2_in_3 instanceof Variable v && param3_in_3 instanceof IntPercent p ) {
-	    			
+	    			return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),p.value,var);
 	    		}
 	    		else if(param1_in_3 instanceof Direction d && param2_in_3 instanceof Variable v && param3_in_3 instanceof IntValue val ) {
-	    			
+	    			return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),var,val.value);
 	    		}
 	    		else if(param1_in_3 instanceof Direction d && param2_in_3 instanceof IntPercent p && param3_in_3 instanceof IntValue val ) {
-	    			
+	    			return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),p.value,val.value);
 	    		}
 	    		else if(param1_in_3 instanceof IntDegree id && param2_in_3 instanceof IntPercent p && param3_in_3 instanceof IntValue val ) {
-	    			
+	    			return new engine.GAL.Move(id.value,p.value,val.value);
 	    		}
-	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
-	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
-	    		return new engine.GAL.Move(d3,j2);
 	    	default:
 	            // Par défaut ou pour les autres actions
 	            //executionActions.add(new engine.GAL.GALAction(call.name));
@@ -430,11 +415,8 @@ public class FSMbuilder implements iVisitor{
 	        // Selon le nom de l'action (Move, Hit, Push...), on instancie le bon type
 	    	case"Move":
 	    		if(param1_in_4 instanceof Direction d && param2_in_4 instanceof Variable v && param3_in_4 instanceof IntPercent p && param4_in_4 instanceof IntValue val ) {
-	    			
+	    			return new engine.GAL.Move(engine.GAL.Direction.canonical(d.toString()),var,p.value,val.value);
 	    		}
-	    		engine.GAL.Direction d3=engine.GAL.Direction.toDir(((IntValue)f.parameters.get(1)).value);
-	    		double j2=(double)((IntValue)(f.parameters.get(2))).value;
-	    		return new engine.GAL.Move(d3,j2);
 	    	default:
 	            // Par défaut ou pour les autres actions
 	            //executionActions.add(new engine.GAL.GALAction(call.name));

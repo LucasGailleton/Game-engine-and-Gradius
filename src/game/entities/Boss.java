@@ -11,6 +11,7 @@ import engine.Grid.Position;
 import engine.ISU.Coord;
 import engine.ISU.Dimension;
 import engine.ISU.Vector;
+import engine.GAL.GALBot;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -53,6 +54,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.setCategory(engine.GAL.Category.Boss);
 		this.view=view;
 		this.HP_MAX = this.hp;
+		this.setorient(180);
 	}
 	
 	public void createGuns(Model model, View view) {
@@ -149,7 +151,8 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		
 		//Midlife
 		if (hp <= HP_MAX/2) {
-			
+			GALBot gb=(GALBot)(this.bot());
+			gb.set(Main.mb.boss_aut2);
 		}
 		//Dead
 		if (hp <= 0) {
@@ -219,7 +222,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 
 		@Override
 		public void getSprites(Graphics g) {
-			BufferedImage imgSprites = g.load("Boss_Sprites.png");
+			BufferedImage imgSprites = g.load("sprites/Boss_Sprites.png");
 			this.sprites = new BufferedImage[4][3];
 			
 			//FULL HP
