@@ -13,7 +13,6 @@ import oop.graphics.Graphics;
 public class MissileEnemy extends Entity{
 	
 	private View view;
-	private int shift;
 
 	public MissileEnemy(String name, View view) {
 		super(name);
@@ -41,7 +40,7 @@ public class MissileEnemy extends Entity{
 	    
 	    int entityX = (int) (this.center().x_cm * Game.pixelPerCm);
 	    
-	    int shift1 = view.shiftPX;
+	    int shift1 = View.shiftPX;
 	    int screenX = entityX + shift1;
 	    int w = view.canvas().getWidth();
 
