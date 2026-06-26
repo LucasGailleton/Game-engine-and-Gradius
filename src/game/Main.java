@@ -159,98 +159,12 @@ public class Main implements Runnable {
 				}
 				task.post(this, 200);
 			}
-		}, 200);
-	}
-}
-
-
-
-//public class Main implements Runnable {
-//	
-//	Canvas canvas;
-//	public static Task task;
-//	List<Entity> entities;
-//	List<Automaton> auts;
-//	public static MapBuilder mb;
-//	public static final double windowScale = 4;
-//	public static final int windowWidth = 256;
-//	public static final int windowHeight = 240;
-//	public static final int headerSize = 61;
-//	public static final boolean debug = true;
-//	public static boolean GAMEOVER = false;
-//	
-//	public static int Timer = 1000;		// 1 phase = 10 secondes
-//	public static int TimerOrig = Timer;
-//
-//	public static void main(String[] args) {
-//
-////		if (debug) {
-////			long pid = ProcessHandle.current().pid();
-////			System.out.println("PID: " + pid);
-////			System.out.println("Hit enter to start the execution");
-////			try {
-////				System.in.read();
-////			} catch (IOException e) {
-////				e.printStackTrace();
-////				System.exit(1);
-////			}
-////		}
-//
-//		Dimension d = new Dimension((int) (windowWidth * windowScale), (int) (windowHeight * windowScale) + headerSize);
-//		Runtime.boot(d, new Main(), debug);
-//	}
-//	
-//	
-//
-//	@Override
-//	public void run() throws Exception {
-//		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
-//		task = Runtime.task();
-//		this.canvas = (Canvas) task.find("canvas");
-//		View view = new View(canvas);
-//		canvas.set(new PaintListener(view));
-//		Model model = new Model(view);
-//		Task tick = Runtime.newTask("tick");
-//		Ticker ticker = new Ticker(model, tick, 10);
-//		
-////		AutomatonLoader al=new AutomatonLoader(3);
-////		try {
-////		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-////			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
-////		    System.out.println("Automate chargé avec succès !"); // Point d'arrêt ici
-////		} catch (Exception e) {
-////		    e.printStackTrace(); // Regardez votre console !
-////		}
-//			
-//		Background bg = new Background();
-//		view.add(bg.new BackgroundAvatar());
-//		
-//		Ship ship = new Ship(view);
-//		model.setPlayer(ship);
-//		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
-//		
-//
-//		Main.mb = new MapBuilder(model, view);
-//		mb.placeObjects();
-//		mb.placeEntity(ship);
-//
-//		ShipStunt shipStunt = new ShipStunt(model, ship);
-//		ship.setStunt(shipStunt);
-//		VectAvatar va = new VectAvatar(ship);
-//		view.add(va);
-//
-//		task.post(new Runnable() {
-//			@Override
-//			public void run() throws Exception {
-//				canvas.repaint();
-//				task.post(this, 17);
-//			}
-//		}, 17);
-//		
+		}, 17);
+		
 //		Controller ct = new Controller(ship);
 //		KeyListener kl = new KeyListener(ct);
 //		canvas.set(kl);
-//	}
-//}
+	}
+}
 
 

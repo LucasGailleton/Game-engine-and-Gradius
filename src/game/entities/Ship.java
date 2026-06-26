@@ -31,8 +31,8 @@ import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
-	public static double ShipSpeed = 30 * Main.windowScale;
-	public static final int missileSpeed = 150;
+	public static double ShipSpeed = 20 * Main.windowScale;
+	public static final int missileSpeed = 850;
 
 	private double shootCooldown = 0.0; // Temps d'attente restant en secondes
 	private final double SHOOT_DELAY = 0.15; // DELAI (on peut modifier)
@@ -125,7 +125,7 @@ public class Ship extends Entity {
 	    
 		// Annulation du scrolling
 		if (shift && !Main.GAMEOVER)
-			translate(isu.new Vector((-View.speed / 4.0) * Main.windowScale, 0.0));
+			translate(isu.new Vector((-View.speed / 2.0) * Main.windowScale, 0.0));
 
 		if (this.shootCooldown > 0) {
 			this.shootCooldown -= seconds;
@@ -357,7 +357,7 @@ public class Ship extends Entity {
 			g.setColor(Colors.green);
 			g.setFont(g.getFont("Monospaced", 0, 16));
 			if (Main.debug)
-				g.drawString(vies, 10, 120);
+				g.drawString(vies, 10, 140);
 			else
 				g.drawString(vies, 10, 23);
 
