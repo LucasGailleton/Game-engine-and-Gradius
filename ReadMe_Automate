@@ -1,5 +1,6 @@
 Ce document sert de guide pour la rédaction des fichiers d'automates (`.gal`). Il détaille les types de données, les actions et les conditions que l'interpréteur est actuellement capable de traduire en objets exécutables dans le moteur de jeu.
 
+Les Automates doivent etre écrits dans PARSER/JavaProject/src/gal/gradius/gradius_auts.
 ---
 
 ## 1. Les Actions (Après le caractère `?`)
