@@ -36,7 +36,7 @@ public abstract class Bot {
 		 return this.state;
 	 }
 
-	 void state(State state){ 
+	void state(State state){ 
 		 this.state=state;
 	 }
 
