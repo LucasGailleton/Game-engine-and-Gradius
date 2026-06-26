@@ -34,13 +34,12 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
         this.setCategory(engine.GAL.Category.Adversary);
         this.view=view;
         this.setorient(180);
-	this.isAlive=true;
+        this.isAlive=true;
     }
     
     @Override
 	public void tick(double elapsed, boolean shift) {
-		
-		
+	
 	}
 
 
@@ -153,7 +152,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
             
            
             sprites[0][0] = imgSprites.getSubimage(178, 96, 15, 15);
-            sprites[0][1] = imgSprites.getSubimage(198, 98, 15, 15); //13
+            sprites[0][1] = imgSprites.getSubimage(198, 98, 15, 15);
             
             this.death.clear();
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
@@ -166,7 +165,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 			if(this.sprites == null)
 				this.getSprites(g);
             
-            ISU.Coord center = EnemyHoming.this.center(); //para el Gruber
+            ISU.Coord center = EnemyHoming.this.center();
             int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
             int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
             
