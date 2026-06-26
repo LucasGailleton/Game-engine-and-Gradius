@@ -145,7 +145,7 @@ public class Model {
 	                entity.translate(moveVec);
 	                
 	                for (Entity e : boxCollisions) {
-	                    if (e == entity) continue;
+	                    if (e == entity || e instanceof MissilePlayer || e instanceof LaserShot) continue;
 	                    if (entity.bounding().intersects(e.bounding())) {
 	                        entity.trueCollisions.add(e);
 	                    }
