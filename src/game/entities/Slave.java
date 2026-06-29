@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import engine.Entity;
-import engine.Game;
 import engine.ISU;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -36,9 +35,7 @@ public class Slave extends Entity {
 	}
 	
 	@Override
-	public void tick(double elapsed, boolean shift) {
-		
-	}
+	public void tick(double elapsed, boolean shift) {}
 	
 	private class SlaveAvatar extends Avatar {
 

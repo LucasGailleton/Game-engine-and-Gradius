@@ -5,7 +5,6 @@ import java.util.List;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -69,7 +68,6 @@ public class MissilePlayer extends Entity {
 			
 			touche = true;
 			System.out.println("Le missile a percuté : " + e.name);
-	        
 	       
 	        e.collision(this);
 		 }
@@ -93,7 +91,6 @@ public class MissilePlayer extends Entity {
             this.sprites = new BufferedImage[1][1];
             
             this.sprites[0][0] = imgSprites.getSubimage(357, 800, 8, 3);
-			
 		}
 
 		@Override
@@ -106,11 +103,6 @@ public class MissilePlayer extends Entity {
             int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
 
             g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-			
 		}
-		
 	}
-	
-	
-
 }

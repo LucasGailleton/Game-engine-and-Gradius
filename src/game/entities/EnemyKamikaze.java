@@ -23,8 +23,6 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
     public static final int spriteDown = 2;
     
     private int hp = 1;
-    private boolean isAlive;
-	private boolean hit = false;    
    
 	public EnemyKamikaze(String name) {
 		super(name);
@@ -32,14 +30,11 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		this.setSize(this.isu.new Dimension(14*Main.windowScale, 14*Main.windowScale));
 		this.avatar = new KamikazeAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
-		this.isAlive=true;	
 		this.setorient(180);
 	}
 	
 	@Override
-	public void tick(double elapsed, boolean shift) {
-		
-	}
+	public void tick(double elapsed, boolean shift) {}
 	
 	@Override
 	public void setBounding() {
@@ -84,21 +79,17 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		}, 1000);
 	}
 	
-	
-	
 	private class KamikazeAvatar extends Avatar {
 		
 		private List<BufferedImage> death;
 		private static final int spriteSizeX = 18; 
         private static final int spriteSizeY = 18;
         
-	        private int index;
-	        private int indChg;
-	        
-	        private int deathIndex = 0;
-	        private boolean exploding = false;
-			private boolean visible = true;
-
+        private int index;
+        private int indChg;
+        private int deathIndex = 0;
+        private boolean exploding = false;
+		private boolean visible = true;
 
 		public KamikazeAvatar(Entity e) {
 			super(e);
@@ -135,15 +126,12 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 			BufferedImage imgSprites = g.load("sprites/all_Sprites.png");
 		    this.sprites = new BufferedImage[1][6];
 		    
-		   
 		    sprites[0][0] = imgSprites.getSubimage(262, 194, 18, 18);
 		    sprites[0][1] = imgSprites.getSubimage(282, 197, 18, 16);
 		    sprites[0][2] = imgSprites.getSubimage(323, 197, 18, 16);
 		    sprites[0][3] = imgSprites.getSubimage(303, 194, 18, 18);
 		    sprites[0][4] = imgSprites.getSubimage(282, 197, 18, 16);
 		    sprites[0][5] = imgSprites.getSubimage(323, 197, 18, 16);
-		    
-		    
 		    
 		    this.death.clear();
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
@@ -152,39 +140,32 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
 		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
-	        }
+		}
 
-
-			@Override
-			public void paint(Graphics g, int shiftPX) {
-				
-				if(this.sprites == null)
-					this.getSprites(g);
-	           
-	            ISU.Coord center = EnemyKamikaze.this.center();
-	            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
-	            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
-	            
-	            if (this.exploding) {
-	            	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (16 * Main.windowScale),(int) (16 * Main.windowScale));
-	            }else if(this.visible) {
-	            	g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-	            }
-	            
-	            if (indChg == 0)
-	 		    	index++;
-	 		    if (index > 5)
-	 		    	index = 0;
-	 		    indChg++;
-	 		    if (indChg % 40 == 0) {
-	 		    	indChg = 0;
-	 		    }
-				
-			}	
-	    }
-
-
-	
-
-
+		@Override
+		public void paint(Graphics g, int shiftPX) {
+			
+			if(this.sprites == null)
+				this.getSprites(g);
+           
+            ISU.Coord center = EnemyKamikaze.this.center();
+            int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
+            int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
+            
+            if (this.exploding) {
+            	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (16 * Main.windowScale),(int) (16 * Main.windowScale));
+            }else if(this.visible) {
+            	g.drawImage(sprites[0][index], posX + shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
+            }
+            
+            if (indChg == 0)
+ 		    	index++;
+ 		    if (index > 5)
+ 		    	index = 0;
+ 		    indChg++;
+ 		    if (indChg % 40 == 0) {
+ 		    	indChg = 0;
+ 		    }
+		}	
+	}
 }

@@ -8,9 +8,6 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.GAL.GALBot;
-import engine.Grid.Position;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -18,8 +15,6 @@ import game.MapBuilder;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
-import oop.tasks.Runtime;
-import oop.tasks.Task;
 
 //Ennemi qui crée des nouveaux ennemis (assez gros, ne se déplace pas, fixé au sol ou au plafond)
 //Nommé pour sa fameuse méthode egg() 
@@ -29,9 +24,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	public static final int Top = 0;
     public static final int Down = 1;
     
-    private boolean hit = false;
 	protected int hp = 3;
-	private boolean isAlive;
 	private int gravite;
 	
 	public EnemyChicken(View view, String name, int gravite) {
@@ -39,17 +32,13 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		this.view = view;
 		this.setSize(this.isu.new Dimension(36.0*Main.windowScale,28*Main.windowScale));
 		this.avatar = new ChickenAvatar(this);
-		this.isAlive=true;
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
 		this.gravite = gravite;
 	}
 	
 	@Override
-	public void tick(double elapsed, boolean shift) {
-		
-		
-	}
+	public void tick(double elapsed, boolean shift) {}
 	
 	@Override
 	public void setBounding() {
@@ -73,16 +62,14 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		return this.view;
 	}
 
-	public void shoot() {
-		//il tire pas lui il fait spawn des EnemyWalking
-	}
+	public void shoot() {} //il tire pas lui il fait spawn des EnemyWalking
 	
 	//Spawn des Enemy Kamikaze  
     public void egg() {
         EnemyKamikaze kamegg = new EnemyKamikaze("KamikazeFromEgg");
         if (gravite == 0) {
             kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm+50));
-        }else {
+        } else {
             kamegg.setCoord(isu.new Coord(this.center().x_cm,this.center().y_cm-50));
         }
         
@@ -103,7 +90,6 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 		System.out.println("HP of chicken : " + hp);
 		
 		if (hp <= 0) {
-			isAlive =false;
 			this.die();
 		}
 	}
@@ -118,7 +104,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
         
         this.spawnPowerUpWithProba();
         
-	Main.task.post(() -> {
+        Main.task.post(() -> {
         	this.retract();
             model.getView().remove(avatar);
 		}, 1000);
@@ -196,7 +182,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
             
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX+shiftPX, posY,(int) (32 * Main.windowScale),(int) (32 * Main.windowScale));
-            }else if (this.visible){
+            } else if (this.visible){
             	g.drawImage(sprites[gravite][spriteNeutral], posX+shiftPX, posY,
                 		(int) (36*Main.windowScale), 
                 		(int) (28*Main.windowScale));
@@ -208,12 +194,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
  		    indChg++;
  		    if (indChg % 40 == 0) {
  		    	indChg = 0;
- 		    }
-			
+ 		    }	
 		}
-		
 	}
-
-	
-
 }

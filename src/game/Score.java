@@ -44,7 +44,7 @@ public class Score {
     }
 
     public void subtractHit() {
-        this.value = HIT_PENALTY;
+        this.value += HIT_PENALTY;
         this.checkValue();
     }
 

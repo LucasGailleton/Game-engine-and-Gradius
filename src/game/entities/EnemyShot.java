@@ -39,6 +39,9 @@ public class EnemyShot extends Entity {
 			}
 		}, 16);
 	}
+	
+	@Override
+	public void tick(double elapsed, boolean shift) {}
 
 	private class EnemyShotAvatar extends Avatar {
 
@@ -59,11 +62,5 @@ public class EnemyShot extends Entity {
 			g.setColor(Colors.red);
 			g.fillOval(posX, posY, s, s);
 		}
-	}
-
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
 	}
 }

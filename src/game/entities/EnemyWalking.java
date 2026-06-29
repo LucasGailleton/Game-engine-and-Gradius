@@ -5,23 +5,17 @@ import java.util.List;
 
 import engine.Entity;
 import engine.ISU;
-import engine.Grid.Dimension;
-import engine.ISU.Coord;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
-import oop.tasks.Runtime;
-import oop.tasks.Task;
 
 //Entité qui spawn de base ET avec EnemyChicken
 //Ne se déplace pas 
 public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 	private int hp = 1;
-    private boolean isAlive;
-	private boolean hit = false;
 	private int gravite; //entre 0 et 1;
 
 	public EnemyWalking(View view,String name, int gravite) {
@@ -30,30 +24,18 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		this.avatar =new WalkingAvatar(this);
 		this.setCategory(engine.GAL.Category.Adversary);
 		this.view=view;
-		this.isAlive=true;
 		this.gravite = gravite;
 		this.setorient(180);
 	}
 	
-	
-	
 	@Override
-	public void tryToShoot() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void tryToShoot() {}
 
 	@Override
-	public void shoot() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void shoot() {}
 
 	@Override
-	public void tick(double elapsed, boolean shift) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void tick(double elapsed, boolean shift) {}
 	
 	@Override
 	public void setBounding() {
@@ -80,7 +62,6 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
 		if (hp <= 0) {
 			this.die();
 		}
-		
 	}
 	
 	@Override
@@ -178,7 +159,6 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
             this.death.clear();
             this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
 		    this.death.add(imgSprites.getSubimage(209, 796, 8, 16));
-			
 		}
 
 
@@ -212,7 +192,6 @@ public class EnemyWalking extends Entity implements Enemy, Shooter, Damageable {
      		    	indChg = 0;
      		    }
             }
-			
 		}	
 	}
 }
