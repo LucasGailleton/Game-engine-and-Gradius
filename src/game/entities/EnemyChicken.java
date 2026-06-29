@@ -23,7 +23,7 @@ public class EnemyChicken extends Entity implements Enemy, Damageable{
 	public static final int Top = 0;
     public static final int Down = 1;
     
-	protected int hp = 3;
+	protected int hp = 5;
 	private int gravite;
 	
 	public EnemyChicken(View view, String name, int gravite) {
