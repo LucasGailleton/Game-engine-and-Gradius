@@ -4,9 +4,6 @@ package engine;
 import java.io.PrintStream;
 import java.util.List;
 
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
-
 public class Grid {
 
 	// FIELDS
@@ -214,15 +211,10 @@ public class Grid {
 			return game.isu.new Coord(x_cm, y_cm);
 		}
 
-//		Picture.Pixel toPicturePixel() {
-//			return null;
-//		}
-
 		// SHOW
 		public void show(PrintStream ps) {
 			ps.printf("Pos_ncell(%d,%d)\n", this.x, this.y);
 		}
-
 	}
 
 	// === CELL ===
@@ -267,7 +259,6 @@ public class Grid {
 				ps.printf("Cell at (%d,%d) containing %d entities\n", this.position.x, this.position.y, this.entities.size());
 			else
 				ps.printf("Cell at (%d,%d) containing 0 entities\n", this.position.x, this.position.y);
-		}	
-
+		}
 	}
 }

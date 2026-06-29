@@ -16,10 +16,8 @@ import game.MapBuilder;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
-import oop.tasks.Task;
 import oop.utils.SoundPlayer;
 import oop.tasks.Runnable;
-import oop.tasks.Runtime;
 
 public class Ship extends Entity {
 
@@ -33,7 +31,6 @@ public class Ship extends Entity {
 	public static boolean win = false;
 	private static boolean hit = false;
 	private static int hp = 3;
-	private Task task;
 
 	private View view;
 
@@ -49,7 +46,6 @@ public class Ship extends Entity {
 		super("Ship");
 		this.setSize(game.isu.new Dimension(16.0 * Main.windowScale, 12.0 * Main.windowScale));
 		this.avatar = new ShipAvatar();
-		this.task = Runtime.task();
 		this.view = view;
 		this.powerUp = 0;
 		this.setCategory(engine.GAL.Category.Joueur);
@@ -159,7 +155,7 @@ public class Ship extends Entity {
 			setlSpeed(0, 0);
 			View.viewSpeed = 0;
 			((ShipAvatar) avatar).explode();
-			task.post(() -> {
+			Main.task.post(() -> {
 				this.die();
 			}, 200);
 			return;
@@ -174,7 +170,7 @@ public class Ship extends Entity {
 			sa.clignoter();
 
 		// 1.5 secondes d'invicibilité
-		task.post(() -> {
+		Main.task.post(() -> {
 			hit = false;
 		}, 1500);
 	}
@@ -291,7 +287,7 @@ public class Ship extends Entity {
 			this.visible = !this.visible;
 			this.clignote = true;
 
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					clignoter();
@@ -319,10 +315,10 @@ public class Ship extends Entity {
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
-
 				return;
 			}
-			task.post(new Runnable() {
+			
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;

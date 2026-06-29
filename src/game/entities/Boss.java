@@ -8,20 +8,15 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.Grid.Position;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
-import engine.ISU.Vector;
 import engine.GAL.GALBot;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
+import game.MapBuilder;
 import game.Model;
-import game.entities.Ship.ShipAvatar;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
-import oop.tasks.Runtime;
-import oop.tasks.Task;
 import engine.BasicStunt;
 
 public class Boss extends Entity implements Enemy, Shooter, Damageable {
@@ -33,14 +28,10 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 	private Entity target;
 	private BossGunBottom bgb;
 	private BossGunTop bgt;
-	
 	private boolean isAlive;
 	private boolean hit = false;
 	protected int hp = 50;
 	private int HP_MAX;
-	
-	private Task task;
-	
 
 	// CONSTRUCTOR
 	public Boss(View view) {
@@ -48,7 +39,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		this.setSize(this.isu.new Dimension(29.0*Main.windowScale,32.0*Main.windowScale));
 		this.avatar = new BossAvatar(this);
 		this.isAlive=true;
-		this.task = Runtime.task();
 
 		setStunt(new BasicStunt(model, this));
 		this.setCategory(engine.GAL.Category.Boss);
@@ -152,7 +142,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		//Midlife
 		if (hp <= HP_MAX/2) {
 			GALBot gb=(GALBot)(this.bot());
-			gb.set(Main.mb.boss_aut2);
+			gb.set(MapBuilder.boss_aut2);
 		}
 		//Dead
 		if (hp <= 0) {
@@ -162,7 +152,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 //			this.mort.play(1);
 //			Main.GAMEOVER = true;
 			((BossAvatar)this.avatar).exploser();
-			task.post(() -> {
+			Main.task.post(() -> {
 				this.die();
 				Ship.win = true;
 			}, 2000);
@@ -170,7 +160,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 		}
 		
 		this.hit = true;
-		task.post(() -> {
+		Main.task.post(() -> {
 			this.hit = false;
 		}, 100);
 
@@ -208,10 +198,9 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
-		
 				return;
 			}
-			task.post(new Runnable() {
+			Main.task.post(new Runnable() {
 				@Override
 				public void run() throws Exception {
 					deathIndex++;
@@ -254,17 +243,11 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
             int posY = this.toPixel(center.y_cm) - ((int)(spriteSizeY*Main.windowScale)/ 2);
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
-            }else if(hp < 5 && hp >= 0) {
-            	g.drawImage(sprites[1][index], posX+shiftPX, posY,
-                 		(int) (spriteSizeX*Main.windowScale), 
-                 		(int) (spriteSizeY*Main.windowScale));
+            } else if(hp < 5 && hp >= 0) {
+            	g.drawImage(sprites[1][index], posX+shiftPX, posY, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
+            } else if (this.visible){
+            	 g.drawImage(sprites[0][index], posX+shiftPX, posY, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
             }
-            else if (this.visible){
-            	 g.drawImage(sprites[0][index], posX+shiftPX, posY,
-                 		(int) (spriteSizeX*Main.windowScale), 
-                 		(int) (spriteSizeY*Main.windowScale));
-            }
-           
             
             if (indChg == 0)
  		    	index++;
@@ -274,9 +257,6 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
  		    if (indChg % 40 == 0) {
  		    	indChg = 0;
  		    }
-			
 		}
-		
 	}
-
 }

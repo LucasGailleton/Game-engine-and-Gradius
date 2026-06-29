@@ -3,8 +3,6 @@ package engine;
 import java.util.List;
 
 import engine.Grid.Cell;
-import engine.ISU.Coord;
-import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Borders;
@@ -60,7 +58,6 @@ public class LaserStunt extends Stunt {
 	    if (this.ship.canShoot()) {
 
 	        ISU.Coord center = this.ship.center();
-
 	        LaserShot laser = new LaserShot(this.ship.view(), "laser");
 
 	        laser.setCoord(Game.game().isu.new Coord(center.x_cm + 50, center.y_cm)); //AJouster ici si collision Ship
@@ -81,20 +78,11 @@ public class LaserStunt extends Stunt {
 	}
 
 	@Override
-	public void set(int orientation) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void set(int orientation) {}
 
 	@Override
-	public void set(Cell c) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void set(Cell c) {}
 
 	@Override
-	public void set(double x, double y) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void set(double x, double y) {}
 }

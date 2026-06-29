@@ -2,13 +2,10 @@ package engine;
 
 import java.util.List;
 
-import engine.Grid.Cell;
-import engine.ISU.Vector;
 import game.Main;
 import game.Model;
 import game.entities.Ship;
 import game.entities.Borders;
-import game.entities.Boss;
 import game.entities.EnemyKamikaze;
 import game.entities.LaserShot;
 import game.entities.MissilePlayer;
@@ -78,6 +75,4 @@ public class ShipStunt extends Stunt {
 			this.ship.resetCooldown();
 		}
 	}
-	
-
 }
