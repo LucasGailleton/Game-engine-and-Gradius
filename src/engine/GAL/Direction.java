@@ -103,7 +103,7 @@ public class Direction {
 	}
 
 	// CONVERSION
-
+   //Utilisable uniquement par les directions absolues
 	int toAngle() {
 		if (!isAbsolute()) {
 			throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
@@ -123,6 +123,7 @@ public class Direction {
 		throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
 	}
 	
+	//transforme un angle en direction absolue
 	static public Direction toDir(int i) {
 		int j = ((i % 360) + 360) % 360;
 		if ((j <= 135 && j>45 )) {
@@ -140,6 +141,7 @@ public class Direction {
 		return null;
 	}
 	
+	//transforme une direction relative en direction absolue
 	static public Direction to_abs(Direction dir,Entity e) {
 		if(dir==Direction.F) {
 			return Direction.toDir(e.orientation());

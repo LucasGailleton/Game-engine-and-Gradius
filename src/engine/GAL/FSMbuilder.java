@@ -425,20 +425,20 @@ public class FSMbuilder implements iVisitor{
 			String op=bo.operator;
 			if(op.equals("&")) {
 				engine.GAL.Conjunction con=new engine.GAL.Conjunction();   //Conjunction
-				con.add(transformcond(bo.right_operand));
+				con.add(transformcond(bo.left_operand));
 				con.add(transformcond(bo.right_operand));
 				return con;
 			}
 			if(op.equals("|")) {
 				engine.GAL.Disjunction dis=new engine.GAL.Disjunction();       //Disjunction
-				dis.add(transformcond(bo.right_operand));
+				dis.add(transformcond(bo.left_operand));
 				dis.add(transformcond(bo.right_operand));
 				return dis;
 			}
 		}
 		
-		if(f instanceof UnaryOp uo) {
-																		//non implémenté
+		if(f instanceof UnaryOp uo) { //supporte uniquement "!"
+			return new Inverse(transformcond(uo.operand));  
 		}
 		else {                                                       //appelle de fonctions
 			FunCall ff=(FunCall)f;
@@ -446,7 +446,9 @@ public class FSMbuilder implements iVisitor{
 	        String actionName = ff.name;
 			switch(paramSize) {
 			case 0:
-				return engine.GAL.GALCondition.TRUE;
+				if(actionName.equals("True")) {
+					return engine.GAL.GALCondition.TRUE; 
+				}
 			case 1:
 				Object param = ff.parameters.get(0);
 	    		if(param instanceof Category c) {

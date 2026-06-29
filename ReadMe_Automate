@@ -5,7 +5,7 @@ Les Automates doivent etre écrits dans PARSER/JavaProject/src/gal/gradius/gradi
 
 ## 1. Les Actions (Après le caractère `?`)
 
-Les actions sont lues par la méthode `transformfuncall`. Ton implémentation impose une restriction majeure : **une seule action est gérée par transition** (`executionActions.get(0)`).
+Les actions sont lues par la méthode `transformfuncall`. **Une seule action est gérée par transition**.
 
 ### Actions à 0 paramètre
 * **`Hit`** : Déclenche un tir standard sans argument.
@@ -21,7 +21,7 @@ Selon le type de l'argument fourni entre parenthèses, le comportement s'adapte 
     * `Move(90%)` : Déplacement selon un angle. $\rightarrow$ `Move(value)`
     * `Turn(180%)` : Rotation d'un angle précis. $\rightarrow$ `Turn(value)`
 * **Avec un pourcentage (`IntPercent`)** :
-    * `Move(50%)` : Déplacement d'un pourcentage de vitesse ou de distance. $\rightarrow$ `Move(value)`
+    * `Move(50%)` : Déplacement d'un pourcentage de vitesse . $\rightarrow$ `Move(value)`
 * **Avec une direction absolue/relative (`Direction`)** :
     * `Hit(N)`, `Hit(F)` : Tire dans une direction. $\rightarrow$ `Shoot(dir)`
     * `Move(S)`, `Move(L)` : Se déplace dans une direction. $\rightarrow$ `Move(dir)`
@@ -31,23 +31,23 @@ Selon le type de l'argument fourni entre parenthèses, le comportement s'adapte 
 
 ### Actions à 2 paramètres
 Gérées exclusivement pour la commande de mouvement **`Move`** :
-* `Move(Direction, Variable)` $\rightarrow$ Se déplace vers la variable dans une direction spécifique.
-* `Move(Direction, IntPercent)` $\rightarrow$ Se déplace dans une direction avec un pourcentage de force.
-* `Move(Direction, IntValue)` $\rightarrow$ Se déplace dans une direction d'un nombre de cases fixe.
-* `Move(IntDegree, IntPercent)` $\rightarrow$ Se déplace selon un angle et un pourcentage.
-* `Move(IntDegree, IntValue)` $\rightarrow$ Se déplace selon un angle et un nombre de cases fixe.
-* `Move(IntPercent, IntValue)` $\rightarrow$ Combinaison pourcentage / valeur fixe.
+* `Move(Direction, Variable)` $\rightarrow$ Se déplace par rapport à la variable (direction relative) dans une direction spécifique.
+* `Move(Direction, IntPercent)` $\rightarrow$ Se déplace dans une direction avec un pourcentage de vitesse.
+* `Move(Direction, IntValue)` $\rightarrow$ Se déplace selon une direction et une distance.
+* `Move(IntDegree, IntPercent)` $\rightarrow$ Se déplace selon un angle et une vitesse.
+* `Move(IntDegree, IntValue)` $\rightarrow$ Se déplace selon un angle et une distance.
+* `Move(IntPercent, IntValue)` $\rightarrow$ se déplace tout droit à une vitesse(IntPercent) sur une distance(IntValue).
 
 ### Actions à 3 paramètres
 Gérées exclusivement pour la commande **`Move`** :
-* `Move(Direction, Variable, IntPercent)`
-* `Move(Direction, Variable, IntValue)`
-* `Move(Direction, IntPercent, IntValue)`
-* `Move(IntDegree, IntPercent, IntValue)`
+* `Move(Direction, Variable, IntPercent)` $\rightarrow$ Se déplace par rapport à la variable (direction relative) dans une direction spécifique à la vitesse donnée.
+* `Move(Direction, Variable, IntValue)`$\rightarrow$ Se déplace par rapport à la variable (direction relative) dans une direction spécifique sur la distance donnée.
+* `Move(Direction, IntPercent, IntValue)`$\rightarrow$ Se déplace selon une direction,une vitesse et une distance.
+* `Move(IntDegree, IntPercent, IntValue)`$\rightarrow$ Se déplace selon un angle,une vitesse et une distance.
 
 ### Actions à 4 paramètres
 Cas maximal pour la commande **`Move`** :
-* `Move(Direction, Variable, IntPercent, IntValue)`
+* `Move(Direction, Variable, IntPercent, IntValue)`Se déplace par rapport à la variable (direction relative) dans une direction spécifique à la vitesse donnée sur la distance donnée.
 
 ---
 
@@ -56,11 +56,12 @@ Cas maximal pour la commande **`Move`** :
 Les conditions décident du franchissement de la transition. Elles supportent les opérateurs logiques.
 
 ### Opérateurs Logiques (Compositions)
-* **`&` (ET)** : lie deux conditions. *Attention : ton code comporte un bug de copier-coller ici (`bo.right_operand` est lu deux fois au lieu de `left` et `right`), mais syntaxiquement c'est l'opérateur autorisé.*
-* **`|` (OU)** : lie deux expressions.
+* **`&` (AND)** 
+* **`|` (OR)** 
+* **`!` (NOT)**  
 
 ### Conditions de base (0 paramètre)
-* **`True`** ou une fonction vide : Transition automatique toujours valide. $\rightarrow$ Renvoie `GALCondition.TRUE`.
+* **`True`** : Transition automatique toujours valide. $\rightarrow$ Renvoie `GALCondition.TRUE`.
 
 ### Recherche de l'entité la plus proche : `Closest`
 La fonction `Closest` est extrêmement modulable et s'adapte au nombre de paramètres fournis :
@@ -78,11 +79,36 @@ La fonction `Closest` est extrêmement modulable et s'adapte au nombre de param�
     * `Closest(Direction, IntValue, Category)` : Cherche dans une direction, à une distance max (`IntValue`), une catégorie spécifique. (ex: `Closest(F, 3, O)`).
 
 ### Vérification à une distance fixe : `Step`
-La fonction `Step` (qui instancie un objet `AtStep` dans ton moteur) permet d'analyser une case précise de la grille :
+La fonction `Step` permet d'analyser une case précise de la grille :
 
 * **À 2 paramètres :**
     * `Step(Direction, Category)` : Vérifie si la catégorie est présente à exactement 1 case dans cette direction (ex: `Step(F, O)`).
 * **À 3 paramètres :**
     * `Step(Direction, IntValue, Category)` : Vérifie si la catégorie est présente à exactement `X` cases de distance dans cette direction (ex: `Step(L, 2, A)`).
+## 3. Synthèse des Catégories et Symboles Reconnus
 
+### Les Catégories (Argument `Category`)
+
+| Symbole dans le fichier `.gal` | Correspondance dans le jeu (`engine.GAL.Category`) |
+| :---: | :--- |
+| **`@`** | `Joueur` |
+| **`#`** | `Boss` |
+| **`M`** | `Missile` |
+| **`O`** | `Obstacle` |
+| **`A`** | `Adversary` |
+
+### Les Directions (Argument `Direction`)
+
+
+| Token `.gal` | Type de direction | Signification |
+| :---: | :--- | :--- |
+| **`N`** | Absolue | North (Haut / Nord) |
+| **`S`** | Absolue | South (Bas / Sud) |
+| **`E`** | Absolue | East (Droite / Est) |
+| **`W`** | Absolue | West (Gauche / Ouest) |
+| **`F`** | Relative | Forward (Droit devant l'entité) |
+| **`B`** | Relative | Backward (Derrière l'entité / En arrière) |
+| **`L`** | Relative | Left (À gauche de l'entité) |
+| **`R`** | Relative | Right (À droite de l'entité) |
+| **`H`** | Relative | Here (sur la case de l'entité (utilisable uniquement par STEP)) |
 ---
