@@ -3,9 +3,6 @@ package engine;
 
 import java.io.PrintStream;
 
-import engine.Grid.Dimension;
-import engine.Grid.Position;
-
 public class ISU {
 
 	// FIELDS

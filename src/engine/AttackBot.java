@@ -31,21 +31,11 @@ public class AttackBot extends Bot{
 	}
 
 	@Override
-	public void done() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void done() {}
 
 	@Override
-	public void collision(Entity e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void collision(Entity e) {}
 
 	@Override
-	public void collision(List<Entity> e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void collision(List<Entity> e) {}
 }

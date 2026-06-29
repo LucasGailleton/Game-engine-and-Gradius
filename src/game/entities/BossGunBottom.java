@@ -15,8 +15,6 @@ import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
 
-
-
 //Classe Pour l'entité slave BOTTOM du BOSS
 //Tire des missiles spéciaux (Voir MissileSpecial)
 public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
@@ -28,7 +26,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 	
 	private Boss master;
 	
-	private boolean isDead =false;
+	private boolean isDead = false;
 	private Entity target; //Nécessaire pour savoir qui attirer pour les missiles
 	private boolean hit;
 
@@ -68,12 +66,10 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		if (!master.isAlive()) { //Si le boss meurt, disparait
 			die();
 		}
-		
 		if (this.shootCooldown > 0) { 
 			this.shootCooldown -= seconds;
 			tryToShoot();
 		}
-		
 	}
 	
 	//Respecte le délai entre les tirs
@@ -83,7 +79,6 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			this.shoot();
 			this.shootCooldown = SHOOT_DELAY;
 		}
-		
 	}
 	
 	//Tir des missiles spéciaux
@@ -133,7 +128,6 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			this.death = new ArrayList<>();
 			this.index = 0;
 			this.indChg = 0;
-			
 		}
 		
 		public void exploser() {
@@ -147,7 +141,6 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
-		
 				return;
 			}
 			Main.task.post(new Runnable() {

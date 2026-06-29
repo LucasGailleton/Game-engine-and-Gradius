@@ -2,8 +2,6 @@ package game.entities;
 
 import engine.Entity;
 import engine.Game;
-import engine.ISU;
-import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Canvas;
 import oop.graphics.Graphics;
@@ -20,6 +18,12 @@ public class Background extends Entity {
 	public BackgroundAvatar avatar() {
 		return this.self;
 	}
+	
+	@Override
+	public void setBounding() {}
+
+	@Override
+	public void tick(double elapsed, boolean shift) {}
 	
 	public class BackgroundAvatar extends Avatar {
 		
@@ -52,7 +56,6 @@ public class Background extends Entity {
 			}
 
 			int taille_map = (int) (Game.game().width_ncell * Game.cmPerCell * Game.pixelPerCm);
-			
 			int delta = shiftPX - lastShiftPX;
 			
 			if (delta > 0) {
@@ -70,16 +73,5 @@ public class Background extends Entity {
 			g.drawImage(this.sprites[0][0], x, 0, w, h);
 			g.drawImage(this.sprites[0][0], x + w, 0, w, h);
 		}
-	}
-
-	@Override
-	public void setBounding() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void tick(double elapsed, boolean shift) {
-		
-		
 	}
 }

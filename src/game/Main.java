@@ -69,6 +69,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
+		@SuppressWarnings("unused")
 		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
 		task = Runtime.task();
 		this.canvas = (Canvas) task.find("canvas");
@@ -114,7 +115,6 @@ public class Main implements Runnable {
 		view.add(bg.new BackgroundAvatar());
 		
 		mb = new MapBuilder(model, view);
-		mb.placeObjects();		
 
 		Ship ship = new Ship(view);
 		model.setPlayer(ship);

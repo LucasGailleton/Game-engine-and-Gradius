@@ -5,7 +5,6 @@ import java.util.List;
 
 import engine.EnemyStunt;
 import engine.Entity;
-import engine.Game;
 import engine.ISU;
 import engine.GAL.GALBot;
 import engine.shapes.Rect;

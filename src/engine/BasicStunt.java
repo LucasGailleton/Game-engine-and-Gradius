@@ -2,17 +2,12 @@ package engine;
 
 import java.util.List;
 
-import engine.Grid.Cell;
-import engine.ISU.Coord;
 import game.Main;
 import game.Model;
-import game.entities.Avatar;
 import game.entities.Damageable;
-import game.entities.EnemyChicken;
 import game.entities.LaserShot;
 import game.entities.MissileEnemy;
 import game.entities.MissilePlayer;
-import game.entities.PowerUp;
 
 public class BasicStunt extends Stunt {
 	
@@ -24,12 +19,9 @@ public class BasicStunt extends Stunt {
 
 	@Override
 	public void collision(Entity e) {
-		
 		if (e instanceof MissilePlayer || e instanceof LaserShot) {
-            
-			
             if (this.entity instanceof Damageable) {
-            	System.out.println("collision détéctéTTTTTTTTTTTTTTTTTTTTT");
+            	System.out.println("collision détéctée");
                 ((Damageable) this.entity).gotHit();
             }
             if (!(e instanceof LaserShot)) {
@@ -63,7 +55,6 @@ public class BasicStunt extends Stunt {
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
         viser(msp,target.center(),1000);
         Main.mb.placeEntity(msp);
-
 	}
 	
 	public void viser(Entity projectile, ISU.Coord cible, double vitesse) {
@@ -76,9 +67,5 @@ public class BasicStunt extends Stunt {
 	}
 	
 	@Override
-	public void shootOnce() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void shootOnce() {}
 }

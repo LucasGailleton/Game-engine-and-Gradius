@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
-import engine.Game;
 import engine.ISU;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
 import oop.tasks.Runnable;
-import oop.tasks.Task;
-import oop.tasks.Runtime;
 
 public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 	
@@ -109,7 +104,6 @@ public class EnemyKamikaze extends Entity implements Enemy, Damageable{
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
-		
 				return;
 			}
 			Main.task.post(new Runnable() {

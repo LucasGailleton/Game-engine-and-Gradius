@@ -38,8 +38,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 		setStunt(new BasicStunt(model, this));
 		this.target=target;
 		this.setCategory(engine.GAL.Category.Adversary);
-		this.view=view;
-		
+		this.view=view;		
 	}
 	
     @Override
@@ -91,7 +90,6 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 		mss.setlSpeed(-missileSpeed * 2, 0);
 		this.model.add(mss);
 		vew.add(mss.getAvatar());
-		
 	}
 	
 	@Override
@@ -103,14 +101,11 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 			model.score.addSubBossKill();
 			isDead= true;
 			((BossGunTopAvatar)this.avatar).exploser();
-			
 		}
 		this.hit = true;
 		Main.task.post(() -> {
 			this.hit = false;
 		}, 100);
-
-		
 	}
 	
 	private class BossGunTopAvatar extends Avatar{
@@ -120,7 +115,6 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 		private boolean exploding = false;
 		private boolean visible = true;
 		private int deathIndex = 0;
-		
 		
 		private static final int spriteSizeX = 26; 
 		private static final int spriteSizeY = 15;
@@ -143,7 +137,6 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
 			if (this.deathIndex >= this.death.size()) {
 				this.exploding = false;
 				this.visible = false;
-		
 				return;
 			}
 			Main.task.post(new Runnable() {
@@ -165,7 +158,6 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
             
             this.death.add(imgSprites.getSubimage(244, 125, 26, 15));
             this.death.add(imgSprites.getSubimage(245, 144, 26, 15));
-			
 		}
 
 		@Override
@@ -188,14 +180,7 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
  		    indChg++;
  		    if (indChg % 10 == 0) {
  		    	indChg = 0;
- 		    }
-			
-		}
-		
+ 		    }	
+		}	
 	}
-
-	
-
-	
-
 }

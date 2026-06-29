@@ -2,10 +2,7 @@ package game.entities;
 
 import engine.Entity;
 import engine.Game;
-import engine.ISU;
-import engine.ISU.Coord;
 import oop.graphics.BufferedImage;
-import oop.graphics.Canvas;
 import oop.graphics.Graphics;
 
 public abstract class Avatar {
@@ -19,7 +16,6 @@ public abstract class Avatar {
 	public static final int South = 6;
 	public static final int SouthEast = 7;
 	
-
 	protected Entity e;
 	protected BufferedImage[][] sprites;
 	protected int direction;
