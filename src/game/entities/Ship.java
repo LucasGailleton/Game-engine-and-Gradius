@@ -227,6 +227,7 @@ public class Ship extends Entity {
 			m.setCoord(this.isu.new Coord(oc.x_cm + 20, oc.y_cm));
 			m.setlSpeed(missileSpeed, 0);
 			Main.mb.placeEntity(m);
+			Slave.piouNightcore.play(1);
 		}
 	}
 
