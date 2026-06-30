@@ -109,13 +109,13 @@ public class Direction {
 			throw new IllegalStateException("Cannot convert relative direction '" + name + "' to an absolute angle.");
 		}
 		if (this == N) {
-			return 90;
+			return 270;
 		}
 		if (this == E) {
 			return 0;
 		}
 		if (this == S) {
-			return 270;
+			return 90;
 		}
 		if (this == W) {
 			return 180;
