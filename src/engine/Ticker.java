@@ -2,7 +2,6 @@ package engine;
 
 import game.Model;
 import oop.tasks.Task;
-import oop.tasks.Runtime;
 import oop.tasks.Runnable;
 
 public class Ticker implements Runnable {
@@ -13,7 +12,6 @@ public class Ticker implements Runnable {
 	private boolean stopped = false;
 
 	public Ticker(Model model, Task task, int ms) {
-		long time = System.currentTimeMillis();
 		this.model = model;
 		this.task = task;
 		this.ms = ms;

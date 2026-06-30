@@ -1,39 +1,24 @@
 package game;
 
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import debugmode.ProfilingManager;
 import debugmode.VectAvatar;
 import engine.ShipStunt;
-import engine.BasicStunt;
-import engine.EnemyStunt;
 import engine.Entity;
 import engine.Game;
-import engine.ISU.Coord;
-import engine.ShipStunt;
 import engine.Ticker;
 import engine.GAL.Automaton;
 import engine.GAL.AutomatonLoader;
-import engine.GAL.GALBot;
-import engine.GAL.GALStunt;
-import engine.GAL.Mode;
-
 import engine.view.Controller;
-import engine.view.KeyListener;
-import engine.view.PaintListener;
 import engine.view.View;
 import game.entities.Background;
-
 import game.entities.Ship;
 import oop.graphics.Canvas;
 import oop.tasks.Runnable;
 import oop.tasks.Runtime;
 import oop.tasks.Task;
-import engine.ISU.*;
-
 
 public class Main implements Runnable {
 	
@@ -46,14 +31,13 @@ public class Main implements Runnable {
 	public static final int headerSize = 61;
 	public static boolean debug = true;
 	public static boolean GAMEOVER = false;
-	public static final int powerUpSpawnChance = 8;	// 8% de chance d'avoir un powerUp lorsque l'on touche un ennemi
+	public static final int powerUpSpawnChance = 15;	// 15% de chance d'avoir un powerUp lorsque l'on touche un ennemi
 	public static final int maxPowerUps = 4;
 	public static int spawnedPowerUp = 0;
 	public static int powerUpSpawnCooldown = 1000;	// Un powerUp toutes les 10 secondes au mieux
 	public static final int powerUpSpawnCooldownOrig = powerUpSpawnCooldown;
 	
 	private Canvas canvas;
-	private List<Entity> entities;
 	private Ticker ticker;
 	private Model model;
 	private View view;
@@ -85,6 +69,7 @@ public class Main implements Runnable {
 
 	@Override
 	public void run() throws Exception {
+		@SuppressWarnings("unused")
 		Game game = new Game((int) (500 * windowScale), (int) (35 * windowScale));
 		task = Runtime.task();
 		this.canvas = (Canvas) task.find("canvas");
@@ -105,11 +90,9 @@ public class Main implements Runnable {
 	public void startGame() {
 		AutomatonLoader al=new AutomatonLoader(3);
 		try {
-//		    //auts=al.loadAutomata("PARSER/JavaProject/src/gal/demo/test/a2026.gal");
-			//auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/chickentest");
 			auts = al.loadAutomata("PARSER/JavaProject/src/gal/gradius/gradius_auts");
 		} catch (Exception e) {
-		    e.printStackTrace(); // Regardez votre console !
+		    e.printStackTrace();
 		}
 		View.shiftPX = 0;
 		View.viewSpeed = (int)(View.speed*Main.windowScale);
@@ -132,15 +115,12 @@ public class Main implements Runnable {
 		view.add(bg.new BackgroundAvatar());
 		
 		mb = new MapBuilder(model, view);
-		mb.placeObjects();		
 
 		Ship ship = new Ship(view);
 		model.setPlayer(ship);
 		ship.setCoord(Game.game().isu.new Coord(15 * Game.cmPerCell * windowScale, 10 * Game.cmPerCell * windowScale));
 		ship.setView(view);
 		mb.placeEntity(ship);
-		
-		
 
 		ShipStunt shipStunt = new ShipStunt(this.model, ship);
 		ship.setStunt(shipStunt);

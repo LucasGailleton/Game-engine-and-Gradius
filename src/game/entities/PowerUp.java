@@ -1,10 +1,7 @@
 package game.entities;
 
 import engine.Entity;
-import engine.Game;
 import engine.ISU;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -16,8 +13,6 @@ public class PowerUp extends Entity{
 	public static final int Double = 2;
 	public static final int Laser = 3;
 	public static final int Slave = 4;
-	
-	private PowerUpAvatar self;
 
 	public PowerUp(String name) {
 		super(name);
@@ -43,9 +38,7 @@ public class PowerUp extends Entity{
 	}
 	
 	@Override
-	public void tick(double elapsed, boolean shift) {
-		// elle fait rien
-	}
+	public void tick(double elapsed, boolean shift) {}
 
 	public class PowerUpAvatar extends Avatar{
 
@@ -85,9 +78,5 @@ public class PowerUp extends Entity{
             if (index > 2)
             	index = 0;
 		}
-
 	}
-
-	
-
 }

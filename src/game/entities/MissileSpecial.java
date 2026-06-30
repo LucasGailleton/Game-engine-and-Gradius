@@ -4,15 +4,11 @@ import debugmode.VectAvatar;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
-import oop.tasks.Runtime;
-import oop.tasks.Task;
 
 public class MissileSpecial extends Entity {
 
@@ -53,7 +49,6 @@ public class MissileSpecial extends Entity {
 	public void tick(double elapsed, boolean shift) {
 		double seconds = elapsed / 1000.0;
 		if (!this.haslSpeed()) {
-
 			die();
 			return;
 		}
@@ -136,7 +131,6 @@ public class MissileSpecial extends Entity {
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 
 			g.drawImage(sprites[0][0], posX + shiftPX, posY, (int) (spriteSizeX * Main.windowScale), (int) (spriteSizeY * Main.windowScale));
-			// g.drawOval(topX+shiftPX, topY, 100, 100);
 		}
 
 	}

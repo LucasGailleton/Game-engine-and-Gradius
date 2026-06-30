@@ -16,6 +16,7 @@ Une fois la fenêtre ouverte, un écran d'acceuil apparait. Il est indiqué les 
 - Appuyez sur la touche D pour lancer le jeu en mode Debug
 - C pour les crédits 
 
+En jeu, pour se déplacer, il faut utiliser la croix directionnelle et, pour tirer, la touche espace.
+
 Une fois la partie terminé, il est possible de relancer le jeu sans quitter. 
 Pour quitter le jeu, il faut arrêter l’exécution du code ou appuyer sur la croix de la fenêtre.
-

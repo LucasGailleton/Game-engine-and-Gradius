@@ -3,7 +3,6 @@ package engine;
 import java.util.List;
 
 import engine.GAL.GALStunt;
-import engine.ISU.Coord;
 import game.Main;
 import game.Model;
 import game.entities.Damageable;
@@ -18,14 +17,10 @@ public class EnemyStunt extends GALStunt {
 	}
 
 	public static final double BasicSpeed = 20.0*Main.windowScale;
-	
 
 	@Override
 	public void collision(Entity e) {
-		
 		if (e instanceof MissilePlayer || e instanceof LaserShot) {
-            
-			
             if (this.entity instanceof Damageable) {
                 ((Damageable) this.entity).gotHit();
             }
@@ -42,21 +37,17 @@ public class EnemyStunt extends GALStunt {
         }
 	}
 	
-	
 	@Override
 	public void stop() {
 		this.entity.setlSpeed(0, 0);
 	}
 	
-
-
 	public void shootOnce(Entity target) {
         engine.Grid.Position pos = this.entity.position();
         MissileEnemy msp = new MissileEnemy("missile simple",(this.entity).view(),1); 
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
         viser(msp,target.center(),BasicSpeed);
         Main.mb.placeEntity(msp);
-
 	}
 	
 	public void shoot(int angle) {
@@ -65,7 +56,6 @@ public class EnemyStunt extends GALStunt {
         msp.setCoord(Game.game().isu.new Coord(pos.x * Game.cmPerCell + 20, pos.y * Game.cmPerCell));
         viserAngle(msp,angle,BasicSpeed);
         Main.mb.placeEntity(msp);
-
 	}
 	
 	public void viser(Entity projectile, ISU.Coord cible, double vitesse) {
@@ -90,8 +80,5 @@ public class EnemyStunt extends GALStunt {
 	}
 	
 	@Override
-	public void shootOnce() {
-		
-		
-	}
+	public void shootOnce() {}
 }

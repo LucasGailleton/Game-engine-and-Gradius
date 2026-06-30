@@ -4,7 +4,6 @@ import engine.EnemyStunt;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Coord;
 import engine.GAL.Automaton;
 import engine.GAL.GALBot;
 import engine.view.View;
@@ -16,8 +15,6 @@ import game.entities.EnemyHoming;
 import game.entities.EnemyKamikaze;
 import game.entities.EnemyWalking;
 import game.entities.MontFendu;
-import game.entities.PowerUp;
-import oop.graphics.Canvas;
 
 //classe pour construire la map, placer les obstacles et les entités
 //WORK IN PROGRESS
@@ -54,10 +51,6 @@ public class MapBuilder {
 		this.view = view;
 		this.isu = Game.game().isu;
 		phase = phase_init;
-	}
-	
-	public void placeObjects() {
-	    
 	}
 	
 	private void placeBorder() {
@@ -149,7 +142,6 @@ public class MapBuilder {
 	        spawnCooldown -= seconds;
 	        if (spawnCooldown < 0)
 	        	spawnCooldown = 0;
-	        
 	    }
 	    
 	}
@@ -167,7 +159,7 @@ public class MapBuilder {
 	    if (hautOuBas) {
 	    	wlk = new EnemyWalking(view,"walking",2);
 	    	randomY = 102*Main.windowScale;
-	    }else {
+	    } else {
 	    	randomY = 5*Main.windowScale;
 	    	wlk = new EnemyWalking(view,"walking",0);
 	    }
@@ -187,6 +179,7 @@ public class MapBuilder {
 	    EnemyHoming hom = new EnemyHoming(view,"homing");
 	    double randomY = 80 + (Math.random() * 250);
 	    hom.setCoord(isu.new Coord(x, randomY));
+	    
 	    placeEntity(hom);
 	    // Partie Bot
 		EnemyStunt bs =new EnemyStunt(model,hom);
@@ -209,6 +202,7 @@ public class MapBuilder {
 	    }  
 	    chk.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(chk);
+	    
 	    // Partie Bot
 		EnemyStunt bs =new EnemyStunt(model,chk);
 		chk.setStunt(bs);
@@ -222,6 +216,7 @@ public class MapBuilder {
 	    double randomY = 50 + (Math.random() * 300);
 	    kmkz.setCoord(isu.new Coord(x, randomY));
 	    placeEntity(kmkz);
+	    
 	    // Partie Bot
 		EnemyStunt bs =new EnemyStunt(model,kmkz);
 		kmkz.setStunt(bs);
@@ -233,9 +228,10 @@ public class MapBuilder {
 	
 	private void spawnBoss(double x) {
 	    Boss boss= new Boss(view);
-	    boss.setCoord(isu.new Coord(x,15* mult));
+	    boss.setCoord(isu.new Coord(x, 15* mult));
 	    placeEntity(boss);
 	    boss.createGuns(model, view);
+	    
 	    // Partie Bot
 		EnemyStunt bs =new EnemyStunt(model,boss);
 		boss.setStunt(bs);

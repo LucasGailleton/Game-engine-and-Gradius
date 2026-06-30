@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import engine.Entity;
-import engine.Game;
 import engine.ISU;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -13,7 +12,7 @@ import oop.utils.SoundPlayer;
 
 public class Slave extends Entity {
 
-	private SoundPlayer expl, piouNightcore;
+	public static SoundPlayer expl, piouNightcore;
 	private Ship master;
 	private final int index;
 	boolean explode;
@@ -28,17 +27,15 @@ public class Slave extends Entity {
 		this.avatar = new SlaveAvatar(this);
 		
 		try {
-			this.expl = new SoundPlayer(new File("Audio/SlaveBoom1.wav"));
-			this.piouNightcore = new SoundPlayer(new File("Audio/Piou3.wav")); 
+			expl = new SoundPlayer(new File("Audio/SlaveBoom1.wav"));
+			piouNightcore = new SoundPlayer(new File("Audio/Piou3.wav")); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public void tick(double elapsed, boolean shift) {
-		
-	}
+	public void tick(double elapsed, boolean shift) {}
 	
 	private class SlaveAvatar extends Avatar {
 
@@ -88,7 +85,7 @@ public class Slave extends Entity {
 					indChg++;
 					g.drawImage(this.sprites[death][indexSprite], posX+shiftPX, posY, w, h);
 				} else if (indexSprite == 4){
-					Slave.this.expl.play(1);
+					Slave.expl.play(1);
 					indexSprite++;		// Pour ne jouer qu'une seule fois le son;
 				}
 			}

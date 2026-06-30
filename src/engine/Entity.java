@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import engine.Grid.Cell;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.ISU.Vector;
 import engine.GAL.Category;
 import engine.shapes.Bounding;
@@ -20,11 +17,6 @@ import engine.view.View;
 import game.Main;
 import game.Model;
 import game.entities.Avatar;
-import game.entities.Enemy;
-import game.entities.EnemyChicken;
-import game.entities.EnemyHoming;
-import game.entities.EnemyKamikaze;
-import game.entities.EnemyWalking;
 import game.entities.PowerUp;
 import game.entities.Ship;
 
@@ -46,8 +38,6 @@ public abstract class Entity {
 	private Bounding bounding;
 	private Set<Grid.Cell> occupied;
 	protected engine.GAL.Bot bot;
-	private ISU.Coord boundingBoxTopLeft;
-	private ISU.Coord boundingBoxBottomRight;
 	private int orientation_degree; // orientation par rapport à l'axe des x
 	
 	protected Avatar avatar;
@@ -202,14 +192,6 @@ public abstract class Entity {
 	
 	public int orient() {
 		return this.orientation_degree;
-	}
-	
-
-	// BOUNDING BOX UPDATE
-	public void updateBoundingBox() {
-		double halfLongest = Math.max(this.size.x_cm / 2.0, this.size.y_cm / 2.0);
-		this.boundingBoxTopLeft = this.isu.new Coord(this.center.x_cm-halfLongest-1, this.center.y_cm-halfLongest-1);
-		this.boundingBoxBottomRight = this.isu.new Coord(this.center.x_cm+halfLongest+1, this.center.y_cm+halfLongest+1);
 	}
 	
 	public Rect boundingBox() {
@@ -379,7 +361,6 @@ public abstract class Entity {
 				}
 			}
 		}
-		this.updateBoundingBox();
 	}
 
 	public void occupy(Grid.Position position) {

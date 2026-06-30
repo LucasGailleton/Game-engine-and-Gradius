@@ -65,7 +65,12 @@ public class Shoot  extends GALAction{
 			 }
 		 }
 		 else if(this.direction!=null) {
-			 s.shoot(this.direction.toAngle());
+			 if(this.direction.isAbsolute()) {
+				 s.shoot(this.direction.toAngle());
+			 }
+			 else {
+				 s.shoot((this.direction.to_abs(direction, e)).toAngle());
+			 }
 			 return true;
 		 }
 		 else if(this.angle!=0) {

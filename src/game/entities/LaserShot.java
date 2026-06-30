@@ -3,16 +3,12 @@ package game.entities;
 import java.util.List;
 
 import engine.Entity;
-import engine.Game;
 import engine.ISU;
-import engine.ISU.Coord;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
 import oop.graphics.Graphics;
-import oop.graphics.Graphics.Colors;
 
 public class LaserShot extends MissilePlayer {
 
@@ -41,16 +37,11 @@ public class LaserShot extends MissilePlayer {
 	
 	@Override
 	public void collision(List<Entity> le) {
-
-		boolean touche = false;
 		for (Entity e : le) {
 			if (e instanceof Ship || e instanceof Slave || e instanceof PowerUp || e instanceof MissilePlayer || e instanceof Borders)
 				continue;
-			
-			touche = true;
 			System.out.println("Le missile a percuté : " + e.name);
-	        
-	       
+			
 	        e.collision(this);
 		 }
 	}
@@ -82,7 +73,6 @@ public class LaserShot extends MissilePlayer {
             int posY = this.toPixel(center.y_cm)-((int)(spriteSizeY*Main.windowScale)/2);
 
             g.drawImage(sprites[0][0], posX+shiftPX , posY, (int)(spriteSizeX*Main.windowScale), (int)(spriteSizeY*Main.windowScale));
-			
 		}
 	}
 }

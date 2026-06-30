@@ -2,9 +2,7 @@ package engine;
 
 import java.util.List;
 
-import engine.Entity;
 import engine.Grid.Cell;
-import engine.ISU.Vector;
 import game.Model;
 import game.entities.Avatar;
 
@@ -62,6 +60,7 @@ public abstract class Stunt {
 	}
 
 	public abstract void collision(Entity e);
+	
 	public abstract void collision(List<Entity> e);
 
 	public abstract void walk(int i);

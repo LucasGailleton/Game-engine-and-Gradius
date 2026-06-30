@@ -3,7 +3,6 @@ package game.entities;
 import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.ISU.Dimension;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -17,7 +16,7 @@ import oop.graphics.Graphics;
 public class Borders extends Entity{
 	protected int chosenSprite; 
 	protected int chosenPos;
-	private View view;
+	
 	public Borders(String name, int chosenSprite, int chosenPos, View view) {
 		super(name);
 		this.setSize(this.isu.new Dimension(8.6 * Game.cmPerCell * Main.windowScale,
@@ -39,8 +38,6 @@ public class Borders extends Entity{
 	
 	@Override
 	public void tick(double seconds, boolean shift) {
-		
-
 		// On calcule la position logique du bord GAUCHE de la caméra dans le monde.
 		// (J'utilise votre facteur 0.5 exactement comme dans votre missile)
 		double leftScreenEdge = -(View.shiftPX * 0.5);
@@ -98,16 +95,11 @@ public class Borders extends Entity{
 				this.getSprites(g);
 
 			ISU.Coord center = Borders.this.center();
-//            int posX = this.toPixel(center.x_cm - (Borders.this.size.x_cm / 2));
-//            int posY = this.toPixel(center.y_cm - (Borders.this.size.y_cm / 2));
 			int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);
 			BufferedImage currentImg = sprites[chosenSprite][chosenPos];
 			g.drawImage(currentImg, posX + shiftPX, posY, (int) (spriteSizeX * Main.windowScale),
 					(int) (spriteSizeY * Main.windowScale));
-
 		}
-		
 	}
-
 }

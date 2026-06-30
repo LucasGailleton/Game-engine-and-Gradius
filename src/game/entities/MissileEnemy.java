@@ -6,7 +6,6 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.shapes.Circle;
-import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
 import oop.graphics.BufferedImage;
@@ -38,7 +37,6 @@ public class MissileEnemy extends Entity {
 	@Override
 	public void tick(double elapsed, boolean shift) {
 		if (!this.haslSpeed()) {
-
 			die();
 			return;
 		}
@@ -109,7 +107,6 @@ public class MissileEnemy extends Entity {
             
             this.sprites[1][0] = imgSprites.getSubimage(310, 31, spriteSizeX, spriteSizeY);
             this.sprites[1][1] = imgSprites.getSubimage(319, 31, spriteSizeX, spriteSizeY);
-			
 		}
 
 		@Override
@@ -119,7 +116,6 @@ public class MissileEnemy extends Entity {
 				this.getSprites(g);
 			}
 			
-            
             ISU.Coord center = MissileEnemy.this.center();
             int posX = this.toPixel(center.x_cm) - ((int) (spriteSizeX * Main.windowScale) / 2);
 			int posY = this.toPixel(center.y_cm) - ((int) (spriteSizeY * Main.windowScale) / 2);

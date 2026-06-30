@@ -1,9 +1,7 @@
 package debugmode;
 
-import engine.Entity;
 import engine.Game;
 import engine.ISU;
-import engine.view.View;
 import game.Main;
 import game.entities.Avatar;
 import game.entities.Ship;
@@ -20,13 +18,7 @@ public class VectAvatar extends Avatar {
 	}
 
 	@Override
-	public void getSprites(Graphics g) {
-		
-	}
-
-	public void paint(Graphics g) {
-
-	}
+	public void getSprites(Graphics g) {}
 	
 	public void attract(ISU.Vector v) {
 		this.attract = v;
@@ -34,13 +26,11 @@ public class VectAvatar extends Avatar {
 
 	@Override
 	public void paint(Graphics g, int shiftPX) {
-
 		ISU.Vector v = e.lSpeed();
 		ISU.Coord centre = e.center();
 		g.setColor(Colors.green);
 		int posX = (int) (centre.x_cm*Game.pixelPerCm);
 	    int posY = (int)(centre.y_cm*Game.pixelPerCm);
-	    
 
 	    if (Main.debug) {
 		    String scrolling = "Vect scrolling: (" + Ship.ShipSpeed + ", 0.0)";
@@ -48,15 +38,12 @@ public class VectAvatar extends Avatar {
 		    String attraction = "Attraction: (" + this.attract.targetX_cm + ", " + this.attract.targetY_cm + ')';
 		    String somme = "Sum: (" + (Ship.ShipSpeed + v.targetX_cm + attract.targetX_cm) + ", " + (v.targetY_cm + attract.targetY_cm) + ')';
 		    
-		    
 		    g.setFont(g.getFont("Monospaced", 0, 16));
 		    g.drawString(scrolling, 10, 60);
 		    g.drawString(boost, 10, 80);
 		    g.drawString(attraction, 10, 100);
 		    g.drawString(somme, 10, 120);
 	    }
-
-
 		g.drawLine(posX+shiftPX, posY, (int)(posX+shiftPX + v.targetX_cm), (int)(posY + v.targetY_cm));
 	}
 }

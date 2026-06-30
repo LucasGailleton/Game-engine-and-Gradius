@@ -34,13 +34,11 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
         this.setCategory(engine.GAL.Category.Adversary);
         this.view=view;
         this.setorient(180);
-        this.isAlive=true;
+	this.isAlive=true;
     }
     
     @Override
-	public void tick(double elapsed, boolean shift) {
-	
-	}
+	public void tick(double elapsed, boolean shift) {}
 
 
 	@Override
@@ -48,14 +46,12 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
 		if (this.shootCooldown <= 0.0) {
 			 this.shoot();
 			this.shootCooldown = SHOOT_DELAY;
-		}
-		
+		}		
 	}
 
 
 	@Override
-	public void shoot() {
-	}
+	public void shoot() {}
 	
 	@Override
 	public void setBounding() {
@@ -152,7 +148,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
             
            
             sprites[0][0] = imgSprites.getSubimage(178, 96, 15, 15);
-            sprites[0][1] = imgSprites.getSubimage(198, 98, 15, 15);
+            sprites[0][1] = imgSprites.getSubimage(198, 98, 15, 15); //13
             
             this.death.clear();
 		    this.death.add(imgSprites.getSubimage(192, 791, 16, 16));
@@ -171,7 +167,7 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
             
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
-            }else if (this.visible) {
+            } else if (this.visible) {
             	g.drawImage(sprites[0][index], posX+shiftPX, posY, (int)(spriteSizeX * Main.windowScale), (int)(spriteSizeY*Main.windowScale));
             }
             
@@ -186,8 +182,5 @@ public class EnemyHoming extends Entity implements Enemy, Shooter, Damageable {
  		    }
             //Change de position en fonction de la position du joueur
 		}
-    }
-
-
-	
+    }	
 }
