@@ -212,6 +212,9 @@ public abstract class Entity {
 		this.center.x_cm = this.isu.xAxis.normalize(this.center.x_cm + v.targetX_cm);
 		this.center.y_cm = this.isu.yAxis.normalize(this.center.y_cm + v.targetY_cm);
 		this.position = this.center.toGridPosition();
+		if(this.stunt!=null) {
+			this.stunt.consumeMoveDistance(v.norm());
+		}
 		moveBoundings(v);
 		deploy();
 	}

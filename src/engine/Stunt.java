@@ -50,6 +50,18 @@ public abstract class Stunt {
 
 	// retire la distance parcourue et stoppe l'entité quand move() est fini
 	public void consumeMoveDistance(double parcouru_cm) {
+		if(this.entity.center().x_cm < 0 || this.entity.center().x_cm >= Game.game().width_cm || this.entity.center().y_cm < 0 || this.entity.center().y_cm >= Game.game().height_cm) {
+			// On stoppe immédiatement la vitesse linéaire
+	        this.entity.setlSpeed(0, 0);
+	        this.moveDistanceLeft = null;
+	        
+	        // On recadre proprement sur une case valide existante
+	        double clampedX = Math.max(0, Math.min(this.entity.center().x_cm, Game.game().width_cm - 1));
+	        double clampedY = Math.max(0, Math.min(this.entity.center().y_cm, Game.game().height_cm - 1));
+	        
+	        this.entity.setCoord(this.entity.isu.new Coord(clampedX, clampedY));
+	        return;
+		}
 		if (this.moveDistanceLeft == null)
 			return;
 		this.moveDistanceLeft -= parcouru_cm;
