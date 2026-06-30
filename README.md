@@ -20,3 +20,7 @@ En jeu, pour se déplacer, il faut utiliser la croix directionnelle et, pour tir
 
 Une fois la partie terminé, il est possible de relancer le jeu sans quitter. 
 Pour quitter le jeu, il faut arrêter l’exécution du code ou appuyer sur la croix de la fenêtre.
+
+## Vidéo
+
+https://youtu.be/4kqE_eeBQy0
