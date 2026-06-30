@@ -80,7 +80,8 @@ public class BossGunTop extends Entity implements Enemy, Shooter, Damageable{
     	double newX = master.center().x_cm + this.offsetX;
 		double newY = master.center().y_cm + this.offsetY;
 		
-		this.setCoord(isu.new Coord(newX, newY));
+		this.translate(isu.new Vector(newX - this.center().x_cm,newY - this.center().y_cm));
+		
 	}
 
 	@Override
