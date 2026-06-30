@@ -47,15 +47,15 @@ WALKING (Walking){
  
 }
 
-BOSS1 (Walking){
+BOSS1 (Walking2){
 
 
 
 * (Walking):
-    | True          ? Move(S,25)  : (Shooting)
+    | True          ? Move(S,9)  : (Shooting)
     
 * (Walking2):
-    | True          ? Move(N,50)  : (Walking)
+    | True          ? Move(N,25)  : (Walking)
 
   * (Shooting):
     | True          ? Hit(W)  : (Walking2)
