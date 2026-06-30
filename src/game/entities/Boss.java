@@ -243,7 +243,7 @@ public class Boss extends Entity implements Enemy, Shooter, Damageable {
             int posY = this.toPixel(center.y_cm) - ((int)(spriteSizeY*Main.windowScale)/ 2);
             if (this.exploding) {
             	g.drawImage(this.death.get(index), posX+shiftPX, posY, (int) (spriteSizeX * Main.windowScale),(int) (spriteSizeY * Main.windowScale));
-            } else if(hp < 5 && hp >= 0) {
+            } else if(hp < HP_MAX/2 && hp >= 0) {
             	g.drawImage(sprites[1][index], posX+shiftPX, posY, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));
             } else if (this.visible){
             	 g.drawImage(sprites[0][index], posX+shiftPX, posY, (int) (spriteSizeX*Main.windowScale), (int) (spriteSizeY*Main.windowScale));

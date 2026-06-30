@@ -8,6 +8,7 @@ import engine.Entity;
 import engine.Game;
 import engine.ISU;
 import engine.Grid.Position;
+import engine.ISU.Vector;
 import engine.shapes.Rect;
 import engine.view.View;
 import game.Main;
@@ -75,7 +76,7 @@ public class BossGunBottom extends Entity implements Enemy, Shooter, Damageable{
 		double newX = master.center().x_cm + this.offsetX;
 		double newY = master.center().y_cm + this.offsetY;
 		
-		this.setCoord(isu.new Coord(newX, newY));
+		this.translate(isu.new Vector(newX - this.center().x_cm,newY - this.center().y_cm));
 	}
 	
 	//Respecte le délai entre les tirs
